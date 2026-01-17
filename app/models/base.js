@@ -1,9 +1,9 @@
-import Model from '@ember-data/model';
+import { Model } from 'ember-pouch';
 import hash from 'object-hash';
 import { inject as service } from '@ember/service';
-import { computed, set, observer } from '@ember/object';
+import EmberObject, { computed, set, observer } from '@ember/object';
 import { bool, alias } from '@ember/object/computed';
-import { once } from '@ember/runloop';
+import { once, scheduleOnce } from '@ember/runloop';
 
 const Base = Model.extend({
   /**
@@ -33,6 +33,7 @@ const Base = Model.extend({
   patch: service(),
   clean: service('cleaner'),
   mdjson: service('mdjson'),
+  pouch: service(),
 
   /**
    * The hash for the clean record.
@@ -51,28 +52,28 @@ const Base = Model.extend({
   observeReload: observer('isReloading', function () {
     let reloading = this.isReloading;
 
-    if(!reloading) {
+    if (!reloading) {
       this.wasUpdated(this);
     }
   }),
 
-  observeAutoSave: observer('hasDirtyAttributes', 'hasDirtyHash',
-    function () {
-      if(this.isNew || this.isEmpty) {
-        return;
-      }
+  observeAutoSave: observer('hasDirtyAttributes', 'hasDirtyHash', function () {
+    if (this.isNew || this.isEmpty) {
+      return;
+    }
 
-      if(this.get('settings.data.autoSave') && (this.hasDirtyHash ||
-          this.hasDirtyAttributes)) {
-        once(this, function () {
-          this.save();
-        });
-      }
-    }),
+    if (
+      this.get('settings.data.autoSave') &&
+      (this.hasDirtyHash || this.hasDirtyAttributes)
+    ) {
+      once(this, function () {
+        this.save();
+      });
+    }
+  }),
 
   applyPatch() {
     once(this, function () {
-
       let patch = this.patch;
 
       patch.applyModelPatch(this);
@@ -80,13 +81,14 @@ const Base = Model.extend({
   },
 
   isReady() {
-    let newHash = this.hashObject(JSON.parse(this.serialize()
-      .data.attributes
-      .json), true);
+    let newHash = this.hashObject(
+      JSON.parse(this.serialize().data.attributes.json),
+      true
+    );
 
     // if the currentHash is undefined, the record is either new or hasn't had the
     // hash calculated yet
-    if(this.currentHash === undefined) {
+    if (this.currentHash === undefined) {
       this.set('currentHash', newHash);
     }
   },
@@ -95,18 +97,50 @@ const Base = Model.extend({
     this._super(...arguments);
 
     //let record = model.record || this;
-    let json = JSON.parse(this.serialize()
-      .data.attributes.json);
+    let json = JSON.parse(this.serialize().data.attributes.json);
 
     this.setCurrentHash(json);
     this.set('jsonSnapshot', json);
+
+    // Pouch handling
+    this.pouch.updatePouchRecord(this);
+  },
+
+  updateTimestamp() {
+    // Update dateUpdated to current timestamp when record is manually saved
+    this.set('dateUpdated', new Date());
+  },
+
+  // TODO: Clean this up when we move to upgraded Ember
+  revertChanges() {
+    // Temporarily disable auto-save behavior
+    let originalAutoSave = this.get('settings.data.autoSave');
+    this.set('settings.data.autoSave', false);
+
+    // Store the original dateUpdated before any changes
+    let originalDateUpdated = this.get('dateUpdatedRevert');
+
+    // Revert JSON content
+    let json = this.get('jsonRevert');
+    if (json) {
+      this.set('json', EmberObject.create(JSON.parse(json)));
+    }
+
+    // Revert dateUpdated field
+    if (originalDateUpdated) {
+      this.set('dateUpdated', originalDateUpdated);
+    }
+
+    // Re-enable auto-save after revert is complete
+    scheduleOnce('actions', this, function () {
+      this.set('settings.data.autoSave', originalAutoSave);
+    });
   },
 
   wasLoaded() {
     this._super(...arguments);
 
-    let json = JSON.parse(this.serialize()
-      .data.attributes.json);
+    let json = JSON.parse(this.serialize().data.attributes.json);
 
     this.setCurrentHash(json);
     this.set('jsonSnapshot', json);
@@ -142,7 +176,7 @@ const Base = Model.extend({
   hashObject(target, parsed) {
     let toHash = parsed ? target : JSON.parse(JSON.stringify(target));
 
-    return typeof toHash === "object" ? hash(toHash) : undefined;
+    return typeof toHash === 'object' ? hash(toHash) : undefined;
   },
 
   /**
@@ -152,9 +186,10 @@ const Base = Model.extend({
    * @return {Boolean} Boolean value indicating if hashes are equivalent
    */
   hasDirtyHash: computed('currentHash', function () {
-    let newHash = this.hashObject(JSON.parse(this.serialize()
-      .data.attributes
-      .json), true);
+    let newHash = this.hashObject(
+      JSON.parse(this.serialize().data.attributes.json),
+      true
+    );
 
     //if the currentHash is undefined, the record is either new or hasn't had the
     //hash calculated yet
@@ -162,7 +197,7 @@ const Base = Model.extend({
     //   this.set('currentHash', newHash);
     // }
 
-    if(this.currentHash !== newHash || this.hasDirtyAttributes) {
+    if (this.currentHash !== newHash || this.hasDirtyAttributes) {
       return true;
     }
 
@@ -174,18 +209,18 @@ const Base = Model.extend({
     let autoSave = this.get('settings.data.autoSave');
 
     //no autoSave so just check if dirty
-    if(!autoSave && dirty) {
+    if (!autoSave && dirty) {
       return true;
     }
 
     let revert = this.jsonRevert;
 
     //if we have set revert object with autoSave on
-    if(revert && autoSave) {
+    if (revert && autoSave) {
       let hash = this.hashObject(JSON.parse(revert), true) !== this.currentHash;
 
       //check if changes have been made
-      if(hash) {
+      if (hash) {
         return true;
       }
     }
@@ -199,7 +234,7 @@ const Base = Model.extend({
     let dirty = this.hasDirtyHash;
     let errors = this.hasSchemaErrors;
 
-    if(this.currentHash) {
+    if (this.currentHash) {
       return dirty ? 'danger' : errors ? 'warning' : 'success';
     }
 
@@ -227,26 +262,29 @@ const Base = Model.extend({
    * @category computed
    * @requires
    */
-  customSchemas: computed('schemas.schemas.@each.isGlobal', 'profile', function () {
-    return this.schemas.schemas.filter((schema) => {
-      if(schema.schemaType !== this.constructor.modelName) {
-        return false;
-      }
+  customSchemas: computed(
+    'schemas.schemas.@each.isGlobal',
+    'profile',
+    function () {
+      return this.schemas.schemas.filter((schema) => {
+        if (schema.schemaType !== this.constructor.modelName) {
+          return false;
+        }
 
-      if(schema.isGlobal) {
-        return true;
-      }
+        if (schema.isGlobal) {
+          return true;
+        }
 
-      let profile=this.customProfiles.mapById[this.profile];
+        let profile = this.customProfiles.mapById[this.profile];
 
-      if(!profile || !profile.schemas){
-        return false;
-      }
+        if (!profile || !profile.schemas) {
+          return false;
+        }
 
-      return profile.schemas.indexOf(
-        schema) > -1;
-    }, this);
-  })
+        return profile.schemas.indexOf(schema) > -1;
+      }, this);
+    }
+  ),
 });
 
 //Modify the prototype instead of using computed.volatile()
@@ -255,7 +293,7 @@ const Base = Model.extend({
 Object.defineProperty(Base.prototype, '_cleanJson', {
   get() {
     return this.clean.clean(this.json);
-  }
+  },
 });
 
 export default Base;

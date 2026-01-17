@@ -3,11 +3,7 @@ import { computed, observer } from '@ember/object';
 import { or, alias, notEmpty } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 import { inject as service } from '@ember/service';
-// import { regex } from 'mdeditor/models/schema';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 // [{
 //   "id": "full",
@@ -31,45 +27,30 @@ import {
 // }]
 
 const Validations = buildValidations({
-  'alias': validator(
-    'presence', {
-      presence: true,
-      ignoreBlank: true,
-      disabled: notEmpty('model.title'),
-      message: 'A title must be provided.'
-    }),
-  'title': validator(
-    'presence', {
-      presence: true,
-      ignoreBlank: true,
-      disabled: notEmpty('model.Alias'),
-      message: 'A title must be provided.'
-    }),
-  'profileId': validator(
-    'presence', {
-      presence: true,
-      ignoreBlank: true,
-      isWarning: true,
-      message: 'No profile definition is assigned.'
-    }),
-  'schemas': validator(
-    'presence', {
-      presence: true,
-      ignoreBlank: true,
-      isWarning: true,
-      message: 'No schemas have been assigned.'
-    }),
-  // 'uri': [
-    // validator('presence', {
-    //   presence: true,
-    //   ignoreBlank: true
-    // }),
-    // validator('format', {
-    //   regex: regex,
-    //   isWarning: false,
-    //   message: 'This field should be a valid, resolvable URL.'
-    // })
-  // ]
+  alias: validator('presence', {
+    presence: true,
+    ignoreBlank: true,
+    disabled: notEmpty('model.title'),
+    message: 'A title must be provided.',
+  }),
+  title: validator('presence', {
+    presence: true,
+    ignoreBlank: true,
+    disabled: notEmpty('model.Alias'),
+    message: 'A title must be provided.',
+  }),
+  profileId: validator('presence', {
+    presence: true,
+    ignoreBlank: true,
+    isWarning: true,
+    message: 'No profile definition is assigned.',
+  }),
+  schemas: validator('presence', {
+    presence: true,
+    ignoreBlank: true,
+    isWarning: true,
+    message: 'No schemas have been assigned.',
+  }),
 });
 
 export default Model.extend(Validations, {
@@ -90,39 +71,45 @@ export default Model.extend(Validations, {
   },
 
   definitions: service('profile'),
+
   uri: attr('string'),
   alias: attr('string'),
   title: attr('string'),
   description: attr('string'),
   profileId: attr('string'),
-  //remoteVersion: DS.attr('string'),
+  thesauri: attr({ defaultValue: () => [] }),
 
   profileTitle: or('alias', 'title'),
   identifier: alias('id').readOnly(),
   components: alias('profile.components').readOnly(),
-  //localVersion: alias('version'),
-  //hasUpdate: computed('localVersion', 'remoteVersion', checkVersion),
   schemas: hasMany('schemas'),
-  definition: computed('profileId', function() {
+  definition: computed('profileId', function () {
     return this.definitions.profiles.findBy('identifier', this.profileId);
   }),
 
   /* eslint-disable ember/no-observers */
-  updateSettings: observer('hasDirtyAttributes', 'title', 'uri', 'alias',
+  updateSettings: observer(
+    'hasDirtyAttributes',
+    'title',
+    'uri',
+    'alias',
     'description',
-    'hasUpdate', 'schemas.[]', 'profileId',
+    'hasUpdate',
+    'schemas.[]',
+    'profileId',
     function () {
-      if(this.isNew || this.isEmpty || this.isDeleted) {
+      if (this.isNew || this.isEmpty || this.isDeleted) {
         return;
       }
 
-      if(this.hasDirtyAttributes) {
+      if (this.hasDirtyAttributes) {
         this.set('dateUpdated', new Date());
 
         once(this, function () {
           this.save();
         });
       }
-    })
+    }
+  ),
   /* eslint-enable ember/no-observers */
 });

@@ -1,30 +1,24 @@
 import Route from '@ember/routing/route';
 import { copy } from 'ember-copy';
 import { inject as service } from '@ember/service';
+import EmberObject from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default Route.extend(ScrollTo, {
   flashMessages: service(),
+  pouch: service(),
 
-  model: function(params) {
-    let rec= this.store.peekRecord('contact', params.contact_id);
-    return rec;
+  model(params) {
+    return this.store.peekRecord('contact', params.contact_id);
   },
 
   actions: {
-    saveContact: function() {
-      let model = this.currentRouteModel();
-
-      model
-        .save()
-        .then(() => {
-          //this.refresh();
-          //this.setModelHash();
-          this.flashMessages
-            .success(`Saved Contact: ${model.get('title')}`);
-
-          //this.transitionTo('contacts');
-        });
+    saveContact: async function() {
+      const model = this.currentRouteModel();
+      model.updateTimestamp();
+      await model.save();
+      await this.pouch.updatePouchRecord(model);
+      this.flashMessages.success(`Saved Contact: ${model.get('title')}`);
     },
 
     destroyContact: function() {
@@ -46,7 +40,7 @@ export default Route.extend(ScrollTo, {
         let json = model.get('jsonRevert');
 
         if (json) {
-          model.set('json', JSON.parse(json));
+          model.revertChanges();
           this.flashMessages.warning(message);
         }
 

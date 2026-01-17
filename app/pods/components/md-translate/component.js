@@ -1,30 +1,16 @@
-import {
-  alias,
-  equal,
-  or
-} from '@ember/object/computed';
+import { alias, equal, or } from '@ember/object/computed';
 import Component from '@ember/component';
-import {
-  computed,
-  get,
-  set
-} from '@ember/object';
-import {
-  inject as service
-} from '@ember/service';
-import {
-  Promise
-} from 'rsvp';
+import { computed, get, set } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { Promise } from 'rsvp';
 import moment from 'moment';
-import {
-  defaultValues
-} from 'mdeditor/models/setting';
+import { defaultValues } from 'mdeditor/models/setting';
 
 const errorLevels = {
-  'OK': 0,
-  'NOTICE': 1,
-  'WARNING': 2,
-  'ERROR': 3
+  OK: 0,
+  NOTICE: 1,
+  WARNING: 2,
+  ERROR: 3,
 };
 
 const errorClasses = ['success', 'info', 'warning', 'danger'];
@@ -37,6 +23,7 @@ export default Component.extend({
   mdjson: service(),
   settings: service(),
   ajax: service(),
+  apiValidator: service(),
 
   /**
    * Indicates whether empty tags should be written to the translated output
@@ -59,37 +46,50 @@ export default Component.extend({
   writer: null,
 
   writerOptions: computed(function () {
-    return [{
-      name: 'FGDC CSDGM',
-      value: 'fgdc',
-      type: 'application/xml',
-      tip: 'Federal Geographic Data Committee Content Standard for Digital Geospatial Metadata'
-    }, {
-      name: 'HTML',
-      value: 'html',
-      type: 'text/html',
-      tip: 'HTML "human-readable" and printable report of the metadata content'
-    }, {
-      name: 'ISO 19115-3',
-      value: 'iso19115_3',
-      type: 'application/xml',
-      tip: 'International Standards Organization Geographic Information - Metadata 19115-1:2014'
-    }, {
-      name: 'ISO 19115-2/19139 (deprecated)',
-      value: 'iso19115_2',
-      type: 'application/xml',
-      tip: 'International Standards Organization Geographic Information - Metadata 19115-2:2009'
-    }, {
-      name: 'ISO 19110',
-      value: 'iso19110',
-      type: 'application/xml',
-      tip: 'International Standards Organization Geographic Information - Feature Catalogue 19110:2005'
-    }, {
-      name: 'sbJSON',
-      value: 'sbJson',
-      type: 'application/json',
-      tip: 'USGS ScienceBase metadata format'
-    }];
+    return [
+      {
+        name: 'FGDC CSDGM',
+        value: 'fgdc',
+        type: 'application/xml',
+        tip: 'Federal Geographic Data Committee Content Standard for Digital Geospatial Metadata',
+      },
+      {
+        name: 'HTML',
+        value: 'html',
+        type: 'text/html',
+        tip: 'HTML "human-readable" and printable report of the metadata content',
+      },
+      {
+        name: 'ISO 19115-3',
+        value: 'iso19115_3',
+        type: 'application/xml',
+        tip: 'International Standards Organization Geographic Information - Metadata 19115-1:2014',
+      },
+      {
+        name: 'ISO 19115-2/19139 (deprecated)',
+        value: 'iso19115_2',
+        type: 'application/xml',
+        tip: 'International Standards Organization Geographic Information - Metadata 19115-2:2009',
+      },
+      {
+        name: 'ISO 19110',
+        value: 'iso19110',
+        type: 'application/xml',
+        tip: 'International Standards Organization Geographic Information - Feature Catalogue 19110:2005',
+      },
+      {
+        name: 'sbJSON',
+        value: 'sbJson',
+        type: 'application/json',
+        tip: 'USGS ScienceBase metadata format',
+      },
+      {
+        name: 'Simple HTML (MS Word compatible)',
+        value: 'simple_html',
+        type: 'text/html',
+        tip: 'HTML "human-readable" and printable report of the metadata content',
+      },
+    ];
   }),
 
   result: null,
@@ -112,15 +112,14 @@ export default Component.extend({
   errorSubTitle: computed('subTitle', function () {
     let err = this.errors;
 
-    if(err.length) {
+    if (err.length) {
       return this.errorTitle + ' ocurred during translation.';
     }
 
     return null;
   }),
   writeObj: computed('writer', function () {
-    return this.writerOptions
-      .findBy('value', this.writer);
+    return this.writerOptions.findBy('value', this.writer);
   }),
 
   writerType: computed('writeObj', function () {
@@ -132,10 +131,14 @@ export default Component.extend({
   isJson: equal('writerType', 'json'),
   defaultAPI: defaultValues.mdTranslatorAPI,
   apiURL: or('settings.data.mdTranslatorAPI', 'defaultAPI'),
+  isApiConfigured: computed('settings.data.mdTranslatorAPI', function () {
+    return this.apiValidator.isApiConfigured();
+  }),
   isHtml: computed('writerType', function () {
     //IE does not supoprt srcdoc, so default to non-html display
-    return this.writerType === 'html' && 'srcdoc' in document.createElement(
-      'iframe');
+    return (
+      this.writerType === 'html' && 'srcdoc' in document.createElement('iframe')
+    );
   }),
 
   messages: alias('errors'),
@@ -149,6 +152,14 @@ export default Component.extend({
 
   actions: {
     translate() {
+      // Check if API is configured before proceeding
+      if (!this.apiValidator.isApiConfigured()) {
+        this.flashMessages.danger(
+          'mdTranslator API URL is not configured. Please configure it in Settings.'
+        );
+        return;
+      }
+
       let mdjson = this.mdjson;
       let url = this.apiURL;
       let cmp = this;
@@ -156,7 +167,8 @@ export default Component.extend({
       this._clearResult();
       set(this, 'isLoading', true);
 
-      this.ajax.request(url, {
+      this.ajax
+        .request(url, {
           type: 'POST',
           data: {
             //file: JSON.stringify(cleaner.clean(json)),
@@ -166,41 +178,52 @@ export default Component.extend({
             showAllTags: this.showAllTags,
             forceValid: this.forceValid,
             validate: 'normal',
-            format: 'json'
+            format: 'json',
           },
-          context: this
+          context: this,
         })
-        .then(function (response) {
-          set(cmp, 'isLoading', false);
+        .then(
+          function (response) {
+            set(cmp, 'isLoading', false);
 
-          let level = Math.max(...[response.readerExecutionStatus,
-            response.readerStructureStatus,
-            response.readerValidationStatus, response.writerStatus
-          ].map(itm => errorLevels[itm]));
+            let level = Math.max(
+              ...[
+                response.readerExecutionStatus,
+                response.readerStructureStatus,
+                response.readerValidationStatus,
+                response.writerStatus,
+              ].map((itm) => errorLevels[itm])
+            );
 
-          set(cmp, 'errorLevel', level);
-          set(cmp, 'errors', response.readerExecutionMessages.concat(
-            response.readerStructureMessages,
-            response.readerValidationMessages.length ? response.readerValidationMessages[
-              0] : response.readerValidationMessages,
-            response.writerMessages).map(itm => itm.split(':')));
-          set(cmp, 'result', response.writerOutput);
-          if(!response.success) {
-            get(cmp, 'flashMessages')
-              .danger('Translation error!');
-          }
-        }, (response) => {
-          let error =
-            `mdTranslator Server error:
+            set(cmp, 'errorLevel', level);
+            set(
+              cmp,
+              'errors',
+              response.readerExecutionMessages
+                .concat(
+                  response.readerStructureMessages,
+                  response.readerValidationMessages.length
+                    ? response.readerValidationMessages[0]
+                    : response.readerValidationMessages,
+                  response.writerMessages
+                )
+                .map((itm) => itm.split(':'))
+            );
+            set(cmp, 'result', response.writerOutput);
+            if (!response.success) {
+              get(cmp, 'flashMessages').danger('Translation error!');
+            }
+          },
+          (response) => {
+            let error = `mdTranslator Server error:
           ${response.status}: ${response.statusText}`;
 
-          set(cmp, 'errorLevel', 3);
-          set(cmp, 'isLoading', false);
-          set(cmp, 'xhrError', error);
-          get(cmp, 'flashMessages')
-            .danger(error);
-        });
-
+            set(cmp, 'errorLevel', 3);
+            set(cmp, 'isLoading', false);
+            set(cmp, 'xhrError', error);
+            get(cmp, 'flashMessages').danger(error);
+          }
+        );
     },
     saveResult() {
       let title = get(this, 'model.title');
@@ -209,7 +232,7 @@ export default Component.extend({
 
       window.saveAs(
         new Blob([result], {
-          type: `${writer.type};charset=utf-8`
+          type: `${writer.type};charset=utf-8`,
         }),
         `${title}_${moment().format('YYYYMMDD')}.${this.writerType}`
       );
@@ -221,27 +244,36 @@ export default Component.extend({
       let promise = new Promise((resolve, reject) => {
         let parsed = JSON.parse(this.result);
 
-        if(parsed) {
+        if (parsed) {
           resolve(parsed);
         } else {
           reject('JSON not valid');
         }
       });
 
-      promise.then((obj) => {
-        set(this, 'result', JSON.stringify(obj, null, 2));
-      }).catch((error) => {
-        //console.log(error);
-        this.flashMessages.danger(error.message);
-      });
+      promise
+        .then((obj) => {
+          set(this, 'result', JSON.stringify(obj, null, 2));
+        })
+        .catch((error) => {
+          //console.log(error);
+          this.flashMessages.danger(error.message);
+        });
     },
     errorClass(level) {
       return errorClasses[errorLevels[level]] || 'primary';
     },
     formatMessage(message) {
-      return message ? message.trim().replace(/^([A-Z]{2,})/g, match =>
-          match.toLowerCase()) :
-        'context not provided';
-    }
-  }
+      return message
+        ? message
+            .trim()
+            .replace(/^([A-Z]{2,})/g, (match) => match.toLowerCase())
+        : 'context not provided';
+    },
+    goToSettings() {
+      // This action should be handled by the parent route/controller
+      // We'll send the action up the component hierarchy
+      this.sendAction('goToSettings');
+    },
+  },
 });

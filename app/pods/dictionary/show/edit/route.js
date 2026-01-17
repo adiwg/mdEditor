@@ -1,5 +1,7 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
+import EmberObject from '@ember/object';
+import { scheduleOnce } from '@ember/runloop';
 import HashPoll from 'mdeditor/mixins/hash-poll';
 import DoCancel from 'mdeditor/mixins/cancel';
 
@@ -10,6 +12,8 @@ export default Route.extend(HashPoll, DoCancel, {
    * @return {Ember.Service} profile
    */
   profile: service('custom-profile'),
+
+  pouch: service(),
 
   /**
    * The route activate hook, sets the profile.
@@ -26,16 +30,11 @@ export default Route.extend(HashPoll, DoCancel, {
      *
      * @param  {String} profile The new profile.
      */
-    saveDictionary: function () {
-      let model = this.currentRouteModel();
-
-      model
-        .save()
-        .then(() => {
-          this.flashMessages
-            .success(`Saved Dictionary: ${model.get('title')}`);
-
-        });
+    saveDictionary: async function () {
+      const model = this.currentRouteModel();
+      model.updateTimestamp();
+      await model.save();
+      this.flashMessages.success(`Saved Dictionary: ${model.get('title')}`);
     },
     cancelDictionary: function () {
       let model = this.currentRouteModel();
@@ -46,9 +45,8 @@ export default Route.extend(HashPoll, DoCancel, {
         let json = model.get('jsonRevert');
 
         if(json) {
-          model.set('json', JSON.parse(json));
+          model.revertChanges();
           this.doCancel();
-
           this.flashMessages.warning(message);
         }
 

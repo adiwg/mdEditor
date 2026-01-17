@@ -1,66 +1,64 @@
-import { attr } from '@ember-data/model';
-import { Copyable } from 'ember-copy'
-import uuidV4 from "uuid/v4";
+import { attr, belongsTo } from '@ember-data/model';
+import { Copyable } from 'ember-copy';
 import { alias } from '@ember/object/computed';
 import Model from 'mdeditor/models/base';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 import EmberObject, { computed } from '@ember/object';
 import config from 'mdeditor/config/environment';
+import { v4 as uuidv4 } from 'uuid';
 
 const {
-  APP: {
-    defaultProfileId
-  }
+  APP: { defaultProfileId },
 } = config;
 
 const Validations = buildValidations({
-  'json.dictionaryId': validator(
-    'presence', {
+  'json.dataDictionary.dictionaryId': validator('presence', {
+    presence: true,
+    ignoreBlank: true,
+  }),
+  'json.dataDictionary.citation.title': validator('presence', {
+    presence: true,
+    ignoreBlank: true,
+  }),
+  'json.dataDictionary.subject': [
+    validator('presence', {
       presence: true,
       ignoreBlank: true,
     }),
-  'json.dataDictionary.citation.title': validator('presence', {
-    presence: true,
-    ignoreBlank: true
-  }),
-  'json.dataDictionary.subject': [validator('presence', {
-      presence: true,
-      ignoreBlank: true
-    }),
     validator('array-required', {
-      track: []
-    })
-  ]
+      track: [],
+    }),
+  ],
 });
 
 const JsonDefault = EmberObject.extend({
   init() {
     this._super(...arguments);
     this.setProperties({
-      dictionaryId: uuidV4(),
       dataDictionary: {
+        dictionaryId: null,
         citation: {
           title: null,
-          date: [{
-            date: new Date()
-              .toISOString(),
-            dateType: 'creation'
-          }]
+          date: [
+            {
+              date: new Date().toISOString(),
+              dateType: 'creation',
+            },
+          ],
         },
         description: '',
         subject: [],
         responsibleParty: {},
         domain: [],
-        entity: []
+        entity: [],
       },
     });
-  }
+  },
 });
 
 export default Model.extend(Validations, Copyable, {
+  pouchDictionary: belongsTo('pouch-dictionary', { async: false }),
+
   /**
    * Dictionary model
    *
@@ -78,21 +76,21 @@ export default Model.extend(Validations, Copyable, {
   },
 
   profile: attr('string', {
-    defaultValue: defaultProfileId
+    defaultValue: defaultProfileId,
   }),
   json: attr('json', {
     defaultValue() {
       return JsonDefault.create();
-    }
+    },
   }),
   dateUpdated: attr('date', {
     defaultValue() {
       return new Date();
-    }
+    },
   }),
 
   title: alias('json.dataDictionary.citation.title'),
-  dictionaryId: alias('json.dictionaryId'),
+  dictionaryId: alias('json.dataDictionary.dictionaryId'),
 
   icon: 'book',
 
@@ -110,23 +108,23 @@ export default Model.extend(Validations, Copyable, {
     let errors = [];
     let result = mdjson.validateDictionary(this).errors;
 
-    if(result) {
+    if (result) {
       errors.pushObject({
         title: 'Default Dictionary Validation',
-        errors: result
+        errors: result,
       });
     }
 
-    this.customSchemas.forEach(schema => {
+    this.customSchemas.forEach((schema) => {
       const validator = schema.validator;
 
-      if(validator.validate(schema.rootSchema, this.cleanJson)) {
+      if (validator.validate(schema.rootSchema, this.cleanJson)) {
         return;
       }
 
       errors.pushObject({
         title: schema.title,
-        errors: validator.errors
+        errors: validator.errors,
       });
     });
 
@@ -137,12 +135,17 @@ export default Model.extend(Validations, Copyable, {
     let current = this.cleanJson;
     let json = EmberObject.create(current);
     let name = current.dataDictionary.citation.title;
-    console.log(json)
-    json.set('dataDictionary.citation.title', `Copy of ${name}`);
-    json.set('dictionaryId', uuidV4());
+    let newUuid = uuidv4();
+    let shortId = newUuid.split('-')[0];
 
-    return this.store.createRecord('dictionary', {
-      json: json
+    json.set('dataDictionary.citation.title', `Copy of ${name}`);
+    json.set('dataDictionary.dictionaryId', newUuid);
+
+    let newDictionary = this.store.createRecord('dictionary', {
+      json: json,
+      id: shortId,
     });
-  }
+
+    return newDictionary;
+  },
 });

@@ -1,43 +1,44 @@
-{{#if label}}
+{{#if this.label}}
   <label>
-    {{label}}
+    {{this.label}}
     {{!--<div class="pull-right"></div> --}}
   </label>
-  {{#if showInfoTip}}
-    {{control/md-infotip text=placeholder}}
+  {{#if this.showInfoTip}}
+    <Control::MdInfotip @text={{this.placeholder}} />
   {{/if}}
 {{/if}}
 <div class="md-input-input">
-  {{input
-    value=value
-    placeholder=placeholder
-    required=required
-    type=type
-    step=step
-    maxlength=maxlength
-    class=inputClass
-    disabled=disabled
-    change=change
-  }}
+  <Input
+    @value={{this.value}}
+    @placeholder={{this.placeholder}}
+    @required={{this.required}}
+    @type={{this.type}}
+    @step={{this.step}}
+    @maxlength={{this.maxlength}}
+    class={{this.inputClass}}
+    @disabled={{this.disabled}}
+    @readonly={{this.readonly}}
+    @change={{this.change}}
+  />
 
   <span class="md-input-error">
-    {{#if showErrorMessage}}
+    {{#if this.showErrorMessage}}
       <span class="md-error">
         {{fa-icon "exclamation-circle"}}
-        {{#ember-tooltip side="right" tooltipClass="ember-tooltip md-tooltip danger"}}
-            {{v-get model valuePath "message"}}
-        {{/ember-tooltip}}
+        <EmberTooltip @side="right" @tooltipClass="ember-tooltip md-tooltip danger">
+            {{v-get this.model this.valuePath "message"}}
+        </EmberTooltip>
       </span>
     {{/if}}
 
-    {{#if showWarningMessage}}
+    {{#if this.showWarningMessage}}
       <span class="md-warning">
         {{fa-icon "exclamation-triangle"}}
-        {{#ember-tooltip side="right" tooltipClass="ember-tooltip md-tooltip warning"}}
-        {{v-get model valuePath "warningMessage"}}
-        {{/ember-tooltip}}
+        <EmberTooltip @side="right" @tooltipClass="ember-tooltip md-tooltip warning">
+        {{v-get this.model this.valuePath "warningMessage"}}
+        </EmberTooltip>
       </span>
     {{/if}}
   </span>
 </div>
-{{yield}}
+{{yield}}{{yield}}

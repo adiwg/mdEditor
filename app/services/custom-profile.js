@@ -1,7 +1,8 @@
-import Service, { inject as service } from '@ember/service';
 import { computed, get } from '@ember/object';
-import { union, map } from '@ember/object/computed';
+import { map, union } from '@ember/object/computed';
+import Service, { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
+import axios from 'axios';
 import config from 'mdeditor/config/environment';
 
 /**
@@ -14,9 +15,7 @@ import config from 'mdeditor/config/environment';
  * @readOnly
  */
 const {
-  APP: {
-    defaultProfileId
-  }
+  APP: { defaultProfileId },
 } = config;
 
 /**
@@ -31,12 +30,12 @@ const {
 export default Service.extend({
   init() {
     this._super(...arguments);
-
-    this.customProfiles = this.store.peekAll('custom-profile');
+    this.customProfiles = this.store.findAll('custom-profile');
   },
   flashMessages: service(),
   store: service(),
   definitions: service('profile'),
+  keyword: service(),
 
   /**
    * String identifying the active profile
@@ -69,8 +68,8 @@ export default Service.extend({
       id: itm.namespace + '.' + itm.identifier,
       title: itm.title,
       description: itm.description,
-      definition: itm
-    }
+      definition: itm,
+    };
   }),
 
   /**
@@ -84,7 +83,6 @@ export default Service.extend({
   mapById: computed('profiles.[]', function () {
     return this.profiles.reduce(function (map, profile) {
       map[profile.id] = profile;
-
       return map;
     }, {});
   }),
@@ -100,13 +98,10 @@ export default Service.extend({
   mapByAltId: computed('profiles.[]', function () {
     return this.profiles.reduce(function (map, profile) {
       let alt = get(profile, 'definition.alternateId');
-
-      if(isEmpty(alt)) {
+      if (isEmpty(alt)) {
         return map;
       }
-
-      alt.forEach(a => map[a] = profile.id);
-
+      alt.forEach((a) => (map[a] = profile.id));
       return map;
     }, {});
   }),
@@ -156,32 +151,101 @@ export default Service.extend({
    */
   getActiveProfile() {
     const active = this.active;
-    const profile = active && typeof active === 'string' ? active :
-      defaultProfileId;
+    const profile =
+      active && typeof active === 'string' ? active : defaultProfileId;
     const selected = this.mapById[profile];
-
-    if(selected) {
+    if (selected) {
       return selected;
     }
-
     const alternate = this.mapById[this.mapByAltId[profile]];
-
-    if(alternate) {
-      this.flashMessages
-        .info(
-          `"${active}" identified as an alternate profile. Using "${alternate.title}" profile. To make this permanent, select "${alternate.title}" from the Profile list.`, {
-            sticky: true
-          }
-        );
-
+    if (alternate) {
+      this.flashMessages.info(
+        `"${active}" identified as an alternate profile. Using "${alternate.title}" profile. To make this permanent, select "${alternate.title}" from the Profile list.`,
+        {
+          sticky: true,
+        }
+      );
       return alternate;
     }
-
-    this.flashMessages
-      .warning(`Profile "${active}" not found. Using default profile.`, {
-        sticky: true
-      });
-
+    this.flashMessages.warning(
+      `Profile "${active}" not found. Using default profile.`,
+      {
+        sticky: true,
+      }
+    );
     return this.defaultProfile;
-  }
+  },
+
+  async createNewProfileDefinition(profileConfig, uri) {
+    const newDefinition = this.store.createRecord('profile');
+    newDefinition.set('config', profileConfig);
+    newDefinition.set('uri', uri);
+    newDefinition.set('alias', profileConfig.title);
+    newDefinition.set('remoteVersion', profileConfig.version);
+    await newDefinition.save();
+  },
+
+  async createNewCustomProfile(profileConfig) {
+    const newProfile = this.store.createRecord('custom-profile');
+    newProfile.set('uri', profileConfig.uri || null);
+    newProfile.set('alias', profileConfig.title || '');
+    newProfile.set('title', profileConfig.title);
+    newProfile.set('description', profileConfig.description || '');
+    newProfile.set('profileId', profileConfig.identifier);
+    newProfile.set('thesauri', profileConfig.thesauri || []);
+    await newProfile.save();
+  },
+
+  async loadCustomProfilesFromUrl(url) {
+    if (!url) return;
+    const existingProfileDefinitions = await this.store.findAll('profile');
+    const existingIdentifiers = new Set(
+      existingProfileDefinitions.map((p) => p.identifier)
+    );
+    const existingCustomProfiles = await this.store.findAll('custom-profile');
+    const customIdentifiers = new Set(
+      existingCustomProfiles.map((p) => p.profileId)
+    );
+    const response = await axios.get(url);
+    const profilesList = response.data;
+    if (!profilesList) {
+      console.log('no data');
+      return;
+    }
+    const thesauri = [];
+    for (const profileItem of profilesList) {
+      const definitionResponse = await axios.get(profileItem.url);
+      const { data } = definitionResponse;
+      if (data?.thesauri?.length > 0) {
+        thesauri.push(...data.thesauri);
+      }
+      const profileDefinitionExists = existingIdentifiers.has(data.identifier);
+      const customProfileExists = customIdentifiers.has(data.identifier);
+      if (!profileDefinitionExists) {
+        await this.createNewProfileDefinition(data, profileItem.url);
+        existingIdentifiers.add(data.identifier);
+      }
+      if (!customProfileExists) {
+        await this.createNewCustomProfile(data);
+        customIdentifiers.add(data.identifier);
+      }
+    }
+    let uniqueThesauri = thesauri.filter(
+      (thesaurus, index, self) =>
+        index === self.findIndex((v) => v.url === thesaurus.url)
+    );
+    uniqueThesauri = uniqueThesauri.filter((thesaurus) => {
+      const existingThesaurus = this.keyword.manifest.find(
+        (t) => t.url === thesaurus.url
+      );
+      return !existingThesaurus;
+    });
+    uniqueThesauri.forEach(async (thesaurus) => {
+      const response = await axios.get(thesaurus.url);
+      const thesaurusData = response.data;
+      thesaurus.identifier = thesaurusData.citation.identifier[0].identifier;
+      this.keyword.manifest.push(thesaurus);
+      await this.keyword.addThesaurus(thesaurusData);
+    });
+  },
 });

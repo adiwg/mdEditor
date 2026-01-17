@@ -5,6 +5,12 @@
     placeholder="Enter the identifier for the default Parent item."
     change=save
   }}
+  {{input/md-input
+    label="Publisher Endpoint"
+    value=@model.publisherEndpoint
+    placeholder="Enter the main endpoint URL for the ScienceBase publisher."
+    change=@save
+  }}
   {{!-- {{input/md-input
     label="Default Community"
     value=model.sb-defaultCommunity

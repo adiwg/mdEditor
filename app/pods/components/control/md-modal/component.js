@@ -82,6 +82,9 @@ export default Component.extend({
    * @method confirm
    */
   confirm() {
+    if (this.confirmAction) {
+      this.confirmAction();
+    }
     this.closeModal();
   },
 
@@ -91,7 +94,6 @@ export default Component.extend({
    * @method cancel
    */
   cancel() {
-    console.log('cancel')
     this.closeModal();
   },
 
@@ -121,6 +123,6 @@ export default Component.extend({
      */
     cancel() {
       this.cancel();
-    }
-  }
+    },
+  },
 });

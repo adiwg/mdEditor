@@ -5,9 +5,8 @@ import { copy } from 'ember-copy';
 export default Route.extend({
   flashMessages: service(),
 
-  model: function(params) {
-    let rec= this.store.peekRecord('dictionary', params.dictionary_id);
-    return rec;
+  model(params) {
+    return this.store.peekRecord('dictionary', params.dictionary_id);
   },
 
   afterModel(model) {

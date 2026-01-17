@@ -1,87 +1,70 @@
-import { hasMany, attr } from '@ember-data/model';
-import {
-  alias,
-  notEmpty
-} from '@ember/object/computed';
-import {
-  isEmpty
-} from '@ember/utils';
-import EmberObject, {
-  get,
-  computed
-} from '@ember/object';
-import {
-  Copyable
-} from 'ember-copy'
-import uuidV4 from 'uuid/v4';
-import Validator from 'validator';
+import { hasMany, attr, belongsTo } from '@ember-data/model';
+import { alias, notEmpty } from '@ember/object/computed';
+import { isEmpty } from '@ember/utils';
+import EmberObject, { get, computed } from '@ember/object';
+import { Copyable } from 'ember-copy';
 import Model from 'mdeditor/models/base';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
-import {
-  inject as service
-} from '@ember/service';
+import { validator, buildValidations } from 'ember-cp-validations';
+import { inject as service } from '@ember/service';
+import { v4 as uuidv4 } from 'uuid';
 
 const Validations = buildValidations({
   'json.contactId': validator('presence', {
     presence: true,
-    ignoreBlank: true
+    ignoreBlank: true,
   }),
   'json.name': [
     validator('format', {
       regex: /^\s+$/,
       inverse: true,
       isWarning: true,
-      message: "Name should not be only white-space."
+      message: 'Name should not be only white-space.',
     }),
     validator('presence', {
-      disabled: notEmpty('model.json.positionName'),
-      presence: true
-    })
+      disabled: notEmpty('model.json.name'),
+      presence: true,
+    }),
   ],
   'json.positionName': [
     validator('format', {
       regex: /^\s+$/,
       inverse: true,
       isWarning: true,
-      message: "Position Name should not be only white-space."
+      message: 'Position Name should not be only white-space.',
     }),
     validator('presence', {
-      disabled: notEmpty('model.json.name'),
-      presence: true
-    })
+      disabled: notEmpty('model.json.postiionName'),
+      presence: true,
+    }),
   ],
   'json.isOrganization': validator('presence', {
     presence: true,
-    ignoreBlank: true
-  })
+    ignoreBlank: true,
+  }),
 });
 
 const JsonDefault = EmberObject.extend({
   init() {
     this._super(...arguments);
     this.setProperties({
-      'contactId': uuidV4(),
-      'isOrganization': false,
-      'name': null,
-      //'positionName': null,
-      'memberOfOrganization': [],
-      'logoGraphic': [],
-      'phone': [],
-      'address': [],
-      'electronicMailAddress': [],
-      'externalIdentifier': [],
-      'onlineResource': [],
-      'hoursOfService': [],
-      //'contactInstructions': null,
-      //'contactType': null;
+      contactId: null,
+      isOrganization: false,
+      name: null,
+      positionName: null,
+      memberOfOrganization: [],
+      logoGraphic: [],
+      phone: [],
+      address: [],
+      electronicMailAddress: [],
+      externalIdentifier: [],
+      onlineResource: [],
+      hoursOfService: [],
     });
-  }
+  },
 });
 
 const Contact = Model.extend(Validations, Copyable, {
+  pouchContact: belongsTo('pouch-contact', { async: false }),
   /**
    * Contact model
    *
@@ -96,10 +79,10 @@ const Contact = Model.extend(Validations, Copyable, {
 
   contactsService: service('contacts'),
   contacts: hasMany('contact', {
-    inverse: 'organizations'
+    inverse: 'organizations',
   }),
   organizations: hasMany('contact', {
-    inverse: 'contacts'
+    inverse: 'contacts',
   }),
 
   /**
@@ -113,7 +96,7 @@ const Contact = Model.extend(Validations, Copyable, {
   json: attr('json', {
     defaultValue: function () {
       return JsonDefault.create();
-    }
+    },
   }),
 
   /**
@@ -127,7 +110,7 @@ const Contact = Model.extend(Validations, Copyable, {
   dateUpdated: attr('date', {
     defaultValue() {
       return new Date();
-    }
+    },
   }),
 
   name: alias('json.name'),
@@ -142,43 +125,11 @@ const Contact = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires json.name, json.positionName
    */
-  title: computed('json.{name,positionName,isOrganization}',
-    function () {
-      const json = this.json;
+  title: computed('json.{name,positionName,isOrganization}', function () {
+    const json = this.json;
 
-      return json.name || (json.isOrganization ? null : json.positionName);
-    }),
-
-  // /**
-  //  * The formatted display string for the contact
-  //  *
-  //  * @property title
-  //  * @type {String}
-  //  * @readOnly
-  //  * @category computed
-  //  * @requires json.name, json.positionName
-  //  */
-  // updateMembers: Ember.observer('json.memberOfOrganization.[]',
-  //   function () {
-  //     //const me = this;
-  //     const json = this.get('json');
-  //     const value = json.memberOfOrganization;
-  //
-  //     let store = this.get('store');
-  //     let contacts = store.peekAll('contact');
-  //     let organizations = this.get('organizations')
-  //       .clear();
-  //
-  //     value.forEach(function (id) {
-  //       let rec = contacts.findBy('json.contactId', id);
-  //
-  //       if(rec) {
-  //         organizations.pushObject(rec);
-  //       }
-  //       //rec.get('contacts').pushObject(me);
-  //     });
-  //
-  //   }),
+    return json.name || (json.isOrganization ? null : json.positionName);
+  }),
 
   /**
    * The type of contact
@@ -189,11 +140,9 @@ const Contact = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires json.isOrganization
    */
-  type: computed('json.isOrganization',
-    function () {
-      return this.get('json.isOrganization') ? 'Organization' :
-        'Individual';
-    }),
+  type: computed('json.isOrganization', function () {
+    return this.get('json.isOrganization') ? 'Organization' : 'Individual';
+  }),
 
   /**
    * The display icon for the contact
@@ -204,12 +153,11 @@ const Contact = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires json.isOrganization
    */
-  icon: computed('json.isOrganization',
-    function () {
-      const name = this.get('json.isOrganization');
+  icon: computed('json.isOrganization', function () {
+    const name = this.get('json.isOrganization');
 
-      return name ? 'users' : 'user';
-    }),
+    return name ? 'users' : 'user';
+  }),
 
   /**
    * The URI of the default logo for the contact.
@@ -225,24 +173,26 @@ const Contact = Model.extend(Validations, Copyable, {
     'defaultOrganization',
     function () {
       let uri = this.get(
-        'json.logoGraphic.firstObject.fileUri.firstObject.uri');
+        'json.logoGraphic.firstObject.fileUri.firstObject.uri'
+      );
 
-      if(uri) {
+      if (uri) {
         return uri;
       }
       let orgId = this.defaultOrganization;
 
-      if(orgId && orgId !== this.get('json.contactId')) {
+      if (orgId && orgId !== this.get('json.contactId')) {
         let contacts = this.get('contactsService.organizations');
         let org = contacts.findBy('json.contactId', orgId);
 
-        if(org) {
+        if (org) {
           return get(org, 'defaultLogo');
         }
       }
 
       return null;
-    }),
+    }
+  ),
 
   /**
    * The id of the default organization for the contact.
@@ -253,27 +203,26 @@ const Contact = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires json.memberOfOrganization.[]
    */
-  defaultOrganization: computed('json.memberOfOrganization.[]',
-    function () {
-      const json = this.json;
+  defaultOrganization: computed('json.memberOfOrganization.[]', function () {
+    const json = this.json;
 
-      let {
-        memberOfOrganization
-      } = json;
+    let { memberOfOrganization } = json;
 
-      return !isEmpty(memberOfOrganization) ?
-        get(memberOfOrganization, '0') :
-        null;
-    }),
+    return !isEmpty(memberOfOrganization)
+      ? get(memberOfOrganization, '0')
+      : null;
+  }),
 
-  defaultOrganizationName: computed('defaultOrganization',
-    function () {
-      let contacts = this.get('contactsService.organizations');
+  defaultOrganizationName: computed('defaultOrganization', function () {
+    let contacts = this.get('contactsService.organizations');
 
-      let org = contacts.findBy('json.contactId.identifier', this.defaultOrganization);
+    let org = contacts.findBy(
+      'json.contactId.identifier',
+      this.defaultOrganization
+    );
 
-      return org ? get(org, 'name') : null;
-    }),
+    return org ? get(org, 'name') : null;
+  }),
 
   /**
    * The formatted (name or position) and organization(if any) of the contact.
@@ -284,59 +233,36 @@ const Contact = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires json.name, json.isOrganization
    */
-  combinedName: computed('name',
+  combinedName: computed(
+    'name',
     'json{isOrganization,positionName,memberOfOrganization[]}',
     function () {
       const json = this.json;
 
-      let {
-        name,
-        positionName,
-        isOrganization,
-        memberOfOrganization
-      } = json;
+      let { name, positionName, isOrganization, memberOfOrganization } = json;
 
-      let orgId = !isEmpty(memberOfOrganization) ?
-        get(memberOfOrganization, '0') :
-        null;
+      let orgId = !isEmpty(memberOfOrganization)
+        ? get(memberOfOrganization, '0')
+        : null;
       let combinedName = name || positionName;
       let orgName;
 
-      if(orgId) {
+      if (orgId) {
         let contacts = this.get('contactsService.organizations');
         let org = contacts.findBy('json.contactId', orgId);
 
-        if(org) {
+        if (org) {
           orgName = get(org, 'name');
         }
       }
 
-      if(orgName && !isOrganization) {
-        return orgName += ": " + combinedName;
+      if (orgName && !isOrganization) {
+        return (orgName += ': ' + combinedName);
       }
 
       return combinedName;
-    }),
-
-  /**
-   * The trimmed varsion of the contactId.
-   *
-   * @property shortId
-   * @type {String}
-   * @readOnly
-   * @category computed
-   * @requires json.contactId
-   */
-  shortId: computed('json.contactId', function () {
-    const contactId = this.get('json.contactId');
-    if(contactId && Validator.isUUID(contactId)) {
-      let index = contactId.indexOf('-');
-
-      return contactId.substring(0, index);
     }
-
-    return contactId;
-  }),
+  ),
 
   /**
    * A list of schema errors return by the validator.
@@ -352,23 +278,23 @@ const Contact = Model.extend(Validations, Copyable, {
     let errors = [];
     let result = mdjson.validateContact(this).errors;
 
-    if(result) {
+    if (result) {
       errors.pushObject({
         title: 'Default Contact Validation',
-        errors: result
+        errors: result,
       });
     }
 
-    this.customSchemas.forEach(schema => {
+    this.customSchemas.forEach((schema) => {
       const validator = schema.validator;
 
-      if(validator.validate(schema.rootSchema, this.cleanJson)) {
+      if (validator.validate(schema.rootSchema, this.cleanJson)) {
         return;
       }
 
       errors.pushObject({
         title: schema.title,
-        errors: validator.errors
+        errors: validator.errors,
       });
     });
 
@@ -385,27 +311,24 @@ const Contact = Model.extend(Validations, Copyable, {
   copy() {
     let current = this.cleanJson;
     let json = EmberObject.create(current);
-    let {
-      name,
-      positionName,
-      isOrganization
-    } = current;
+    let { name, positionName, isOrganization } = current;
+    let newUuid = uuidv4();
+    let shortId = newUuid.split('-')[0];
 
     json.setProperties({
       isOrganization: isOrganization,
       name: name ? `Copy of ${name}` : null,
       positionName: name ? positionName : `Copy of ${positionName}`,
-      contactId: uuidV4()
+      contactId: newUuid,
     });
 
-    return this.store.createRecord('contact', {
-      json: json
+    let newContact = this.store.createRecord('contact', {
+      json: json,
+      id: shortId,
     });
-  }
+
+    return newContact;
+  },
 });
 
-export {
-  Contact as
-  default,
-  JsonDefault
-};
+export { Contact as default, JsonDefault };

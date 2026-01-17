@@ -29,6 +29,7 @@ export default Mixin.create({
 
     if(this.get('settings.data.autoSave')) {
       model.set('jsonRevert', model.serialize().data.attributes.json);
+      model.set('dateUpdatedRevert', model.get('dateUpdated'));
     }
 
     this.pollTask.perform();

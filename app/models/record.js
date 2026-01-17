@@ -1,42 +1,37 @@
-import { attr } from '@ember-data/model';
+import { attr, belongsTo } from '@ember-data/model';
 import { alias } from '@ember/object/computed';
 import { getOwner } from '@ember/application';
 import EmberObject, { computed, getWithDefault } from '@ember/object';
 import { Copyable } from 'ember-copy';
-import uuidV4 from "uuid/v4";
 import Model from 'mdeditor/models/base';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 import config from 'mdeditor/config/environment';
+import { v4 as uuidv4 } from 'uuid';
+import Schemas from 'mdjson-schemas/resources/js/schemas';
 
 const {
-  APP: {
-    defaultProfileId
-  }
+  APP: { defaultProfileId },
 } = config;
 
 const Validations = buildValidations({
-  'recordId': validator(
-    'presence', {
-      presence: true,
-      ignoreBlank: true,
-    }),
+  recordId: validator('presence', {
+    presence: true,
+    ignoreBlank: true,
+  }),
   'json.metadata.resourceInfo.resourceType': [
     validator('array-valid'),
     validator('array-required', {
-      track: ['type']
-    })
+      track: ['type'],
+    }),
   ],
   'json.metadata.resourceInfo.pointOfContact': {
     disabled: alias('model.isNew'),
     validators: [
       validator('array-valid'),
       validator('array-required', {
-        track: ['type']
-      })
-    ]
+        track: ['type'],
+      }),
+    ],
   },
   // 'json.resourceInfo.abstract': validator('presence', {
   //   presence: true,
@@ -44,8 +39,8 @@ const Validations = buildValidations({
   // }),
   'json.metadata.resourceInfo.citation.title': validator('presence', {
     presence: true,
-    ignoreBlank: true
-  })
+    ignoreBlank: true,
+  }),
   // 'json.metadata.resourceInfo.citation': validator('length', {
   //   min: 1
   // }),
@@ -61,6 +56,8 @@ const Validations = buildValidations({
 });
 
 const Record = Model.extend(Validations, Copyable, {
+  pouchRecord: belongsTo('pouch-record', { async: false }),
+
   /**
    * Record(metadata) model
    *
@@ -72,30 +69,32 @@ const Record = Model.extend(Validations, Copyable, {
    */
 
   profile: attr('string', {
-    defaultValue: defaultProfileId
+    defaultValue: defaultProfileId,
   }),
   json: attr('json', {
     defaultValue() {
+      // Get schema version directly from imported schemas to avoid service dependency issues
+      const schemaVersion = Schemas.schema.version;
+
       const obj = EmberObject.create({
         schema: {
           name: 'mdJson',
-          version: '2.6.0'
+          version: schemaVersion,
         },
-        contact: [],
         metadata: {
           metadataInfo: {
             metadataIdentifier: {
-              identifier: uuidV4(),
-              namespace: 'urn:uuid'
+              identifier: null,
+              namespace: 'urn:uuid',
             },
             metadataContact: [],
-            defaultMetadataLocale: {}
+            defaultMetadataLocale: {},
           },
           resourceInfo: {
             resourceType: [{}],
             citation: {
               title: null,
-              date: []
+              date: [],
             },
             pointOfContact: [],
             abstract: '',
@@ -107,59 +106,71 @@ const Record = Model.extend(Validations, Copyable, {
               // language: eng
             },
             timePeriod: {
-              periodName: []
+              periodName: [],
             },
             extent: [],
-            keyword: []
+            keyword: [],
           },
-          dataQuality: []
+          dataQuality: [],
         },
         metadataRepository: [],
-        dataDictionary: []
       });
 
       return obj;
-    }
+    },
   }),
   dateUpdated: attr('date', {
     defaultValue() {
       return new Date();
-    }
+    },
   }),
 
   title: alias('json.metadata.resourceInfo.citation.title'),
 
-  icon: computed('json.metadata.resourceInfo.resourceType.firstObject.type',
+  icon: computed(
+    'json.metadata.resourceInfo.resourceType.firstObject.type',
     function () {
-      const type = this.get(
-          'json.metadata.resourceInfo.resourceType.0.type') ||
-        '';
-      const list = getOwner(this).lookup('service:icon');
+      const type =
+        this.get('json.metadata.resourceInfo.resourceType.0.type') || '';
 
-      return type ? list.get(type) || list.get('default') : list.get(
-        'defaultFile');
-    }),
+      try {
+        const owner = getOwner(this);
+        if (owner) {
+          const list = owner.lookup('service:icon');
 
-  recordId: alias(
-    'json.metadata.metadataInfo.metadataIdentifier.identifier'),
+          if (list) {
+            return type
+              ? list.get(type) || list.get('default')
+              : list.get('defaultFile');
+          }
+        }
+      } catch (error) {
+        console.warn('Failed to get icon service:', error);
+      }
+
+      // Fallback icon if service is not available
+      return 'fa fa-file-o';
+    }
+  ),
+
+  recordId: alias('json.metadata.metadataInfo.metadataIdentifier.identifier'),
   recordIdNamespace: alias(
-    'json.metadata.metadataInfo.metadataIdentifier.namespace'),
+    'json.metadata.metadataInfo.metadataIdentifier.namespace'
+  ),
 
-  parentIds: alias(
-    'json.metadata.metadataInfo.parentMetadata.identifier'),
+  parentIds: alias('json.metadata.metadataInfo.parentMetadata.identifier'),
 
   hasParent: computed('parentIds.[]', function () {
     let ids = this.parentIds;
     let allRecords = this.store.peekAll('record');
     let records = allRecords.rejectBy('hasSchemaErrors');
 
-    if(!ids) {
+    if (!ids) {
       return false;
     }
 
     return ids.find((id) => {
-      return records.findBy('recordId', id.identifier) ? true :
-        false;
+      return records.findBy('recordId', id.identifier) ? true : false;
     });
   }),
 
@@ -167,7 +178,7 @@ const Record = Model.extend(Validations, Copyable, {
     let id = this.get('hasParent.identifier');
     let allRecords = this.store.peekAll('record');
 
-    if(!id) {
+    if (!id) {
       return undefined;
     }
 
@@ -175,7 +186,8 @@ const Record = Model.extend(Validations, Copyable, {
   }),
 
   defaultType: alias(
-    'json.metadata.resourceInfo.resourceType.firstObject.type'),
+    'json.metadata.resourceInfo.resourceType.firstObject.type'
+  ),
 
   /**
    * The trimmed varsion of the recordId.
@@ -188,7 +200,7 @@ const Record = Model.extend(Validations, Copyable, {
    */
   shortId: computed('recordId', function () {
     const recordId = this.recordId;
-    if(recordId) {
+    if (recordId) {
       let index = recordId.indexOf('-');
 
       return recordId.substring(0, index > -1 ? index : 8);
@@ -211,28 +223,27 @@ const Record = Model.extend(Validations, Copyable, {
     let errors = [];
     let result = mdjson.validateRecord(this).errors;
 
-    if(result) {
+    if (result) {
       errors.pushObject({
         title: 'Default Record Validation',
-        errors: result
+        errors: result,
       });
     }
 
-    this.customSchemas.forEach(schema => {
+    this.customSchemas.forEach((schema) => {
       const validator = schema.validator;
 
-      if(!validator) {
+      if (!validator) {
         return;
       }
 
-      if(validator.validate(schema.rootSchema, mdjson.formatRecord(
-          this))) {
+      if (validator.validate(schema.rootSchema, mdjson.formatRecord(this))) {
         return;
       }
 
       errors.pushObject({
         title: schema.title,
-        errors: validator.errors
+        errors: validator.errors,
       });
     });
 
@@ -245,25 +256,32 @@ const Record = Model.extend(Validations, Copyable, {
     let current = this.cleanJson;
     let json = EmberObject.create(current);
     let name = current.metadata.resourceInfo.citation.title;
+    let newUuid = uuidv4();
+    let shortId = newUuid.split('-')[0];
 
     json.set('metadata.resourceInfo.citation.title', `Copy of ${name}`);
-    json.set('metadata.resourceInfo.resourceType', getWithDefault(json,
-      'metadata.resourceInfo.resourceType', [{}]));
+    json.set(
+      'metadata.resourceInfo.resourceType',
+      getWithDefault(json, 'metadata.resourceInfo.resourceType', [{}])
+    );
     json.set('metadata.metadataInfo.metadataIdentifier', {
-      identifier: uuidV4(),
-      namespace: 'urn:uuid'
+      identifier: newUuid,
+      namespace: 'urn:uuid',
     });
 
-    return this.store.createRecord('record', {
-      json: json
+    let newRecord = this.store.createRecord('record', {
+      json: json,
+      id: shortId,
     });
-  }
+
+    return newRecord;
+  },
 });
 
 Object.defineProperty(Record.prototype, '_formatted', {
   get() {
     return this.mdjson.formatRecord(this);
-  }
+  },
 });
 
 export default Record;

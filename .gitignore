@@ -14,6 +14,7 @@
 codemods.log
 /.pnp*
 /.sass-cache
+/.eslintcache
 /connect.lock
 /coverage/
 /libpeerconnection.log
@@ -27,6 +28,10 @@ jsconfig.json
 /.node_modules.ember-try/
 /bower.json.ember-try
 /package.json.ember-try
+/mdeditor-test-fullset-20211206.json
 
 .DS_Store
 .vscode
+
+.yarn/*
+yarn.lock.ember-try

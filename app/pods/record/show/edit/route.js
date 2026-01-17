@@ -1,5 +1,7 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
+import EmberObject from '@ember/object';
+import { scheduleOnce } from '@ember/runloop';
 import HashPoll from 'mdeditor/mixins/hash-poll';
 import DoCancel from 'mdeditor/mixins/cancel';
 
@@ -12,6 +14,8 @@ export default Route.extend(HashPoll, DoCancel, {
       linkable: false
     };
   },
+
+  pouch: service(),
 
   /**
    * The profile service
@@ -31,14 +35,11 @@ export default Route.extend(HashPoll, DoCancel, {
 
   actions: {
 
-    saveRecord: function () {
-      let model = this.currentRouteModel();
-      model
-        .save()
-        .then(() => {
-          this.flashMessages.success(
-            `Saved Record: ${model.get('title')}`);
-        });
+    saveRecord: async function () {
+      const model = this.currentRouteModel();
+      model.updateTimestamp();
+      await model.save();
+      this.flashMessages.success(`Saved Record: ${model.get('title')}`);
     },
 
     cancelRecord: function () {
@@ -49,12 +50,9 @@ export default Route.extend(HashPoll, DoCancel, {
         let json = model.get('jsonRevert');
 
         if(json) {
-          model.set('json', JSON.parse(json));
-
+          model.revertChanges();
           this.doCancel();
-
-          this.flashMessages
-            .warning(message);
+          this.flashMessages.warning(message);
         }
 
         return;
