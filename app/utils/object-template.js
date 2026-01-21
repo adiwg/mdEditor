@@ -6,7 +6,7 @@
 import { getOwner } from '@ember/application';
 import { A, isArray } from '@ember/array';
 import { assign } from '@ember/polyfills';
-import { run } from '@ember/runloop';
+import { once } from '@ember/runloop';
 
 /**
  * Apply a template to an object.
@@ -88,7 +88,7 @@ export function applyObjectTemplateArray(
     if (templateClass) {
       let owner = getOwner(context);
 
-      run.once(context, () => {
+      once(context, () => {
         property.forEach((item, idx, items) => {
           let newItem = assign(
             templateClass.create(owner.ownerInjection(), defaults || {}),
@@ -101,7 +101,7 @@ export function applyObjectTemplateArray(
       });
     }
   } else {
-    run.once(context, () => {
+    once(context, () => {
       context.set(propertyName, A());
     });
   }
