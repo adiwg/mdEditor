@@ -20,6 +20,13 @@ module.exports = function (defaults) {
         // 'node_modules/select2-bootstrap-theme/src',
         'node_modules/jquery-jsonview/src',
       ],
+      silenceDeprecations: [
+        'import',
+        'global-builtin',
+        'color-functions',
+        'slash-div',
+        'mixed-decls',
+      ],
     },
 
     'ember-math-helpers': {
