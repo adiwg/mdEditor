@@ -1,5 +1,5 @@
 <div class="btn-group-vertical center-block" role="group" aria-label="Citation Button Controls">
-  <button type="button" class="btn btn-lg btn-info btn-block md-btn-responsive" {{action selectResource}}>
+  <button type="button" class="btn btn-lg btn-info btn-block md-btn-responsive" {{action this.selectResource}}>
     {{fa-icon "check"}} Select a Record
     {{ember-tooltip
       text="Select a record to copy into the association.
@@ -8,6 +8,6 @@
       side="left"
     }}
   </button>
-  {{#link-to route class="btn btn-lg btn-primary btn-block md-btn-responsive" }} {{fa-icon icon}} {{text}}{{/link-to}}
+  <LinkTo @route={{this.route}} class="btn btn-lg btn-primary btn-block md-btn-responsive"> {{fa-icon this.icon}} {{this.text}}</LinkTo>
   {{yield}}
 </div>

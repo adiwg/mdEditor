@@ -1,32 +1,23 @@
 import Component from '@ember/component';
-import EmberObject, { set, getWithDefault, get } from '@ember/object';
-import {
-  alias
-} from '@ember/object/computed';
-import {
-  once
-} from '@ember/runloop';
+import EmberObject, { set, get } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { once } from '@ember/runloop';
 
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
-import {
-  Template as Voucher
-} from './voucher/component';
+import { validator, buildValidations } from 'ember-cp-validations';
+import { Template as Voucher } from './voucher/component';
 
 const Validations = buildValidations({
-  'title': [
+  title: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'taxonomicSystem': [
+  taxonomicSystem: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
   // 'identificationProcedure': [
   //   validator('presence', {
@@ -34,12 +25,12 @@ const Validations = buildValidations({
   //     ignoreBlank: true
   //   })
   // ],
-  'taxonomicClassification': [
+  taxonomicClassification: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 const TemplateClass = EmberObject.extend(Validations, {
@@ -51,7 +42,7 @@ const TemplateClass = EmberObject.extend(Validations, {
     set(this, 'observer', []);
     set(this, 'voucher', []);
     set(this, 'taxonomicClassification', []);
-  }
+  },
 });
 
 const theComp = Component.extend(Validations, {
@@ -61,14 +52,19 @@ const theComp = Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'taxonomicClassification', getWithDefault(model,
-        'taxonomicClassification', []));
-      set(model, 'taxonomicSystem', getWithDefault(model,
-        'taxonomicSystem', []));
-      set(model, 'identificationReference', getWithDefault(model,
-        'identificationReference', []));
-      set(model, 'observer', getWithDefault(model, 'observer', []));
-      set(model, 'voucher', getWithDefault(model, 'voucher', []));
+      set(
+        model,
+        'taxonomicClassification',
+        get(model, 'taxonomicClassification', [])
+      );
+      set(model, 'taxonomicSystem', get(model, 'taxonomicSystem', []));
+      set(
+        model,
+        'identificationReference',
+        get(model, 'identificationReference', [])
+      );
+      set(model, 'observer', get(model, 'observer', []));
+      set(model, 'voucher', get(model, 'voucher', []));
     });
   },
   voucherTemplate: Voucher,
@@ -99,13 +95,8 @@ const theComp = Component.extend(Validations, {
     init() {
       this._super(...arguments);
       this.set('citation', {});
-    }
-  })
+    },
+  }),
 });
 
-export {
-  Validations,
-  TemplateClass as Template,
-  theComp as
-  default
-};
+export { Validations, TemplateClass as Template, theComp as default };

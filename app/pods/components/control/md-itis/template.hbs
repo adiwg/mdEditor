@@ -1,35 +1,36 @@
-{{#layout/md-card
-  spotlightEnabled=false
-  block=false
-}}
+<Layout::MdCard
+  @spotlightEnabled={{false}}
+  @block={{false}}
+  as |card|
+>
   <div class="card-block row">
     <div class="form-group col-lg-9">
       <label class="control-label">Search Value</label>
-        {{input/md-input
-          value=this.searchString
-          placeholder="Search ITIS using common name, scientific name, or TSN"
-        }}
+        <Input::MdInput
+          @value={{this.searchString}}
+          @placeholder="Search ITIS using common name, scientific name, or TSN"
+        />
     </div>
 
     <div class="form-group col-lg-3">
       <label class="control-label">Kingdom <em>(optional)</em></label>
-      {{input/md-select
-       value=this.kingdom
-       valuePath="kingdomName"
-       namePath="title"
-       objectArray=(sort-by "title" itis.kingdoms.kingdomNames)
-       searchEnabled=false
-       tooltip=true
-       allowClear=true
-       tooltipPath="kingdomName"
-       disabled=(if searchString false true)
-       placeholder="Select a kingdom."
-      }}
+      <Input::MdSelect
+       @value={{this.kingdom}}
+       @valuePath="kingdomName"
+       @namePath="title"
+       @objectArray={{sort-by "title" this.itis.kingdoms.kingdomNames}}
+       @searchEnabled={{false}}
+       @tooltip={{true}}
+       @allowClear={{true}}
+       @tooltipPath="kingdomName"
+       @disabled={{if this.searchString false true}}
+       @placeholder="Select a kingdom."
+      />
     </div>
   </div>
   <div class="card-footer">
-    <button class="btn btn-primary pull-right" type="submit" {{action "search"}} disabled={{if searchString false true}}>
-      {{#if isLoading}}
+    <button class="btn btn-primary pull-right" type="submit" {{action "search"}} disabled={{if this.searchString false true}}>
+      {{#if this.isLoading}}
       {{fa-icon "spinner" spin=true}}
       {{else}}
       {{fa-icon "search"}}
@@ -38,26 +39,26 @@
       Search
     </button>
   </div>
-{{/layout/md-card}}
+</Layout::MdCard>
 
-{{#if notFound}}
+{{#if this.notFound}}
   <div class="alert alert-warning">
     <h5>{{fa-icon "exclamation-triangle"}} No taxa matched the search. Please try again.</h5>
   </div>
 {{/if}}
 
-{{#liquid-if found use="fade" enableGrowth=false}}
+{{#liquid-if this.found use="fade" enableGrowth=false}}
 <div class="row">
   <div class="col-md-6">
     <div class="card md-card">
       <div class="card-header">
         <h4 class="card-title">
-          Select Taxa <small>Showing {{resultTitle}} found</small>
+          Select Taxa <small>Showing {{this.resultTitle}} found</small>
         </h4>
       </div>
       <div class="card-block no-padding">
         <div class="list-group no-margin md-itis-taxalist">
-          {{#each searchResult as |result|}}
+          {{#each this.searchResult as |result|}}
           {{#liquid-unless result.selected class=(concat "list-group-item " (if result.animate "md-itis-unselected")) enableGrowth=true shrinkDelay=500}}
               <div class="media">
                 <div class="media-body">
@@ -73,14 +74,14 @@
                        (<span class="text-{{result.style}}">{{result.status}}</span>)
                     </div>
                     <dl class="no-margin">
-                        {{#control/md-definition title="Common Name:" }}
+                        <Control::MdDefinition @title="Common Name:">
                             {{#each result.common as |name|}}
                                 {{name.name}} ({{name.language}})
                                 <br>
                                 {{else}}
                                 <em class="text-muted">No names assigned.</em>
                             {{/each}}
-                        {{/control/md-definition}}
+                        </Control::MdDefinition>
                     </dl>
                   </p>
                 </div>
@@ -111,14 +112,14 @@
       </div>
       <div class="card-block no-padding">
         <div class="list-group no-margin md-itis-selectedlist">
-          {{#liquid-if selected.length use="fade"}}
+          {{#liquid-if this.selected.length use="fade"}}
           <div class="list-group-item">
             <p class="list-group-item-text">
-              <button type="button" class="btn btn-primary btn-lg btn-block" {{action "importTaxa" selected}}>Import Taxa</button>
+              <button type="button" class="btn btn-primary btn-lg btn-block" {{action "importTaxa" this.selected}}>Import Taxa</button>
             </p>
           </div>
           {{/liquid-if}}
-          {{#each selected as |result|}}
+          {{#each this.selected as |result|}}
             {{#liquid-if result.selected class="list-group-item md-itis-selected" enableGrowth=true shrinkDelay=500}}
               <div class="media">
                 <div class="media-body">
@@ -134,14 +135,14 @@
                        (<span class="text-{{result.style}}">{{result.status}}</span>)
                     </div>
                     <dl class="no-margin">
-                        {{#control/md-definition title="Common Name:" }}
+                        <Control::MdDefinition @title="Common Name:">
                             {{#each result.common as |name|}}
                                 {{name.name}} ({{name.language}})
                                 <br>
                                 {{else}}
                                 <em class="text-muted">No names assigned.</em>
                             {{/each}}
-                        {{/control/md-definition}}
+                        </Control::MdDefinition>
                     </dl>
                   </p>
                 </div>

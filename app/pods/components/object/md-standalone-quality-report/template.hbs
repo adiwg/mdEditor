@@ -5,7 +5,7 @@
   profilePath='record.dataquality.standalonequalityreport'
   data-spy='Standalone Report'
   spotlightEnabled=false
-  deleteAction=(action 'deleteStandaloneQualityReport')
+  deleteAction=this.deleteStandaloneQualityReport
 }}
   <div class='row'>
     <div class='col-lg-12'>
@@ -14,7 +14,7 @@
           {{input/md-textarea
             required=true
             label='Abstract'
-            value=model.abstract
+            value=this.model.abstract
             placeholder='Abstract for the associated standalone quality report.'
           }}
         </div>
@@ -22,7 +22,7 @@
     </div>
   </div>
 
-  {{#if model.reportReference}}
+  {{#if this.model.reportReference}}
     {{#layout/md-card
       title='Report Reference'
       required=true
@@ -32,7 +32,7 @@
       deleteAction=(action 'deleteReportReference')
     }}
       {{object/md-citation
-        model=model.reportReference
+        model=this.model.reportReference
         profilePath='record.dataquality.reportReference'
         simpleIdentifier=true
       }}

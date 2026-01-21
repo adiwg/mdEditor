@@ -6,7 +6,7 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { isNone } from '@ember/utils';
-import { run } from '@ember/runloop';
+import { once } from '@ember/runloop';
 
 @classic
 export default class MdMarkdownAreaComponent extends Component {
@@ -176,7 +176,7 @@ export default class MdMarkdownAreaComponent extends Component {
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
 
-    run.once(this, () => {
+    once(this, () => {
       if(isNone(this.value)) {
         this.value = '';
       }

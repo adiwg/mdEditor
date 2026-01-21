@@ -10,24 +10,24 @@
   path="refType"
   model=this
   placeholder="Select type of reference system used."
-  profilePath=(concat profilePath ".referenceSystemType")
+  profilePath=(concat this.profilePath ".referenceSystemType")
   class=(if (v-get this "isInvalid") "required")
 }}
 
-{{#if model.referenceSystemIdentifier}}
+{{#if this.model.referenceSystemIdentifier}}
 
 {{#layout/md-card
   collapsible=false
   collapsed=false
   data-spy=false
   shadow=false
-  profilePath=(concat profilePath ".referenceSystemIdentifier")
+  profilePath=(concat this.profilePath ".referenceSystemIdentifier")
 }}
   <label  class={{concat "text-info" (if (v-get this "isInvalid") " required")}}>Reference System Identifier</label>
 
   {{object/md-identifier
-    model=model.referenceSystemIdentifier
-    profilePath=(concat profilePath ".referenceSystemIdentifier")
+    model=this.model.referenceSystemIdentifier
+    profilePath=(concat this.profilePath ".referenceSystemIdentifier")
     data-spy=false
   }}
 {{/layout/md-card}}

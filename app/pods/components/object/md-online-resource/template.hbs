@@ -1,29 +1,30 @@
-{{input/md-input value=model.name label="Name" placeholder="Online Resource Name"
-  profilePath=(concat profilePath ".name")
+{{input/md-input value=this.model.name label="Name" placeholder="Online Resource Name"
+  profilePath=(concat this.profilePath ".name")
 }}
 
-{{input/md-input type="url" valuePath="uri" model=model
-profilePath=(concat profilePath ".url")
+{{input/md-input type="url" valuePath="uri" model=this.model
+profilePath=(concat this.profilePath ".url")
 label="URI" placeholder="Online Resource URI"}}
 
-{{#if imagePicker}}
+{{#if this.imagePicker}}
   <div class="row">
     <div class="col-sm-6">
-      {{#file-picker class="md-file-picker text-center"
-        fileLoaded="handleFile"
-        preview=false
-        accept=".jpeg,.jpg,.png,.gif,.svg"
-        readAs="readAsDataURL"
-      }}
+      <FilePicker
+        class="md-file-picker text-center"
+        @fileLoaded={{this.handleFile}}
+        @preview={{false}}
+        @accept=".jpeg,.jpg,.png,.gif,.svg"
+        @readAs="readAsDataURL"
+      >
         <button type="button" class="btn btn-lg btn-info">
           {{fa-icon "bullseye"}} Click to Select or Drop Image
         </button>
-      {{/file-picker}}
+      </FilePicker>
     </div>
     <div class="col-md-6">
       <div class="md-preview-image text-center">
-        {{#if model.uri}}
-            <img src={{model.uri}} class="img-responsive img-thumbnail" alt="Image Preview">
+        {{#if this.model.uri}}
+            <img src={{this.model.uri}} class="img-responsive img-thumbnail" alt="Image Preview">
         {{else}}
             Enter URI or select file to preview.
         {{/if}}
@@ -33,37 +34,37 @@ label="URI" placeholder="Online Resource URI"}}
 {{/if}}
 
 {{input/md-input
-  value=model.protocol
-  profilePath=(concat profilePath ".protocol")
+  value=this.model.protocol
+  profilePath=(concat this.profilePath ".protocol")
   label="Protocol"
   placeholder="Protocol for accessing the Online Resource"
 }}
 
 {{input/md-textarea
   maxlength=500
-  value=model.description
+  value=this.model.description
   label="Description"
-  profilePath=(concat profilePath ".description")
+  profilePath=(concat this.profilePath ".description")
   placeholder="Description of the Online Resource: Less than 500 characters"
 }}
 
 {{input/md-codelist
-  value=model.function
+  value=this.model.function
   mdCodeName="onlineFunction"
   label="Function"
   placeholder="Select function of the Online Resource"
-  profilePath=(concat profilePath ".onlineFunction")
+  profilePath=(concat this.profilePath ".onlineFunction")
   tooltip=true
   allowClear=true
   width="70%"
 }}
 
 {{input/md-codelist
-  value=model.applicationProfile
+  value=this.model.applicationProfile
   mdCodeName="applicationProfile"
   label="Application Profile"
   placeholder="Name of an application profile for the Online Resource"
-  profilePath=(concat profilePath ".applicationProfile")
+  profilePath=(concat this.profilePath ".applicationProfile")
   tooltip=true
   allowClear=true
   width="70%"
@@ -71,9 +72,9 @@ label="URI" placeholder="Online Resource URI"}}
 }}
 
 {{input/md-textarea
-  value=model.protocolRequest
+  value=this.model.protocolRequest
   label="Protocol Request"
-  profilePath=(concat profilePath ".protocolRequest")
+  profilePath=(concat this.profilePath ".protocolRequest")
   placeholder="Request used to access the resource depending on the protocol, e.g. body of POST(http)_ request."
 }}
 {{yield}}

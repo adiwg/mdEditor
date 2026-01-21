@@ -8,7 +8,7 @@ import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { getOwner } from '@ember/application';
 import { isArray, A } from '@ember/array';
-import { run } from '@ember/runloop';
+import { schedule } from '@ember/runloop';
 import { typeOf } from '@ember/utils';
 import { get, action } from '@ember/object';
 import $ from 'jquery';
@@ -260,7 +260,7 @@ export default class MdArrayTableComponent extends Component {
    * @return none
    */
   valueChanged() {
-    run.schedule('afterRender', this, function () {
+    schedule('afterRender', this, function () {
       let panel = this.element.querySelector('.panel-collapse');
       let input = this.element.querySelector('.panel-collapse tbody tr:last-of-type input');
 

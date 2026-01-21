@@ -1,7 +1,7 @@
 {{#layout/md-object-container
   title="Distribution"
-  index=index
-  profilePath=profilePath
+  index=this.index
+  profilePath=this.profilePath
   deleteItem=(action "deleteDistribution")
 }}
   <div class="row">
@@ -14,24 +14,24 @@
         showValidations=true
         placeholder="Describe the distribution of the resource"
         label="Description"
-        profilePath=(concat profilePath ".description")
+        profilePath=(concat this.profilePath ".description")
       }}
     </div>
     <div class="col-sm-6">
       {{input/md-textarea
-        value=model.liabilityStatement
+        value=this.model.liabilityStatement
         rows=2
         maxHeight=300
         placeholder="Statement of the liability assumed by the provider of the resource"
         label="Liability Statement"
-        profilePath=(concat profilePath ".liabilityStatement")
+        profilePath=(concat this.profilePath ".liabilityStatement")
       }}
     </div>
   </div>
   {{object/md-objectroute-table
     attributes="Contacts"
-    items=distributor
-    required=distributorRequired
+    items=this.distributor
+    required=this.distributorRequired
     tipPath="distributor"
     tipModel=this
     header="Distributors"
@@ -39,14 +39,14 @@
     buttonText="Add Distributor"
     ellipsis=true
     previewTemplateTable="object/md-distributor/preview"
-    editItem=editDistributor
-    profilePath=(concat profilePath ".distributor")
+    editItem=this.editDistributor
+    profilePath=(concat this.profilePath ".distributor")
     verticalButtons=false
     hideIndex=false
     condensed=false
     editOnAdd=true
-    scrollToId=(concat "md-distributor-" index)
+    scrollToId=(concat "md-distributor-" this.index)
     data-spy=false
-    routeParams=index
+    routeParams=this.index
   }}
 {{/layout/md-object-container}}

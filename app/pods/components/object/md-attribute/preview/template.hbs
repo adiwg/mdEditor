@@ -3,7 +3,7 @@
     model=this
     valuePath="codeName"
     placeholder="Descriptive name for the attribute(column)."
-    profilePath=(concat profilePath ".attribute.codeName")
+    profilePath=(concat this.profilePath ".attribute.codeName")
     showValidations=true
   }}
 </td>
@@ -18,7 +18,7 @@
     model=this
     path="dataType"
     placeholder="The datatype for the attribute(column)."
-    profilePath=(concat profilePath ".attribute.dataType")
+    profilePath=(concat this.profilePath ".attribute.dataType")
   }}
 </td>
 <td class="property">
@@ -26,14 +26,14 @@
     model=this
     valuePath="definition"
     placeholder="A brief definition of the attribute(column)."
-    profilePath=(concat profilePath ".attribute.definition")
+    profilePath=(concat this.profilePath ".attribute.definition")
     showValidations=true
   }}
 </td>
 <td class="property text-center">
   {{input/md-boolean
     required=true
-    value=model.allowNull
-    profilePath=(concat profilePath ".attribute.allowNull")
+    value=this.model.allowNull
+    profilePath=(concat this.profilePath ".attribute.allowNull")
   }}
 </td>

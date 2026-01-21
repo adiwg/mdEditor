@@ -19,6 +19,7 @@ export default class MdSelectProfileComponent extends Component {
    *
    * @param  {String} profile The new profile.
    */
+  @action
   updateProfile(profile){
     this.profile.set('active', profile);
     this.record.updateTimestamp();

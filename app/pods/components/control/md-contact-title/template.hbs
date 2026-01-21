@@ -1,5 +1,5 @@
-{{#if hasBlock}}
-  {{yield contact}}
+{{#if this.hasBlock}}
+  {{yield this.contact}}
 {{else}}
-  {{if contact contact.title default}}
+  {{if this.contact this.contact.title this.default}}
 {{/if}}

@@ -1,42 +1,42 @@
-{{#if label}}
-  <label>{{label}}</label>
+{{#if this.label}}
+  <label>{{this.label}}</label>
 {{/if}}
 
 <div class='md-input-input'>
   {{bs-datetimepicker
-    date=_date
-    format=format
-    extraFormats=extraFormats
+    date=this._date
+    format=this.format
+    extraFormats=this.extraFormats
     dateIcon='fa fa-calendar'
     timeIcon='fa fa-clock-o'
-    icons=calendarIcons
-    placeholder=placeholder
-    showClear=showClear
-    useCurrent=useCurrent
-    textFieldRequired=required
-    showTodayButton=showTodayButton
-    change=change
+    icons=this.calendarIcons
+    placeholder=this.placeholder
+    showClear=this.showClear
+    useCurrent=this.useCurrent
+    textFieldRequired=this.required
+    showTodayButton=this.showTodayButton
+    change=this.change
   }}
 
   <span class='md-inputgroup-error'>
-    {{#if showErrorMessage}}
+    {{#if this.showErrorMessage}}
       <span class='md-error'>
         {{fa-icon 'exclamation-circle'}}
         {{#ember-tooltip
           side='right' tooltipClass='ember-tooltip md-tooltip danger'
         }}
-          {{v-get model valuePath 'message'}}
+          {{v-get this.model this.valuePath 'message'}}
         {{/ember-tooltip}}
       </span>
     {{/if}}
 
-    {{#if showWarningMessage}}
+    {{#if this.showWarningMessage}}
       <span class='md-warning'>
         {{fa-icon 'exclamation-triangle'}}
         {{#ember-tooltip
           side='right' tooltipClass='ember-tooltip md-tooltip warning'
         }}
-          {{v-get model valuePath 'warningMessage'}}
+          {{v-get this.model this.valuePath 'warningMessage'}}
         {{/ember-tooltip}}
       </span>
     {{/if}}

@@ -1,5 +1,5 @@
-<strong>{{item.fileName}}:</strong>
-{{#each item.fileUri as |image|}}
+<strong>{{this.item.fileName}}:</strong>
+{{#each this.item.fileUri as |image|}}
   {{#if image.uri}}
     <img src={{image.uri}} class="md-logo-preview img-responsive img-thumbnail" alt="Image Preview">
   {{/if}}

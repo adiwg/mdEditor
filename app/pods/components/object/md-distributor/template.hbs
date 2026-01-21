@@ -1,5 +1,5 @@
-<div data-spy="Contacts" id={{concat elementId "-contacts"}}>
-  {{#if model.contact}}
+<div data-spy="Contacts" id={{concat this.elementId "-contacts"}}>
+  {{#if this.model.contact}}
     {{input/md-select-contacts
       label="Contacts"
       placeholder="Select one or more contacts"
@@ -9,7 +9,7 @@
       tooltip=true
       showValidations=true
       class="required"
-      profilePath=(concat profilePath ".contacts")
+      profilePath=(concat this.profilePath ".contacts")
     }}
     {{input/md-codelist
       label="Role"
@@ -18,11 +18,11 @@
       create=true
       tooltip=true
       icon=false
-      disabled=disabled
+      disabled=this.disabled
       mdCodeName="role"
       showValidations=true
       placeholder="Select or enter a role"
-      profilePath=(concat profilePath ".role")
+      profilePath=(concat this.profilePath ".role")
     }}
   {{/if}}
 </div>
@@ -43,24 +43,24 @@
 
 {{object/md-objectroute-table
   attributes="Size(MB),online?,offline?,format?"
-  items=model.transferOption
+  items=this.model.transferOption
   header="Transfer Options"
   shadow=false
   buttonText="Add Transfer Options"
   ellipsis=true
-  editItem=editTransferOption
+  editItem=this.editTransferOption
   previewTemplateTable="object/md-transfer/preview"
-  profilePath=(concat profilePath ".transferOption")
+  profilePath=(concat this.profilePath ".transferOption")
   verticalButtons=false
   hideIndex=false
   condensed=false
   editOnAdd=true
-  scrollToId=(concat "md-transfer-" distributorId)
-  routeParams=index
+  scrollToId=(concat "md-transfer-" this.distributorId)
+  routeParams=this.index
   data-spy="Transfer Options"
 }}
 
-{{#with model.orderProcess.firstObject as |order|}}
+{{#with this.model.orderProcess.firstObject as |order|}}
   {{#layout/md-card shadow=false
     muted=false
     title="Order Process"
@@ -68,7 +68,7 @@
     collapsible=true
     collapsed=false
     bodyIsRow=false
-    profilePath=(concat profilePath ".orderProcess")
+    profilePath=(concat this.profilePath ".orderProcess")
   }}
     {{!-- <label class="text-info col-sm-2">Order Process</label>
     <div class="col-sm-10"> --}}
@@ -77,7 +77,7 @@
       placeholder="Describe the fees and terms for retrieving the resource, including monetary units."
       label="Fees"
       autoresize=false
-      profilePath=(concat profilePath ".orderProcess.fees")
+      profilePath=(concat this.profilePath ".orderProcess.fees")
       embedded=true
       data-spy="Fees"
     }}
@@ -85,21 +85,21 @@
       date=order.plannedAvailability
       placeholder="Date when the resource will be avialable"
       label="Planned Availability"
-      profilePath=(concat profilePath ".orderProcess.plannedAvailability")
+      profilePath=(concat this.profilePath ".orderProcess.plannedAvailability")
     }}
     {{input/md-textarea
       value=order.orderingInstructions
       maxheight=100
       placeholder="Describe general instructions for obtaining the resource"
       label="Ordering Instructions"
-      profilePath=(concat profilePath ".orderProcess.orderingInstructions")
+      profilePath=(concat this.profilePath ".orderProcess.orderingInstructions")
     }}
     {{input/md-textarea
       value=order.turnaround
       autoresize=false
       placeholder="Describe the typical turnaround time for the filling of an order"
       label="Turnaround"
-      profilePath=(concat profilePath ".orderProcess.turnaround")
+      profilePath=(concat this.profilePath ".orderProcess.turnaround")
     }}
   {{!-- </div> --}}
   {{/layout/md-card}}

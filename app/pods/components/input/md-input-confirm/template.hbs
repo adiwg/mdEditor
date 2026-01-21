@@ -1,26 +1,26 @@
-{{#if label}}<label>{{label}}</label>{{/if}}
-<div class={{if disabled "input-group"}}>
+{{#if this.label}}<label>{{this.label}}</label>{{/if}}
+<div class={{if this.disabled "input-group"}}>
 
 {{input
-  value=value
-  placeholder=placeholder
-  required=required
-  type=type
-  maxlength=maxlength
-  class=inputClass
-  disabled=isDisabled
+  value=this.value
+  placeholder=this.placeholder
+  required=this.required
+  type=this.type
+  maxlength=this.maxlength
+  class=this.inputClass
+  disabled=this.isDisabled
   blur=(action "inputBlur")
 }}
-  {{#if disabled}}
+  {{#if this.disabled}}
     <span class="input-group-btn">
         {{#control/md-button-confirm
           class="btn btn-warning"
           onConfirm=(action "allowEdit")
         }}
             {{fa-icon "pencil"}} Edit
-            {{#if confirmTip}}
+            {{#if this.confirmTip}}
               {{#ember-tooltip}}
-                {{confirmTip}}
+                {{this.confirmTip}}
               {{/ember-tooltip}}
             {{/if}}
         {{/control/md-button-confirm}}

@@ -2,22 +2,22 @@
   title='Classification Authority'
   collapsed=false
   collapsible=true
-  profilePath=(concat profilePath '.citation')
+  profilePath=(concat this.profilePath '.citation')
 }}
   {{object/md-citation
-    model=model.citation
+    model=this.model.citation
     simpleIdentifier=true
-    profilePath=(concat profilePath '.citation')
+    profilePath=(concat this.profilePath '.citation')
     embedded=false
     data-spy=true
   }}
 {{/layout/md-card}}
 
 {{input/md-textarea
-  value=model.modifications
+  value=this.model.modifications
   required=false
   rows=3
-  profilePath=(concat profilePath '.modifications')
+  profilePath=(concat this.profilePath '.modifications')
   label='Modifications'
   placeholder='Description of any modifications or exceptions made to the classification by the observer.'
   data-spy='Modifications'

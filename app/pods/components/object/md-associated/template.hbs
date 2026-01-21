@@ -10,7 +10,7 @@
   path="associationType"
   model=this
   placeholder="Choose Type of Association"
-  profilePath=(concat profilePath ".associationType")
+  profilePath=(concat this.profilePath ".associationType")
   data-spy="Association Type"
 }}
 
@@ -24,42 +24,42 @@
   showValidations=true
   mdCodeName="initiativeType"
   path="initiativeType"
-  model=model
+  model=this.model
   placeholder="Choose Type of Initiative"
-  profilePath=(concat profilePath ".initiativeType")
+  profilePath=(concat this.profilePath ".initiativeType")
 }}
 
-{{#unless model.mdRecordId}}
+{{#unless this.model.mdRecordId}}
   <div class="form-group">
       {{object/md-resource-type-array
         plain=false
-        value=model.resourceType
+        value=this.model.resourceType
         required=true
         data-spy="Resource Types"
-        profilePath=(concat profilePath ".resourceType")
+        profilePath=(concat this.profilePath ".resourceType")
       }}
   </div>
 
 
-  {{#with model.resourceCitation as |citation|}}
+  {{#with this.model.resourceCitation as |citation|}}
     {{object/md-citation
       model=citation
-      profilePath=(concat profilePath ".resourceCitation")
+      profilePath=(concat this.profilePath ".resourceCitation")
       simpleIdentifier=true
     }}
   {{/with}}
 
   {{#layout/md-card
     title="Metadata Citation"
-    profilePath=(concat profilePath ".metadataCitation")
+    profilePath=(concat this.profilePath ".metadataCitation")
     shadow=true
     collapsible=true
     collapsed=true
   }}
-  {{#with model.metadataCitation as |metdata|}}
+  {{#with this.model.metadataCitation as |metdata|}}
     {{object/md-citation
       model=metdata
-      profilePath=(concat profilePath ".metadataCitation")
+      profilePath=(concat this.profilePath ".metadataCitation")
       embedded=true
       simpleIdentifier=true
     }}
@@ -75,19 +75,19 @@
     collapsible=false
     collapsed=false
     btnText="Edit"
-    btnClass=(concat "success" (unless linkedRecord "disabled"))
-    btnAction=(action editLinked linkedRecord)
+    btnClass=(concat "success" (unless this.linkedRecord "disabled"))
+    btnAction=(action this.editLinked this.linkedRecord)
     btnIcon="pencil"
   }}
   <div class="card-block">
-    {{#if linkedRecord}}
+    {{#if this.linkedRecord}}
       {{#object/md-citation/preview/body
-        citation=linkedRecord.json.metadata.resourceInfo.citation
+        citation=this.linkedRecord.json.metadata.resourceInfo.citation
         class="text-muted"
       }}
         <dl class="dl-horizontal col-lg-12">
           {{#control/md-definition title="Resource Type(s)" }}
-              {{#each linkedRecord.json.metadata.resourceInfo.resourceType as |type|}}
+              {{#each this.linkedRecord.json.metadata.resourceInfo.resourceType as |type|}}
                   {{type.type}}:
                   {{#if type.name}}
                       {{type.name}}
@@ -100,7 +100,7 @@
               {{/each}}
           {{/control/md-definition}}
         </dl>
-        {{#with linkedRecord.json.metadata.metadataInfo.metadataIdentifier as |meta|}}
+        {{#with this.linkedRecord.json.metadata.metadataInfo.metadataIdentifier as |meta|}}
           <dl class="dl-horizontal col-lg-12">
               {{#control/md-definition title="Metadata Identifier"}}
                 {{meta.identifier}} {{if meta.namespace (concat "(" meta.namespace ")")}}
@@ -112,13 +112,13 @@
       <div class="card card-inverse card-danger">
         <div class="card-block">
           <h4 class="card-title">{{fa-icon "exclamation-triangle"}} Linked record is missing!</h4>
-          <p class="card-text">Cannot find the linked record with id <em>{{model.mdRecordId}}</em>.</p>
+          <p class="card-text">Cannot find the linked record with id <em>{{this.model.mdRecordId}}</em>.</p>
         </div>
       </div>
     {{/if}}
   </div>
 
-  {{#if recordId}}
+  {{#if this.recordId}}
     <div class="card-footer">
       <div class="row">
         <dl class="dl-horizontal col-lg-12">
@@ -131,9 +131,9 @@
               allowClear=true
               showValidations=true
               mdCodeName="associationType"
-              value=linkedAssociationType
+              value=this.linkedAssociationType
               placeholder="Choose Type of Association"
-              profilePath=(concat profilePath ".linkedAssociationType")
+              profilePath=(concat this.profilePath ".linkedAssociationType")
               data-spy=false
             }}
           {{/control/md-definition}}

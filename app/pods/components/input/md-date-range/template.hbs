@@ -8,7 +8,7 @@
       label='Precision'
       model=this
       path='selectedPrecision'
-      objectArray=precisionOptions
+      objectArray=this.precisionOptions
       searchEnabled=false
       placeholder='Date Precision'
     }}
@@ -21,9 +21,9 @@
     forceDateOutput=true
     label='Start Date'
     showClear=true
-    format=selectedFormat
+    format=this.selectedFormat
     placeholder='Enter start dateTime'
-    profilePath=(concat profilePath '.start')
+    profilePath=(concat this.profilePath '.start')
   }}
   {{input/md-datetime
     class='end'
@@ -33,15 +33,15 @@
     forceDateOutput=true
     showClear=true
     label='End Date'
-    format=selectedFormat
+    format=this.selectedFormat
     placeholder='Enter end dateTime'
-    profilePath=(concat profilePath '.end')
+    profilePath=(concat this.profilePath '.end')
   }}
   {{control/md-fiscalyear
     start='start'
     end='end'
     context=this
-    profilePath=(concat profilePath '.fiscalyear')
+    profilePath=(concat this.profilePath '.fiscalyear')
   }}
 </div>
 {{yield}}

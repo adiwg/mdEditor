@@ -1,41 +1,41 @@
   {{input/md-input
     type="number"
     valuePath="transferSize"
-    model=model
+    model=this.model
     step="0.01"
     label="Transfer Size (MB)"
     placeholder="Estimated size of a unit in the specified transfer format, expressed in megabytes."
-    profilePath=(concat profilePath ".transferSize")
+    profilePath=(concat this.profilePath ".transferSize")
   }}
   {{input/md-input
-    value=model.unitsOfDistribution
+    value=this.model.unitsOfDistribution
     label="Distribution units"
     placeholder="Description of the tiles, layers, geographic areas, etc., in which data are available."
-    profilePath=(concat profilePath ".distributionUnit")
+    profilePath=(concat this.profilePath ".distributionUnit")
   }}
 
-  {{object/md-online-resource-array model=model.onlineOption
+  {{object/md-online-resource-array model=this.model.onlineOption
     label="Online Option"
-    profilePath=(concat profilePath ".onlineOption")
+    profilePath=(concat this.profilePath ".onlineOption")
     data-spy="Online"
     class="md-embedded"
     shadow=false
   }}
 
   {{#object/md-object-table
-   items=model.offlineOption
+   items=this.model.offlineOption
    header="Offline Option"
    class="md-embedded"
    data-spy="Offline"
    buttonText="Add Offline Option"
-   templateClass=templateClass
+   templateClass=this.templateClass
    ellipsis=false
    shadow=false
-   profilePath=(concat profilePath ".offlineOption")
+   profilePath=(concat this.profilePath ".offlineOption")
    attributes="mediumSpecification.title" as |editing|
   }}
     {{object/md-medium model=editing
-      profilePath=(concat profilePath ".offlineOption")
+      profilePath=(concat this.profilePath ".offlineOption")
     }}
   {{/object/md-object-table}}
 
@@ -46,44 +46,44 @@
     shadow=false
     title="Distribution Format"
     class="md-embedded"
-    value=model.distributionFormat
-    validation=formatValidation
-    templateClass=formatTemplate
-    profilePath=(concat profilePath ".distributionFormat") as |format|
+    value=this.model.distributionFormat
+    validation=this.formatValidation
+    templateClass=this.formatTemplate
+    profilePath=(concat this.profilePath ".distributionFormat") as |format|
   }}
 
     <td>
         {{input/md-input
           value=format.item.formatSpecification.title
           placeholder="Name of the format"
-          profilePath=(concat profilePath ".distributionFormat.name")
+          profilePath=(concat this.profilePath ".distributionFormat.name")
         }}
     </td>
     <td>
         {{input/md-input
           value=format.item.formatSpecification.edition
           placeholder="Format version"
-          profilePath=(concat profilePath ".distributionFormat.version")
+          profilePath=(concat this.profilePath ".distributionFormat.version")
         }}
     </td>
     <td>
         {{input/md-input
           value=format.item.compressionMethod
           placeholder="Compression Method"
-          profilePath=(concat profilePath ".distributionFormat.compressionMethod")
+          profilePath=(concat this.profilePath ".distributionFormat.compressionMethod")
         }}
     </td>
     <td>
       {{input/md-input
         value=format.item.formatSpecification.onlineResource.firstObject.uri
         placeholder="On-line information about the format"
-        profilePath=(concat profilePath ".distributionFormat.url")
+        profilePath=(concat this.profilePath ".distributionFormat.url")
       }}
     </td>
   {{/object/md-array-table}}
 
   {{#layout/md-card shadow=false
-    profilePath=(concat profilePath ".transferFrequency")
+    profilePath=(concat this.profilePath ".transferFrequency")
     class="md-embedded"
     data-spy="Transfer Frequency"
     muted=false
@@ -104,11 +104,11 @@
           {{input/md-input
         class="col-sm-6 col-md-4 col-lg-2"
         valuePath=(concat "transferFrequency." unit)
-        model=model
+        model=this.model
         type="number"
         label=(uc-words unit)
         placeholder=(concat "Enter " unit)
-        profilePath=(concat profilePath ".transferFrequency." unit)
+        profilePath=(concat this.profilePath ".transferFrequency." unit)
       }}
         {{/each}}
       </div>

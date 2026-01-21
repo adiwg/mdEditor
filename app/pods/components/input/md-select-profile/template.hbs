@@ -2,7 +2,7 @@
   <div class="form-group-sm">
     <label class="navbar-text control-label">Profile</label>
     {{input/md-codelist
-      change=(action "updateProfile" value)
+      change=(action "updateProfile" this.value)
       class="select-profile"
       create=false
       tooltip=true
@@ -10,11 +10,11 @@
       allowClear=false
       mdCodeName="profile"
       valuePath="code"
-      value=value
+      value=this.value
       placeholder="Choose profile"
       searchEnabled=false
       matchTriggerWidth=true
-      calculatePosition=calculatePosition
+      calculatePosition=this.calculatePosition
       label=false}}
   </div>
 </form>

@@ -5,21 +5,21 @@
   path='type'
   valuePath='value'
   namePath='name'
-  objectArray=typeOptions
+  objectArray=this.typeOptions
   tooltip=true
   tooltipPath='tip'
   searchEnabled=false
   placeholder='The type of constraint.'
-  profilePath=(concat profilePath '.type')
+  profilePath=(concat this.profilePath '.type')
 }}
 
 {{#object/md-simple-array-table
   title='Use Limitations'
   data-spy=false
   plain=false
-  required=useRequired
-  profilePath=(concat profilePath '.useLimitation')
-  value=model.useLimitation
+  required=this.useRequired
+  profilePath=(concat this.profilePath '.useLimitation')
+  value=this.model.useLimitation
   as |val|
 }}
   <td>
@@ -34,33 +34,33 @@
   title='Legal'
   collapsible=true
   collapsed=true
-  required=legalRequired
-  profilePath=(concat profilePath '.legal')
+  required=this.legalRequired
+  profilePath=(concat this.profilePath '.legal')
   data-spy=false
   shadow=true
 }}
 
   {{input/md-codelist-multi
-    value=model.legal.accessConstraint
+    value=this.model.legal.accessConstraint
     label='Access Constraints'
     create=false
     tooltip=true
     icon=false
     mdCodeName='restriction'
     closeOnSelect=false
-    profilePath=(concat profilePath '.legal.accessConstraint')
+    profilePath=(concat this.profilePath '.legal.accessConstraint')
     placeholder='Access constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations on obtaining the resource.'
   }}
 
   {{input/md-codelist-multi
-    value=model.legal.useConstraint
+    value=this.model.legal.useConstraint
     label='Use Constraints'
     create=false
     tooltip=true
     icon=false
     mdCodeName='restriction'
     closeOnSelect=false
-    profilePath=(concat profilePath '.legal.useConstraint')
+    profilePath=(concat this.profilePath '.legal.useConstraint')
     placeholder='Constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations or warnings on using the resource.'
   }}
 
@@ -69,8 +69,8 @@
       title='Other Constraint'
       data-spy=false
       plain=true
-      profilePath=(concat profilePath '.legal.otherConstraint')
-      value=model.legal.otherConstraint
+      profilePath=(concat this.profilePath '.legal.otherConstraint')
+      value=this.model.legal.otherConstraint
       as |val|
     }}
       <td>
@@ -89,8 +89,8 @@
   title='Security'
   collapsible=true
   collapsed=true
-  required=securityRequired
-  profilePath=(concat profilePath '.security')
+  required=this.securityRequired
+  profilePath=(concat this.profilePath '.security')
   data-spy=false
   shadow=true
 }}
@@ -101,25 +101,25 @@
     model=this
     path='classification'
     placeholder='Name of the handling restrictions on the resource or metadata.'
-    profilePath=(concat profilePath '.security.classification')
+    profilePath=(concat this.profilePath '.security.classification')
   }}
   {{input/md-input
-    value=model.security.classificationSystem
+    value=this.model.security.classificationSystem
     label='Classification System Name'
     placeholder='Enter name of the classification system.'
-    profilePath=(concat profilePath '.security.classificationSystem')
+    profilePath=(concat this.profilePath '.security.classificationSystem')
   }}
   {{input/md-textarea
-    value=model.security.userNote
+    value=this.model.security.userNote
     placeholder='Explanation of the application of the legal constraints or other restrictions and legal prerequisites for obtaining and using the resource.'
     label='Note'
-    profilePath=(concat profilePath '.security.note')
+    profilePath=(concat this.profilePath '.security.note')
   }}
   {{input/md-textarea
-    value=model.security.handlingDescription
+    value=this.model.security.handlingDescription
     placeholder='Enter additional information about the restrictions on handling the resource.'
     label='Handling Description'
-    profilePath=(concat profilePath '.security.handlingDescription')
+    profilePath=(concat this.profilePath '.security.handlingDescription')
   }}
 {{/layout/md-card}}
 
@@ -128,25 +128,25 @@
   collapsible=true
   collapsed=true
   required=false
-  profilePath=(concat profilePath '.releasability')
+  profilePath=(concat this.profilePath '.releasability')
 }}
   {{object/md-party-array
     title='Addressee'
-    value=model.releasability.addressee
-    profilePath=(concat profilePath '.releasability.addressee')
+    value=this.model.releasability.addressee
+    profilePath=(concat this.profilePath '.releasability.addressee')
   }}
   {{input/md-input
-    value=model.releasability.statement
+    value=this.model.releasability.statement
     label='Statement'
     placeholder='Statement of the conditions under which the resource may be released.'
-    profilePath=(concat profilePath '.releasability.statement')
+    profilePath=(concat this.profilePath '.releasability.statement')
   }}
   {{#object/md-simple-array-table
     data-spy=false
     title='Dissemintation Constraint'
     plain=true
-    value=model.releasability.disseminationConstraint
-    profilePath=(concat profilePath '.releasability.disseminationConstraint')
+    value=this.model.releasability.disseminationConstraint
+    profilePath=(concat this.profilePath '.releasability.disseminationConstraint')
     as |const|
   }}
     <td>
@@ -155,7 +155,7 @@
         create=false
         mdCodeName='restriction'
         profilePath=(concat
-          profilePath '.releasability.disseminationConstraint'
+          this.profilePath '.releasability.disseminationConstraint'
         )
         placeholder='Restrictions on the release of the resource.'
         path='value'
@@ -166,27 +166,27 @@
 
 {{object/md-party-array
   title='Responsible Party'
-  value=model.responsibleParty
-  profilePath=(concat profilePath '.responsibleParty')
+  value=this.model.responsibleParty
+  profilePath=(concat this.profilePath '.responsibleParty')
 }}
 
 {{object/md-graphic-array
-  model=model.graphic
+  model=this.model.graphic
   button-text='Add Graphic'
   label='Graphic or Logo'
-  profilePath=(concat profilePath '.graphic')
+  profilePath=(concat this.profilePath '.graphic')
 }}
 
 {{#object/md-object-table
-  items=model.reference
+  items=this.model.reference
   header='References'
-  previewTemplate=previewTemplate
+  previewTemplate=this.previewTemplate
   attributes='title'
   as |editing|
 }}
   {{object/md-citation
     model=editing
-    profilePath=(concat profilePath '.reference')
+    profilePath=(concat this.profilePath '.reference')
   }}
 {{/object/md-object-table}}
 

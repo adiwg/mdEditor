@@ -1,12 +1,12 @@
 {{#object/md-object-table
-  items=model.allocation
+  items=this.model.allocation
   header="Allocation"
   data-spy="Allocation"
   shadow=true
   buttonText="Add Allocation"
   ellipsis=true
   attributes="amount,currency,matching"
-  profilePath= (concat profilePath ".allocation")
+  profilePath= (concat this.profilePath ".allocation")
   collapsible=false
   isCollapsed=false
   tipPath="allocation"
@@ -17,25 +17,25 @@
 
   {{object/md-allocation
     model=editing
-    profilePath=(concat profilePath ".allocation")
+    profilePath=(concat this.profilePath ".allocation")
   }}
 
 {{/object/md-object-table}}
 
 
-{{#if model.timePeriod}}
+{{#if this.model.timePeriod}}
   {{object/md-time-period
-    model=model.timePeriod
+    model=this.model.timePeriod
     required=(v-get this "timePeriod" "isInvalid")
-    profilePath=(concat profilePath ".timePeriod")
+    profilePath=(concat this.profilePath ".timePeriod")
   }}
 {{/if}}
 
 {{input/md-textarea
   maxlength=500
-  value=model.description
+  value=this.model.description
   label="Description"
   data-spy="Description"
   placeholder="Description: Less than 500 characters"
-  profilePath=(concat profilePath ".description")
+  profilePath=(concat this.profilePath ".description")
 }}

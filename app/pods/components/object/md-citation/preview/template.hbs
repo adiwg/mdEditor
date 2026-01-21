@@ -1,15 +1,15 @@
-{{#layout/md-card title=title collapsible=true collapsed=false
-  profilePath=profilePath required=required muted=muted
-  spotlightEnabled=spotlightEnabled
-  btnText="Edit" btnClass="success" btnAction=(action editCitation (dasherize title)) btnIcon="pencil"
+{{#layout/md-card title=this.title collapsible=true collapsed=false
+  profilePath=this.profilePath required=this.required muted=this.muted
+  spotlightEnabled=this.spotlightEnabled
+  btnText="Edit" btnClass="success" btnAction=(action this.editCitation (dasherize this.title)) btnIcon="pencil"
 }}
 
-{{object/md-citation/preview/body citation=citation profilePath=profilePath}}
+{{object/md-citation/preview/body citation=this.citation profilePath=this.profilePath}}
 
 {{yield}}
 <div class="card-footer">
   <button type="button" name="button" class="btn btn-success pull-right"
-    {{action (action editCitation (dasherize title))}}>
+    {{action (action this.editCitation (dasherize this.title))}}>
     {{fa-icon "pencil"}} Edit Citation
   </button>
 </div>

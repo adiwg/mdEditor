@@ -1,6 +1,6 @@
-{{#with model.thesaurus as |thesaurus|}}
+{{#with this.model.thesaurus as |thesaurus|}}
   <form class="md-keyword-citation form-horizontal">
-    <fieldset disabled={{disabled}}>
+    <fieldset disabled={{this.disabled}}>
       <div class="form-group">
         <label class="col-sm-2 control-label required">Title</label>
         {{input/md-input
@@ -10,15 +10,15 @@
           model=this
           showValidations=true
           required=true
-          profilePath=(concat profilePath ".title")
+          profilePath=(concat this.profilePath ".title")
         }}
       </div>
       <div class="form-group">
         <label class="col-sm-2 control-label">Date</label>
         {{input/md-datetime
-          date=date
+          date=this.date
           class="col-xxl-4 col-md-10 col-sm-4"
-          profilePath=(concat profilePath ".date")
+          profilePath=(concat this.profilePath ".date")
         }}
         <div class="form-group clearfix visible-md-block visible-lg-block" />
         <label class="col-sm-2 control-label">Date Type</label>
@@ -27,12 +27,12 @@
           create=false
           tooltip=true
           icon=false
-          disabled=disabled
+          disabled=this.disabled
           allowClear=true
           mdCodeName="dateType"
-          value=dateType
+          value=this.dateType
           placeholder="Choose date type"
-          profilePath=(concat profilePath ".dateType")
+          profilePath=(concat this.profilePath ".dateType")
         }}
       </div>
       <div class="form-group">
@@ -42,12 +42,11 @@
           create=true
           tooltip=true
           icon=false
-          disabled=disabled
+          disabled=this.disabled
           allowClear=true
           mdCodeName="keywordType"
-          value=model.keywordType
-          placeholder="Choose keyword type"
-          profilePath=(concat profilePath ".keywordType")
+          value=this.model.keywordType
+          profilePath=(concat this.profilePath ".keywordType")
         }}
       </div>
       <div class="form-group">
@@ -57,7 +56,7 @@
           placeholder="Enter edition or version"
           value=thesaurus.edition
           required=false
-          profilePath=(concat profilePath ".edition")
+          profilePath=(concat this.profilePath ".edition")
         }}
       </div>
       <div class="form-group">
@@ -68,7 +67,7 @@
           value=thesaurus.onlineResource.0.uri
           showValidations=true
           placeholder="Enter online link"
-          profilePath=(concat profilePath ".onlineResourceUrl")
+          profilePath=(concat this.profilePath ".onlineResourceUrl")
         }}
       </div>
     </fieldset>

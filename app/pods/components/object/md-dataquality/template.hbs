@@ -3,20 +3,20 @@
     <div class='col-md-8'>
       {{input/md-input
         label='System Generated UID'
-        value=model.systemIdentifier.uid
+        value=this.model.systemIdentifier.uid
         disabled=true
       }}
     </div>
   </div>
   <div class='row'>
     <div class='col-md-8'>
-      {{input/md-input label='Title' value=model.systemIdentifier.label}}
+      {{input/md-input label='Title' value=this.model.systemIdentifier.label}}
     </div>
   </div>
   <div class='row'>
     <div class='col-md-8'>
       {{input/md-codelist
-        value=model.scope.scopeCode
+        value=this.model.scope.scopeCode
         label='Scope'
         required=true
         create=true
@@ -24,7 +24,7 @@
         icon=true
         mdCodeName='scope'
         placeholder='Select type of resource.'
-        profilePath=(concat profilePath '.scope')
+        profilePath=(concat this.profilePath '.scope')
         data-spy='Scope'
       }}
     </div>
@@ -32,24 +32,24 @@
 {{/layout/md-card}}
 
 {{#object/md-object-table
-  items=model.report
+  items=this.model.report
   header='Standard Reports'
   buttonText='Add Report'
   ellipsis=true
   required=true
-  profilePath=(concat profilePath '.report')
+  profilePath=(concat this.profilePath '.report')
   attributes='type'
   as |editing|
 }}
   {{object/md-quality-report
     model=editing
-    profilePath=(concat profilePath '.report')
+    profilePath=(concat this.profilePath '.report')
   }}
 {{/object/md-object-table}}
 
-{{#if model.standaloneQualityReport}}
+{{#if this.model.standaloneQualityReport}}
   {{object/md-standalone-quality-report
-    model=model.standaloneQualityReport
+    model=this.model.standaloneQualityReport
     deleteStandaloneQualityReport=(action 'deleteStandaloneQualityReport')
   }}
 {{else}}

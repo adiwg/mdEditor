@@ -1,10 +1,10 @@
 {{#object/md-object-table
-  items=model
-  header=label
+  items=this.model
+  header=this.label
   buttonText="Add Address"
   previewTemplate="object/md-address/md-address-block"
-  templateClass=templateClass
-  attributes=attributes as |address|
+  templateClass=this.templateClass
+  attributes=this.attributes as |address|
 }}
 
 {{!-- Editing: {{address.name}} --}}

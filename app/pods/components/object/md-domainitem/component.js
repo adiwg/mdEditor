@@ -1,45 +1,37 @@
 import Component from '@ember/component';
-import EmberObject, { set, getWithDefault, get } from '@ember/object';
-import {
-  alias
-} from '@ember/object/computed';
-import {
-  once
-} from '@ember/runloop';
+import EmberObject, { set, get } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { once } from '@ember/runloop';
 
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'name': [
+  name: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'value': [
+  value: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'definition': [
+  definition: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
-
 
 const TemplateClass = EmberObject.extend(Validations, {
   init() {
     this._super(...arguments);
 
     set(this, 'reference', {});
-  }
+  },
 });
 
 const theComp = Component.extend(Validations, {
@@ -49,8 +41,7 @@ const theComp = Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'reference', getWithDefault(model,
-        'reference', {}));
+      set(model, 'reference', get(model, 'reference', {}));
     });
   },
 
@@ -74,12 +65,7 @@ const theComp = Component.extend(Validations, {
   tagName: 'form',
   name: alias('model.name'),
   value: alias('model.value'),
-  definition: alias('model.definition')
+  definition: alias('model.definition'),
 });
 
-export {
-  Validations,
-  TemplateClass as Template,
-  theComp as
-  default
-};
+export { Validations, TemplateClass as Template, theComp as default };

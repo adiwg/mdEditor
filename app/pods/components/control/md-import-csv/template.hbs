@@ -1,4 +1,4 @@
-{{#if isProcessing}}
+{{#if this.isProcessing}}
   <h3>{{fa-icon "spinner" spin=true}} Processing...
   <button class="btn btn-info" type="button" {{action "stopParsing"}}>
       {{fa-icon "cross" spin=true}}
@@ -7,21 +7,21 @@
   <div class="progress">
     <div class="progress-bar" role="progressbar"
     {{! template-lint-disable no-inline-styles }}
-    aria-valuenow={{progress}} aria-valuemin="0" aria-valuemax="100" style={{barWidth}}>
-      <span class="sr-only">{{progress}}% Complete</span>
+    aria-valuenow={{this.progress}} aria-valuemin="0" aria-valuemax="100" style={{this.barWidth}}>
+      <span class="sr-only">{{this.progress}}% Complete</span>
     </div>
   </div>
 {{else}}
-  {{#file-picker
-    class="md-file-picker md-import-picker"
-    fileLoaded="readData"
-    preview=false
-    accept=".csv,.txt"
-    readAs="readAsText"
-  }}
+  <FilePicker
+    class="md-file-picker md-import-picker import-file-picker"
+    @fileLoaded={{this.readData}}
+    @preview={{false}}
+    @accept=".csv,.txt"
+    @readAs="readAsText"
+  >
     <button type="button" class="btn btn-lg btn-info btn-block">{{fa-icon "bullseye"}}
       Click or Drop a CSV here.</button>
-  {{/file-picker}}
+  </FilePicker>
   {{!-- <hr>
   <h3>Import from Online URL</h3>
   <div class="row">

@@ -1,11 +1,11 @@
 {{#object/md-array-table
   columns="Repository, Collection Title"
-  value=value
-  plain=plain
-  data-spy=data-spy
+  value=this.value
+  plain=this.plain
+  data-spy=this.data-spy
   title="Metadata Repository"
-  profile=profile
-  templateClass=repositoryTemplate as |meta|
+  profile=this.profile
+  templateClass=this.repositoryTemplate as |meta|
 }}
   <td>
     {{input/md-codelist
@@ -16,7 +16,7 @@
       mdCodeName="metadataRepository"
       closeOnSelect=true
       placeholder="Select or enter a repository."
-      profilePath=(concat profilePath ".repository")
+      profilePath=(concat this.profilePath ".repository")
       change=(action "lookupTitle" meta.item)
     }}
   </td>
@@ -24,7 +24,7 @@
     {{input/md-input
       type="text"
       value=meta.item.citation.title
-      profilePath=(concat profilePath ".collectionTitle")
+      profilePath=(concat this.profilePath ".collectionTitle")
       placeholder="Text string used to identify a set of resources in the repository."
     }}
   </td>

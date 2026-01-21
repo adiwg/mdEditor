@@ -2,16 +2,16 @@
   <dl class='dl-horizontal col-lg-12'>
     {{control/md-definition
       title='Title'
-      text=citation.title
-      profilePath=(concat profilePath '.basicInformation.title')
+      text=this.citation.title
+      profilePath=(concat this.profilePath '.basicInformation.title')
     }}
   </dl>
   <dl class='dl-horizontal col-lg-12'>
     {{#control/md-definition
       title='Alternate Titles'
-      profilePath=(concat profilePath '.basicInformation.alternateTitle')
+      profilePath=(concat this.profilePath '.basicInformation.alternateTitle')
     }}
-      {{#each citation.alternateTitle as |title|}}
+      {{#each this.citation.alternateTitle as |title|}}
         {{title}}
         <br />
       {{else}}
@@ -22,9 +22,9 @@
   <div class='clearfix'></div>
   <dl class='dl-horizontal col-lg-12'>
     {{#control/md-definition
-      title='Dates' profilePath=(concat profilePath '.basicInformation.dates')
+      title='Dates' profilePath=(concat this.profilePath '.basicInformation.dates')
     }}
-      {{#each citation.date as |date|}}
+      {{#each this.citation.date as |date|}}
         {{moment-format date.date 'YYYY-MM-DD'}}
         ({{date.dateType}})
         <br />
@@ -35,9 +35,9 @@
   </dl>
   <dl class='dl-horizontal col-lg-12'>
     {{#control/md-definition
-      title='Identifier' profilePath=(concat profilePath '.identifier')
+      title='Identifier' profilePath=(concat this.profilePath '.identifier')
     }}
-      {{#each citation.identifier as |id|}}
+      {{#each this.citation.identifier as |id|}}
         {{id.identifier}}
         {{if id.namespace (concat '(' id.namespace ')')}}
         <br />
@@ -50,9 +50,9 @@
   <dl class='dl-horizontal col-lg-12'>
     {{#control/md-definition
       title='Responsible Party'
-      profilePath=(concat profilePath '.responsibleParty')
+      profilePath=(concat this.profilePath '.responsibleParty')
     }}
-      {{#each citation.responsibleParty as |party|}}
+      {{#each this.citation.responsibleParty as |party|}}
         {{html-safe (if party.role party.role '<em>No Roles assigned.</em>')}}
         (
         {{#each party.party as |contact index|}}

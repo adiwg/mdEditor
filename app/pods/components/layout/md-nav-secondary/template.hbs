@@ -1,29 +1,29 @@
 <ul id="md-navbar-secondary" class="nav nav-pills" role="navigation">
-  {{#each sortedLinks as |link index|}}
-    {{#if (and hasOverflow link.isOverflow)}}
+  {{#each this.sortedLinks as |link index|}}
+    {{#if (and this.hasOverflow link.isOverflow)}}
       {{to-elsewhere named="secondary-nav-menu"
         send=(component "layout/md-nav-secondary/link"
-          isStaticLinks=isStaticLinks
+          isStaticLinks=this.isStaticLinks
           link=link
           index=index
-          model=model
+          model=this.model
           nav=this
-          navWidth=navWidth
+          navWidth=this.navWidth
         )
       }}
     {{else}}
       {{layout/md-nav-secondary/link
-        isStaticLinks=isStaticLinks
+        isStaticLinks=this.isStaticLinks
         link=link
         index=index
-        model=model
+        model=this.model
         nav=this
-        navWidth=navWidth
+        navWidth=this.navWidth
       }}
     {{/if}}
   {{/each}}
 
-  {{#if hasOverflow}}
+  {{#if this.hasOverflow}}
     <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">More <span class="caret"></span></a>
       <ul class="dropdown-menu">

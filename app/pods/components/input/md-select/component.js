@@ -10,7 +10,7 @@ import { inject as service } from '@ember/service';
 import { notEmpty, alias, not, and, or } from '@ember/object/computed';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import { action, computed, get, defineProperty } from '@ember/object';
+import { action, computed, get, set, defineProperty } from '@ember/object';
 import { isBlank, isNone } from '@ember/utils';
 import { assert, debug } from '@ember/debug';
 import DS from 'ember-data';
@@ -353,7 +353,7 @@ export default class MdSelectComponent extends Component {
    */
   setValue(selected) {
     let val = selected ? selected.codeId : null;
-    this.value = val;
+    set(this, 'value', val);
     this.change();
   }
 

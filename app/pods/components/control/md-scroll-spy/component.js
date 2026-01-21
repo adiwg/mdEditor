@@ -16,7 +16,7 @@ export default class MdScrollSpyComponent extends Component {
    * @constructor
    */
 
-  @service('profile') profile;
+  @service('custom-profile') profile;
   @service('router') router;
   classNames = ['md-scroll-spy'];
 

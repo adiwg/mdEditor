@@ -1,7 +1,7 @@
 {{#layout/md-card
   collapsible=false
   collapsed=false
-  profilePath=profilePath
+  profilePath=this.profilePath
   data-spy=false
   shadow=false
 }}
@@ -14,7 +14,7 @@
         valuePath='north'
         label='North'
         placeholder='Enter north latitude.'
-        profilePath=(concat profilePath '.north')
+        profilePath=(concat this.profilePath '.north')
         showValidations=true
       }}
       {{input/md-input
@@ -24,7 +24,7 @@
         valuePath='east'
         label='East'
         placeholder='Enter east longitude.'
-        profilePath=(concat profilePath '.east')
+        profilePath=(concat this.profilePath '.east')
         showValidations=true
       }}
     </div>
@@ -37,7 +37,7 @@
         valuePath='south'
         label='South'
         placeholder='Enter south latitude.'
-        profilePath=(concat profilePath '.south')
+        profilePath=(concat this.profilePath '.south')
         showValidations=true
       }}
       {{input/md-input
@@ -47,7 +47,7 @@
         valuePath='west'
         label='West'
         placeholder='Enter west longitude.'
-        profilePath=(concat profilePath '.west')
+        profilePath=(concat this.profilePath '.west')
         showValidations=true
       }}
     </div>
@@ -61,7 +61,7 @@
         valuePath='minimumAltitude'
         label='Minimum Altitude'
         placeholder='Enter minimum'
-        profilePath=(concat profilePath '.geographicExtent.minimumAltitude')
+        profilePath=(concat this.profilePath '.geographicExtent.minimumAltitude')
         showValidations=true
       }}
     </div>
@@ -73,7 +73,7 @@
         valuePath='maximumAltitude'
         label='Maximum Altitude'
         placeholder='Enter maximum'
-        profilePath=(concat profilePath '.geographicExtent.maximumAltitude')
+        profilePath=(concat this.profilePath '.geographicExtent.maximumAltitude')
         showValidations=true
       }}
     </div>
@@ -86,7 +86,7 @@
         valuePath='unitsOfAltitude'
         label='Units of Altitude'
         placeholder='Enter units'
-        profilePath=(concat profilePath '.geographicExtent.unitsOfAltitude')
+        profilePath=(concat this.profilePath '.geographicExtent.unitsOfAltitude')
         showValidations=true
       }}
     </div>

@@ -1,10 +1,10 @@
 <div class="btn-group-vertical center-block" role="group" aria-label="Action Button Controls">
-  {{#if click}}
-  <button type="button" name="button" class="btn btn-lg {{concat "btn-" clickButtonType}} btn-block md-btn-responsive" click={{click}} disabled={{disabled}}>{{fa-icon clickButtonIcon}} {{clickTxt}}</button>
+  {{#if this.click}}
+  <button type="button" name="button" class="btn btn-lg {{concat "btn-" this.clickButtonType}} btn-block md-btn-responsive" click={{this.click}} disabled={{this.disabled}}>{{fa-icon this.clickButtonIcon}} {{this.clickTxt}}</button>
   {{/if}}
 
-  {{#if route}}
-    {{#link-to route class=(concat "btn btn-lg btn-" btnType " btn-block md-btn-responsive") }} {{fa-icon icon}} {{text}}{{/link-to}}
+  {{#if this.route}}
+    <LinkTo @route={{this.route}} class={{concat "btn btn-lg btn-" this.btnType " btn-block md-btn-responsive"}}> {{fa-icon this.icon}} {{this.text}}</LinkTo>
   {{/if}}
 
   {{yield}}
