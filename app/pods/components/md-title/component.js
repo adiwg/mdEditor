@@ -1,26 +1,19 @@
-import Breadcrumbs from 'ember-crumbly/components/bread-crumbs';
+import Component from '@glimmer/component';
+import { inject as service } from '@ember/service';
 import { truncate } from 'ember-cli-string-helpers/helpers/truncate';
-import layout from './template';
-import { getOwner } from '@ember/application';
-import classic from 'ember-classic-decorator';
 
-@classic
-export default class MdTitleComponent extends Breadcrumbs {
-  layout = layout;
-  tagName = '';
-
-  constructor() {
-    super(...arguments);
-
-    let applicationInstance = getOwner(this);
-
-    this.applicationRoute = applicationInstance.lookup('route:application');
-    this.classNameBindings = [];
-  }
+/**
+ * Component that generates a page title from the breadcrumb hierarchy.
+ * Uses the breadcrumbs service to get route information.
+ *
+ * @class MdTitleComponent
+ */
+export default class MdTitleComponent extends Component {
+  @service breadcrumbs;
 
   get title() {
-    return this.routeHierarchy.reduce((val, itm) => {
-      return val + truncate([itm.title, 28, true]) + (itm.isTail ? '' : ' | ');
+    return this.breadcrumbs.routeHierarchy.reduce((val, crumb) => {
+      return val + truncate([crumb.title, 28, true]) + (crumb.isTail ? '' : ' | ');
     }, '');
   }
 }
