@@ -1,0 +1,18 @@
+<div
+  class="file-picker {{if this.isDragging 'file-picker--dragging'}} {{@class}}"
+  role="button"
+  {{on "click" this.handleClick}}
+  {{on "dragover" this.handleDragOver}}
+  {{on "dragleave" this.handleDragLeave}}
+  {{on "drop" this.handleDrop}}
+  ...attributes
+>
+  <input
+    type="file"
+    class="file-picker__input"
+    accept={{this.accept}}
+    {{on "change" this.handleFileChange}}
+    hidden
+  />
+  {{yield}}
+</div>
