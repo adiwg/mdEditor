@@ -5,6 +5,7 @@ import { action } from '@ember/object';
 import { PouchMeta, pouchPrefix } from 'mdeditor/services/pouch';
 
 export default class SyncImportRoute extends Route {
+  @service store;
   @service pouch;
 
   async model(params) {

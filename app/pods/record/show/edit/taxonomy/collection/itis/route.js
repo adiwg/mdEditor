@@ -22,7 +22,9 @@ export default class ItisRoute extends Route {
         'record.show.edit.taxonomy.collection'),
       'collectionId'));
   }
-    toCollection() {
-      this.transitionTo('record.show.edit.taxonomy.collection');
-    }
+
+  @action
+  toCollection() {
+    this.transitionTo('record.show.edit.taxonomy.collection');
+  }
 }

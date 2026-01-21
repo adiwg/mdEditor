@@ -39,7 +39,9 @@ export default class IdentifierRoute extends Route.extend(ScrollTo) {
 
     return identifier;
   }
-    goBack(){
-      this.transitionTo('record.show.edit.metadata.alternate');
-    }
+
+  @action
+  goBack() {
+    this.transitionTo('record.show.edit.metadata.alternate');
+  }
 }

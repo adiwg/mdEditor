@@ -57,12 +57,15 @@ export default class EditRoute extends Route {
       });
     }
   }
+    @action
     async saveRecord() {
       const model = this.currentRouteModel();
       model.updateTimestamp();
       await model.save();
       this.flashMessages.success(`Saved Record: ${model.get('title')}`);
     }
+
+    @action
     cancelRecord() {
       let model = this.currentRouteModel();
       let message = `Cancelled changes to Record: ${model.get('title')}`;
@@ -86,6 +89,8 @@ export default class EditRoute extends Route {
           this.flashMessages.warning(message);
         });
     }
+
+    @action
     getContext() {
       return this;
     }

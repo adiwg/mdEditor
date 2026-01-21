@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
-import EmberObject, { get, getWithDefault, set } from '@ember/object';
+import EmberObject, { get, set } from '@ember/object';
 import { A } from '@ember/array';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
@@ -9,41 +9,45 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
     this._super(...arguments);
 
     let model = get(m, 'json.metadata');
-    set(model, 'funding', A(getWithDefault(model, 'funding', [])));
+    set(model, 'funding', A(get(model, 'funding', [])));
   }
   setupController() {
     // Call _super for default behavior
     this._super(...arguments);
 
-    this.controller.set('parentModel', this.modelFor(
-      'record.show.edit'));
+    this.controller.set('parentModel', this.modelFor('record.show.edit'));
   }
-    editAllocation(id) {
-      this.transitionTo('record.show.edit.funding.allocation', id);
-    }
-    addAllocation() {
-      let funding = this.currentRouteModel()
-        .get('json.metadata.funding');
-      let allocation = EmberObject.create({});
 
-      // once(this, () => {
+  @action
+  editAllocation(id) {
+    this.transitionTo('record.show.edit.funding.allocation', id);
+  }
 
-        funding.pushObject(allocation);
-        this.setScrollTo(`funding-period-${funding.length-1}`);
-        this.transitionTo('record.show.edit.funding.allocation',
-          funding.length - 1);
+  @action
+  addAllocation() {
+    let funding = this.currentRouteModel().get('json.metadata.funding');
+    let allocation = EmberObject.create({});
 
-        // $("html, body").animate({
-        //   scrollTop: $(document).height()
-        // }, "slow");
-      // });
+    // once(this, () => {
 
-    }
-    deleteAllocation(id) {
-      let all = this.currentRouteModel().get(
-        'json.metadata.funding');
+    funding.pushObject(allocation);
+    this.setScrollTo(`funding-period-${funding.length - 1}`);
+    this.transitionTo(
+      'record.show.edit.funding.allocation',
+      funding.length - 1
+    );
 
-      all.removeAt(id);
-      this.controller.set('refresh', all.get('length'));
-    }
+    // $("html, body").animate({
+    //   scrollTop: $(document).height()
+    // }, "slow");
+    // });
+  }
+
+  @action
+  deleteAllocation(id) {
+    let all = this.currentRouteModel().get('json.metadata.funding');
+
+    all.removeAt(id);
+    this.controller.set('refresh', all.get('length'));
+  }
 }

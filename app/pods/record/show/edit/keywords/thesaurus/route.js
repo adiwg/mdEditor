@@ -53,7 +53,9 @@ export default class ThesaurusRoute extends Route {
         thesaurusId: this.thesaurusId
       });
   }
-    selectKeyword(node, path) {
+
+  @action
+  selectKeyword(node, path) {
       let model = this.currentRouteModel();
       let keywords = model.get('model')
         .get(model.get('path'));
@@ -81,11 +83,15 @@ export default class ThesaurusRoute extends Route {
       } else {
         kw.removeObject(target);
       }
-    }
-    removeKeyword() {
+  }
+
+  @action
+  removeKeyword() {
       this.send('deleteKeyword', ...arguments);
-    }
-    changeFullPath(evt) {
+  }
+
+  @action
+  changeFullPath(evt) {
       let model = this.currentRouteModel();
       let keywords = model.get('model')
         .get(model.get('path'));
@@ -102,5 +108,5 @@ export default class ThesaurusRoute extends Route {
           set(curr, 'keyword', words[words.length - 1]);
         }
       });
-    }
+  }
 }

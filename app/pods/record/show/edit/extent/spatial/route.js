@@ -57,10 +57,13 @@ export default class SpatialRoute extends Route {
 
     return model;
   }
-    getContext() {
-      return this;
-    }
-    handleResize() {
+  @action
+  getContext() {
+    return this;
+  }
+
+  @action
+  handleResize() {
       const mapContainer = document.querySelector('.map-file-picker .leaflet-container');
       const navbars = document.getElementById('md-navbars');
       if (mapContainer && navbars) {
@@ -68,13 +71,17 @@ export default class SpatialRoute extends Route {
         mapContainer.style.height = `${height}px`;
       }
     }
-    uploadData() {
+
+  @action
+  uploadData() {
       const fileInput = document.querySelector('.map-file-picker .file-picker__input');
       if (fileInput) {
         fileInput.click();
       }
     }
-    deleteAllFeatures() {
+
+  @action
+  deleteAllFeatures() {
       let features = this.layers;
       let group = this.controller
         .get('featureGroup');
@@ -91,11 +98,15 @@ export default class SpatialRoute extends Route {
         features.clear();
       }
     }
-    setFeatureGroup(obj) {
+
+  @action
+  setFeatureGroup(obj) {
       this.controller
         .set('featureGroup', obj);
-    }
-    zoomAll() {
+  }
+
+  @action
+  zoomAll() {
       let layer = this.controller
         .get('featureGroup');
       let bnds = layer.getBounds();
@@ -109,8 +120,10 @@ export default class SpatialRoute extends Route {
       }
 
       map.fitWorld();
-    }
-    exportGeoJSON() {
+  }
+
+  @action
+  exportGeoJSON() {
       let fg = this.controller
         .get('featureGroup');
 

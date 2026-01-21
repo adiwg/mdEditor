@@ -20,11 +20,13 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
 
     return model;
   }
-    editIdentifier(index) {
+
+  @action
+  editIdentifier(index) {
       this.transitionTo('record.show.edit.metadata.parent.identifier',
           index)
         .then(function () {
           this.setScrollTo('identifier');
         }.bind(this));
-    }
+  }
 }

@@ -41,7 +41,9 @@ export default class IdentifierRoute extends Route.extend(ScrollTo) {
 
     return identifier;
   }
-    goBack() {
-      this.transitionTo('record.show.edit.lineage.lineageobject.citation');
-    }
+
+  @action
+  goBack() {
+    this.transitionTo('record.show.edit.lineage.lineageobject.citation');
+  }
 }

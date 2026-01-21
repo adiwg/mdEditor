@@ -2,7 +2,7 @@
 
 <div class="list-group">
   {{#each model as |catalog|}}
-    {{#link-to (concat "publish." catalog.route) class="list-group-item" }}
+    <LinkTo @route={{concat "publish." catalog.route}} class="list-group-item">
     <div class="media">
       <div class="media-left media-middle">
           {{#if catalog.image}}
@@ -17,7 +17,7 @@
           <p class="text-muted">{{catalog.description}}</p>
       </div>
     </div>
-    {{/link-to}}
+    </LinkTo>
   {{else}}
   <div class="card card-inverse card-warning">
     <div class="card-block">

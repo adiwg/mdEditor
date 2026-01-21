@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 import { copy } from 'ember-copy';
 
 export default class ShowRoute extends Route {
+  @service store;
   @service flashMessages;
 
   model(params) {

@@ -13,15 +13,19 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
     this.controller.set('stepId', get(this.controllerFor(
       'record.show.edit.lineage.lineageobject.step'), 'stepId'));
   }
-    editCitation(index) {
+
+  @action
+  editCitation(index) {
       this.transitionTo('record.show.edit.lineage.lineageobject.step.citation',
           index)
         .then(
           function () {
             this.setScrollTo('citation');
           }.bind(this));
-    }
-    goBack(){
-      this.transitionTo('record.show.edit.lineage.lineageobject');
-    }
+  }
+
+  @action
+  goBack(){
+    this.transitionTo('record.show.edit.lineage.lineageobject');
+  }
 }

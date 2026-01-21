@@ -196,12 +196,12 @@
       doDelete=(route-action "destroyContact")
       doCopy=(route-action "copyContact")
     }}
-      {{#link-to "contact.show.edit" model.id class="btn btn-lg btn-success" }}
-        {{fa-icon "pencil"}} Edit{{/link-to}}
+      <LinkTo @route="contact.show.edit" @model={{model.id}} class="btn btn-lg btn-success">
+        {{fa-icon "pencil"}} Edit</LinkTo>
     {{/control/md-crud-buttons}}
     <hr>
-    {{#link-to "contacts" class="btn btn-lg btn-primary btn-block" }}
-    {{fa-icon "list"}} Show List{{/link-to}}
+    <LinkTo @route="contacts" class="btn btn-lg btn-primary btn-block">
+    {{fa-icon "list"}} Show List</LinkTo>
     {{control/md-scroll-spy scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}}
   </div>
 </div>

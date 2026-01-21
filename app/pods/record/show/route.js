@@ -1,8 +1,10 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { copy } from 'ember-copy';
 
 export default class ShowRoute extends Route {
+  @service store;
   //breadCrumb: {},
   afterModel(model) {
     const name = model.get('title');
@@ -16,21 +18,24 @@ export default class ShowRoute extends Route {
   model(params) {
     return this.store.peekRecord('record', params.record_id);
   }
-    destroyRecord() {
-      let model = this.currentRouteModel();
-      model
-        .destroyRecord()
-        .then(() => {
-          this.flashMessages
-            .success(`Deleted Record: ${model.get('title')}`);
-          this.replaceWith('records');
-        });
-    }
-    copyRecord() {
 
-      this.flashMessages
-        .success(
-          `Copied Record: ${this.currentRouteModel().get('title')}`);
-      this.transitionTo('record.new.id', copy(this.currentRouteModel()));
-    }
+  @action
+  destroyRecord() {
+    let model = this.currentRouteModel();
+    model
+      .destroyRecord()
+      .then(() => {
+        this.flashMessages
+          .success(`Deleted Record: ${model.get('title')}`);
+        this.replaceWith('records');
+      });
+  }
+
+  @action
+  copyRecord() {
+    this.flashMessages
+      .success(
+        `Copied Record: ${this.currentRouteModel().get('title')}`);
+    this.transitionTo('record.new.id', copy(this.currentRouteModel()));
+  }
 }

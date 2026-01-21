@@ -16,6 +16,7 @@ const sliderColumns = [{
 }];
 
 export default class IndexRoute extends Route.extend(ScrollTo) {
+  @service store;
   @service slider;
 
   sliderColumns = sliderColumns;
@@ -28,7 +29,9 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
     this.controller.set('resourceId', get(this.controllerFor(
       'record.show.edit.associated.resource'), 'resourceId'));
   }
-    insertResource(selected) {
+
+  @action
+  insertResource(selected) {
       let slider = this.slider;
       let rec = selected.get('firstObject');
 
@@ -38,23 +41,31 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
         set(resource, 'mdRecordId', get(rec, 'recordId'));
       }
 
-      //this.controller.set('slider', false);
-      slider.toggleSlider(false);
-      selected.clear();
-    }
-    selectResource() {
+    //this.controller.set('slider', false);
+    slider.toggleSlider(false);
+    selected.clear();
+  }
+
+  @action
+  selectResource() {
       let slider = this.slider;
 
-      //this.controller.set('slider', true);
-      slider.toggleSlider(true);
-    }
-    sliderData() {
-      return this.store.peekAll('record').filterBy('recordId');
-    }
-    sliderColumns() {
-      return this.sliderColumns;
-    }
-    editLinked(rec) {
-      this.transitionTo('record.show.edit', rec.get('id'));
-    }
+    //this.controller.set('slider', true);
+    slider.toggleSlider(true);
+  }
+
+  @action
+  sliderData() {
+    return this.store.peekAll('record').filterBy('recordId');
+  }
+
+  @action
+  sliderColumns() {
+    return this.sliderColumns;
+  }
+
+  @action
+  editLinked(rec) {
+    this.transitionTo('record.show.edit', rec.get('id'));
+  }
 }

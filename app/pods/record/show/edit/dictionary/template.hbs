@@ -51,9 +51,9 @@
     {{else}}
       <div class="alert alert-info">
         <h3>No Dictionaries found.
-          {{#link-to "dictionary.new" class="btn btn-success btn-lg" }}
+          <LinkTo @route="dictionary.new" class="btn btn-success btn-lg">
             {{fa-icon "plus"}} Create a Dictionary
-          {{/link-to}}
+          </LinkTo>
         </h3>
       </div>
     {{/if}}

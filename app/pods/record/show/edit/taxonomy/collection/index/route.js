@@ -20,15 +20,21 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
       )
     );
   }
-    toList() {
-      this.transitionTo('record.show.edit.taxonomy');
-    }
-    addTaxa() {
-      this.controller.model.taxonomicClassification.pushObject({
-        _edit: true,
-      });
-    }
-    addITIS() {
+
+  @action
+  toList() {
+    this.transitionTo('record.show.edit.taxonomy');
+  }
+
+  @action
+  addTaxa() {
+    this.controller.model.taxonomicClassification.pushObject({
+      _edit: true,
+    });
+  }
+
+  @action
+  addITIS() {
       // Check if itisProxyUrl is configured
       if (!this.get('settings.data.itisProxyUrl')) {
         // Show modal to alert user
@@ -36,14 +42,18 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
         return;
       }
 
-      // If itisProxyUrl is configured, proceed to ITIS page
-      this.transitionTo('record.show.edit.taxonomy.collection.itis');
-    }
-    goToSettings() {
-      this.controller.set('showItisModal', false);
-      this.transitionTo('settings.main');
-    }
-    editSystem(index) {
+    // If itisProxyUrl is configured, proceed to ITIS page
+    this.transitionTo('record.show.edit.taxonomy.collection.itis');
+  }
+
+  @action
+  goToSettings() {
+    this.controller.set('showItisModal', false);
+    this.transitionTo('settings.main');
+  }
+
+  @action
+  editSystem(index) {
       this.transitionTo(
         'record.show.edit.taxonomy.collection.system',
         index
@@ -52,5 +62,5 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
           this.setScrollTo('system');
         }.bind(this)
       );
-    }
+  }
 }

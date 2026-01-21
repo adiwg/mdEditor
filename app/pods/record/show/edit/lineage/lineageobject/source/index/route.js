@@ -14,7 +14,9 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
     controller.set('parentModel', this.modelFor('record.show.edit'));
     controller.set('sourceId', sourceId);
   }
-    goBack() {
-      this.transitionTo('record.show.edit.lineage.lineageobject');
-    }
+
+  @action
+  goBack() {
+    this.transitionTo('record.show.edit.lineage.lineageobject');
+  }
 }

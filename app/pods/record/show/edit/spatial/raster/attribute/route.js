@@ -63,10 +63,14 @@ export default class AttributeRoute extends Route.extend(ScrollTo) {
 
     return attribute;
   }
-    parentModel() {
-      return this.modelFor('record.show.edit');
-    }
-    deleteAttribute(id) {
+
+  @action
+  parentModel() {
+    return this.modelFor('record.show.edit');
+  }
+
+  @action
+  deleteAttribute(id) {
       let model = this.controller.parentModel
         .get('json.metadata.resourceInfo.coverageDescription')[this.controller.rasterId]
         .attributeGroup[this.controller.attrGroupId].attribute;
@@ -77,8 +81,10 @@ export default class AttributeRoute extends Route.extend(ScrollTo) {
           scrollTo: this.controller.attrGroupId
         }
       });
-    }
-    backToAttrGroup() {
-      this.transitionTo('record.show.edit.spatial.raster');
-    }
+  }
+
+  @action
+  backToAttrGroup() {
+    this.transitionTo('record.show.edit.spatial.raster');
+  }
 }

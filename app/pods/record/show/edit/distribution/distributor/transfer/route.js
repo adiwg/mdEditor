@@ -71,7 +71,9 @@ export default class TransferRoute extends Route.extend(ScrollTo) {
 
     return transfer;
   }
-    deleteTransfer(id) {
+
+  @action
+  deleteTransfer(id) {
       let model = this.controller.parentModel.get(
           'json.metadata.resourceDistribution')[this.controller
           .distributionId]
@@ -83,8 +85,10 @@ export default class TransferRoute extends Route.extend(ScrollTo) {
           scrollTo: 'transfer-options'
         }
       });
-    }
-    backToDistributor() {
-      this.transitionTo('record.show.edit.distribution.distributor');
-    }
+  }
+
+  @action
+  backToDistributor() {
+    this.transitionTo('record.show.edit.distribution.distributor');
+  }
 }

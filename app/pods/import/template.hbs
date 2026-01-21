@@ -8,7 +8,7 @@
       {{control/md-json-viewer class="md-import-preview" json=model.preview.json modal=false}}
     {{else}}
       {{#unless model.files}}
-        {{#file-picker class="md-file-picker md-import-picker" fileLoaded="readData" preview=false accept=".json,.xml" readAs="readAsText"}}
+        <FilePicker class="md-file-picker md-import-picker import-file-picker" @fileLoaded={{route-action "readData"}} @preview={{false}} @accept=".json,.xml" @readAs="readAsText">
           <button type="button" class="btn btn-lg btn-info btn-block">
             <p>{{fa-icon "bullseye"}} Click or Drop a file here to import data.</p>
             <hr>
@@ -26,7 +26,7 @@
               {{!-- <small>Using <a href={{apiURL}}>{{apiURL}}</a> for translation.</small> --}}
             {{/unless}}
           </button>
-        {{/file-picker}}
+        </FilePicker>
         <hr>
         <h3>Import mdJSON from Online URL</h3>
         <div class="row">

@@ -1,8 +1,10 @@
 import { NotFoundError } from '@ember-data/adapter/error';
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 export default class IdRoute extends Route {
+  @service store;
   async model(params) {
     let record = this.store.peekRecord('record', params.record_id);
 

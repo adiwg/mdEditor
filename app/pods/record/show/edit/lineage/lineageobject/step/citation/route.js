@@ -47,10 +47,14 @@ export default class CitationRoute extends Route.extend(ScrollTo) {
 
     return citation;
   }
-    parentModel() {
-      return this.modelFor('record.show.edit');
-    }
-    goBack(){
-      this.transitionTo('record.show.edit.lineage.lineageobject.step');
-    }
+
+  @action
+  parentModel() {
+    return this.modelFor('record.show.edit');
+  }
+
+  @action
+  goBack() {
+    this.transitionTo('record.show.edit.lineage.lineageobject.step');
+  }
 }

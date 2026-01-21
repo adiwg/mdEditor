@@ -7,6 +7,9 @@ import { get, set, action } from '@ember/object';
 @classic
 export default class SettingsRoute extends Route {
   @service
+  store;
+
+  @service
   settings;
 
   @service

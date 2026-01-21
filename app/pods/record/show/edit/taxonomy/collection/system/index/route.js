@@ -14,7 +14,9 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
     controller.set('parentModel', this.modelFor('record.show.edit'));
     controller.set('systemId', systemId);
   }
-    goBack() {
-      this.transitionTo('record.show.edit.taxonomy.collection');
-    }
+
+  @action
+  goBack() {
+    this.transitionTo('record.show.edit.taxonomy.collection');
+  }
 }

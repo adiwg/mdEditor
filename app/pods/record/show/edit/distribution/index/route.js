@@ -14,7 +14,9 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
     defineProperty(this.controller, 'refreshSpy', alias(
       'model.json.metadata.resourceDistribution.length'));
   }
-    addDistribution() {
+
+  @action
+  addDistribution() {
       let dists = this.currentRouteModel()
         .get('json.metadata.resourceDistribution');
 
@@ -22,16 +24,20 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
 
       window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
 
-    }
-    editDistributor(id, routeParams, scrollToId) {
+  }
+
+  @action
+  editDistributor(id, routeParams, scrollToId) {
       this.setScrollTo(scrollToId);
       this.transitionTo('record.show.edit.distribution.distributor',
         routeParams, id);
-    }
-    deleteDistribution(id) {
+  }
+
+  @action
+  deleteDistribution(id) {
       let dists = this.currentRouteModel().get(
         'json.metadata.resourceDistribution');
 
       dists.removeAt(id);
-    }
+  }
 }

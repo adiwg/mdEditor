@@ -24,7 +24,9 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
         'record.show.edit.distribution.distributor'),
       'distributorId'));
   }
-    deleteDistributor(id) {
+
+  @action
+  deleteDistributor(id) {
       let model = this.controller.parentModel.get(
           'json.metadata.resourceDistribution')[this.controller.distributionId]
         .distributor;
@@ -35,12 +37,14 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
           scrollTo: `distribution-${this.controller.distributionId}`
         }
       });
-    }
-    editTransferOption(id, routeParams, scrollToId) {
+  }
+
+  @action
+  editTransferOption(id, routeParams, scrollToId) {
       this.setScrollTo(scrollToId);
-      this.transitionTo(
-        'record.show.edit.distribution.distributor.transfer',
-        this.controller.distributionId, this.controller.distributorId, id
-      );
-    }
+    this.transitionTo(
+      'record.show.edit.distribution.distributor.transfer',
+      this.controller.distributionId, this.controller.distributorId, id
+    );
+  }
 }

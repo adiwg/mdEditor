@@ -42,6 +42,7 @@ const fixLiabilityTypo = async (store) => {
 };
 
 export default class ExportRoute extends Route.extend(ScrollTo) {
+  @service store;
   @service mdjson;
   @service settings;
 
