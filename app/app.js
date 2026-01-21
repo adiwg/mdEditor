@@ -5,7 +5,6 @@
  * @category docs
  */
 
-import LinkComponent from '@ember/routing/link-component';
 import Route from '@ember/routing/route';
 import Component from '@ember/component';
 import Application from '@ember/application';
@@ -13,7 +12,6 @@ import Resolver from 'ember-resolver';
 import {
   computed,
   defineProperty,
-  getWithDefault,
   get,
   //set
 } from '@ember/object';
@@ -45,11 +43,7 @@ export default class App extends Application {
 
 loadInitializers(App, config.modulePrefix);
 
-//for bootstrap
-LinkComponent.reopen({
-  attributeBindings: ['data-toggle', 'data-placement']
-});
-//for crumbly
+//for routes
 Route.reopen({
   //breadCrumb: null
   currentRouteModel: function () {
@@ -88,8 +82,7 @@ Component.reopen({
             return isVisible;
           }
 
-          return getWithDefault(profile.activeComponents, path,
-            isVisible);
+          return get(profile.activeComponents, path) ?? isVisible;
         }));
     }
   }

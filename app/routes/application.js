@@ -14,6 +14,7 @@ const {
 const console = window.console;
 
 export default class ApplicationRoute extends Route {
+  @service store;
   @service spotlight;
   @service slider;
   @service router;
