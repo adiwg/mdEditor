@@ -1,15 +1,38 @@
 # Changelog for [mdEditor](https://github.com/adiwg/mdEditor)
 
+## v1.3.1 (2026-01-22)
+
+Minor documentation updates. This is the last release that is based on the Ember 3.15 framework.
+Future development will move to using [Ember 3.28](https://emberjs.com/releases/lts/), an intermediate
+step to provide backward compatability before upgrading to a newer LTS version of Ember.
+
+
+  - Minor updates to [CHANGELOG.md](https://github.com/adiwg/mdEditor/blob/develop/CHANGELOG.md)
+  - Minor updates to [PULL_REQUEST_TEMPLATE.md](https://github.com/adiwg/mdEditor/blob/develop/PULL_REQUEST_TEMPLATE.md)
+  - Remove unused ISSUE_TEMPLATE.md from root directory
+  - Bump version to 1.3.1
+
+
 ## v1.3.0 (2026-01-16)
 
 ### New features
 
-  - Support temporal and vertical extents [#95](https://github.com/adiwg/mdEditor/issues/95)
-  - Support PouchDB storage [#170](https://github.com/adiwg/mdEditor/issues/170)
+  - Support temporal extents (EX_TemporalExtent) [#95](https://github.com/adiwg/mdEditor/issues/95)
+  - Support vertical extents (EX_VerticalExtent) [#95](https://github.com/adiwg/mdEditor/issues/95)
+  - Support PouchDB storage [#700](https://github.com/adiwg/mdEditor/issues/170)
+  - Support publishing to CouchDB [#170](https://github.com/adiwg/mdEditor/pull/700)
+  - Update dateUpdated when dirtyHash changes [#339](https://github.com/adiwg/mdEditor/issues/339)
+  - Support import and export of reduced resolution ISO dates YYYY and YYYY-MM [#483](https://github.com/adiwg/mdEditor/issues/483)
   - Support full Lineage Source Citation [#491](https://github.com/adiwg/mdEditor/issues/491)
-  - Support Releasability element [#570](https://github.com/adiwg/mdEditor/issues/570)
-  - Support Data Quality Reports [#604](https://github.com/adiwg/mdEditor/issues/604)
+  - Support Releasability element (MD_Releasability) [#570](https://github.com/adiwg/mdEditor/issues/570)
+  - Load Custom Profiles from URL [#584](https://github.com/adiwg/mdEditor/issues/584)
+  - Specify Custom thesauri within profiles [#584](https://github.com/adiwg/mdEditor/issues/584)
+  - Support Data Quality Reports (DQ_Element) [#604](https://github.com/adiwg/mdEditor/issues/604)
+  - Support Data Quality Results (DQ_Result) [#604](https://github.com/adiwg/mdEditor/issues/604)
+  - Add enhanced error reporting [#696](https://github.com/adiwg/mdEditor/pull/696)
+  - Define ScienceBase metadata publishing endpoint in user settings [#708](https://github.com/adiwg/mdEditor/issues/708)
   - Allow user to set default CouchDB parameters [#756](https://github.com/adiwg/mdEditor/issues/756)
+  - Expose the `itis-proxy-url` as a user setting [#762](https://github.com/adiwg/mdEditor/issues/762)
 
 ### Updates
 
@@ -23,26 +46,33 @@
   - Open ScienceBase Manager in new window [#745](https://github.com/adiwg/mdEditor/issues/745)
   - Remove trailing slash from publishing endpoint specified in user settings [#751](https://github.com/adiwg/mdEditor/issues/751)
   - Update CONTRIBUTING.md (no trailing slash for user specified settings) [#752](https://github.com/adiwg/mdEditor/issues/752)
-  - Expose the `itis-proxy-url` as a user setting [#762](https://github.com/adiwg/mdEditor/issues/762)
   - Refactor ScienceBase user setting to support updated "publish-options" schema [#764](https://github.com/adiwg/mdEditor/issues/764)
   - Update gh-pages-deploy.yml to use Node version 18 and enable corepack
+  - Update mdCodes to 2.10.1
+  - Update mdJson-schemas to 2.10.2
 
 ### Bug fixes
 
   - Date control should be datetime [#246](https://github.com/adiwg/mdEditor/issues/246)
-  - Update dateUpdated when dirtyHash changes [#339](https://github.com/adiwg/mdEditor/issues/339)
   - Assign ember record identifiers ("id") based on UUID's [#481](https://github.com/adiwg/mdEditor/issues/481)
   - Adding a data distribution causes save and cancel buttons to become unresponsive [#610](https://github.com/adiwg/mdEditor/issues/610)
-  - import CSV not working for data dictionary creation [#665](https://github.com/adiwg/mdEditor/issues/665)
+  - White dot of death [#659](https://github.com/adiwg/mdEditor/issues/659)
+  - Import CSV not working for data dictionary creation [#665](https://github.com/adiwg/mdEditor/issues/665)
   - Export mdJSON function does not write dictionaryId [#679](https://github.com/adiwg/mdEditor/issues/679)
   - Excess data embedded into mdEditor-Json record object on import [#682](https://github.com/adiwg/mdEditor/issues/682)
   - Wrong timestamp applied to exported files [#694](https://github.com/adiwg/mdEditor/issues/694)
   - Import mdJSON function does not read dictionaryId [#704](https://github.com/adiwg/mdEditor/issues/704)
   - If AutoSave is On, record edits not synced to Pouch [#711](https://github.com/adiwg/mdEditor/issues/711)
   - Form data not committed to datastore [#712](https://github.com/adiwg/mdEditor/issues/712)
+  - CSDGM import throws ReferenceError: uuidV4 is not defined [#714](https://github.com/adiwg/mdEditor/issues/714)
+  - Data dictionary identifier is not imported [#716](https://github.com/adiwg/mdEditor/issues/716)
   - Update mdEditor to use mdJson-schemas v2.10.2 [#717](https://github.com/adiwg/mdEditor/issues/717)
+  - Can not copy metadata, contact, or dictionary records [#718](https://github.com/adiwg/mdEditor/issues/718)
+  - Console error: You must include an 'id' for dictionary in an object passed to 'push' [#722](https://github.com/adiwg/mdEditor/issues/722)
   - Manually saving a record throws error updatePouchRecord [#723](https://github.com/adiwg/mdEditor/issues/723)
   - Validation error "Minimum Items Required for Contacts" links to wrong path [#724](https://github.com/adiwg/mdEditor/issues/724)
+  - Selecting Add Schema results in unresponsive browser [#728](https://github.com/adiwg/mdEditor/issues/728)
+  - Custom profile names do not display in profile pick list [#729](https://github.com/adiwg/mdEditor/issues/729)
   - Go To Error Button Does Not Work When Viewing a Record [#731](https://github.com/adiwg/mdEditor/issues/731)
   - Custom schemas do not import [#734](https://github.com/adiwg/mdEditor/issues/734)
   - Trap for missing mdTranslator API URL [#738](https://github.com/adiwg/mdEditor/issues/738)
@@ -70,17 +100,27 @@
   - https://github.com/adiwg/mdEditor/pull/661
   - https://github.com/adiwg/mdEditor/pull/662
   - https://github.com/adiwg/mdEditor/pull/667
+  - https://github.com/adiwg/mdEditor/pull/669
   - https://github.com/adiwg/mdEditor/pull/671
   - https://github.com/adiwg/mdEditor/pull/678
   - https://github.com/adiwg/mdEditor/pull/685
   - https://github.com/adiwg/mdEditor/pull/690
+  - https://github.com/adiwg/mdEditor/pull/696
+  - https://github.com/adiwg/mdEditor/pull/697
   - https://github.com/adiwg/mdEditor/pull/700
   - https://github.com/adiwg/mdEditor/pull/706
   - https://github.com/adiwg/mdEditor/pull/707
+  - https://github.com/adiwg/mdEditor/pull/709
+  - https://github.com/adiwg/mdEditor/pull/719
+  - https://github.com/adiwg/mdEditor/pull/730
   - https://github.com/adiwg/mdEditor/pull/732
   - https://github.com/adiwg/mdEditor/pull/739
+  - https://github.com/adiwg/mdEditor/pull/746
+  - https://github.com/adiwg/mdEditor/pull/747
   - https://github.com/adiwg/mdEditor/pull/749
+  - https://github.com/adiwg/mdEditor/pull/753
   - https://github.com/adiwg/mdEditor/pull/757
+  - https://github.com/adiwg/mdEditor/pull/760
   - https://github.com/adiwg/mdEditor/pull/763
   - https://github.com/adiwg/mdEditor/pull/765
   - https://github.com/adiwg/mdEditor/pull/766
@@ -90,6 +130,9 @@
   - https://github.com/adiwg/mdEditor/pull/772
   - https://github.com/adiwg/mdEditor/pull/773
   - https://github.com/adiwg/mdEditor/pull/774
+
+**Full Changelog**: https://github.com/adiwg/mdEditor/compare/v1.2.1...v1.3.0
+
 
 
 ---
@@ -116,7 +159,7 @@
 
 **Closed issues:**
 
--  Sourceforge mdtoolkit-announcement link [#375](https://github.com/adiwg/mdEditor/issues/375)
+- Sourceforge mdtoolkit-announcement link [#375](https://github.com/adiwg/mdEditor/issues/375)
 - Associated Resource [#367](https://github.com/adiwg/mdEditor/issues/367)
 - Add basic visual style guide [#364](https://github.com/adiwg/mdEditor/issues/364)
 - "Position" misspelled in Contact metadata [#362](https://github.com/adiwg/mdEditor/issues/362)
