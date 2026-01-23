@@ -1,8 +1,10 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import { isArray, A } from '@ember/array';
 import { isEmpty } from '@ember/utils';
 
 export default class CollectionRoute extends Route {
+  @service flashMessages;
   model(params) {
     this.set('collectionId', params.collection_id);
 

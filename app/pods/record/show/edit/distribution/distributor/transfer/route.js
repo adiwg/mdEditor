@@ -1,10 +1,12 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import { A, isArray } from '@ember/array';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default class TransferRoute extends Route.extend(ScrollTo) {
+  @service flashMessages;
   // breadCrumb: computed('controller.distributorId', function () {
   //   return {
   //     title: `Distributor ${this.controller.distributorId}`

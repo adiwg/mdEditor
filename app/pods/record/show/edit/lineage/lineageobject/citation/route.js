@@ -1,9 +1,11 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
 
 export default class CitationRoute extends Route {
+  @service flashMessages;
   model(params) {
     this.set('citationId', params.citation_id);
     this.set('lineageId', this.paramsFor(

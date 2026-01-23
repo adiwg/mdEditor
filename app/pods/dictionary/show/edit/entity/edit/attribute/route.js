@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import {
   //computed,
   get
@@ -12,6 +13,7 @@ import {
 } from '@ember/utils';
 
 export default class AttributeRoute extends Route {
+  @service flashMessages;
   beforeModel() {
     this.set('entityId', this.paramsFor(
       'dictionary.show.edit.entity.edit').entity_id);

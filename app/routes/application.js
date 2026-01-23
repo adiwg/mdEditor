@@ -21,6 +21,7 @@ export default class ApplicationRoute extends Route {
   @service keyword;
   @service profile;
   @service('custom-profile') customProfile;
+  @service flashMessages;
 
   constructor() {
     super(...arguments);

@@ -1,8 +1,10 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import { isArray, A } from '@ember/array';
 
 export default class DistributorRoute extends Route {
+  @service flashMessages;
   model(params) {
     this.set('distributionId', params.distribution_id);
     this.set('distributorId', params.distributor_id);

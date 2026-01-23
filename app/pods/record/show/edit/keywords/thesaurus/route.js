@@ -9,6 +9,7 @@ import ENV from 'mdeditor/config/environment';
 
 export default class ThesaurusRoute extends Route {
   @service keyword;
+  @service flashMessages;
 
   model(params) {
     this.set('thesaurusId', params.thesaurus_id);

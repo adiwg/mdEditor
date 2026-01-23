@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 
 export default class IdRoute extends Route {
   @service store;
+  @service flashMessages;
   /**
    * The route model
    *

@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import {
   isArray
 } from '@ember/array';
@@ -9,6 +10,7 @@ import {
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default class ItemRoute extends Route.extend(ScrollTo) {
+  @service flashMessages;
   beforeModel() {
     this.set('domainId', this.paramsFor(
       'dictionary.show.edit.domain.edit').domain_id);

@@ -16,6 +16,7 @@ export default class EditRoute extends Route {
 
   @service pouch;
   @service hashPoll;
+  @service flashMessages;
 
   /**
    * The route activate hook, sets the profile.

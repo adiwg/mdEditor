@@ -1,10 +1,12 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { isNone } from '@ember/utils';
 import { get } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default class IndexRoute extends Route.extend(ScrollTo) {
+  @service flashMessages;
   afterModel(model) {
     this._super(...arguments);
 

@@ -1,10 +1,12 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import EmberObject, { get, set } from '@ember/object';
 import { isArray, A } from '@ember/array';
 import { isEmpty } from '@ember/utils';
 
 export default class SpatialRoute extends Route {
+  @service flashMessages;
   model(params) {
     this.set('extentId', params.extent_id);
 

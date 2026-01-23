@@ -6,6 +6,7 @@ import { inject as service } from '@ember/service';
 
 export default class IdRoute extends Route {
   @service store;
+  @service flashMessages;
   async model(params) {
     let record = this.store.peekRecord('dictionary', params.dictionary_id);
 

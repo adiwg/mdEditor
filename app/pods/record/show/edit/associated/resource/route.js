@@ -1,9 +1,11 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
 import { get } from '@ember/object';
 
 export default class ResourceRoute extends Route {
+  @service flashMessages;
   get breadCrumb() {
     return {
       title: this.resourceId,

@@ -1,8 +1,10 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import { isArray } from '@ember/array';
 import { isEmpty } from '@ember/utils';
 
 export default class EditRoute extends Route {
+  @service flashMessages;
   model(params) {
     this.set('entityId', params.entity_id);
 

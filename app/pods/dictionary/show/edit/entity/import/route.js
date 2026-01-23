@@ -1,11 +1,13 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { max, min, equal, not, gt } from '@ember/object/computed';
 import { typeOf, isPresent, isBlank } from '@ember/utils';
 import EmberObject, { get, set, computed } from '@ember/object';
 import uuidV4 from 'uuid/v4';
 
 export default class ImportRoute extends Route {
+  @service flashMessages;
   setupController(controller, model) {
     // Call super for default behavior
     super.setupController(controller, model);

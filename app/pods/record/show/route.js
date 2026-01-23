@@ -5,6 +5,7 @@ import { copy } from 'ember-copy';
 
 export default class ShowRoute extends Route {
   @service store;
+  @service flashMessages;
   //breadCrumb: {},
   afterModel(model) {
     const name = model.get('title');

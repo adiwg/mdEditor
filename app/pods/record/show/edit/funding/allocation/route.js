@@ -1,4 +1,5 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import {
   isEmpty
 } from '@ember/utils';
@@ -10,6 +11,7 @@ import {
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default class AllocationRoute extends Route.extend(ScrollTo) {
+  @service flashMessages;
   get breadCrumb() {
     return {
       title: 'Allocation ' + this.allocationId,
