@@ -2,7 +2,7 @@
 
 <div class='md-message-container'>
   <div class='md-message-wrapper'>
-    {{#each flashMessages.queue as |flash|}}
+    {{#each this.flashMessages.queue as |flash|}}
       <FlashMessage @flash={{flash}} as |component flash|>
         {{flash.message}}
         {{#if flash.showProgress}}
@@ -33,10 +33,10 @@
 
   {{! Slider }}
   <Layout::MdSlider
-    @visible={{slider.showSlider}}
-    @fromName={{slider.fromName}}
-    @onClose={{slider.onClose}}
-    @context={{slider.context}}
+    @visible={{this.slider.showSlider}}
+    @fromName={{this.slider.fromName}}
+    @onClose={{this.slider.onClose}}
+    @context={{this.slider.context}}
   />
   {{! /#slider }}
 
@@ -84,7 +84,7 @@
     <span class='text-info'><Control::MdRepoLink /></span>
   </p>
 </Control::MdModal>
-{{#if spotlight.show}}
+{{#if this.spotlight.show}}
   <Control::MdSpotlight />
 {{/if}}
 
