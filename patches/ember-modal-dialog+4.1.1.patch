@@ -1,0 +1,95 @@
+diff --git a/node_modules/ember-modal-dialog/addon/components/basic-dialog.js b/node_modules/ember-modal-dialog/addon/components/basic-dialog.js
+index af975ae..b2d451c 100644
+--- a/node_modules/ember-modal-dialog/addon/components/basic-dialog.js
++++ b/node_modules/ember-modal-dialog/addon/components/basic-dialog.js
+@@ -1,3 +1,4 @@
++const classic = window.__EMBER_CLASSIC_DECORATOR || (x => x);
+ import { tagName, layout as templateLayout } from '@ember-decorators/component';
+ import { computed, set } from '@ember/object';
+ import { inject as service } from '@ember/service';
+@@ -6,6 +7,7 @@ import { isEmpty } from '@ember/utils';
+ import layout from '../templates/components/basic-dialog';
+ import { dasherize } from '@ember/string';
+ 
++@classic
+ @tagName('')
+ @templateLayout(layout)
+ export default class BasicDialog extends Component {
+diff --git a/node_modules/ember-modal-dialog/addon/components/in-place-dialog.js b/node_modules/ember-modal-dialog/addon/components/in-place-dialog.js
+index e62f0f1..bcca6a7 100644
+--- a/node_modules/ember-modal-dialog/addon/components/in-place-dialog.js
++++ b/node_modules/ember-modal-dialog/addon/components/in-place-dialog.js
+@@ -1,7 +1,9 @@
++const classic = window.__EMBER_CLASSIC_DECORATOR || (x => x);
+ import { tagName, layout as templateLayout } from '@ember-decorators/component';
+ import Component from '@ember/component';
+ import layout from '../templates/components/in-place-dialog';
+ 
++@classic
+ @tagName('')
+ @templateLayout(layout)
+ export default class InPlaceDialog extends Component {
+diff --git a/node_modules/ember-modal-dialog/addon/components/liquid-dialog.js b/node_modules/ember-modal-dialog/addon/components/liquid-dialog.js
+index b25b86e..7f2b47f 100644
+--- a/node_modules/ember-modal-dialog/addon/components/liquid-dialog.js
++++ b/node_modules/ember-modal-dialog/addon/components/liquid-dialog.js
+@@ -1,7 +1,9 @@
++const classic = window.__EMBER_CLASSIC_DECORATOR || (x => x);
+ import { layout as templateLayout } from '@ember-decorators/component';
+ import BasicDialog from './basic-dialog';
+ import layout from '../templates/components/liquid-dialog';
+ 
++@classic
+ @templateLayout(layout)
+ export default class LiquidDialog extends BasicDialog {
+   hasOverlay = true;
+diff --git a/node_modules/ember-modal-dialog/addon/components/liquid-tether-dialog.js b/node_modules/ember-modal-dialog/addon/components/liquid-tether-dialog.js
+index 502abe8..3ca2427 100644
+--- a/node_modules/ember-modal-dialog/addon/components/liquid-tether-dialog.js
++++ b/node_modules/ember-modal-dialog/addon/components/liquid-tether-dialog.js
+@@ -1,10 +1,12 @@
+ /* eslint-disable ember/no-computed-properties-in-native-classes */
++const classic = window.__EMBER_CLASSIC_DECORATOR || (x => x);
+ import { layout as templateLayout } from '@ember-decorators/component';
+ import { computed, set } from '@ember/object';
+ import { dasherize } from '@ember/string';
+ import BasicDialog from './basic-dialog';
+ import layout from '../templates/components/liquid-tether-dialog';
+ 
++@classic
+ @templateLayout(layout)
+ export default class LiquidTetherDialog extends BasicDialog {
+   @computed('targetAttachment')
+diff --git a/node_modules/ember-modal-dialog/addon/components/modal-dialog.js b/node_modules/ember-modal-dialog/addon/components/modal-dialog.js
+index 7d0ef80..de4c792 100644
+--- a/node_modules/ember-modal-dialog/addon/components/modal-dialog.js
++++ b/node_modules/ember-modal-dialog/addon/components/modal-dialog.js
+@@ -1,3 +1,4 @@
++const classic = window.__EMBER_CLASSIC_DECORATOR || (x => x);
+ import { tagName, layout as templateLayout } from '@ember-decorators/component';
+ import { action, computed, set } from '@ember/object';
+ import { inject as service } from '@ember/service';
+@@ -13,6 +14,7 @@ import { ensureSafeComponent } from '@embroider/util';
+ 
+ const VALID_OVERLAY_POSITIONS = ['parent', 'sibling'];
+ 
++@classic
+ @tagName('')
+ @templateLayout(layout)
+ export default class ModalDialog extends Component {
+diff --git a/node_modules/ember-modal-dialog/addon/components/tether-dialog.js b/node_modules/ember-modal-dialog/addon/components/tether-dialog.js
+index 7744e78..7e74ecf 100644
+--- a/node_modules/ember-modal-dialog/addon/components/tether-dialog.js
++++ b/node_modules/ember-modal-dialog/addon/components/tether-dialog.js
+@@ -1,9 +1,11 @@
++const classic = window.__EMBER_CLASSIC_DECORATOR || (x => x);
+ import { layout as templateLayout } from '@ember-decorators/component';
+ import { computed, set } from '@ember/object';
+ import { dasherize } from '@ember/string';
+ import BasicDialog from './basic-dialog';
+ import layout from '../templates/components/tether-dialog';
+ 
++@classic
+ @templateLayout(layout)
+ export default class TetherDialog extends BasicDialog {
+   init() {
