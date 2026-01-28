@@ -3,8 +3,11 @@ import { action } from '@ember/object';
 import EmberObject, { get, set } from '@ember/object';
 import { A } from '@ember/array';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
+import { inject as service } from '@ember/service';
 
 export default class IndexRoute extends Route.extend(ScrollTo) {
+  @service router;
+
   afterModel(m) {
     this._super(...arguments);
 
@@ -20,7 +23,7 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
 
   @action
   editAllocation(id) {
-    this.transitionTo('record.show.edit.funding.allocation', id);
+    this.router.transitionTo('record.show.edit.funding.allocation', id);
   }
 
   @action
@@ -32,7 +35,7 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
 
     funding.pushObject(allocation);
     this.setScrollTo(`funding-period-${funding.length - 1}`);
-    this.transitionTo(
+    this.router.transitionTo(
       'record.show.edit.funding.allocation',
       funding.length - 1
     );

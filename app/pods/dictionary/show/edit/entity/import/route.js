@@ -8,6 +8,7 @@ import uuidV4 from 'uuid/v4';
 
 export default class ImportRoute extends Route {
   @service flashMessages;
+  @service router;
   setupController(controller, model) {
     // Call super for default behavior
     super.setupController(controller, model);
@@ -128,7 +129,7 @@ export default class ImportRoute extends Route {
 
   @action
   goToEntity() {
-    this.transitionTo('dictionary.show.edit.entity');
+    this.router.transitionTo('dictionary.show.edit.entity');
   }
 
   @action
@@ -151,7 +152,7 @@ export default class ImportRoute extends Route {
     set(entity, 'attribute', data.attributes);
     get(dataDictionary, 'entity').push(entity);
 
-    this.transitionTo(
+    this.router.transitionTo(
       'dictionary.show.edit.entity.edit',
       get(dataDictionary, 'entity.length') - 1
     );

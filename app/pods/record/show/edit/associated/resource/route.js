@@ -6,6 +6,7 @@ import { get } from '@ember/object';
 
 export default class ResourceRoute extends Route {
   @service flashMessages;
+  @service router;
   get breadCrumb() {
     return {
       title: this.resourceId,
@@ -43,7 +44,7 @@ export default class ResourceRoute extends Route {
       this.flashMessages
         .warning(
           'No Associated Resource object found! Re-directing to list...');
-      this.replaceWith('record.show.edit.associated');
+      this.router.replaceWith('record.show.edit.associated');
 
       return;
     }

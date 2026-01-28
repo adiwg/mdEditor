@@ -12,8 +12,8 @@
     <label class="col-sm-3 co-xxl-2 control-label">Auto Save</label>
     <div class="col-sm-2">
       {{x-toggle
-      value=model.autoSave
-      onToggle=(action (mut model.autoSave))
+      value=this.model.autoSave
+      onToggle=(action (mut this.model.autoSave))
       showLabels=true
       onLabel="On"
       offLabel="Off"
@@ -26,8 +26,8 @@
     <label class="col-sm-3 co-xxl-2 control-label">Copy in Edit Mode</label>
     <div class="col-sm-2">
       {{x-toggle
-      value=model.showCopy
-      onToggle=(action (mut model.showCopy))
+      value=this.model.showCopy
+      onToggle=(action (mut this.model.showCopy))
       showLabels=true
       onLabel="On"
       offLabel="Off"
@@ -42,8 +42,8 @@
       <label class="col-sm-3 co-xxl-2 control-label">Delete in Edit Mode</label>
       <div class="col-sm-2">
         {{x-toggle
-        value=model.showDelete
-        onToggle=(action (mut model.showDelete))
+        value=this.model.showDelete
+        onToggle=(action (mut this.model.showDelete))
         showLabels=true
         onLabel="On"
         offLabel="Off"
@@ -60,7 +60,7 @@
         class="btn btn-sm btn-danger"
         icon="times"
         text="Clear Storage Cache"
-        click=(action (mut showStorageModal) true)
+        click=(action (mut this.showStorageModal) true)
         }}
         {{control/md-modal
         message="<h4 class=\"text-danger\"><span class=\"fa fa-exclamation-circle\"></span> <strong>Are you
@@ -72,11 +72,11 @@
         showConfirm=true
         confirmLabel="Confirm"
         confirmType="danger"
-        isShowing=showStorageModal
+        isShowing=this.showStorageModal
         }}
         <div class="form-group-inline">
           <span>Keep Settings?</span>
-          {{input type="checkbox" checked=model.keepSettings}}
+          {{input type="checkbox" checked=this.model.keepSettings}}
         </div>
       </div>
     </div>
@@ -91,11 +91,11 @@ shadow=true
 <div class="form-group">
   <div class="col-md-4">
     {{input/md-codelist
-    value=model.language
+    value=this.model.language
     create=true
     tooltip=true
     icon=false
-    disabled=disabled
+    disabled=this.disabled
     mdCodeName="language"
     label="Language"
     showValidations=true
@@ -104,11 +104,11 @@ shadow=true
   </div>
   <div class="col-md-4">
     {{input/md-codelist
-    value=model.characterSet
+    value=this.model.characterSet
     create=false
     tooltip=true
     icon=false
-    disabled=disabled
+    disabled=this.disabled
     mdCodeName="characterSet"
     label="Character Set"
     showValidations=true
@@ -117,11 +117,11 @@ shadow=true
   </div>
   <div class="col-md-4">
     {{input/md-codelist
-    value=model.country
+    value=this.model.country
     create=false
     tooltip=true
     icon=false
-    disabled=disabled
+    disabled=this.disabled
     mdCodeName="countries"
     label="Country"
     placeholder="Select country code."
@@ -132,7 +132,7 @@ shadow=true
     {{input/md-input
     label="Import URL"
     type="url"
-    value=model.importUriBase
+    value=this.model.importUriBase
     placeholder="Text string used as the default URL for importing."
     }}
   </div>
@@ -141,7 +141,7 @@ shadow=true
     {{input/md-input
       label="mdTranslator API URL"
       type="url"
-      value=model.mdTranslatorAPI
+      value=this.model.mdTranslatorAPI
       placeholder="URL for the ADIwg Metadata Translator."
     }}
   </div>
@@ -151,7 +151,7 @@ shadow=true
     <div class="input-group">
       {{input/md-input
       type="url"
-      value=model.itisProxyUrl
+      value=this.model.itisProxyUrl
       placeholder="URL for the ITIS Proxy."
       }}
       <span class="input-group-btn">
@@ -167,10 +167,10 @@ shadow=true
 <hr>
 {{#object/md-array-table
 columns="Repository, Collection Title"
-value=model.repositoryDefaults
+value=this.model.repositoryDefaults
 plain=true
 title="Metadata Repository"
-templateClass=settings.repositoryTemplate
+templateClass=this.settings.repositoryTemplate
 onChange=(route-action "save")
 data-spy="Metadata Repository" as |meta|
 }}
@@ -200,7 +200,7 @@ data-spy="Metadata Repository" as |meta|
 {{#layout/md-card title="Date Settings" data-spy="Dates"}}
 <div class="col-md-4">
   {{input/md-month
-  date=model.fiscalStartMonth
+  date=this.model.fiscalStartMonth
   format="MMMM"
   altFormat="MM"
   label="Start Month of Fiscal Year"
@@ -225,4 +225,4 @@ class="md-embedded"
 {{outlet}}
 
 {{to-elsewhere named="md-scroll-spy-settings"
-send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+send=(component "control/md-scroll-spy" scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo"))}}

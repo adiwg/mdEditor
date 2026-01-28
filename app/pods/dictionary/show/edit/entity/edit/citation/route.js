@@ -10,6 +10,7 @@ import {
 
 export default class CitationRoute extends Route {
   @service flashMessages;
+  @service router;
   init() {
     this._super(...arguments);
 
@@ -49,7 +50,7 @@ export default class CitationRoute extends Route {
     if(isEmpty(citation)) {
       this.flashMessages
         .warning('No Entity Reference found! Re-directing...');
-      this.replaceWith('dictionary.show.edit.entity.edit');
+      this.router.replaceWith('dictionary.show.edit.entity.edit');
 
       return;
     }
@@ -57,7 +58,7 @@ export default class CitationRoute extends Route {
     return citation;
   }
     backToEntity() {
-      this.transitionTo('dictionary.show.edit.entity.edit',
+      this.router.transitionTo('dictionary.show.edit.entity.edit',
         this.entityId);
     }
 }

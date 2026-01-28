@@ -1,9 +1,7 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 
+@classic
 export default class BodyComponent extends Component {
-  constructor() {
-    super(...arguments);
-
-    this.profilePath = this.profilePath || 'preview';
-  }
+  profilePath = 'preview';
 }

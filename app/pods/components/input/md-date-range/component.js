@@ -5,6 +5,7 @@
 
 import { notEmpty, alias } from '@ember/object/computed';
 
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import { set, observer } from '@ember/object';
 import { once } from '@ember/runloop';
@@ -33,6 +34,7 @@ const Validations = buildValidations({
   ],
 });
 
+@classic
 export default class MdDateRangeComponent extends Component.extend(Validations) {
   /**
    * Date range with start date and end date fields.

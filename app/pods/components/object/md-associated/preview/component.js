@@ -1,6 +1,8 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 
+@classic
 export default class PreviewComponent extends Component {
   constructor() {
     super(...arguments);

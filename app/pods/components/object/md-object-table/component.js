@@ -309,6 +309,9 @@ export default class MdObjectTableComponent extends Component {
 
   editing = false;
 
+  // Can be overridden by passed-in action
+  editItem = null;
+
   get pillColor() {
     let count = this.items?.length || 0;
 
@@ -358,7 +361,14 @@ export default class MdObjectTableComponent extends Component {
   }
 
   @action
-  editItem(items, index) {
+  doEditItem(items, index, scrollTo) {
+    // If editItem is a passed-in action, call it
+    if (this.editItem && typeof this.editItem === 'function') {
+      this.editItem(index, this.routeParams, scrollTo);
+      return;
+    }
+
+    // Default behavior
     const spotlight = this.spotlight;
 
     this.saveItem = items.objectAt(index);

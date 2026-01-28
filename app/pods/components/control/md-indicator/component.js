@@ -141,8 +141,8 @@ export default class MdIndicatorComponent extends Component {
     }, {});
   }
 
-  constructor() {
-    super(...arguments);
+  init() {
+    super.init(...arguments);
 
     const options = this.options;
 

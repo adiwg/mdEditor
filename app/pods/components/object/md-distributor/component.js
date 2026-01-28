@@ -1,9 +1,7 @@
 import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import { set } from '@ember/object';
 import { once } from '@ember/runloop';
-import { action } from '@ember/object';
 import {
   validator,
   buildValidations
@@ -26,6 +24,9 @@ const Validations = buildValidations({
 @classic
 export default class MdDistributorComponent extends Component.extend(Validations) {
   tagName = 'form';
+
+  // Passed-in action
+  editTransferOption = null;
 
   /**
    * The string representing the path in the profile object for the resource.
@@ -74,10 +75,5 @@ export default class MdDistributorComponent extends Component.extend(Validations
       model.orderProcess = A(model.orderProcess ?? [{}]);
       model.transferOption = A(model.transferOption ?? [{}]);
     });
-  }
-
-  @action
-  editTransferOption(index){
-    this.editTransferOption(index);
   }
 }

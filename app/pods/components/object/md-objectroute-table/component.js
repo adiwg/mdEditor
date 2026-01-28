@@ -40,15 +40,6 @@ export default Table.extend({
    */
   editOnAdd: true,
 
-  /**
-   * Method used to load form for editing item. Should be overidden.
-   *
-   * @method editItem
-   */
-  editItem() {
-    return this;
-  },
-
   editBtnText: 'More...',
   layoutName: 'components/object/md-object-table',
 
@@ -76,8 +67,10 @@ export default Table.extend({
       }
     },
 
-    editItem: function (items, index, scrollTo) {
-      this.editItem(index, this.routeParams, scrollTo);
+    doEditItem: function (items, index, scrollTo) {
+      if (this.editItem && typeof this.editItem === 'function') {
+        this.editItem(index, this.routeParams, scrollTo);
+      }
     }
   }
 });

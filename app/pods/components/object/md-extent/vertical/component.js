@@ -1,6 +1,8 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import { once } from '@ember/runloop';
 
+@classic
 export default class VerticalComponent extends Component {
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);

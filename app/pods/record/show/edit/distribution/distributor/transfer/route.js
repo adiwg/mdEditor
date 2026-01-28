@@ -7,6 +7,7 @@ import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default class TransferRoute extends Route.extend(ScrollTo) {
   @service flashMessages;
+  @service router;
   // breadCrumb: computed('controller.distributorId', function () {
   //   return {
   //     title: `Distributor ${this.controller.distributorId}`
@@ -56,7 +57,7 @@ export default class TransferRoute extends Route.extend(ScrollTo) {
         .warning(
           'No Transfer Option object found! Re-directing to Distribution...'
           );
-      this.replaceWith('record.show.edit.distribution');
+      this.router.replaceWith('record.show.edit.distribution');
 
       return;
     }
@@ -66,7 +67,7 @@ export default class TransferRoute extends Route.extend(ScrollTo) {
         .warning(
           'No Transfer Option object found! Re-directing to Distributor...'
           );
-      this.replaceWith('record.show.edit.distribution.distributor');
+      this.router.replaceWith('record.show.edit.distribution.distributor');
 
       return;
     }
@@ -82,7 +83,7 @@ export default class TransferRoute extends Route.extend(ScrollTo) {
         .distributor[this.controller.distributorId].transferOption;
 
       model.removeAt(id || parseInt(this.transferId, 0));
-      this.transitionTo('record.show.edit.distribution.distributor', {
+      this.router.transitionTo('record.show.edit.distribution.distributor', {
         queryParams: {
           scrollTo: 'transfer-options'
         }
@@ -91,6 +92,6 @@ export default class TransferRoute extends Route.extend(ScrollTo) {
 
   @action
   backToDistributor() {
-    this.transitionTo('record.show.edit.distribution.distributor');
+    this.router.transitionTo('record.show.edit.distribution.distributor');
   }
 }

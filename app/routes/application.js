@@ -123,9 +123,7 @@ export default class ApplicationRoute extends Route {
   setupController(controller, model) {
     // Call super for default behavior
     super.setupController(controller, model);
-    // Implement your custom setup after
-    controller.set('spotlight', this.spotlight);
-    controller.set('slider', this.slider);
+    // Services are now injected directly in the controller
   }
 
   /**
@@ -149,6 +147,6 @@ export default class ApplicationRoute extends Route {
 
   @action
   didTransition() {
-    this.controller.set('currentRoute', this.router.get('currentRouteName'));
+    // currentRoute is now a getter on the controller that reads from router.currentRouteName
   }
 }

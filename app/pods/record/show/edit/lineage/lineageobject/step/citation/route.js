@@ -7,6 +7,7 @@ import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default class CitationRoute extends Route.extend(ScrollTo) {
   @service flashMessages;
+  @service router;
   model(params) {
     this.set('citationId', params.citation_id);
     this.set('stepId', this.paramsFor(
@@ -42,7 +43,7 @@ export default class CitationRoute extends Route.extend(ScrollTo) {
     if(isEmpty(citation)) {
       this.flashMessages
         .warning('No citation found! Re-directing...');
-      this.replaceWith('record.show.edit.lineage.lineageobject.step');
+      this.router.replaceWith('record.show.edit.lineage.lineageobject.step');
 
       return;
     }
@@ -57,6 +58,6 @@ export default class CitationRoute extends Route.extend(ScrollTo) {
 
   @action
   goBack() {
-    this.transitionTo('record.show.edit.lineage.lineageobject.step');
+    this.router.transitionTo('record.show.edit.lineage.lineageobject.step');
   }
 }

@@ -1,9 +1,9 @@
-{{#with model.json.metadata.metadataInfo as |metadata|}}
+{{#with this.model.json.metadata.metadataInfo as |metadata|}}
 <div class="row">
   <form class="col-xxl-11 col-xxxl-10 col-xxl-offset-1">
     <h4 class="section-header">
       Editing Metadata Information
-      {{control/md-status model=model}}
+      {{control/md-status model=this.model}}
     </h4>
     {{#layout/md-card title="Basic Information" collapsible=true collapsed=false
       profilePath="record.metadata.basicInformation" data-spy="Basic Information"
@@ -41,7 +41,7 @@
       profilePath="record.metadata.metadataContacts"
     }}
 
-    {{#with model.json.metadata.metadataInfo.metadataIdentifier as |identifier|}}
+    {{#with this.model.json.metadata.metadataInfo.metadataIdentifier as |identifier|}}
       {{#layout/md-card title="Metadata Identifier" collapsible=true collapsed=false
         profilePath="record.metadata.metadataIdentifier" required=false
         btnText="Edit" btnClass="success" btnAction=(route-action "editIdentifier") btnIcon="pencil"
@@ -67,7 +67,7 @@
     }}
 
     {{object/md-repository-array
-      value=model.json.metadataRepository
+      value=this.model.json.metadataRepository
       data-spy="Metadata Repository"
       profilePath="record.metadata.repositories"
     }}
@@ -117,4 +117,4 @@
 {{/with}}
 
 {{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+  send=(component "control/md-scroll-spy"  scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo"))}}

@@ -1,14 +1,12 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import { action } from '@ember/object';
-import EmberObject from '@ember/object';
-import { scheduleOnce, once } from '@ember/runloop';
+import { action, get } from '@ember/object';
+import { once } from '@ember/runloop';
 import { getOwner } from '@ember/application';
-import { get } from '@ember/object';
 
 export default class EditRoute extends Route {
-  init() {
-    this._super(...arguments);
+  constructor() {
+    super(...arguments);
 
     this.breadCrumb = {
       title: 'Edit',
@@ -26,17 +24,23 @@ export default class EditRoute extends Route {
    */
   @service('custom-profile') profile;
 
+  model() {
+    return this.modelFor('record.show');
+  }
+
   /**
    * The route activate hook, sets the profile.
    */
   afterModel(model) {
-    this._super(...arguments);
+    super.afterModel(...arguments);
 
-    this.profile.set('active', model.get('profile'));
-    this.hashPoll.startPolling(model);
+    if (model) {
+      this.profile.set('active', model.get('profile'));
+      this.hashPoll.startPolling(model);
+    }
   }
   deactivate() {
-    this._super(...arguments);
+    super.deactivate(...arguments);
     this.hashPoll.stopPolling();
   }
   doCancel() {

@@ -5,6 +5,7 @@ import { isArray, A } from '@ember/array';
 
 export default class DistributorRoute extends Route {
   @service flashMessages;
+  @service router;
   model(params) {
     this.set('distributionId', params.distribution_id);
     this.set('distributorId', params.distributor_id);
@@ -48,7 +49,7 @@ export default class DistributorRoute extends Route {
     if(isEmpty(distributor)) {
       this.flashMessages
         .warning('No Distributor object found! Re-directing to Distribution List...');
-      this.replaceWith('record.show.edit.distribution');
+      this.router.replaceWith('record.show.edit.distribution');
 
       return;
     }

@@ -24,7 +24,6 @@ import {
 // import Resolver from './resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';
-
 let events = {
   // add support for the blur event
   blur: 'blur'
@@ -58,32 +57,26 @@ Component.reopen({
     let profile = this.profile;
     let path = this.profilePath;
     let visibility = this.visibility;
-    let isVisible = isNone(visibility) ? true : visibility;
+    let defaultVisible = isNone(visibility) ? true : visibility;
 
     if(path !== undefined) {
       assert(`${path} is not a profile path!`, path.charAt(0) !== '.');
 
-      // generate profile definition
-      // path.split('.').reduce((acc, curr, idx) => {
-      //   let pp = idx ? `${acc}.${curr}` : curr;
-      //   window.console.log(pp);
-      //   if(!get(window.mdProfile, pp)) {
-      //     set(window.mdProfile, pp, {
-      //       //visible: true
-      //     });
-      //   }
-      //   return pp;
-      // }, '');
-
-      defineProperty(this, 'isVisible', computed(
+      defineProperty(this, '_profileHidden', computed(
         'profile.active',
         function () {
-          if(!profile.activeComponents) {
-            return isVisible;
+          if(!profile || !profile.activeComponents) {
+            return !defaultVisible;
           }
 
-          return get(profile.activeComponents, path) ?? isVisible;
+          let visible = get(profile.activeComponents, path) ?? defaultVisible;
+          return !visible;
         }));
+
+      // Only add classNameBindings for components with a wrapper element
+      if(this.tagName !== '') {
+        this.classNameBindings = [...(this.classNameBindings || []), '_profileHidden:md-profile-hidden'];
+      }
     }
   }
 });

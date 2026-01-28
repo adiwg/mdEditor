@@ -1,6 +1,5 @@
-import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import { set } from '@ember/object';
+import Component from '@ember/component';
 import { once } from '@ember/runloop';
 
 const formatCitation = function(model) {
@@ -17,7 +16,8 @@ const formatCitation = function(model) {
   return model;
 };
 
-const theComp = class MdCitationComponent extends Component {
+@classic
+class MdCitationComponent extends Component {
   /**
    * mdEditor class for input and edit of mdJSON 'citation' objects.
    *
@@ -36,6 +36,9 @@ const theComp = class MdCitationComponent extends Component {
    */
 
   tagName = 'form';
+
+  // Passed-in action
+  editIdentifier = null;
 
   /**
    * The string representing the path in the profile object for the citation.
@@ -94,6 +97,5 @@ const theComp = class MdCitationComponent extends Component {
 
 export {
   formatCitation,
-  theComp as
-  default
+  MdCitationComponent as default
 };

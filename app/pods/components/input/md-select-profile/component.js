@@ -1,8 +1,10 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import calculatePosition from 'ember-basic-dropdown/utils/calculate-position'
 
+@classic
 export default class MdSelectProfileComponent extends Component {
   /**
   * Input that displays available record profiles.

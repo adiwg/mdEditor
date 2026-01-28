@@ -1,8 +1,11 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { get, set } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 export default class IndexRoute extends Route {
+  @service router;
+
   afterModel(m) {
     this._super(...arguments);
 
@@ -19,6 +22,6 @@ export default class IndexRoute extends Route {
     );
   }
   editDomain(id) {
-    this.transitionTo('dictionary.show.edit.domain.edit', id);
+    this.router.transitionTo('dictionary.show.edit.domain.edit', id);
   }
 }

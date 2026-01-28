@@ -6,6 +6,7 @@ import { get } from '@ember/object';
 
 export default class CitationRoute extends Route {
   @service flashMessages;
+  @service router;
   get breadCrumb() {
     return {
       title: this.citationId,
@@ -43,7 +44,7 @@ export default class CitationRoute extends Route {
     if(isEmpty(resource)) {
       this.flashMessages
         .warning('No Document object found! Re-directing to list...');
-      this.replaceWith('record.show.edit.documents');
+      this.router.replaceWith('record.show.edit.documents');
 
       return;
     }

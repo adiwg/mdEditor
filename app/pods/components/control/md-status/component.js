@@ -23,6 +23,7 @@ export default class MdStatusComponent extends Component {
   hideSlider = false;
   btnSize = 'sm';
 
+  @action
   showSlider() {
     let slider = this.slider;
 
@@ -30,29 +31,18 @@ export default class MdStatusComponent extends Component {
     slider.toggleSlider(true);
   }
 
+  @action
   saveRecord(evt) {
     let model = this.model;
 
-    evt.stopPropagation();
+    if (evt) {
+      evt.stopPropagation();
+    }
     model.updateTimestamp();
     model.save()
       .then(() => {
         this.flashMessages
           .success(`Saved Record: ${model.get('title')}`);
       });
-  }
-
-  actions = {
-    showSlider() {
-      this.showSlider();
-    },
-
-    showSliderAction(evt) {
-      this.showSlider(evt);
-    },
-
-    saveRecord(evt) {
-      this.saveRecord(evt);
-    }
   }
 }

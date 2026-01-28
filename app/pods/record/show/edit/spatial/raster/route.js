@@ -6,6 +6,7 @@ import { isArray } from '@ember/array';
 
 export default class RasterRoute extends Route {
   @service flashMessages;
+  @service router;
   model(params) {
     this.set('rasterId', params.raster_id);
 
@@ -43,14 +44,16 @@ export default class RasterRoute extends Route {
     if(isEmpty(raster)) {
       this.flashMessages
         .warning('No Raster Description found! Re-directing...');
-      this.replaceWith('record.show.edit.spatial');
+      this.router.replaceWith('record.show.edit.spatial');
 
       return;
     }
 
     return raster;
   }
-    parentModel() {
-      return this.modelFor('record.show.edit');
-    }
+
+  @action
+  parentModel() {
+    return this.modelFor('record.show.edit');
+  }
 }

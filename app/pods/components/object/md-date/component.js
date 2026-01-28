@@ -73,8 +73,8 @@ export default class MdDateComponent extends Component.extend(Validations) {
     }
   }
 
-  constructor() {
-    super(...arguments);
+  init() {
+    super.init(...arguments);
 
     this.precisionOptions = [
       { value: 'Year', name: 'Year' },

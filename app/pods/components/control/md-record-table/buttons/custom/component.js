@@ -1,3 +1,4 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 
 /**
@@ -13,6 +14,7 @@ import Component from '@ember/component';
  * @property column.buttonConfig.action - Action to run on button click
  * @param {Object} record The row record
  */
+@classic
 export default class CustomComponent extends Component {
   action() {}
 }

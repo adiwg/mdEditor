@@ -1,9 +1,29 @@
-{{#with model.json.metadata.resourceInfo as |resource|}}
+{{!-- Debug: Check what's available --}}
+{{#unless this.model}}
+  <div class="alert alert-danger">DEBUG: this.model is not available</div>
+{{/unless}}
+{{#if this.model}}
+  {{#unless this.model.json}}
+    <div class="alert alert-warning">DEBUG: this.model.json is not available</div>
+  {{/unless}}
+  {{#if this.model.json}}
+    {{#unless this.model.json.metadata}}
+      <div class="alert alert-warning">DEBUG: this.model.json.metadata is not available</div>
+    {{/unless}}
+    {{#if this.model.json.metadata}}
+      {{#unless this.model.json.metadata.resourceInfo}}
+        <div class="alert alert-warning">DEBUG: this.model.json.metadata.resourceInfo is not available</div>
+      {{/unless}}
+    {{/if}}
+  {{/if}}
+{{/if}}
+
+{{#with this.model.json.metadata.resourceInfo as |resource|}}
 <div class="row">
     <form class="col-xxl-11 col-xxxl-10 col-xxl-offset-1">
       <h4 class="section-header">
-        Editing <em>{{model.title}}</em>
-        {{control/md-status model=model}}
+        Editing <em>{{this.model.title}}</em>
+        {{control/md-status model=this.model}}
       </h4>
       {{#layout/md-card title="Basic Information" collapsible=true collapsed=false
         profilePath="record.main.basicInformation" data-spy="Basic Information"
@@ -18,7 +38,7 @@
           <div class="input-group input-group-md">
             {{input/md-input
               valuePath="recordId"
-              model=model
+              model=this.model
               placeholder="Assigned Record ID"
               disabled=true
             }}
@@ -33,7 +53,7 @@
         {{/layout/md-wrap}}
 
         {{input/md-input
-          value=model.title
+          value=this.model.title
           placeholder="Enter the title for the resource."
           label="Title"
           required=true
@@ -98,7 +118,7 @@
           value=resource.pointOfContact
           profilePath="record.main.pointOfContact"
           tipPath="json.metadata.resourceInfo.pointOfContact"
-          tipModel=model
+          tipModel=this.model
         }}
         {{/if}}
 
@@ -200,4 +220,4 @@
 {{/with}}
 
 {{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo") refresh=model.profile)}}
+  send=(component "control/md-scroll-spy"  scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo") refresh=this.model.profile)}}

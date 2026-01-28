@@ -5,6 +5,7 @@ import { isEmpty } from '@ember/utils';
 
 export default class EditRoute extends Route {
   @service flashMessages;
+  @service router;
   model(params) {
     this.set('entityId', params.entity_id);
 
@@ -40,7 +41,7 @@ export default class EditRoute extends Route {
     if(isEmpty(resource)) {
       this.flashMessages
         .warning('No Entity object found! Re-directing to list...');
-      this.replaceWith('dictionary.show.edit.entity');
+      this.router.replaceWith('dictionary.show.edit.entity');
 
       return;
     }

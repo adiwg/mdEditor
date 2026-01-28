@@ -5,6 +5,7 @@ import { isEmpty } from '@ember/utils';
 
 export default class EditRoute extends Route {
   @service flashMessages;
+  @service router;
   model(params) {
     this.set('domainId', params.domain_id);
 
@@ -40,7 +41,7 @@ export default class EditRoute extends Route {
     if(isEmpty(resource)) {
       this.flashMessages
         .warning('No Domain object found! Re-directing to list...');
-      this.replaceWith('dictionary.show.edit.domain');
+      this.router.replaceWith('dictionary.show.edit.domain');
 
       return;
     }

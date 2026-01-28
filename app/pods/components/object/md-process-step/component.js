@@ -24,10 +24,13 @@ export default class MdProcessStepComponent extends Component {
 
   tagName = 'form';
 
+  // Passed-in actions
+  editCitation = null;
+
   sourceTemplate = EmberObject.extend();
 
-  constructor() {
-    super(...arguments);
+  init() {
+    super.init(...arguments);
 
     let model = this.model;
 

@@ -182,8 +182,8 @@ export default class MdEntityComponent extends Component.extend(Validations) {
     * @required
     */
 
-  constructor() {
-    super(...arguments);
+  init() {
+    super.init(...arguments);
     assert(`You must supply a dictionary for ${this.toString()}.`, this.dictionary);
   }
 

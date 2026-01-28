@@ -1,13 +1,13 @@
 <h3 class="text-info">{{fa-icon "file-text"}} Metadata Records</h3>
-{{#if model.length}}
+{{#if this.model.length}}
   {{#layout/md-card
     collapsible=true
     collapsed=false
     shadow=true
   }}
     {{control/md-record-table
-      data=model
-      dataColumns=(compute (route-action "getColumns") section.meta.type)
+      data=this.model
+      dataColumns=(compute (route-action "getColumns") this.section.meta.type)
       allActions=true
       selectProperty="_selectedFromList"
       showSlider=(route-action "showSlider")

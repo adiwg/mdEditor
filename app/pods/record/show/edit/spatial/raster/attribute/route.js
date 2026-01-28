@@ -7,6 +7,7 @@ import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default class AttributeRoute extends Route.extend(ScrollTo) {
   @service flashMessages;
+  @service router;
   model(params) {
     let rparams = this.paramsFor('record.show.edit.spatial.raster');
 
@@ -58,7 +59,7 @@ export default class AttributeRoute extends Route.extend(ScrollTo) {
     if(isEmpty(attribute)) {
       this.flashMessages
         .warning('No Attributes found! Re-directing to Attribute Groups...');
-      this.replaceWith('record.show.edit.spatial.raster');
+      this.router.replaceWith('record.show.edit.spatial.raster');
 
       return;
     }
@@ -78,7 +79,7 @@ export default class AttributeRoute extends Route.extend(ScrollTo) {
         .attributeGroup[this.controller.attrGroupId].attribute;
 
       model.removeAt(id || parseInt(this.attributeId, 0));
-      this.transitionTo('record.show.edit.spatial.raster', {
+      this.router.transitionTo('record.show.edit.spatial.raster', {
         queryParams: {
           scrollTo: this.controller.attrGroupId
         }
@@ -87,6 +88,6 @@ export default class AttributeRoute extends Route.extend(ScrollTo) {
 
   @action
   backToAttrGroup() {
-    this.transitionTo('record.show.edit.spatial.raster');
+    this.router.transitionTo('record.show.edit.spatial.raster');
   }
 }

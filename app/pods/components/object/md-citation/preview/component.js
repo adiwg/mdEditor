@@ -1,6 +1,8 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import { action } from '@ember/object';
 
+@classic
 export default class PreviewComponent extends Component {
   /**
    * Title for the card
@@ -38,9 +40,12 @@ export default class PreviewComponent extends Component {
    * @required
    * @return {undefined}
    */
+  editCitation = null;
 
   @action
-  editCitation(scrollTo) {
-    this.editCitation(scrollTo);
+  handleEditCitation(scrollTo) {
+    if (this.editCitation) {
+      this.editCitation(scrollTo);
+    }
   }
 }

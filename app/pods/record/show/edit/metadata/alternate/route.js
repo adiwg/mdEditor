@@ -6,6 +6,7 @@ import { isArray } from '@ember/array';
 
 export default class AlternateRoute extends Route {
   @service flashMessages;
+  @service router;
   model(params) {
     this.set('citationId', params.citation_id);
 
@@ -34,7 +35,7 @@ export default class AlternateRoute extends Route {
     if(isEmpty(citation)) {
       this.flashMessages
         .warning('No citation found! Re-directing...');
-      this.replaceWith('record.show.edit.metadata');
+      this.router.replaceWith('record.show.edit.metadata');
 
       return;
     }

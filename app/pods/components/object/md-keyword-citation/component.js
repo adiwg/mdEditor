@@ -5,6 +5,7 @@
 import { alias } from '@ember/object/computed';
 
 import { isArray } from '@ember/array';
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import {
   regex
@@ -29,6 +30,7 @@ const Validations = buildValidations({
   })
 });
 
+@classic
 export default class MdKeywordCitationComponent extends Component.extend(Validations) {
   @alias('model.thesaurus.title') title;
 

@@ -6,6 +6,7 @@ import { isArray } from '@ember/array';
 
 export default class SourceRoute extends Route {
   @service flashMessages;
+  @service router;
   model(params) {
     this.set('sourceId', params.source_id);
     this.set('lineageId', this.paramsFor(
@@ -37,7 +38,7 @@ export default class SourceRoute extends Route {
     if(isEmpty(source)) {
       this.flashMessages
         .warning('No source found! Re-directing...');
-      this.replaceWith('record.show.edit.lineage.lineageobject');
+      this.router.replaceWith('record.show.edit.lineage.lineageobject');
 
       return;
     }

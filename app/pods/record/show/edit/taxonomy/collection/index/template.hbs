@@ -1,11 +1,11 @@
 <h4 class="section-header">
-  Editing Taxonomy Collection #{{collectionId}}
-  {{control/md-status model=parentModel}}
+  Editing Taxonomy Collection #{{this.collectionId}}
+  {{control/md-status model=this.parentModel}}
 </h4>
 
 {{object/md-taxonomy/collection
-  model=model
-  id=collectionId
+  model=this.model
+  id=this.collectionId
   profilePath="record.taxonomy.collection"
   editSystem=(route-action "editSystem")
 }}
@@ -39,16 +39,16 @@
 }}
 
 {{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+  send=(component "control/md-scroll-spy"  scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo"))}}
 
 
 {{#control/md-modal
-  isShowing=showItisModal
+  isShowing=this.showItisModal
   showConfirm=true
   confirmLabel="Go to Settings"
   showCancel=true
   confirm=(route-action "goToSettings")
-  cancel=(action (mut showItisModal) false)
+  cancel=(action (mut this.showItisModal) false)
 
 }}
 <div class='alert alert-info' role='alert'>{{fa-icon 'exclamation-triangle'}}

@@ -20,7 +20,9 @@ const Validations = buildValidations({
 });
 
 @classic
-export default class MdConstraintComponent extends Component.extend(Validations) {
+export default class MdConstraintComponent extends Component.extend(
+  Validations
+) {
   /**
    * The string representing the path in the profile object for the resource.
    *
@@ -67,8 +69,6 @@ export default class MdConstraintComponent extends Component.extend(Validations)
     super.didReceiveAttrs(...arguments);
 
     let model = this.model;
-
-    console.log('constraint model', model);
 
     once(this, function () {
       model.useLimitation = model.useLimitation ?? [];

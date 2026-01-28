@@ -1,13 +1,13 @@
 <h4 class="section-header">
   Editing Constraints
-  {{control/md-status model=model}}
+  {{control/md-status model=this.model}}
 </h4>
 {{#object/md-object-table
-  items=model.json.metadata.resourceInfo.constraint
+  items=this.model.json.metadata.resourceInfo.constraint
   collasped=false
   header="Constraints"
   buttonText="Add Constraint"
-  previewTemplate=previewTemplate
+  previewTemplate=this.previewTemplate
   addSubbar="md-subbar-extra"
   attributes="type" as |editing|
 }}

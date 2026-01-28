@@ -56,12 +56,15 @@ export default class EditRoute extends Route {
      *
      * @param  {String} profile The new profile.
      */
+    @action
     async saveDictionary() {
       const model = this.currentRouteModel();
       model.updateTimestamp();
       await model.save();
       this.flashMessages.success(`Saved Dictionary: ${model.get('title')}`);
     }
+
+    @action
     cancelDictionary() {
       let model = this.currentRouteModel();
       let message =

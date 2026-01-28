@@ -7,6 +7,7 @@ import { isEmpty } from '@ember/utils';
 
 export default class SpatialRoute extends Route {
   @service flashMessages;
+  @service router;
   model(params) {
     this.set('extentId', params.extent_id);
 
@@ -40,7 +41,7 @@ export default class SpatialRoute extends Route {
     if(isEmpty(extent)) {
       this.flashMessages
         .warning('No extent found! Re-directing to list...');
-      this.replaceWith('record.show.edit.extent');
+      this.router.replaceWith('record.show.edit.extent');
 
       return;
     }

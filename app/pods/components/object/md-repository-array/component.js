@@ -1,8 +1,10 @@
 import { inject as service } from '@ember/service';
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import EmberObject from '@ember/object';
 import { action } from '@ember/object';
 
+@classic
 export default class MdRepositoryArrayComponent extends Component {
   @service settings;
 

@@ -6,6 +6,7 @@ import { get } from '@ember/object';
 
 export default class LineageobjectRoute extends Route {
   @service flashMessages;
+  @service router;
   get breadCrumb() {
     return {
       title: this.lineageId,
@@ -41,7 +42,7 @@ export default class LineageobjectRoute extends Route {
     if(isEmpty(lineage)) {
       this.flashMessages
         .warning('No lineage object found! Re-directing to list...');
-      this.replaceWith('record.show.edit.lineage');
+      this.router.replaceWith('record.show.edit.lineage');
 
       return;
     }

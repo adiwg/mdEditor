@@ -2,7 +2,6 @@ import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { once } from '@ember/runloop';
 import { alias, notEmpty, not } from '@ember/object/computed';
-import { action } from '@ember/object';
 import {
   validator,
   buildValidations
@@ -71,6 +70,11 @@ export default class MdDistributionComponent extends Component.extend(Validation
   attributeBindings = ['data-spy'];
   tagName = 'section';
 
+  // Passed-in actions
+  editDistributor = null;
+  deleteDistribution = null;
+  addDistribution = null;
+
   @alias('model.distributor') distributor;
   @alias('model.description') description;
   @not('validations.attrs.distributor.options.array-required.disabled') distributorRequired;
@@ -81,20 +85,5 @@ export default class MdDistributionComponent extends Component.extend(Validation
     once(this, function() {
       this.model.distributor = this.model.distributor ?? [];
     });
-  }
-
-  @action
-  editDistributor(index){
-    this.editDistributor(index);
-  }
-
-  @action
-  deleteDistribution(index){
-    this.deleteDistribution(index);
-  }
-
-  @action
-  addDistribution(){
-    this.addDistribution();
   }
 }

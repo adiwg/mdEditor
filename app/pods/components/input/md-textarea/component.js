@@ -166,8 +166,8 @@ export default class MdTextareaComponent extends Component {
    */
   @and('placeholder', 'infotip') showInfotip;
 
-  constructor() {
-    super(...arguments);
+  init() {
+    super.init(...arguments);
 
     let model = this.model;
     let valuePath = this.valuePath;

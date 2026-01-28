@@ -6,6 +6,7 @@ import { copy } from 'ember-copy';
 export default class ShowRoute extends Route {
   @service store;
   @service flashMessages;
+  @service router;
 
   model(params) {
     return this.store.peekRecord('dictionary', params.dictionary_id);
@@ -19,20 +20,23 @@ export default class ShowRoute extends Route {
 
     this.set('breadCrumb', crumb);
   }
-    destroyDictionary() {
-      let model = this.currentRouteModel();
-      model
-        .destroyRecord()
-        .then(() => {
-          this.flashMessages
-            .success(`Deleted Dictionary: ${model.get('title')}`);
-          this.replaceWith('dictionaries');
-        });
-    }
-    copyDictionary() {
 
-      this.flashMessages
-        .success(`Copied Dictionary: ${this.currentRouteModel().get('title')}`);
-      this.transitionTo('dictionary.new.id', copy(this.currentRouteModel()));
-    }
+  @action
+  destroyDictionary() {
+    let model = this.currentRouteModel();
+    model
+      .destroyRecord()
+      .then(() => {
+        this.flashMessages
+          .success(`Deleted Dictionary: ${model.get('title')}`);
+        this.router.replaceWith('dictionaries');
+      });
+  }
+
+  @action
+  copyDictionary() {
+    this.flashMessages
+      .success(`Copied Dictionary: ${this.currentRouteModel().get('title')}`);
+    this.router.transitionTo('dictionary.new.id', copy(this.currentRouteModel()));
+  }
 }

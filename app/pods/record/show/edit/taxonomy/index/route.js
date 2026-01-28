@@ -2,8 +2,11 @@ import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import EmberObject, { get, set } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
+import { inject as service } from '@ember/service';
 
 export default class IndexRoute extends Route.extend(ScrollTo) {
+  @service router;
+
   afterModel(m) {
     this._super(...arguments);
 
@@ -20,7 +23,7 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
   @action
   editCollection(id) {
     this.setScrollTo(`collection-${id}`);
-    this.transitionTo('record.show.edit.taxonomy.collection.index', id);
+    this.router.transitionTo('record.show.edit.taxonomy.collection.index', id);
   }
 
   @action
@@ -34,7 +37,7 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
 
     taxa.pushObject(collection);
     this.setScrollTo(`collection-${taxa.length - 1}`);
-    this.transitionTo(
+    this.router.transitionTo(
       'record.show.edit.taxonomy.collection.index',
       taxa.length - 1
     );

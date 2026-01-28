@@ -7,6 +7,7 @@ import { inject as service } from '@ember/service';
 export default class IdRoute extends Route {
   @service store;
   @service flashMessages;
+  @service router;
   async model(params) {
     let record = this.store.peekRecord('dictionary', params.dictionary_id);
 
@@ -89,13 +90,13 @@ export default class IdRoute extends Route {
     this.currentRouteModel()
       .save()
       .then((model) => {
-        this.replaceWith('dictionary.show.edit', model);
+        this.router.replaceWith('dictionary.show.edit', model);
       });
   }
 
   @action
   cancelDictionary() {
-    this.replaceWith('dictionaries');
+    this.router.replaceWith('dictionaries');
     return false;
   }
 
@@ -105,7 +106,7 @@ export default class IdRoute extends Route {
       this.flashMessages
         .warning('No dictionary found! Re-directing to new record...');
       // redirect to new
-      this.replaceWith('dictionary.new');
+      this.router.replaceWith('dictionary.new');
     } else {
       // otherwise let the error bubble
       return true;

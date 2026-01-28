@@ -6,8 +6,13 @@ import { copy } from 'ember-copy';
 export default class ShowRoute extends Route {
   @service store;
   @service flashMessages;
+  @service router;
   //breadCrumb: {},
   afterModel(model) {
+    if (!model) {
+      return;
+    }
+
     const name = model.get('title');
 
     const crumb = {
@@ -17,7 +22,14 @@ export default class ShowRoute extends Route {
     this.set('breadCrumb', crumb);
   }
   model(params) {
-    return this.store.peekRecord('record', params.record_id);
+    let record = this.store.peekRecord('record', params.record_id);
+
+    if (record) {
+      return record;
+    }
+
+    // Fallback to findRecord if not in cache
+    return this.store.findRecord('record', params.record_id);
   }
 
   @action
@@ -28,7 +40,7 @@ export default class ShowRoute extends Route {
       .then(() => {
         this.flashMessages
           .success(`Deleted Record: ${model.get('title')}`);
-        this.replaceWith('records');
+        this.router.replaceWith('records');
       });
   }
 
@@ -37,6 +49,6 @@ export default class ShowRoute extends Route {
     this.flashMessages
       .success(
         `Copied Record: ${this.currentRouteModel().get('title')}`);
-    this.transitionTo('record.new.id', copy(this.currentRouteModel()));
+    this.router.transitionTo('record.new.id', copy(this.currentRouteModel()));
   }
 }

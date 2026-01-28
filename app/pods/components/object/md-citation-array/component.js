@@ -6,8 +6,8 @@ import classic from 'ember-classic-decorator';
 @classic
 export default class MdCitationArrayComponent extends Component {
 
-  constructor() {
-    super(...arguments);
+  init() {
+    super.init(...arguments);
 
     if(!this.model) {
       this.model = A();
@@ -27,6 +27,13 @@ export default class MdCitationArrayComponent extends Component {
    */
 
   attributeBindings = ['data-spy'];
+
+  /**
+   * Action to edit an item
+   * @property editItem
+   * @type Function
+   */
+  editItem = null;
 
   /**
    * mdJSON object containing the 'citation' array.

@@ -8,6 +8,7 @@ import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default class IdentifierRoute extends Route.extend(ScrollTo) {
   @service flashMessages;
+  @service router;
   model(params) {
     this.set('identifierId', params.identifier_id);
 
@@ -36,7 +37,7 @@ export default class IdentifierRoute extends Route.extend(ScrollTo) {
     if(isEmpty(identifier)) {
       this.flashMessages
         .warning('No identifier found! Re-directing to Citation...');
-      this.replaceWith('record.show.edit.lineage.lineageobject.citation');
+      this.router.replaceWith('record.show.edit.lineage.lineageobject.citation');
 
       return;
     }
@@ -46,6 +47,6 @@ export default class IdentifierRoute extends Route.extend(ScrollTo) {
 
   @action
   goBack() {
-    this.transitionTo('record.show.edit.lineage.lineageobject.citation');
+    this.router.transitionTo('record.show.edit.lineage.lineageobject.citation');
   }
 }

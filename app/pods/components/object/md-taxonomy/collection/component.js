@@ -46,6 +46,9 @@ const TemplateClass = EmberObject.extend(Validations, {
 });
 
 const theComp = Component.extend(Validations, {
+  // Passed-in action
+  editSystem: null,
+
   didReceiveAttrs() {
     this._super(...arguments);
 

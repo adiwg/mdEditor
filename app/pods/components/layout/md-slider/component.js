@@ -6,7 +6,9 @@ import { action } from '@ember/object';
 export default class MdSliderComponent extends Component {
   classNames = ['md-slider'];
   classNameBindings = ['visible:in'];
-  visible = false;
+
+  // visible is passed in as @visible from the parent
+  // fromName is passed in as @fromName from the parent
 
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
@@ -18,24 +20,13 @@ export default class MdSliderComponent extends Component {
     }
   }
 
-  fromName = null;
-
-  get name() {
-    return this.fromName || 'md-slider-content';
-  }
-
   @action
   toggleVisibility() {
-    this.visible = !this.visible;
+    // Call the onClose callback which should toggle the slider service
+    let context = this.context?.isDestroying;
 
-    if(!this.visible) {
-      let context = this.context?.isDestroying;
-
-      this.fromName = null;
-
-      if(!context) {
-        this.onClose.call(this);
-      }
+    if(!context && this.onClose) {
+      this.onClose();
     }
   }
 }

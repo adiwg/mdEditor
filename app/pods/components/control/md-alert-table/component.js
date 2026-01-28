@@ -10,6 +10,8 @@ export default class MdAlertTableComponent extends Component {
   title = '';
   target = null;
 
+  // addItem is passed in as an action from parent component
+
   get alertType() {
     return 'alert-' + (this.required ? 'danger' : 'info');
   }
@@ -22,11 +24,10 @@ export default class MdAlertTableComponent extends Component {
     return this.required ? 'exclamation-circle' : 'info-circle';
   }
 
-  actions = {
-    addItem(target) {
-      if (this.onAddItem) {
-        this.onAddItem(target);
-      }
+  @action
+  doAddItem(target) {
+    if (this.addItem) {
+      this.addItem(target);
     }
   }
 }

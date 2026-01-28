@@ -1,9 +1,11 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import EmberObject, { get, defineProperty, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import ResizeAware from 'ember-resize/mixins/resize-aware';
 
+@classic
 export default class MdNavSecondaryComponent extends Component.extend(ResizeAware) {
   @service('custom-profile') customProfile;
   @service('resize') resizeService;

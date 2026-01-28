@@ -1,5 +1,5 @@
 <h4>No <span class={{if this.required "required"}}>{{this.title}}</span> found.
-  <button type="button"  class="btn btn-success btn-md" {{action "addItem" this.target}}>
+  <button type="button" class="btn btn-success btn-md" {{on "click" (fn this.doAddItem this.target)}}>
     {{fa-icon "plus"}} Add {{singularize this.title}}
   </button>
   {{yield}}

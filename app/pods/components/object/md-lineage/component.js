@@ -24,6 +24,11 @@ export default class MdLineageComponent extends Component {
 
   tagName = 'form';
 
+  // Passed-in actions
+  editProcessStep = null;
+  editSource = null;
+  editCitation = null;
+
   /**
    * See [md-array-table](md-array-table.html#property_templateClass).
    *

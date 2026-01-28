@@ -260,7 +260,6 @@ export default class MdTranslateComponent extends Component {
         this.result = JSON.stringify(obj, null, 2);
       })
       .catch((error) => {
-        //console.log(error);
         this.flashMessages.danger(error.message);
       });
   }
@@ -273,9 +272,7 @@ export default class MdTranslateComponent extends Component {
   @action
   formatMessage(message) {
     return message
-      ? message
-          .trim()
-          .replace(/^([A-Z]{2,})/g, (match) => match.toLowerCase())
+      ? message.trim().replace(/^([A-Z]{2,})/g, (match) => match.toLowerCase())
       : 'context not provided';
   }
 

@@ -1,39 +1,39 @@
 <div class="row md-no-spotlight">
   <div class="col-sm-9 col-md-offset-1">
     <h3>
-      {{#if model.defaultLogo}}
-        <img src={{model.defaultLogo}} class="img-responsive inline-block md-logo-preview" alt="Responsive image">
+      {{#if this.model.defaultLogo}}
+        <img src={{this.model.defaultLogo}} class="img-responsive inline-block md-logo-preview" alt="Responsive image">
       {{else}}
-        {{fa-icon model.icon class="text-muted"}}
+        {{fa-icon this.model.icon class="text-muted"}}
       {{/if}}
 
-      Viewing {{model.type}} Contact: {{model.title}}
+      Viewing {{this.model.type}} Contact: {{this.model.title}}
           {{!-- <span class="text-danger">
-            {{#if model.hasDirtyHash}}
+            {{#if this.model.hasDirtyHash}}
               {{fa-icon "exclamation-circle"}}
               {{ember-tooltip text='This record has been modified!' side="right"
                 tooltipClass="ember-tooltip md-tooltip danger"
               }}
             {{/if}}
           </span> --}}
-          {{control/md-status model=model}}
+          {{control/md-status model=this.model}}
     </h3>
     {{#layout/md-card shadow=false muted=true title="Basic Information" bodyIsRow=true}}
         <dl class="dl-horizontal col-lg-6">
-          {{control/md-definition title="Contact Id" text=model.contactId}}
-          {{control/md-definition title="Contact Name" text=model.name}}
+          {{control/md-definition title="Contact Id" text=this.model.contactId}}
+          {{control/md-definition title="Contact Name" text=this.model.name}}
 
-          {{#unless model.json.isOrganization}}
-            {{control/md-definition title="Position" text=model.json.positionName}}
+          {{#unless this.model.json.isOrganization}}
+            {{control/md-definition title="Position" text=this.model.json.positionName}}
           {{/unless}}
 
-          {{control/md-definition title="Contact Type" text=model.json.contactType}}
-          {{control/md-definition title="Contact Instructions" text=model.json.contactInstructions}}
+          {{control/md-definition title="Contact Type" text=this.model.json.contactType}}
+          {{control/md-definition title="Contact Instructions" text=this.model.json.contactInstructions}}
 
         </dl>
         <dl class="dl-horizontal col-lg-6">
           {{#control/md-definition title="Organizations"}}
-            {{#each model.json.memberOfOrganization as |orgId|}}
+            {{#each this.model.json.memberOfOrganization as |orgId|}}
               {{control/md-contact-link
                 contactId=orgId
               }}<br>
@@ -57,7 +57,7 @@
             </tr>
           </thead>
           <tbody>
-            {{#each model.json.phone as |ph|}}
+            {{#each this.model.json.phone as |ph|}}
               <tr>
                 <td>{{get-dash ph "phoneName"}}</td>
                 <td>
@@ -85,7 +85,7 @@
 
       {{#layout/md-card shadow=false muted=true title="E-mail" class=""}}
       <ul class="list-unstyled">
-        {{#each model.json.electronicMailAddress as |email|}}
+        {{#each this.model.json.electronicMailAddress as |email|}}
           <li><a href="mailto:{{email}}" target="_blank" rel="noopener noreferrer">{{email}}
             {{ember-tooltip text="Click to send e-mail."}}
           </a></li>
@@ -100,7 +100,7 @@
 
       {{#layout/md-card shadow=false muted=true title="Availability" class=""}}
       <ul class="list-unstyled">
-        {{#each model.json.hoursOfService as |hours|}}
+        {{#each this.model.json.hoursOfService as |hours|}}
           <li>{{hours}}</li>
         {{else}}
           <li><em class="text-muted">No information provided.</em></li>
@@ -112,8 +112,8 @@
 
     <div class="row">
     <div class="col-md-6">
-    {{#layout/md-card shadow=false muted=true title="Address" bodyIsRow=model.json.address.length}}
-        {{#each model.json.address as |address|}}
+    {{#layout/md-card shadow=false muted=true title="Address" bodyIsRow=this.model.json.address.length}}
+        {{#each this.model.json.address as |address|}}
           <div class="col-lg-6">
             <div class="card">
               <div class="card-block">
@@ -137,7 +137,7 @@
               </tr>
             </thead>
             <tbody>
-              {{#each model.json.onlineResource as |ol|}}
+              {{#each this.model.json.onlineResource as |ol|}}
                 <tr>
                   <td>{{get-dash ol "name"}}</td>
                   <td>
@@ -162,7 +162,7 @@
 
     <div class="row">
       <div class="col-md-6">
-        {{#layout/md-card shadow=false muted=true title="External Identifiers" bodyIsRow=model.json.externalIdentifier.length}}
+        {{#layout/md-card shadow=false muted=true title="External Identifiers" bodyIsRow=this.model.json.externalIdentifier.length}}
           <div class="table-responsive">
             <table class="table">
               <thead>
@@ -172,7 +172,7 @@
                 </tr>
               </thead>
               <tbody>
-          {{#each model.json.externalIdentifier as |ei|}}
+          {{#each this.model.json.externalIdentifier as |ei|}}
             <tr>
               <td>{{ei.identifier}}</td>
               <td>{{ei.namespace}}</td>
@@ -190,18 +190,18 @@
   </div>
   <div class="md-control-sidebar col-sm-2 no-nav">
     {{#control/md-crud-buttons
-      model=model
+      model=this.model
       allowCopy=true
       allowDelete=true
       doDelete=(route-action "destroyContact")
       doCopy=(route-action "copyContact")
     }}
-      <LinkTo @route="contact.show.edit" @model={{model.id}} class="btn btn-lg btn-success">
+      <LinkTo @route="contact.show.edit" @model={{this.model.id}} class="btn btn-lg btn-success">
         {{fa-icon "pencil"}} Edit</LinkTo>
     {{/control/md-crud-buttons}}
     <hr>
     <LinkTo @route="contacts" class="btn btn-lg btn-primary btn-block">
     {{fa-icon "list"}} Show List</LinkTo>
-    {{control/md-scroll-spy scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}}
+    {{control/md-scroll-spy scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo")}}
   </div>
 </div>

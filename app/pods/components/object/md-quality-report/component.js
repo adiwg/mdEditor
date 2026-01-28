@@ -1,8 +1,10 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { once } from '@ember/runloop';
 import { alias } from '@ember/object/computed';
 
+@classic
 export default class MdQualityReportComponent extends Component {
   @alias('model.type') reportType;
   @alias('model.evaluationMethod.type') evaluationType;

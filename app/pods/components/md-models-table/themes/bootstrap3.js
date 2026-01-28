@@ -1,30 +1,31 @@
 import Theme from 'ember-models-table/themes/bootstrap3';
+import classic from 'ember-classic-decorator';
 
-export default Theme.extend({
-  'sort-asc': 'fa fa-caret-up',
-  'sort-desc': 'fa fa-caret-down',
-  'column-visible': 'fa fa-check-square-o',
-  'column-hidden': 'fa fa-square-o',
-  'nav-first': 'fa fa-fast-backward',
-  'nav-prev': 'fa fa-backward',
-  'nav-next': 'fa fa-forward',
-  'nav-last': 'fa fa-fast-forward',
-  'caret': 'fa fa-caret-down',
-  'select-row': 'fa fa-fw fa-check-square-o',
-  'deselect-row': 'fa fa-fw fa-square-o',
-  'select-all-rows': 'fa fa-fw fa-check-square-o',
-  'deselect-all-rows': 'fa fa-fw fa-square-o',
-  'expand-row': 'fa fa-plus',
-  'expand-all-rows': 'fa fa-plus',
-  'collapse-row': 'fa fa-minus',
-  'collapse-all-rows': 'fa fa-minus',
-  clearFilterIcon: 'fa fa-times form-control-feedback',
-  clearAllFiltersIcon: 'fa fa-times',
-  sortGroupedPropertyBtn: 'btn',
-  input: 'form-control',
-  inputGroup: 'input-group',
-  expandedRow: 'expanded-row',
-  expandRow: 'expand-row md-collapsible-content',
-  table: 'table table-striped table-bordered table-condensed table-hover',
-  selectRowOnExpandClick: false
-});
+@classic
+export default class MdBootstrap3Theme extends Theme {
+  sortAscIcon = 'fa fa-caret-up';
+  sortDescIcon = 'fa fa-caret-down';
+  columnVisibleIcon = 'fa fa-check-square-o';
+  columnHiddenIcon = 'fa fa-square-o';
+  navFirstIcon = 'fa fa-fast-backward';
+  navPrevIcon = 'fa fa-backward';
+  navNextIcon = 'fa fa-forward';
+  navLastIcon = 'fa fa-fast-forward';
+  caretIcon = 'fa fa-caret-down';
+  selectRowIcon = 'fa fa-fw fa-check-square-o';
+  deselectRowIcon = 'fa fa-fw fa-square-o';
+  selectAllRowsIcon = 'fa fa-fw fa-check-square-o';
+  deselectAllRowsIcon = 'fa fa-fw fa-square-o';
+  expandRowIcon = 'fa fa-plus';
+  expandAllRowsIcon = 'fa fa-plus';
+  collapseRowIcon = 'fa fa-minus';
+  collapseAllRowsIcon = 'fa fa-minus';
+  clearFilterIcon = 'fa fa-times form-control-feedback';
+  clearAllFiltersIcon = 'fa fa-times';
+  sortGroupedPropertyBtn = 'btn';
+  input = 'form-control';
+  expandedRow = 'expanded-row';
+  expandRow = 'expand-row md-collapsible-content';
+  table = 'table table-striped table-bordered table-condensed table-hover';
+  selectRowOnExpandClick = false;
+}

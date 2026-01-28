@@ -39,8 +39,8 @@ export default class MdItisComponent extends Component {
     return isArray(result) && result.length === 0;
   }
 
-  constructor() {
-    super(...arguments);
+  init() {
+    super.init(...arguments);
 
     this.selected = [];
     assert('No taxonomy object supplied', this.taxonomy);

@@ -1,3 +1,4 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 
 const typeOptions = [{
@@ -14,6 +15,7 @@ const typeOptions = [{
   //tip: 'tooltip'
 }];
 
+@classic
 export default class FormComponent extends Component {
   typeOptions = typeOptions;
 }

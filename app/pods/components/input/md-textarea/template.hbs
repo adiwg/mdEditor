@@ -16,17 +16,14 @@
   <div class='md-input-input'>
     <Textarea
       @value={{this.value}}
-      @placeholder={{this.placeholder}}
-      @required={{this.required}}
-      @maxlength={{this.maxlength}}
-      @autoresize={{this.autoresize}}
-      @rows={{this.rows}}
-      @max-rows={{this.maxrows}}
-      @max-width={{this.maxwidth}}
-      @max-height={{this.maxheight}}
+      placeholder={{this.placeholder}}
+      required={{this.required}}
+      maxlength={{this.maxlength}}
+      rows={{this.rows}}
       class={{this.inputClass}}
-      @readonly={{this.readonly}}
-      @disabled={{this.readonly}}
+      readonly={{this.readonly}}
+      disabled={{this.readonly}}
+      {{autoresize}}
     />
     <span class='md-input-error'>
       {{#if this.showErrorMessage}}

@@ -6,6 +6,7 @@ import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default class IdentifierRoute extends Route.extend(ScrollTo) {
   @service flashMessages;
+  @service router;
   model(params) {
     this.set('identifierId', params.identifier_id);
 
@@ -32,7 +33,7 @@ export default class IdentifierRoute extends Route.extend(ScrollTo) {
     if (isEmpty(identifier)) {
       this.flashMessages
         .warning('No identifier found! Re-directing to citation...');
-      this.replaceWith('dictionary.show.edit.citation.index');
+      this.router.replaceWith('dictionary.show.edit.citation.index');
 
       return;
     }

@@ -5,6 +5,7 @@ import { isEmpty } from '@ember/utils';
 
 export default class CollectionRoute extends Route {
   @service flashMessages;
+  @service router;
   model(params) {
     this.set('collectionId', params.collection_id);
 
@@ -42,7 +43,7 @@ export default class CollectionRoute extends Route {
     if(isEmpty(resource)) {
       this.flashMessages
         .warning('No Collection object found! Re-directing to list...');
-      this.replaceWith('record.show.edit.taxonomy');
+      this.router.replaceWith('record.show.edit.taxonomy');
 
       return;
     }

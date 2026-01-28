@@ -1,4 +1,5 @@
 /* global L */
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import { or, alias } from '@ember/object/computed';
 import { setProperties, observer } from '@ember/object';
@@ -8,7 +9,11 @@ import { action } from '@ember/object';
 
 const { isNaN: isNan } = Number;
 
+@classic
 export default class MdExtentSpatialComponent extends Component {
+  // Passed-in action
+  editFeatures = null;
+
   @alias('extent.geographicExtent.0.boundingBox') bbox;
   @alias('extent.geographicExtent.0') geographicExtent;
   @or(
@@ -118,11 +123,6 @@ export default class MdExtentSpatialComponent extends Component {
       maximumAltitude: null,
       unitsOfAltitude: null,
     });
-  }
-
-  @action
-  editFeatures(index) {
-    this.editFeatures(index);
   }
 
   @action

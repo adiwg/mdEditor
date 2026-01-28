@@ -7,13 +7,14 @@ import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default class IndexRoute extends Route.extend(ScrollTo) {
   @service flashMessages;
+  @service router;
   afterModel(model) {
     this._super(...arguments);
 
     if(isNone(get(model, 'json.metadata.metadataInfo.parentMetadata'))) {
       this.flashMessages
         .warning('No Parent Citation found! Re-directing to Metadata...');
-      this.replaceWith('record.show.edit.metadata', {
+      this.router.replaceWith('record.show.edit.metadata', {
         queryParams: {
           scrollTo: 'parent-metadata'
         }
@@ -25,7 +26,7 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
 
   @action
   editIdentifier(index) {
-      this.transitionTo('record.show.edit.metadata.parent.identifier',
+      this.router.transitionTo('record.show.edit.metadata.parent.identifier',
           index)
         .then(function () {
           this.setScrollTo('identifier');

@@ -9,8 +9,8 @@ import {
 @classic
 export default class MdIdentifierArrayComponent extends Component {
 
-  constructor() {
-    super(...arguments);
+  init() {
+    super.init(...arguments);
 
     if(!this.model) {
       this.model = A();
@@ -31,6 +31,13 @@ export default class MdIdentifierArrayComponent extends Component {
    */
 
   attributeBindings = ['data-spy'];
+
+  /**
+   * Action to edit an item
+   * @property editItem
+   * @type Function
+   */
+  editItem = null;
 
   /**
    * mdJSON object containing the 'identifier' array.

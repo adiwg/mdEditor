@@ -1,8 +1,11 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { get, set } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 export default class IndexRoute extends Route {
+  @service router;
+
   afterModel(m) {
     this._super(...arguments);
 
@@ -18,7 +21,7 @@ export default class IndexRoute extends Route {
 
   @action
   editLineage(id) {
-    this.transitionTo('record.show.edit.lineage.lineageobject', id);
+    this.router.transitionTo('record.show.edit.lineage.lineageobject', id);
   } //,
   // templateClass() {
   //   return Ember.Object.extend({

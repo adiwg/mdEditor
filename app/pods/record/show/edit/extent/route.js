@@ -1,8 +1,11 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { get, set } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 export default class ExtentRoute extends Route {
+  @service router;
+
   model() {
     let model = this.modelFor('record.show.edit');
     let json = model.get('json');
@@ -28,13 +31,16 @@ export default class ExtentRoute extends Route {
           boundingBox: {},
           geographicElement: [],
           description: null,
-        }
+        },
       ],
       verticalExtent: [],
       temporalExtent: [],
     });
 
-    window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth',
+    });
   }
 
   @action
@@ -49,12 +55,12 @@ export default class ExtentRoute extends Route {
 
   @action
   editFeatures(id) {
-    this.transitionTo({ queryParams: { scrollTo: 'extent-' + id } });
-    this.transitionTo('record.show.edit.extent.spatial', id);
+    this.router.transitionTo({ queryParams: { scrollTo: 'extent-' + id } });
+    this.router.transitionTo('record.show.edit.extent.spatial', id);
   }
 
   @action
   toList() {
-    this.transitionTo(this.routeName);
+    this.router.transitionTo(this.routeName);
   }
 }

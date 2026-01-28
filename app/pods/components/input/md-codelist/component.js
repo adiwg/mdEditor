@@ -139,9 +139,7 @@ export default class MdCodelistComponent extends Select {
 
     // CRITICAL: Force codelist to be evaluated immediately
     // This ensures power-select has the data when it initializes
-    console.log('md-codelist init - forcing codelist evaluation');
     const initialList = this.codelist;
-    console.log('md-codelist init - codelist has', initialList?.length, 'items');
   }
 
   /*
@@ -213,8 +211,6 @@ export default class MdCodelistComponent extends Select {
     let create = this.create;
     let filter = this.filterId;
 
-    console.log('md-codelist codelist getter called - mapped:', codelist?.length, 'value:', value);
-
     if (value) {
       if (create) {
         let found = codelist.findBy('codeId', value);
@@ -228,7 +224,6 @@ export default class MdCodelistComponent extends Select {
     const result = codelist.rejectBy('codeId', filter);
     // Convert to plain array for power-select compatibility
     const plainArray = result ? result.toArray() : [];
-    console.log('md-codelist codelist returning array:', plainArray.length);
     return plainArray;
   }
 
@@ -258,5 +253,5 @@ export default class MdCodelistComponent extends Select {
 
       this.setValue(code);
     },
-  }
+  };
 }

@@ -33,8 +33,8 @@ export default class MdDatetimeComponent extends Component {
   showTodayButton = true;
   showClear = true;
 
-  constructor() {
-    super(...arguments);
+  init() {
+    super.init(...arguments);
 
     let model = this.model;
     let valuePath = this.valuePath;

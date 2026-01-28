@@ -10,6 +10,8 @@ export default class MdErrorsComponent extends Component {
 
   classNames = ['md-error-list'];
 
+  // errors is passed in as an argument (do not define as class property to avoid shadowing)
+
   // Extract the record ID from the current URL
   get recordId() {
     const url = this.router.currentURL;
@@ -17,26 +19,31 @@ export default class MdErrorsComponent extends Component {
     return match ? match[1] : null;
   }
 
-  constructor() {
-    super(...arguments);
+  // Computed lazily when accessed - errors will be available by then
+  get formattedErrors() {
+    const errors = this.errors;
 
-    console.log('Errors:', this.errors);
+    if (!errors || !errors.length) {
+      return [];
+    }
 
-    this.formattedErrors = [];
+    const result = [];
 
     // Process each error group (default and custom)
-    this.errors.forEach((errorGroup) => {
+    errors.forEach((errorGroup) => {
       let title = errorGroup.title || 'Validation Errors';
-      let errors = errorGroup.errors || [];
+      let groupErrors = errorGroup.errors || [];
 
       // Preprocess and transform errors
-      let transformedErrors = this.transformErrors(errors);
+      let transformedErrors = this.transformErrors(groupErrors);
 
-      this.formattedErrors.push({
+      result.push({
         title: title,
         errors: transformedErrors,
       });
     });
+
+    return result;
   }
 
   // Function to preprocess and transform errors

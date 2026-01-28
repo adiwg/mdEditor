@@ -1,6 +1,8 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import { or } from '@ember/object/computed';
 
+@classic
 export default class SubbarLinkComponent extends Component {
   /**
    * mdEditor Component that renders a button used to navigate to a parent route

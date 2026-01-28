@@ -14,6 +14,7 @@ import {
 
 export default class AttributeRoute extends Route {
   @service flashMessages;
+  @service router;
   beforeModel() {
     this.set('entityId', this.paramsFor(
       'dictionary.show.edit.entity.edit').entity_id);
@@ -49,7 +50,7 @@ export default class AttributeRoute extends Route {
     if(isEmpty(resource)) {
       this.flashMessages
         .warning('No Attribute found! Re-directing to Entity...');
-      this.replaceWith('dictionary.show.edit.entity.edit');
+      this.router.replaceWith('dictionary.show.edit.entity.edit');
 
       return;
     }
@@ -57,13 +58,13 @@ export default class AttributeRoute extends Route {
     return resource;
   }
     backToEntity() {
-      this.transitionTo('dictionary.show.edit.entity.edit',
+      this.router.transitionTo('dictionary.show.edit.entity.edit',
         this.entityId);
     }
     editIdentifier(index) {
       let model = this.currentRouteModel();
 
-      this.transitionTo(
+      this.router.transitionTo(
           'dictionary.show.edit.entity.edit.attribute.identifier',
           get(model, 'attributeReference.identifier.' + index))
         .then(function () {

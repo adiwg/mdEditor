@@ -1,3 +1,4 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { next } from '@ember/runloop';
@@ -6,6 +7,7 @@ import Papa from 'papaparse';
 import { action } from '@ember/object';
 import { Promise } from 'rsvp';
 
+@classic
 export default class MdImportCsvComponent extends Component {
   /**
    * @module mdeditor

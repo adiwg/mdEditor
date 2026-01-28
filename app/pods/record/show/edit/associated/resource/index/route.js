@@ -18,6 +18,7 @@ const sliderColumns = [{
 export default class IndexRoute extends Route.extend(ScrollTo) {
   @service store;
   @service slider;
+  @service router;
 
   sliderColumns = sliderColumns;
   setupController() {
@@ -66,6 +67,6 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
 
   @action
   editLinked(rec) {
-    this.transitionTo('record.show.edit', rec.get('id'));
+    this.router.transitionTo('record.show.edit', rec.get('id'));
   }
 }

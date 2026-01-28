@@ -7,8 +7,10 @@ import EmberObject from '@ember/object';
 
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 
+@classic
 export default class MdSelectThesaurusComponent extends Component {
 
   /**

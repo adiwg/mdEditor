@@ -1,8 +1,11 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { get, set } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 export default class IndexRoute extends Route {
+  @service router;
+
   afterModel(m) {
     this._super(...arguments);
 
@@ -22,6 +25,6 @@ export default class IndexRoute extends Route {
 
   @action
   editDocument(id) {
-    this.transitionTo('record.show.edit.documents.citation', id);
+    this.router.transitionTo('record.show.edit.documents.citation', id);
   }
 }

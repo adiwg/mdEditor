@@ -151,8 +151,8 @@ export default class MdInputComponent extends Component {
     */
    @and('placeholder', 'infotip') showInfoTip;
 
-   constructor() {
-     super(...arguments);
+   init() {
+     super.init(...arguments);
 
      let model = this.model;
      let valuePath = this.valuePath;

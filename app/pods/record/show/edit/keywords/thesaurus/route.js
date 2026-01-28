@@ -10,6 +10,7 @@ import ENV from 'mdeditor/config/environment';
 export default class ThesaurusRoute extends Route {
   @service keyword;
   @service flashMessages;
+  @service router;
 
   model(params) {
     this.set('thesaurusId', params.thesaurus_id);
@@ -26,7 +27,7 @@ export default class ThesaurusRoute extends Route {
     if(isEmpty(thesaurus)) {
       this.flashMessages
         .warning('No thesaurus found! Re-directing to list...');
-      this.replaceWith('record.show.edit.keywords');
+      this.router.replaceWith('record.show.edit.keywords');
       return;
     }
 

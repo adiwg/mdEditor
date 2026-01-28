@@ -6,6 +6,7 @@ import { isArray } from '@ember/array';
 
 export default class SystemRoute extends Route {
   @service flashMessages;
+  @service router;
   model(params) {
     this.set('systemId', params.system_id);
     this.set('collectionId', this.paramsFor(
@@ -37,14 +38,16 @@ export default class SystemRoute extends Route {
     if(isEmpty(system)) {
       this.flashMessages
         .warning('No Taxonomic System found! Re-directing...');
-      this.replaceWith('record.show.edit.taxonomy.collection');
+      this.router.replaceWith('record.show.edit.taxonomy.collection');
 
       return;
     }
 
     return system;
   }
-    parentModel() {
-      return this.modelFor('record.show.edit');
-    }
+
+  @action
+  parentModel() {
+    return this.modelFor('record.show.edit');
+  }
 }

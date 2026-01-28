@@ -1,7 +1,9 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import EmObject from '@ember/object';
 import { isNone } from '@ember/utils';
 
+@classic
 export default class MdDateArrayComponent extends Component {
   constructor() {
     super(...arguments);

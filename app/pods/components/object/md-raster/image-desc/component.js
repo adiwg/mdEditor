@@ -1,3 +1,4 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
@@ -28,6 +29,7 @@ const Validations = buildValidations({
 //   lensDistortionAvailable: 'boolean'
 // }
 
+@classic
 export default class MdRasterImageDescComponent extends Component.extend(Validations) {
   /**
    * The string representing the path in the profile object for the resource.

@@ -207,7 +207,7 @@ export default class MdSelectComponent extends Component {
    * @type String
    * @default 'Select one option'
    */
-  placeholder = "Select one option";
+  placeholder = 'Select one option';
 
   /**
    * Form label for select list
@@ -272,12 +272,11 @@ export default class MdSelectComponent extends Component {
     let value = this.value;
 
     return DS.PromiseObject.create({
-      promise: this.codelist
-        .then(function(arr) {
-          return arr.find((item) => {
-            return item['codeId'] === value;
-          });
-        })
+      promise: this.codelist.then(function (arr) {
+        return arr.find((item) => {
+          return item['codeId'] === value;
+        });
+      }),
     });
   }
 
@@ -291,13 +290,12 @@ export default class MdSelectComponent extends Component {
    * @return PromiseArray
    */
   get codelist() {
-    console.log('md-select codelist getter called');
     const objArray = this.objectArray;
-    let inList = new Promise(function(resolve, reject) {
+    let inList = new Promise(function (resolve, reject) {
       // succeed
       resolve(objArray);
       // or reject
-      reject(new Error('Couldn\'t create a promise.'));
+      reject(new Error("Couldn't create a promise."));
     });
     let codeId = this.valuePath;
     let codeName = this.namePath;
@@ -307,25 +305,24 @@ export default class MdSelectComponent extends Component {
     let outList = A();
 
     const result = DS.PromiseArray.create({
-      promise: inList.then(function(arr) {
-        arr.forEach(function(item) {
+      promise: inList.then(function (arr) {
+        arr.forEach(function (item) {
           let newObject = {
             codeId: get(item, codeId),
             codeName: get(item, codeName),
             tooltip: false,
-            icon: icons.get(item[codeName].toString()) || icons.get(
-              defaultIcon)
+            icon:
+              icons.get(item[codeName].toString()) || icons.get(defaultIcon),
           };
-          if(tooltip) {
+          if (tooltip) {
             newObject.tooltip = get(item, tooltip);
           }
           outList.pushObject(newObject);
         });
 
         return outList;
-      })
+      }),
     });
-    console.log('md-select codelist returning PromiseArray:', result);
     return result;
   }
 
@@ -341,7 +338,7 @@ export default class MdSelectComponent extends Component {
     return {
       codeId: code,
       codeName: code,
-      tooltip: false
+      tooltip: false,
     };
   }
 
@@ -357,66 +354,96 @@ export default class MdSelectComponent extends Component {
     this.change();
   }
 
-  constructor() {
-    super(...arguments);
+  init() {
+    super.init(...arguments);
 
     let model = this.model;
     let path = this.path;
 
-    if(isNone(model) !== isNone(path)) {
+    if (isNone(model) !== isNone(path)) {
       assert(
         `You must supply both model and path to ${this.toString()} or neither.`
       );
     }
 
-    if(!isBlank(model)) {
-      if(this.model?.[path] === undefined) {
-        debug(
-          `model.${path} is undefined in ${this.toString()}.`
-        );
+    if (!isBlank(model)) {
+      if (this.model?.[path] === undefined) {
+        debug(`model.${path} is undefined in ${this.toString()}.`);
         //Ember.run.once(()=>model.set(path, ""));
       }
 
       defineProperty(this, 'value', alias(`model.${path}`));
 
-      defineProperty(this, 'validation', alias(
-        `model.validations.attrs.${path}`).readOnly());
+      defineProperty(
+        this,
+        'validation',
+        alias(`model.validations.attrs.${path}`).readOnly()
+      );
 
-      defineProperty(this, 'required', computed(
-        'validation.options.presence.{presence,disabled}',
-        'disabled',
-        function() {
-          return !this.disabled &&
-            this.validation?.options?.presence?.presence &&
-            !this.validation?.options?.presence?.disabled;
-        }).readOnly());
+      defineProperty(
+        this,
+        'required',
+        computed(
+          'validation.options.presence.{presence,disabled}',
+          'disabled',
+          function () {
+            return (
+              !this.disabled &&
+              this.validation?.options?.presence?.presence &&
+              !this.validation?.options?.presence?.disabled
+            );
+          }
+        ).readOnly()
+      );
 
-      defineProperty(this, 'notValidating', not(
-        'validation.isValidating').readOnly());
+      defineProperty(
+        this,
+        'notValidating',
+        not('validation.isValidating').readOnly()
+      );
 
       defineProperty(this, 'hasContent', notEmpty('value').readOnly());
 
-      defineProperty(this, 'hasWarnings', notEmpty(
-        'validation.warnings').readOnly());
+      defineProperty(
+        this,
+        'hasWarnings',
+        notEmpty('validation.warnings').readOnly()
+      );
 
-      defineProperty(this, 'isValid', and('hasContent',
-        'validation.isTruelyValid').readOnly());
+      defineProperty(
+        this,
+        'isValid',
+        and('hasContent', 'validation.isTruelyValid').readOnly()
+      );
 
-      defineProperty(this, 'shouldDisplayValidations', or(
-        'showValidations', 'didValidate',
-        'hasContent').readOnly());
+      defineProperty(
+        this,
+        'shouldDisplayValidations',
+        or('showValidations', 'didValidate', 'hasContent').readOnly()
+      );
 
-      defineProperty(this, 'showErrorClass', and('notValidating',
+      defineProperty(
+        this,
+        'showErrorClass',
+        and(
+          'notValidating',
+          'showErrorMessage',
+          'hasContent',
+          'validation'
+        ).readOnly()
+      );
+
+      defineProperty(
+        this,
         'showErrorMessage',
-        'hasContent', 'validation').readOnly());
+        and('shouldDisplayValidations', 'validation.isInvalid').readOnly()
+      );
 
-      defineProperty(this, 'showErrorMessage', and(
-        'shouldDisplayValidations',
-        'validation.isInvalid').readOnly());
-
-      defineProperty(this, 'showWarningMessage', and(
-        'shouldDisplayValidations',
-        'hasWarnings', 'isValid').readOnly());
+      defineProperty(
+        this,
+        'showWarningMessage',
+        and('shouldDisplayValidations', 'hasWarnings', 'isValid').readOnly()
+      );
     }
   }
 
@@ -428,9 +455,8 @@ export default class MdSelectComponent extends Component {
     create(selected) {
       let code = this.createCode(selected);
 
-      this.codelist
-        .pushObject(code);
+      this.codelist.pushObject(code);
       this.setValue(code);
-    }
-  }
+    },
+  };
 }

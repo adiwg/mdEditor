@@ -11,6 +11,7 @@ import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default class IdentifierRoute extends Route.extend(ScrollTo) {
   @service flashMessages;
+  @service router;
   beforeModel() {
     this.set('entityId', this.paramsFor(
       'dictionary.show.edit.entity.edit').entity_id);
@@ -47,7 +48,7 @@ export default class IdentifierRoute extends Route.extend(ScrollTo) {
     if(isEmpty(identifier)) {
       this.flashMessages
         .warning('No identifier found! Re-directing to citation...');
-      this.replaceWith('dictionary.show.edit.entity.edit.citation.index');
+      this.router.replaceWith('dictionary.show.edit.entity.edit.citation.index');
 
       return;
     }
@@ -55,7 +56,7 @@ export default class IdentifierRoute extends Route.extend(ScrollTo) {
     return identifier;
   }
     backToReference() {
-      this.transitionTo('dictionary.show.edit.entity.edit.citation',
+      this.router.transitionTo('dictionary.show.edit.entity.edit.citation',
         this.entityId, this.citationId);
     }
 }

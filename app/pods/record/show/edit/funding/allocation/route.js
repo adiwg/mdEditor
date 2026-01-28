@@ -12,6 +12,7 @@ import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default class AllocationRoute extends Route.extend(ScrollTo) {
   @service flashMessages;
+  @service router;
   get breadCrumb() {
     return {
       title: 'Allocation ' + this.allocationId,
@@ -48,7 +49,7 @@ export default class AllocationRoute extends Route.extend(ScrollTo) {
     if(isEmpty(resource)) {
       this.flashMessages
         .warning('No Funding object found! Re-directing to list...');
-      this.replaceWith('record.show.edit.funding');
+      this.router.replaceWith('record.show.edit.funding');
 
       return;
     }

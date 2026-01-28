@@ -27,6 +27,7 @@ export default class IdRoute extends Route {
    * @return {Ember.Service} profile
    */
   //@service profile;
+  @service router;
 
   deactivate() {
     // We grab the model loaded in this route
@@ -92,13 +93,13 @@ export default class IdRoute extends Route {
       this.currentRouteModel()
         .save()
         .then((model) => {
-          this.replaceWith('record.show.edit', model);
+          this.router.replaceWith('record.show.edit', model);
         });
     }
 
     @action
     cancelRecord() {
-      this.replaceWith('records');
+      this.router.replaceWith('records');
 
       return false;
     }
@@ -109,7 +110,7 @@ export default class IdRoute extends Route {
           'No record found! Re-directing to new record...'
         );
         // redirect to new
-        this.replaceWith('record.new');
+        this.router.replaceWith('record.new');
       } else {
         // otherwise let the error bubble
         return true;

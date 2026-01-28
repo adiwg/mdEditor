@@ -32,6 +32,11 @@ export default Table.extend(Validations, {
    * @uses md-array-table
    */
 
+  // Passed-in actions
+  editAttribute: null,
+  deleteAttrGroup: null,
+  addAttrGroup: null,
+
   didReceiveAttrs() {
     this._super(...arguments);
 
@@ -69,23 +74,29 @@ export default Table.extend(Validations, {
      * @method editAttribute
      * @param {Number} index
      */
-    editAttribute(index) {
-      this.editAttribute(index);
+    handleEditAttribute(index) {
+      if (this.editAttribute) {
+        this.editAttribute(index);
+      }
     },
     /**
      * 'deleteAttribute' is an crud action for the 'attributeGroup' object that deletes 'attribute' objects.
      * @method deleteAttribute
      * @param {Number} index
      */
-    deleteAttrGroup(index) {
-      this.deleteAttrGroup(index);
+    handleDeleteAttrGroup(index) {
+      if (this.deleteAttrGroup) {
+        this.deleteAttrGroup(index);
+      }
     },
     /**
      * 'addAttrGroup' is an crud action for the 'attributeGroup' object that adds 'attribute' objects.
      * @method addAttrGroup
      */
-    addAttrGroup() {
-      this.addAttrGroup();
+    handleAddAttrGroup() {
+      if (this.addAttrGroup) {
+        this.addAttrGroup();
+      }
     },
   },
 });

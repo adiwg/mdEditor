@@ -34,8 +34,8 @@ const Validations = buildValidations({
 export default class MdContactIdentifierArrayComponent extends Component {
   attributeBindings = ['data-spy'];
 
-  constructor() {
-    super(...arguments);
+  init() {
+    super.init(...arguments);
 
     if (!this.value) {
       this.value = [];

@@ -124,7 +124,6 @@ export default Service.extend({
       };
 
       if (key === 'sourceId' && !('amount' in this || 'currency' in this)) {
-        //console.log(this);
         return value;
       }
 
@@ -175,7 +174,7 @@ export default Service.extend({
     if (includeDictionaries) {
       this.injectDictionaries(rec, clean);
     }
-    
+
     // Always remove mdDictionary array from output as it's internal reference only
     if (clean.mdDictionary) {
       delete clean.mdDictionary;

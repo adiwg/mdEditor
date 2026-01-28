@@ -6,6 +6,7 @@ import { inject as service } from '@ember/service';
 
 export default class IndexRoute extends Route.extend(ScrollTo) {
   @service settings;
+  @service router;
 
   setupController() {
     // Call _super for default behavior
@@ -23,7 +24,7 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
 
   @action
   toList() {
-    this.transitionTo('record.show.edit.taxonomy');
+    this.router.transitionTo('record.show.edit.taxonomy');
   }
 
   @action
@@ -43,18 +44,18 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
       }
 
     // If itisProxyUrl is configured, proceed to ITIS page
-    this.transitionTo('record.show.edit.taxonomy.collection.itis');
+    this.router.transitionTo('record.show.edit.taxonomy.collection.itis');
   }
 
   @action
   goToSettings() {
     this.controller.set('showItisModal', false);
-    this.transitionTo('settings.main');
+    this.router.transitionTo('settings.main');
   }
 
   @action
   editSystem(index) {
-      this.transitionTo(
+      this.router.transitionTo(
         'record.show.edit.taxonomy.collection.system',
         index
       ).then(

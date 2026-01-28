@@ -11,6 +11,7 @@ import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default class ItemRoute extends Route.extend(ScrollTo) {
   @service flashMessages;
+  @service router;
   beforeModel() {
     this.set('domainId', this.paramsFor(
       'dictionary.show.edit.domain.edit').domain_id);
@@ -54,7 +55,7 @@ export default class ItemRoute extends Route.extend(ScrollTo) {
     if(isEmpty(resource)) {
       this.flashMessages
         .warning('No Domain Item found! Re-directing to list...');
-      this.replaceWith('dictionary.show.edit.domain');
+      this.router.replaceWith('dictionary.show.edit.domain');
 
       return;
     }
@@ -64,7 +65,7 @@ export default class ItemRoute extends Route.extend(ScrollTo) {
 
   @action
   backToDomain() {
-    this.transitionTo('dictionary.show.edit.domain.edit',
+    this.router.transitionTo('dictionary.show.edit.domain.edit',
       this.domainId);
   }
 }

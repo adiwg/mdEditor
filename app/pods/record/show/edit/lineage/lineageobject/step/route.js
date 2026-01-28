@@ -7,6 +7,7 @@ import { get } from '@ember/object';
 
 export default class StepRoute extends Route {
   @service flashMessages;
+  @service router;
   model(params) {
     this.set('stepId', params.step_id);
     this.set('lineageId', this.paramsFor(
@@ -46,7 +47,7 @@ export default class StepRoute extends Route {
     if(isEmpty(step)) {
       this.flashMessages
         .warning('No Process Step found! Re-directing...');
-      this.replaceWith('record.show.edit.lineage.lineageobject');
+      this.router.replaceWith('record.show.edit.lineage.lineageobject');
 
       return;
     }

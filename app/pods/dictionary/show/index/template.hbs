@@ -1,11 +1,11 @@
 <div class="row md-no-spotlight">
-  {{#with model.json.dataDictionary as |dictionary|}}
+  {{#with this.model.json.dataDictionary as |dictionary|}}
   <div class="col-sm-9 col-md-offset-1">
     <h3>
       {{fa-icon "book" class="text-muted"}}
 
-      Viewing Dictionary: {{model.title}}
-      {{control/md-status model=model}}
+      Viewing Dictionary: {{this.model.title}}
+      {{control/md-status model=this.model}}
     </h3>
 
     {{#layout/md-card shadow=false muted=true title="Main" bodyIsRow=false
@@ -16,8 +16,8 @@
     }}
       <div class="row">
         <dl class="dl-horizontal col-xxl-6">
-            {{control/md-definition title="Dictionary Id" text=model.json.dataDictionary.dictionaryId}}
-            {{control/md-definition title="Dictionary Title" text=model.title}}
+            {{control/md-definition title="Dictionary Id" text=this.model.json.dataDictionary.dictionaryId}}
+            {{control/md-definition title="Dictionary Title" text=this.model.title}}
             {{control/md-definition title="Subject" text=(if dictionary.subject (join ", " dictionary.subject))}}
         </dl>
         <dl class="dl-horizontal col-xxl-6">
@@ -156,18 +156,18 @@
 
   <div class="md-control-sidebar col-sm-2 no-nav">
     {{#control/md-crud-buttons
-      model=model
+      model=this.model
       allowCopy=true
       allowDelete=true
       doDelete=(route-action "destroyDictionary")
       doCopy=(route-action "copyDictionary")
      }}
-      <LinkTo @route="dictionary.show.edit" @model={{model.id}} class="btn btn-lg btn-success">
+      <LinkTo @route="dictionary.show.edit" @model={{this.model.id}} class="btn btn-lg btn-success">
         {{fa-icon "pencil"}} Edit</LinkTo>
     {{/control/md-crud-buttons}}
     <hr>
     <LinkTo @route="dictionaries" class="btn btn-lg btn-primary btn-block">
       {{fa-icon "list"}} Show List</LinkTo>
-    {{control/md-scroll-spy scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}}
+    {{control/md-scroll-spy scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo")}}
   </div>
 </div>

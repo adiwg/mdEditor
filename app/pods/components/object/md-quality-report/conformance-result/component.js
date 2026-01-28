@@ -1,7 +1,9 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import { once } from '@ember/runloop';
 import { alias } from '@ember/object/computed';
 
+@classic
 export default class ConformanceResultComponent extends Component {
   name = '';
 

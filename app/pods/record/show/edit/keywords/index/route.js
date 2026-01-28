@@ -9,6 +9,7 @@ import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default class IndexRoute extends Route.extend(ScrollTo) {
   @service keyword;
+  @service router;
   model() {
     let model = this.modelFor('record.show.edit');
     let json = model.get('json');
@@ -68,7 +69,7 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
 
   @action
   editThesaurus(id) {
-    this.transitionTo('record.show.edit.keywords.thesaurus', id);
+    this.router.transitionTo('record.show.edit.keywords.thesaurus', id);
   }
 
   @action

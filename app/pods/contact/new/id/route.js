@@ -6,6 +6,7 @@ import { inject as service } from '@ember/service';
 export default class IdRoute extends Route {
   @service store;
   @service flashMessages;
+  @service router;
   /**
    * The route model
    *
@@ -123,13 +124,13 @@ export default class IdRoute extends Route {
       this.currentRouteModel()
         .save()
         .then((model) => {
-          this.replaceWith('contact.show.edit', model);
+          this.router.replaceWith('contact.show.edit', model);
         });
   }
 
   @action
   cancelContact() {
-    this.replaceWith('contacts');
+    this.router.replaceWith('contacts');
 
     return false;
   }
@@ -140,7 +141,7 @@ export default class IdRoute extends Route {
         this.flashMessages
           .warning('No contact found! Re-directing to new contact...');
         // redirect to new
-        this.replaceWith('contact.new');
+        this.router.replaceWith('contact.new');
     } else {
       // otherwise let the error bubble
       return true;

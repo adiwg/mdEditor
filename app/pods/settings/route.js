@@ -41,7 +41,7 @@ export default class SettingsRoute extends Route {
         title: 'Validation',
         target: 'settings.validation',
         tip: 'Custom validation settings',
-      }
+      },
     ];
     controller.set('links', links);
   }
@@ -77,7 +77,6 @@ export default class SettingsRoute extends Route {
   deriveItisProxyUrl() {
     let model = this.modelFor('settings.main');
     const mdTranslatorAPI = model.get('mdTranslatorAPI');
-    console.log(mdTranslatorAPI);
     if (mdTranslatorAPI) {
       // Extract the base URL by removing the API path
       // This will convert https://api.sciencebase.gov/mdTranslator/api/v3/translator
