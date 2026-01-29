@@ -65,8 +65,8 @@ const theComp = Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'party', get(model, 'party', []));
-      set(model, 'role', get(model, 'role', null));
+      set(model, 'party', get(model, 'party') ?? []);
+      set(model, 'role', get(model, 'role') ?? null);
     });
   },
 

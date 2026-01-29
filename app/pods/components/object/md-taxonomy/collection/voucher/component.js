@@ -37,8 +37,8 @@ const theComp = Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'repository', get(model, 'repository', {}));
-      set(model, 'specimen', get(model, 'specimen', null));
+      set(model, 'repository', get(model, 'repository') ?? {});
+      set(model, 'specimen', get(model, 'specimen') ?? null);
     });
   },
 

@@ -51,11 +51,11 @@ const theComp = Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'allowNull', get(model, 'allowNull', false));
-      set(model, 'reference', get(model, 'reference', {}));
-      set(model, 'alias', get(model, 'alias', []));
-      set(model, 'valueRange', get(model, 'valueRange', []));
-      set(model, 'timePeriod', get(model, 'timePeriod', []));
+      set(model, 'allowNull', get(model, 'allowNull') ?? false);
+      set(model, 'reference', get(model, 'reference') ?? {});
+      set(model, 'alias', get(model, 'alias') ?? []);
+      set(model, 'valueRange', get(model, 'valueRange') ?? []);
+      set(model, 'timePeriod', get(model, 'timePeriod') ?? []);
     });
   },
 

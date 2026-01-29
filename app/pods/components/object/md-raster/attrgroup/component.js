@@ -47,9 +47,9 @@ export default Table.extend(Validations, {
         set(
           model,
           'attributeContentType',
-          get(model, 'attributeContentType', [])
+          get(model, 'attributeContentType') ?? []
         );
-        set(model, 'attribute', get(model, 'attribute', []));
+        set(model, 'attribute', get(model, 'attribute') ?? []);
       });
     }
   },

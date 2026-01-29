@@ -10,10 +10,10 @@ import { once } from '@ember/runloop';
 
 const formatMaint = function (model) {
   setProperties(model, {
-    date: get(model, 'date', []),
-    scope: get(model, 'scope', []),
-    note: get(model, 'note', []),
-    contact: get(model, 'contact', []),
+    date: get(model, 'date') ?? [],
+    scope: get(model, 'scope') ?? [],
+    note: get(model, 'note') ?? [],
+    contact: get(model, 'contact') ?? [],
   });
 
   return model;

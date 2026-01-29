@@ -20,7 +20,7 @@ const theComp = Component.extend(Validations, {
     let model = get(this, 'model') || {};
 
     once(this, function () {
-      set(model, 'authority', get(model, 'authority', {}));
+      set(model, 'authority', get(model, 'authority') ?? {});
     });
   },
 

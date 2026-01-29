@@ -148,7 +148,7 @@ export default class ImportRoute extends Route {
       );
     }
 
-    set(dataDictionary, 'entity', get(dataDictionary, 'entity', []));
+    set(dataDictionary, 'entity', get(dataDictionary, 'entity') ?? []);
     set(entity, 'attribute', data.attributes);
     get(dataDictionary, 'entity').push(entity);
 

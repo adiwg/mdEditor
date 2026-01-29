@@ -8,6 +8,10 @@ import { once } from '@ember/runloop';
 export default class IndexRoute extends Route.extend(ScrollTo) {
   @service router;
 
+  model() {
+    return this.modelFor('record.show.edit');
+  }
+
   afterModel(m) {
     super.afterModel(...arguments);
 
@@ -47,6 +51,7 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
   }
   setupController(controller, model) {
     super.setupController(controller, model);
+    controller.set('model', model);
 
     this.controllerFor('record.show.edit').setProperties({
       onCancel: () => this,

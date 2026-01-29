@@ -58,16 +58,16 @@ const theComp = Component.extend(Validations, {
       set(
         model,
         'taxonomicClassification',
-        get(model, 'taxonomicClassification', [])
+        get(model, 'taxonomicClassification') ?? []
       );
-      set(model, 'taxonomicSystem', get(model, 'taxonomicSystem', []));
+      set(model, 'taxonomicSystem', get(model, 'taxonomicSystem') ?? []);
       set(
         model,
         'identificationReference',
-        get(model, 'identificationReference', [])
+        get(model, 'identificationReference') ?? []
       );
-      set(model, 'observer', get(model, 'observer', []));
-      set(model, 'voucher', get(model, 'voucher', []));
+      set(model, 'observer', get(model, 'observer') ?? []);
+      set(model, 'voucher', get(model, 'voucher') ?? []);
     });
   },
   voucherTemplate: Voucher,
