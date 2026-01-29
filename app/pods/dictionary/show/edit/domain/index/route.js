@@ -7,20 +7,22 @@ export default class IndexRoute extends Route {
   @service router;
 
   afterModel(m) {
-    this._super(...arguments);
+    super.afterModel(...arguments);
 
     let model = get(m, 'json.dataDictionary');
-    set(model, 'domain', get(model, 'domain', []));
+    set(model, 'domain', get(model, 'domain') ?? []);
   }
   setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set(
       'parentModel',
       this.modelFor('dictionary.show.edit.index')
     );
   }
+
+  @action
   editDomain(id) {
     this.router.transitionTo('dictionary.show.edit.domain.edit', id);
   }

@@ -3,6 +3,7 @@ import classic from 'ember-classic-decorator';
 import EmberObject from '@ember/object';
 import { action } from '@ember/object';
 import { typeOf, isEmpty } from '@ember/utils';
+import { dasherize } from '@ember/string';
 import { ucWords } from 'mdeditor/helpers/uc-words';
 import { getOwner } from '@ember/application';
 import { A } from '@ember/array';
@@ -300,8 +301,7 @@ export default class MdObjectTableComponent extends Component {
         let title = item.trim().split('.').get('lastObject').split(
           ':');
         return title.length === 1 ? ucWords(
-          [title[0]
-            .dasherize()
+          [dasherize(title[0])
             .replace(/-/g,' ')
           ], { force: false }) : title[1];
       });

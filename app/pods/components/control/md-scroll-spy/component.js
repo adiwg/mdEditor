@@ -2,6 +2,7 @@ import { inject as service } from '@ember/service';
 import { action, set } from '@ember/object';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
+import { dasherize } from '@ember/string';
 import $ from 'jquery';
 import { A } from '@ember/array';
 
@@ -112,7 +113,7 @@ export default class MdScrollSpyComponent extends Component {
       this.scroll();
     } else {
       let link = this.links.find((link) => {
-        return init === link.text.dasherize();
+        return init === dasherize(link.text);
       });
 
       if(link) {
@@ -185,7 +186,7 @@ export default class MdScrollSpyComponent extends Component {
     this.scroll(targetId);
 
     if((typeof setScrollTo === 'function')) {
-      setScrollTo(target.textContent.dasherize());
+      setScrollTo(dasherize(target.textContent));
     }
   }
 }

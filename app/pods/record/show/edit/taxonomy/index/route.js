@@ -8,14 +8,14 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
   @service router;
 
   afterModel(m) {
-    this._super(...arguments);
+    super.afterModel(...arguments);
 
     let model = get(m, 'json.metadata.resourceInfo');
-    set(model, 'taxonomy', get(model, 'taxonomy', []));
+    set(model, 'taxonomy', get(model, 'taxonomy') ?? []);
   }
   setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
   }

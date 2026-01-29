@@ -28,7 +28,7 @@ export default class DictionaryRoute extends Route {
     let dicts = this.modelFor('application').findBy('modelName', 'dictionary');
     let rec = this.modelFor('record.show.edit');
 
-    set(rec, 'json.mdDictionary', get(rec, 'json.mdDictionary', []));
+    set(rec, 'json.mdDictionary', get(rec, 'json.mdDictionary') ?? []);
     let selected = rec.get('json.mdDictionary');
 
     return dicts.map((dict) => {
@@ -52,7 +52,7 @@ export default class DictionaryRoute extends Route {
   }
   setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
 

@@ -9,7 +9,7 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
   @service router;
 
   afterModel(m) {
-    this._super(...arguments);
+    super.afterModel(...arguments);
 
     let model = get(m, 'json.metadata.metadataInfo');
 
@@ -46,7 +46,7 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
     });
   }
   setupController(controller, model) {
-    this._super(controller, model);
+    super.setupController(controller, model);
 
     this.controllerFor('record.show.edit').setProperties({
       onCancel: () => this,
