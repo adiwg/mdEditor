@@ -1,12 +1,12 @@
 {{#object/md-array-table
      columns="Language,Character Set,Country"
-     title=title
-     required=required
-     plain=plain
-     value=value
-     validation=validation
+     title=this.title
+     required=this.required
+     plain=this.plain
+     value=this.value
+     validation=this.validation
      data-spy=false
-     templateClass=templateClass as |locale|
+     templateClass=this.templateClass as |locale|
    }}
    {{#with locale.item as |item|}}
      <td>
@@ -16,7 +16,7 @@
          create=true
          tooltip=true
          icon=false
-         disabled=disabled
+         disabled=this.disabled
          mdCodeName="language"
          showValidations=true
          placeholder="Select or enter a language code."
@@ -29,7 +29,7 @@
          create=false
          tooltip=true
          icon=false
-         disabled=disabled
+         disabled=this.disabled
          mdCodeName="characterSet"
          showValidations=true
          placeholder="Select character set."
@@ -41,7 +41,7 @@
          create=false
          tooltip=true
          icon=false
-         disabled=disabled
+         disabled=this.disabled
          mdCodeName="countries"
          placeholder="Select country code."
        }}

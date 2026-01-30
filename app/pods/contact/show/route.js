@@ -18,13 +18,9 @@ export default class ContactShowRoute extends Route {
     return this.store.peekRecord('contact', params.contact_id);
   }
 
+  @action
   setScrollTo(scrollTo) {
     this.controller.set('scrollTo', scrollTo || '');
-  }
-
-  @action
-  setScrollToAction(scrollTo) {
-    this.setScrollTo(scrollTo);
   }
 
   @action

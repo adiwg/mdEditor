@@ -4,6 +4,7 @@
  */
 
 import { alias } from '@ember/object/computed';
+import { notifyPropertyChange } from '@ember/object';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { getOwner } from '@ember/application';
@@ -305,7 +306,9 @@ export default class MdArrayTableComponent extends Component {
         ? Template.create(owner.ownerInjection())
         : { value: null }
     );
-    //this.templateAsObject ? {} : null);
+    // Trigger reactivity
+    notifyPropertyChange(this, 'value');
+    notifyPropertyChange(this, 'arrayValues');
     this.valueChanged();
   }
 
@@ -314,6 +317,9 @@ export default class MdArrayTableComponent extends Component {
     if (this.arrayValues && this.arrayValues.length > idx) {
       this.arrayValues.removeAt(idx);
     }
+    // Trigger reactivity
+    notifyPropertyChange(this, 'value');
+    notifyPropertyChange(this, 'arrayValues');
     this.valueChanged();
   }
 }

@@ -7,8 +7,12 @@ import { inject as service } from '@ember/service';
 export default class IndexRoute extends Route.extend(ScrollTo) {
   @service router;
 
+  model() {
+    return this.modelFor('dictionary.show.edit');
+  }
+
   afterModel(m) {
-    this._super(...arguments);
+    super.afterModel(...arguments);
 
     let model = get(m, 'json.dataDictionary');
     set(model, 'citation', get(model, 'citation') ?? {});
@@ -19,14 +23,23 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
     set(model, 'domain', get(model, 'domain') ?? []);
     set(model, 'entity', get(model, 'entity') ?? []);
   }
+
   setupController(controller, model) {
-    this._super(controller, model);
+    super.setupController(controller, model);
+    controller.set('model', model);
 
     this.controllerFor('dictionary.show.edit').setProperties({
       onCancel: () => this,
       cancelScope: this,
     });
   }
+
+  @action
+  setScrollTo(scrollTo) {
+    this.controller.set('scrollTo', scrollTo || '');
+  }
+
+  @action
   editCitation(scrollTo) {
     this.router.transitionTo('dictionary.show.edit.citation').then(
       function () {

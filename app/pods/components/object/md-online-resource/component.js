@@ -26,6 +26,7 @@ const Validations = buildValidations({
   ]
 });
 
+@classic
 class MdOnlineResourceComponent extends Component {
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);

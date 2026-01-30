@@ -12,7 +12,7 @@
   {{/if}}
 {{/if}}
 
-{{#liquid-if this.isExpanded enableGrowth=true}}
+{{#if this.isExpanded}}
   <div class='md-input-input'>
     <Textarea
       @value={{this.value}}
@@ -50,4 +50,4 @@
     </span>
   </div>
   {{yield}}
-{{/liquid-if}}
+{{/if}}

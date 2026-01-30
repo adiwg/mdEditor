@@ -62,8 +62,8 @@
 
           <div class="panel-heading">
               <h3 class="panel-title md-panel-chevron">
-                  <a data-toggle="collapse" aria-expanded={{if collapsed "false" "true"}}
-                     class={{if collapsed "collapsed"}}
+                  <a data-toggle="collapse" aria-expanded={{if this.collapsed "false" "true"}}
+                     class={{if this.collapsed "collapsed"}}
                      href="#{{this.panelId}}" aria-controls="#{{this.panelId}}">
                       <span class="fa"></span> {{unless this.pluralTitle (pluralize this.title) this.pluralTitle}}
                       <div class="label label-pill {{this.pillColor}}"> {{this.value.length}} </div>
@@ -75,8 +75,8 @@
               </h3>
           </div>
 
-          <div id={{this.panelId}} class="panel-collapse {{if collapsed "collapse" "in"}}">
-              <div class="panel-body {{if responsive "table-responsive"}}">
+          <div id={{this.panelId}} class="panel-collapse {{if this.collapsed "collapse" "in"}}">
+              <div class="panel-body {{if this.responsive "table-responsive"}}">
                   {{! template-lint-disable table-groups }}
                   <table class="table table-striped table-hover fadeIn md-table-align-middle">
                       {{#if this.columnArray}}
@@ -131,10 +131,10 @@
   {{/if}}
 {{else}}
   {{control/md-alert-table
-    title=title
-    required=required
+    title=this.title
+    required=this.required
     addItem=(action "addItem")
-    target=arrayValues
-    tipMessage=alertTipMessage
+    target=this.arrayValues
+    tipMessage=this.alertTipMessage
   }}
 {{/unless}}

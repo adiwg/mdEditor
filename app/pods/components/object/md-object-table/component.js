@@ -9,6 +9,7 @@ import { getOwner } from '@ember/application';
 import { A } from '@ember/array';
 import { inject as service } from '@ember/service';
 import { applyTemplateArray } from 'mdeditor/utils/object-template';
+import { tracked } from '@glimmer/tracking';
 
 @classic
 export default class MdObjectTableComponent extends Component {
@@ -68,7 +69,7 @@ export default class MdObjectTableComponent extends Component {
    * @default Ember.A()
    * @required
    */
-  items = A();
+  @tracked items = A();
 
   /**
    * List of items object attributes to display in
@@ -307,7 +308,8 @@ export default class MdObjectTableComponent extends Component {
       });
   }
 
-  editing = false;
+  @tracked editing = false;
+  @tracked saveItem = null;
 
   // Can be overridden by passed-in action
   editItem = null;
@@ -339,6 +341,8 @@ export default class MdObjectTableComponent extends Component {
     if(items.length === 0) return;
 
     items.removeAt(index);
+    // Trigger reactivity for tracked items property
+    this.items = items;
   }
 
   @action
@@ -355,7 +359,9 @@ export default class MdObjectTableComponent extends Component {
 
     this.saveItem = itm;
     this.editing = 'adding';
-    items.pushObject(this.saveItem);
+    items.pushObject(itm);
+    // Trigger reactivity for tracked items property
+    this.items = items;
     spotlight.setTarget(this.elementId);
     //this.scrollTo(this.elementId);
   }

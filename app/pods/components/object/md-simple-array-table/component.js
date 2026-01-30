@@ -1,4 +1,5 @@
-import { observer, computed } from '@ember/object';
+import { observer, computed, action, notifyPropertyChange } from '@ember/object';
+import { A } from '@ember/array';
 import ArrayTable from '../md-array-table/component';
 
 export default ArrayTable.extend({
@@ -73,5 +74,36 @@ export default ArrayTable.extend({
    */
   valuesObserver: observer('arrayValues.@each.value', function () {
     this.set('arrayValues', this.arrayValues);
+  }),
+
+  /**
+   * Override addItem to push to primitive value array
+   */
+  addItem: action(function() {
+    // Initialize value if it's not set
+    if (!this.value) {
+      this.set('value', A());
+    }
+
+    // Push empty string to primitive array
+    this.value.pushObject('');
+
+    // Trigger reactivity
+    notifyPropertyChange(this, 'value');
+    notifyPropertyChange(this, 'arrayValues');
+    this.valueChanged();
+  }),
+
+  /**
+   * Override deleteItem to remove from primitive value array
+   */
+  deleteItem: action(function(item, idx) {
+    if (this.value && this.value.length > idx) {
+      this.value.removeAt(idx);
+    }
+    // Trigger reactivity
+    notifyPropertyChange(this, 'value');
+    notifyPropertyChange(this, 'arrayValues');
+    this.valueChanged();
   })
 });
