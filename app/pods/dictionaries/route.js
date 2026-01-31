@@ -24,6 +24,11 @@ export default class DictionariesRoute extends Route {
     return this.modelFor('application').findBy('modelName','dictionary');
   }
 
+  setupController(controller, model) {
+    super.setupController(controller, model);
+    controller.set('model', model);
+  }
+
   @action
   getColumns(){
     return this.columns;

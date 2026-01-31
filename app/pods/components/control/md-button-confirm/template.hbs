@@ -1,8 +1,8 @@
-{{#liquid-if this.isShowingConfirm use="toDown"}}
+{{#if this.isShowingConfirm}}
   <i class="fa fa-question"></i> Confirm
 {{else}}
   {{yield}}
-{{/liquid-if}}
+{{/if}}
 
 {{#if this.isShowingConfirm}}
   {{#if this.tooltip}}

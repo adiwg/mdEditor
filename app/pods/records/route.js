@@ -18,11 +18,18 @@ const columns = [{
 
 export default class RecordsRoute extends Route {
   @service slider;
+
+  columns = columns;
+
   model() {
     //return this.store.peekAll('contact');
     return this.modelFor('application').findBy('modelName', 'record');
   }
-  columns = columns;
+
+  setupController(controller, model) {
+    super.setupController(controller, model);
+    controller.set('model', model);
+  }
 
   @action
   getColumns() {

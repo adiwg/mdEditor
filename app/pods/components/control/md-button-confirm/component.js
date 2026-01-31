@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
+import { tracked } from '@glimmer/tracking';
 
 @classic
 export default class MdButtonConfirmComponent extends Component {
@@ -7,7 +8,7 @@ export default class MdButtonConfirmComponent extends Component {
   classNames = ['md-button-confirm'];
   attributeBindings = ['type', 'disabled'];
   type = 'button';
-  isShowingConfirm = false;
+  @tracked isShowingConfirm = false;
   propagateClick = false;
   disabled = null;
 

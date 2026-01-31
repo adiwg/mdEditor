@@ -31,6 +31,11 @@ export default class ContactsRoute extends Route {
     return this.modelFor('application').findBy('modelName','contact');
   }
 
+  setupController(controller, model) {
+    super.setupController(controller, model);
+    controller.set('model', model);
+  }
+
   @action
   getColumns(){
     return this.columns;
