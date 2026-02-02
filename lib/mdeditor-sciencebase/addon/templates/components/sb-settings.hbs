@@ -6,10 +6,10 @@
     change=save
   }}
   {{input/md-input
-    label="Publishing Endpoint"
-    value=model.sb-publishEndpoint
-    placeholder="Enter the endpoint for a publishing service."
-    change=save
+    label="Publisher Endpoint"
+    value=@model.publisherEndpoint
+    placeholder="Enter the main endpoint URL for the ScienceBase publisher."
+    change=@save
   }}
   {{!-- {{input/md-input
     label="Default Community"

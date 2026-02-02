@@ -9,7 +9,7 @@ import jquery from 'jquery';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import { JsonDefault as Contact } from 'mdeditor/models/contact';
 import { Promise, allSettled } from 'rsvp';
-import { v4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { fixLiabilityTypo } from '../../utils/fix-liability-typo';
 
 const generateIdForRecord = Base.create().generateIdForRecord;
@@ -19,6 +19,7 @@ export default Route.extend(ScrollTo, {
   jsonvalidator: service(),
   settings: service(),
   ajax: service(),
+  apiValidator: service(),
 
   init() {
     this._super(...arguments);
@@ -59,29 +60,39 @@ export default Route.extend(ScrollTo, {
           'NO TITLE'
         );
       case 'dictionaries':
+        // Check both possible paths for the dictionary title
         return getWithDefault(
           json,
           'dataDictionary.citation.title',
-          'NO TITLE'
+          // If not found, try the direct path
+          getWithDefault(json, 'citation.title', 'NO TITLE')
         );
       case 'contacts':
         return json.name || 'NO NAME';
       case 'schemas':
         return record.attributes.title || 'NO TITLE';
+      case 'custom-profiles':
+        return record.attributes.title || 'NO TITLE';
+      case 'profiles':
+        return record.attributes.alias || 'NO TITLE';
       default:
         return 'N/A';
     }
   },
-
   formatMdJSON(json) {
     let { contact, dataDictionary } = json;
+
+    // Remove mdDictionary array from mdJSON as it should not be there according to mdJSON schema
+    if (json.mdDictionary) {
+      delete json.mdDictionary;
+    }
+
     let data = A();
     let template = EmObject.extend({
       init() {
         this._super(...arguments);
         if (this.attributes.json) {
           const json = JSON.parse(this.attributes.json);
-
           switch (this.type) {
             case 'contacts':
               if (json.contactId) {
@@ -96,6 +107,13 @@ export default Route.extend(ScrollTo, {
                   'id',
                   json.dataDictionary.dictionaryId.substring(0, 8)
                 );
+              } else {
+                let uuid = uuidv4();
+                let shortId = uuid.split('-')[0];
+                json.dataDictionary.dictionaryId = uuid;
+                set(this, 'dictionaryId', uuid);
+                set(this, 'id', shortId);
+                this.attributes.json = JSON.stringify(json);
               }
               break;
 
@@ -120,8 +138,7 @@ export default Route.extend(ScrollTo, {
       },
       attributes: computed(function () {
         return {
-          json: null, //,
-          //date-updated: '2017-05-18T21:21:34.446Z'
+          json: null,
         };
       }),
       type: null,
@@ -142,15 +159,32 @@ export default Route.extend(ScrollTo, {
 
     if (get(json, 'metadata.metadataInfo.metadataIdentifier') === undefined) {
       json.metadata.metadataInfo.metadataIdentifier = {
-        identifier: uuidV4(),
+        identifier: uuidv4(),
         namespace: 'urn:uuid',
       };
     }
 
+    // Extract dictionaryId values from dataDictionary array and populate mdDictionary array
+    if (dataDictionary && dataDictionary.length > 0) {
+      let mdDictionaryIds = dataDictionary
+        .filter((dict) => dict.dictionaryId)
+        .map((dict) => dict.dictionaryId);
+
+      if (mdDictionaryIds.length > 0) {
+        json = { ...json, mdDictionary: mdDictionaryIds };
+      }
+    }
+
+    // Create a clean copy of json without contact and dataDictionary arrays
+    // These are handled separately as individual entities
+    let cleanJson = { ...json };
+    delete cleanJson.contact;
+    delete cleanJson.dataDictionary;
+
     data.pushObject(
       template.create({
         attributes: {
-          json: JSON.stringify(json),
+          json: JSON.stringify(cleanJson),
           //profile: 'full'
         },
         type: 'records',
@@ -215,8 +249,6 @@ export default Route.extend(ScrollTo, {
         map[item.type] = [];
       }
 
-      console.log(item);
-
       item.meta = {};
       item.meta.title = this.getTitle(item);
       item.meta.icon = this.icons[item.type];
@@ -233,36 +265,45 @@ export default Route.extend(ScrollTo, {
       throw new Error(`${file.name} is not a valid mdEditor file.`);
     }
 
-    // Ensure dictionaryId is inside dataDictionary
+    // Ensure dictionaries have the correct structure
     json.data.forEach((record) => {
       if (record.type === 'dictionaries' && record.attributes.json) {
         let jsonData = JSON.parse(record.attributes.json);
+
+        // Case 1: dictionaryId is at root but should be in dataDictionary
         if (
           jsonData.dataDictionary &&
-          record.attributes.dictionaryId &&
+          jsonData.dictionaryId &&
           !jsonData.dataDictionary.dictionaryId
         ) {
-          set(
-            jsonData.dataDictionary,
-            'dictionaryId',
-            record.attributes.dictionaryId
-          );
-          delete record.attributes.dictionaryId;
+          set(jsonData.dataDictionary, 'dictionaryId', jsonData.dictionaryId);
+          delete jsonData.dictionaryId;
           record.attributes.json = JSON.stringify(jsonData);
+        }
+
+        // Case 2: The entire dictionary structure is at root level (no dataDictionary wrapper)
+        // Check if it has dictionary properties but no dataDictionary property
+        else if (
+          !jsonData.dataDictionary &&
+          (jsonData.citation ||
+            jsonData.dictionaryId ||
+            jsonData.entity ||
+            jsonData.domain)
+        ) {
+          // Create a dataDictionary wrapper and move all properties inside it
+          const newData = {
+            dataDictionary: { ...jsonData },
+          };
+          record.attributes.json = JSON.stringify(newData);
         }
       }
     });
 
     return this.mapRecords(json.data);
   },
-
   //TODO: fix propertyName id for dataDictionary
   columns: computed(function () {
     let route = this;
-
-    // Log the route and any relevant data
-    console.log('Route:', route);
-    console.log('Current Route Model:', route.currentRouteModel());
 
     return [
       {
@@ -306,12 +347,27 @@ export default Route.extend(ScrollTo, {
     });
   },
 
+  checkApiConfiguration() {
+    // Check if mdTranslatorAPI is configured using the service
+    if (!this.apiValidator.isApiConfigured()) {
+      // Show modal to alert user
+      console.log('mdTranslator API is not configured');
+      this.controller.set('showApiModal', true);
+      return false;
+    }
+    return true;
+  },
+
   actions: {
     getColumns() {
       return this.columns;
     },
     getIcon(type) {
       return this.icons[type];
+    },
+    goToSettings() {
+      this.controller.set('showApiModal', false);
+      this.transitionTo('settings.main');
     },
     readData(file) {
       let json;
@@ -320,7 +376,16 @@ export default Route.extend(ScrollTo, {
       let cmp = this;
 
       new Promise((resolve, reject) => {
+        // Check file type first
         if (file.type.match(/.*\/xml$/)) {
+          // Check API configuration for XML files only
+          if (!this.checkApiConfiguration()) {
+            reject(
+              'mdTranslator API URL is not configured. Please configure it in Settings.'
+            );
+            return;
+          }
+          // If it's XML, proceed with XML translation
           set(controller, 'isTranslating', true);
           this.flashMessages.info(`Translation service provided by ${url}.`);
 
@@ -363,6 +428,7 @@ export default Route.extend(ScrollTo, {
               }
             );
         } else {
+          // If it's not XML (i.e., it's JSON), process it directly
           try {
             json = JSON.parse(file.data);
           } catch (e) {
@@ -454,6 +520,13 @@ export default Route.extend(ScrollTo, {
           .filterBy('meta.export')
           .rejectBy('type', 'settings'),
       };
+
+      // Remove all PouchDB relationships
+      data.data.forEach((record) => {
+        if (record.relationships) {
+          delete record.relationships;
+        }
+      });
 
       store
         .importData(data, {

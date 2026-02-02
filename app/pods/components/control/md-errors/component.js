@@ -1,5 +1,3 @@
-// component.js
-
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
@@ -34,7 +32,7 @@ export default Component.extend({
   // Extract the record ID from the current URL
   recordId: computed('router.currentURL', function () {
     const url = this.router.currentURL;
-    const match = url.match(/\/record\/([^\/]+)\//);
+    const match = url.match(/\/record\/([^/]+)(?:\/|$)/);
     return match ? match[1] : null;
   }),
 
@@ -145,12 +143,25 @@ export default Component.extend({
       let propertyName = this.getPropertyName(error.dataPath);
       let limit = error.params.limit;
 
+      const message = `Should not have fewer than ${limit} items in ${propertyName}.`;
+      const messages = [message];
+
+      if (error.dataPath === '/contact') {
+        messages.push(
+          'If you already have contacts in your contacts list, you need to add a contact to this record to eliminate this error.'
+        );
+        messages.push(
+          'In this case, one of the below errors is also probably related to this error.'
+        );
+        messages.push(
+          'If you do not have any contacts, you need to create a contact and then add it to this record.'
+        );
+      }
+
       return {
         type: 'minItems',
         header: `Minimum Items Required for ${propertyName}`,
-        messages: [
-          `Should not have fewer than ${limit} items in ${propertyName}.`,
-        ],
+        messages,
         path: error.dataPath,
         url: this.mapDataPathToEndpoint(error.dataPath),
       };

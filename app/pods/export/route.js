@@ -125,6 +125,50 @@ export default Route.extend(ScrollTo, {
           item.attributes.json = JSON.stringify(jsonData);
         }
 
+        // Handle settings migration from 'catalog' to 'publisher' in publishOptions
+        if (item.type === 'settings' && item.attributes?.publishOptions) {
+          let publishOptions = item.attributes.publishOptions;
+
+          // Migrate legacy 'catalog' field to new 'publisher' field for each publish option
+          publishOptions = publishOptions.map((option) => {
+            if (option.catalog && !option.publisher) {
+              option.publisher = option.catalog;
+              delete option.catalog;
+            }
+
+            // Migrate legacy endpoint fields to publisherEndpoint
+            if (!option.publisherEndpoint) {
+              if (option['sb-publishEndpoint']) {
+                option.publisherEndpoint = option['sb-publishEndpoint'];
+                delete option['sb-publishEndpoint'];
+              } else if (option['couchdb-url']) {
+                option.publisherEndpoint = option['couchdb-url'];
+                delete option['couchdb-url'];
+              } else {
+                option.publisherEndpoint =
+                  option.publisher === 'ScienceBase'
+                    ? 'https://api.sciencebase.gov/sbmd-service/'
+                    : '';
+              }
+            } else {
+              // Remove old fields even if publisherEndpoint exists
+              if (option['sb-publishEndpoint']) {
+                delete option['sb-publishEndpoint'];
+              }
+              if (option['couchdb-url']) {
+                delete option['couchdb-url'];
+              }
+            }
+
+            return option;
+          });
+
+          item.attributes.publishOptions = publishOptions;
+        }
+
+        // Remove all PouchDB relationships
+        delete item.relationships;
+
         return item;
       });
 
@@ -157,7 +201,7 @@ export default Route.extend(ScrollTo, {
           let records = this.store
             .peekAll('record')
             .filterBy('_selected')
-            .map((item) => this.mdjson.formatRecord(item));
+            .map((item) => this.mdjson.formatRecord(item, false, true));
 
           window.saveAs(
             new Blob([JSON.stringify(records)], {

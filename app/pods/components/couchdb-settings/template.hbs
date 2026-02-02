@@ -1,0 +1,23 @@
+<div class="form">
+  {{input/md-input
+    label="Publisher Endpoint"
+    value=@model.publisherEndpoint
+    placeholder="Enter the CouchDB server URL (e.g., https://mycouch.example.com)"
+    change=@save
+  }}
+  {{input/md-input
+    label="CouchDB Database Name"
+    value=(get @model "couchdb-database")
+    placeholder="Enter the default database name"
+    change=@save
+  }}
+  {{input/md-input
+    label="Default Username"
+    value=(get @model "couchdb-username")
+    placeholder="Enter the default username (password will not be saved)"
+    change=@save
+  }}
+  <div class="alert alert-info">
+    <strong>Note:</strong> Passwords are not saved in settings for security reasons. You will need to enter your password each time you connect.
+  </div>
+</div>

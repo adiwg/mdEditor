@@ -14,18 +14,20 @@
 
 {{#liquid-if isExpanded enableGrowth=true}}
   <div class='md-input-input'>
-    {{textarea
-      value=value
-      placeholder=placeholder
-      required=required
-      maxlength=maxlength
-      autoresize=autoresize
-      rows=rows
-      max-rows=maxrows
-      max-width=maxwidth
-      max-height=maxheight
-      class=inputClass
-    }}
+    <Textarea
+      @value={{this.value}}
+      @placeholder={{this.placeholder}}
+      @required={{this.required}}
+      @maxlength={{this.maxlength}}
+      @autoresize={{this.autoresize}}
+      @rows={{this.rows}}
+      @max-rows={{this.maxrows}}
+      @max-width={{this.maxwidth}}
+      @max-height={{this.maxheight}}
+      class={{this.inputClass}}
+      @readonly={{this.readonly}}
+      @disabled={{this.readonly}}
+    />
     <span class='md-input-error'>
       {{#if showErrorMessage}}
         <span class='md-error'>

@@ -6,6 +6,8 @@ import { Copyable } from 'ember-copy';
 import Model from 'mdeditor/models/base';
 import { validator, buildValidations } from 'ember-cp-validations';
 import config from 'mdeditor/config/environment';
+import { v4 as uuidv4 } from 'uuid';
+import Schemas from 'mdjson-schemas/resources/js/schemas';
 
 const {
   APP: { defaultProfileId },
@@ -54,7 +56,6 @@ const Validations = buildValidations({
 });
 
 const Record = Model.extend(Validations, Copyable, {
-
   pouchRecord: belongsTo('pouch-record', { async: false }),
 
   /**
@@ -72,10 +73,13 @@ const Record = Model.extend(Validations, Copyable, {
   }),
   json: attr('json', {
     defaultValue() {
+      // Get schema version directly from imported schemas to avoid service dependency issues
+      const schemaVersion = Schemas.schema.version;
+
       const obj = EmberObject.create({
         schema: {
           name: 'mdJson',
-          version: '2.6.0',
+          version: schemaVersion,
         },
         metadata: {
           metadataInfo: {
@@ -128,11 +132,24 @@ const Record = Model.extend(Validations, Copyable, {
     function () {
       const type =
         this.get('json.metadata.resourceInfo.resourceType.0.type') || '';
-      const list = getOwner(this).lookup('service:icon');
 
-      return type
-        ? list.get(type) || list.get('default')
-        : list.get('defaultFile');
+      try {
+        const owner = getOwner(this);
+        if (owner) {
+          const list = owner.lookup('service:icon');
+
+          if (list) {
+            return type
+              ? list.get(type) || list.get('default')
+              : list.get('defaultFile');
+          }
+        }
+      } catch (error) {
+        console.warn('Failed to get icon service:', error);
+      }
+
+      // Fallback icon if service is not available
+      return 'fa fa-file-o';
     }
   ),
 
@@ -239,6 +256,8 @@ const Record = Model.extend(Validations, Copyable, {
     let current = this.cleanJson;
     let json = EmberObject.create(current);
     let name = current.metadata.resourceInfo.citation.title;
+    let newUuid = uuidv4();
+    let shortId = newUuid.split('-')[0];
 
     json.set('metadata.resourceInfo.citation.title', `Copy of ${name}`);
     json.set(
@@ -246,13 +265,16 @@ const Record = Model.extend(Validations, Copyable, {
       getWithDefault(json, 'metadata.resourceInfo.resourceType', [{}])
     );
     json.set('metadata.metadataInfo.metadataIdentifier', {
-      identifier: null,
+      identifier: newUuid,
       namespace: 'urn:uuid',
     });
 
-    return this.store.createRecord('record', {
+    let newRecord = this.store.createRecord('record', {
       json: json,
+      id: shortId,
     });
+
+    return newRecord;
   },
 });
 

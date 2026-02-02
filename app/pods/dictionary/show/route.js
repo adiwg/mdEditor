@@ -5,10 +5,7 @@ import { copy } from 'ember-copy';
 export default Route.extend({
   flashMessages: service(),
 
-  async model(params) {
-    // Finding pouch-dictionary records needs to happen first
-    // to load them into the store as related dictionary records
-    await this.store.findAll('pouch-dictionary');
+  model(params) {
     return this.store.peekRecord('dictionary', params.dictionary_id);
   },
 

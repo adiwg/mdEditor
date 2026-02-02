@@ -187,8 +187,12 @@ export default Service.extend({
 
   async createNewCustomProfile(profileConfig) {
     const newProfile = this.store.createRecord('custom-profile');
-    newProfile.set('config', profileConfig);
+    newProfile.set('uri', profileConfig.uri || null);
+    newProfile.set('alias', profileConfig.title || '');
+    newProfile.set('title', profileConfig.title);
+    newProfile.set('description', profileConfig.description || '');
     newProfile.set('profileId', profileConfig.identifier);
+    newProfile.set('thesauri', profileConfig.thesauri || []);
     await newProfile.save();
   },
 

@@ -33,7 +33,6 @@ export default Controller.extend({
     },
     saveProfile() {
       let profile = this.profile;
-
       return profile.save();
     },
 

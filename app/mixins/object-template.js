@@ -32,12 +32,14 @@ export default Mixin.create({
     let value = object || {};
     let Template = this.templateClass;
 
-    if(Template) {
+    if (Template) {
       let owner = getOwner(this);
 
-      return merge(Template.create(owner.ownerInjection(), defaults || {}),
-        value);
-
+      return assign(
+        {},
+        Template.create(owner.ownerInjection(), defaults || {}),
+        value
+      );
     }
 
     return object;
@@ -52,19 +54,43 @@ export default Mixin.create({
    */
   applyTemplateArray(propertyName, defaults) {
     let property = this.get(propertyName);
+    let Template = this.templateClass;
 
-    if(isArray(property)) {
+    if (!isArray(property)) {
+      return A();
+    }
+
+    if (Template) {
+      let owner = getOwner(this);
+      return A(
+        property.map((item) => {
+          return Template.create(owner.ownerInjection(), {
+            ...defaults,
+            ...item,
+          });
+        })
+      );
+    }
+
+    return property;
+  },
+  // TODO: 'This is a hack to get the template to work with the object-template mixin.  It is not a good solution.'
+  applyObjectTemplateArray(propertyName, defaults) {
+    let property = this.get(propertyName);
+
+    if (isArray(property)) {
       let Template = this.templateClass;
-      if(Template) {
+      if (Template) {
         let owner = getOwner(this);
 
         run.once(this, () => {
           property.forEach((item, idx, items) => {
             //items.removeAt(idx);
 
-            let newItem = assign(Template.create(owner.ownerInjection(),
-                defaults || {}),
-              item);
+            let newItem = assign(
+              Template.create(owner.ownerInjection(), defaults || {}),
+              item
+            );
 
             //items.insertAt(idx, newItem);
             items.set(`${idx}`, newItem);
@@ -79,5 +105,5 @@ export default Mixin.create({
     }
 
     return this.get(propertyName);
-  }
+  },
 });
