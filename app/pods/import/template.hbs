@@ -32,12 +32,12 @@
         <div class="row">
           <div class="col-xxl-6">
             <div class="input-group input-group-lg">
-              {{input
-                type="url"
-                value=this.importUri
+              <Input
+                @type="url"
+                @value={{this.importUri}}
                 placeholder="Enter online link to mdJSON"
                 class="form-control"
-              }}
+              />
               <span class="input-group-btn">
                   <button class="btn btn-primary" type="button" {{action (route-action "readFromUri")}}>
                     {{#if this.isLoading}}
