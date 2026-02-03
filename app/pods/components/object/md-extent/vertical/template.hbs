@@ -1,10 +1,10 @@
 {{input/md-textarea
-  value=model.description
+  value=this.model.description
   rows=5
   maxHeight=300
   placeholder='Description of vertical extent'
   label='Description'
-  profilePath=(concat profilePath '.description')
+  profilePath=(concat this.profilePath '.description')
 }}
 {{input/md-input
   type='number'
@@ -13,7 +13,7 @@
   valuePath='model.minValue'
   label='Min Value'
   placeholder='0'
-  profilePath=(concat profilePath '.minValue')
+  profilePath=(concat this.profilePath '.minValue')
   showValidations=true
 }}
 {{input/md-input
@@ -23,7 +23,7 @@
   valuePath='model.maxValue'
   label='Max Value'
   placeholder='0'
-  profilePath=(concat profilePath '.maxValue')
+  profilePath=(concat this.profilePath '.maxValue')
   showValidations=true
 }}
-{{object/md-srs model=model.crsId profilePath=(concat profilePath '.crsId')}}
+{{object/md-srs model=this.model.crsId profilePath=(concat this.profilePath '.crsId')}}

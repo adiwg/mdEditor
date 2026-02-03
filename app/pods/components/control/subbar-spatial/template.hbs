@@ -4,7 +4,7 @@
   {{fa-icon "search"}} Zoom All</button>
 <button type="button" class="btn btn-lg btn-warning btn-block md-btn-responsive" {{action "uploadData"}}>{{fa-icon "upload"}} Import Features</button>
 <button type="button" class="btn btn-lg btn-info btn-block md-btn-responsive" {{action "exportGeoJSON"}}>{{fa-icon "download"}} Export Features</button>
-{{#control/md-button-confirm class="btn btn-lg btn-danger btn-block md-btn-responsive" onConfirm=(action "deleteAllFeatures")}} {{fa-icon "times"}} Delete All{{/control/md-button-confirm}}
+<Control::MdButtonConfirm class="btn btn-lg btn-danger btn-block md-btn-responsive" @onConfirm={{action "deleteAllFeatures"}}> {{fa-icon "times"}} Delete All</Control::MdButtonConfirm>
 </div>
 <hr>
 <button type="button" class="btn btn-lg btn-primary btn-block md-btn-responsive" {{action "toList"}}>

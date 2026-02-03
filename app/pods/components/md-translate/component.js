@@ -1,6 +1,7 @@
 import { alias, equal, or } from '@ember/object/computed';
 import Component from '@ember/component';
-import { computed, get, set } from '@ember/object';
+import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { Promise } from 'rsvp';
 import moment from 'moment';
@@ -15,15 +16,16 @@ const errorLevels = {
 
 const errorClasses = ['success', 'info', 'warning', 'danger'];
 
-export default Component.extend({
-  classNames: ['row'],
+@classic
+export default class MdTranslateComponent extends Component {
+  classNames = ['row'];
 
-  cleaner: service(),
-  flashMessages: service(),
-  mdjson: service(),
-  settings: service(),
-  ajax: service(),
-  apiValidator: service(),
+  @service cleaner;
+  @service flashMessages;
+  @service mdjson;
+  @service settings;
+  @service ajax;
+  @service apiValidator;
 
   /**
    * Indicates whether empty tags should be written to the translated output
@@ -32,7 +34,7 @@ export default Component.extend({
    * @type {Boolean}
    * @default "false"
    */
-  showAllTags: false,
+  showAllTags = false;
 
   /**
    * Indicates whether to force writer to meet the output standard
@@ -41,11 +43,23 @@ export default Component.extend({
    * @type {Boolean}
    * @default "false"
    */
-  forceValid: false,
+  forceValid = false;
 
-  writer: null,
+  writer = null;
+  result = null;
+  errorLevel = null;
+  errors = null;
+  xhrError = null;
+  isLoading = false;
+  subTitle = null;
 
-  writerOptions: computed(function () {
+  @alias('errors') messages;
+  @equal('writerType', 'json') isJson;
+  @or('settings.data.mdTranslatorAPI', 'defaultAPI') apiURL;
+
+  defaultAPI = defaultValues.mdTranslatorAPI;
+
+  get writerOptions() {
     return [
       {
         name: 'FGDC CSDGM',
@@ -90,26 +104,18 @@ export default Component.extend({
         tip: 'HTML "human-readable" and printable report of the metadata content',
       },
     ];
-  }),
+  }
 
-  result: null,
-  errorLevel: null,
-  errors: null,
-  xhrError: null,
-  isLoading: false,
-  subTitle: null,
-
-  errorClass: computed('errorLevel', 'errors', function () {
+  get errorClass() {
     return errorClasses[this.errorLevel];
-  }),
+  }
 
-  errorTitle: computed('errorLevel', 'errors', function () {
+  get errorTitle() {
     let type = ['Success', 'Notice', 'Warning', 'Error'];
-
     return type[this.errorLevel];
-  }),
+  }
 
-  errorSubTitle: computed('subTitle', function () {
+  get errorSubTitle() {
     let err = this.errors;
 
     if (err.length) {
@@ -117,163 +123,163 @@ export default Component.extend({
     }
 
     return null;
-  }),
-  writeObj: computed('writer', function () {
+  }
+
+  get writeObj() {
     return this.writerOptions.findBy('value', this.writer);
-  }),
+  }
 
-  writerType: computed('writeObj', function () {
+  get writerType() {
     let obj = this.writeObj;
-
     return obj ? obj.type.split('/')[1] : null;
-  }),
+  }
 
-  isJson: equal('writerType', 'json'),
-  defaultAPI: defaultValues.mdTranslatorAPI,
-  apiURL: or('settings.data.mdTranslatorAPI', 'defaultAPI'),
-  isApiConfigured: computed('settings.data.mdTranslatorAPI', function () {
+  get isApiConfigured() {
     return this.apiValidator.isApiConfigured();
-  }),
-  isHtml: computed('writerType', function () {
+  }
+
+  get isHtml() {
     //IE does not supoprt srcdoc, so default to non-html display
     return (
       this.writerType === 'html' && 'srcdoc' in document.createElement('iframe')
     );
-  }),
-
-  messages: alias('errors'),
+  }
 
   _clearResult() {
-    set(this, 'result', null);
-    set(this, 'subtitle', null);
-    set(this, 'errors', null);
-    set(this, 'xhrError', null);
-  },
+    this.result = null;
+    this.subtitle = null;
+    this.errors = null;
+    this.xhrError = null;
+  }
 
-  actions: {
-    translate() {
-      // Check if API is configured before proceeding
-      if (!this.apiValidator.isApiConfigured()) {
-        this.flashMessages.danger(
-          'mdTranslator API URL is not configured. Please configure it in Settings.'
-        );
-        return;
-      }
+  @action
+  translate() {
+    // Check if API is configured before proceeding
+    if (!this.apiValidator.isApiConfigured()) {
+      this.flashMessages.danger(
+        'mdTranslator API URL is not configured. Please configure it in Settings.'
+      );
+      return;
+    }
 
-      let mdjson = this.mdjson;
-      let url = this.apiURL;
-      let cmp = this;
+    let mdjson = this.mdjson;
+    let url = this.apiURL;
+    let cmp = this;
 
-      this._clearResult();
-      set(this, 'isLoading', true);
+    this._clearResult();
+    this.isLoading = true;
 
-      this.ajax
-        .request(url, {
-          type: 'POST',
-          data: {
-            //file: JSON.stringify(cleaner.clean(json)),
-            file: mdjson.formatRecord(this.model, true),
-            reader: 'mdJson',
-            writer: this.writer,
-            showAllTags: this.showAllTags,
-            forceValid: this.forceValid,
-            validate: 'normal',
-            format: 'json',
-          },
-          context: this,
-        })
-        .then(
-          function (response) {
-            set(cmp, 'isLoading', false);
+    this.ajax
+      .request(url, {
+        type: 'POST',
+        data: {
+          //file: JSON.stringify(cleaner.clean(json)),
+          file: mdjson.formatRecord(this.model, true),
+          reader: 'mdJson',
+          writer: this.writer,
+          showAllTags: this.showAllTags,
+          forceValid: this.forceValid,
+          validate: 'normal',
+          format: 'json',
+        },
+        context: this,
+      })
+      .then(
+        function (response) {
+          cmp.isLoading = false;
 
-            let level = Math.max(
-              ...[
-                response.readerExecutionStatus,
-                response.readerStructureStatus,
-                response.readerValidationStatus,
-                response.writerStatus,
-              ].map((itm) => errorLevels[itm])
-            );
+          let level = Math.max(
+            ...[
+              response.readerExecutionStatus,
+              response.readerStructureStatus,
+              response.readerValidationStatus,
+              response.writerStatus,
+            ].map((itm) => errorLevels[itm])
+          );
 
-            set(cmp, 'errorLevel', level);
-            set(
-              cmp,
-              'errors',
-              response.readerExecutionMessages
-                .concat(
-                  response.readerStructureMessages,
-                  response.readerValidationMessages.length
-                    ? response.readerValidationMessages[0]
-                    : response.readerValidationMessages,
-                  response.writerMessages
-                )
-                .map((itm) => itm.split(':'))
-            );
-            set(cmp, 'result', response.writerOutput);
-            if (!response.success) {
-              get(cmp, 'flashMessages').danger('Translation error!');
-            }
-          },
-          (response) => {
-            let error = `mdTranslator Server error:
+          cmp.errorLevel = level;
+          cmp.errors = response.readerExecutionMessages
+            .concat(
+              response.readerStructureMessages,
+              response.readerValidationMessages.length
+                ? response.readerValidationMessages[0]
+                : response.readerValidationMessages,
+              response.writerMessages
+            )
+            .map((itm) => itm.split(':'));
+          cmp.result = response.writerOutput;
+          if (!response.success) {
+            cmp.flashMessages.danger('Translation error!');
+          }
+        },
+        (response) => {
+          let error = `mdTranslator Server error:
           ${response.status}: ${response.statusText}`;
 
-            set(cmp, 'errorLevel', 3);
-            set(cmp, 'isLoading', false);
-            set(cmp, 'xhrError', error);
-            get(cmp, 'flashMessages').danger(error);
-          }
-        );
-    },
-    saveResult() {
-      let title = get(this, 'model.title');
-      let result = this.result;
-      let writer = this.writeObj;
-
-      window.saveAs(
-        new Blob([result], {
-          type: `${writer.type};charset=utf-8`,
-        }),
-        `${title}_${moment().format('YYYYMMDD')}.${this.writerType}`
-      );
-    },
-    clearResult() {
-      this._clearResult();
-    },
-    prettifyJson() {
-      let promise = new Promise((resolve, reject) => {
-        let parsed = JSON.parse(this.result);
-
-        if (parsed) {
-          resolve(parsed);
-        } else {
-          reject('JSON not valid');
+          cmp.errorLevel = 3;
+          cmp.isLoading = false;
+          cmp.xhrError = error;
+          cmp.flashMessages.danger(error);
         }
-      });
+      );
+  }
 
-      promise
-        .then((obj) => {
-          set(this, 'result', JSON.stringify(obj, null, 2));
-        })
-        .catch((error) => {
-          //console.log(error);
-          this.flashMessages.danger(error.message);
-        });
-    },
-    errorClass(level) {
-      return errorClasses[errorLevels[level]] || 'primary';
-    },
-    formatMessage(message) {
-      return message
-        ? message
-            .trim()
-            .replace(/^([A-Z]{2,})/g, (match) => match.toLowerCase())
-        : 'context not provided';
-    },
-    goToSettings() {
-      // This action should be handled by the parent route/controller
-      // We'll send the action up the component hierarchy
-      this.sendAction('goToSettings');
-    },
-  },
-});
+  @action
+  saveResult() {
+    let title = this.model.title;
+    let result = this.result;
+    let writer = this.writeObj;
+
+    window.saveAs(
+      new Blob([result], {
+        type: `${writer.type};charset=utf-8`,
+      }),
+      `${title}_${moment().format('YYYYMMDD')}.${this.writerType}`
+    );
+  }
+
+  @action
+  clearResult() {
+    this._clearResult();
+  }
+
+  @action
+  prettifyJson() {
+    let promise = new Promise((resolve, reject) => {
+      let parsed = JSON.parse(this.result);
+
+      if (parsed) {
+        resolve(parsed);
+      } else {
+        reject('JSON not valid');
+      }
+    });
+
+    promise
+      .then((obj) => {
+        this.result = JSON.stringify(obj, null, 2);
+      })
+      .catch((error) => {
+        this.flashMessages.danger(error.message);
+      });
+  }
+
+  @action
+  errorClassAction(level) {
+    return errorClasses[errorLevels[level]] || 'primary';
+  }
+
+  @action
+  formatMessage(message) {
+    return message
+      ? message.trim().replace(/^([A-Z]{2,})/g, (match) => match.toLowerCase())
+      : 'context not provided';
+  }
+
+  @action
+  goToSettings() {
+    // This action should be handled by the parent route/controller
+    // We'll send the action up the component hierarchy
+    this.sendAction('goToSettings');
+  }
+}

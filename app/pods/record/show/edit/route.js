@@ -1,48 +1,77 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import EmberObject from '@ember/object';
-import { scheduleOnce } from '@ember/runloop';
-import HashPoll from 'mdeditor/mixins/hash-poll';
-import DoCancel from 'mdeditor/mixins/cancel';
+import { action, get } from '@ember/object';
+import { once } from '@ember/runloop';
+import { getOwner } from '@ember/application';
 
-export default Route.extend(HashPoll, DoCancel, {
-  init() {
-    this._super(...arguments);
+export default class EditRoute extends Route {
+  constructor() {
+    super(...arguments);
 
     this.breadCrumb = {
       title: 'Edit',
       linkable: false
     };
-  },
-
-  pouch: service(),
+  }
+  @service pouch;
+  @service hashPoll;
+  @service flashMessages;
 
   /**
    * The profile service
    * @property profile
    * @return {Ember.Service} profile
    */
-  profile: service('custom-profile'),
+  @service('custom-profile') profile;
+
+  model() {
+    return this.modelFor('record.show');
+  }
 
   /**
    * The route activate hook, sets the profile.
    */
   afterModel(model) {
-    this._super(...arguments);
+    super.afterModel(...arguments);
 
-    this.profile.set('active', model.get('profile'));
-  },
+    if (model) {
+      this.profile.set('active', model.get('profile'));
+      this.hashPoll.startPolling(model);
+    }
+  }
+  deactivate() {
+    super.deactivate(...arguments);
+    this.hashPoll.stopPolling();
+  }
+  doCancel() {
+    let controller = this.controller;
+    let same = !controller.cancelScope || getOwner(this)
+      .lookup('controller:application')
+      .currentPath === get(controller, 'cancelScope.routeName');
 
-  actions: {
-
-    saveRecord: async function () {
+    if(controller.onCancel) {
+      once(() => {
+        if(same) {
+          controller.onCancel.call(controller.cancelScope ||
+            this);
+        } else {
+          controller.set('onCancel', null);
+          controller.set('cancelScope', null);
+        }
+        this.refresh();
+      });
+    }
+  }
+    @action
+    async saveRecord() {
       const model = this.currentRouteModel();
       model.updateTimestamp();
       await model.save();
       this.flashMessages.success(`Saved Record: ${model.get('title')}`);
-    },
+    }
 
-    cancelRecord: function () {
+    @action
+    cancelRecord() {
       let model = this.currentRouteModel();
       let message = `Cancelled changes to Record: ${model.get('title')}`;
 
@@ -64,10 +93,10 @@ export default Route.extend(HashPoll, DoCancel, {
           this.doCancel();
           this.flashMessages.warning(message);
         });
-    },
+    }
 
+    @action
     getContext() {
       return this;
     }
-  }
-});
+}

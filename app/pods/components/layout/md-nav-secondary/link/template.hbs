@@ -1,30 +1,30 @@
 {{!-- {{#if link.isOverflow}} --}}
-  {{#if isStaticLinks}}
-    {{#link-to link.target class="link.class" }}{{link.title}}
-      {{#if link.tip}}
+  {{#if this.isStaticLinks}}
+    <LinkTo @route={{this.link.target}} class="link.class">{{this.link.title}}
+      {{#if this.link.tip}}
         {{#ember-tooltip
           effect="slide"
           side="bottom"
           delay=500
           tooltipClass="ember-tooltip md-tooltip info"
         }}
-      {{link.tip}}
+      {{this.link.tip}}
         {{/ember-tooltip}}
       {{/if}}
-    {{/link-to}}
+    </LinkTo>
   {{else}}
-    {{#link-to link.target model class="link.class" }}{{link.title}}
-      {{#if link.tip}}
+    <LinkTo @route={{this.link.target}} @model={{this.model}} class="link.class">{{this.link.title}}
+      {{#if this.link.tip}}
         {{#ember-tooltip
           effect="slide"
           side="bottom"
           delay=500
           tooltipClass="ember-tooltip md-tooltip info"
         }}
-          {{link.tip}}
+          {{this.link.tip}}
           {{!-- {{link.isOverflow}} --}}
         {{/ember-tooltip}}
       {{/if}}
-    {{/link-to}}
+    </LinkTo>
   {{/if}}
 {{!-- {{/if}} --}}

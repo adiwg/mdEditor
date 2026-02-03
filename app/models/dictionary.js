@@ -71,8 +71,7 @@ export default Model.extend(Validations, Copyable, {
 
   init() {
     this._super(...arguments);
-
-    this.on('didLoad', this, this.assignId);
+    // Note: didLoad event handling is now in base model via observeLoaded observer
   },
 
   profile: attr('string', {

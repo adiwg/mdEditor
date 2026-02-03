@@ -1,13 +1,13 @@
 <h3 class="text-info">{{fa-icon "file-text"}} Metadata Records</h3>
-{{#if model.length}}
+{{#if this.model.length}}
   {{#layout/md-card
     collapsible=true
     collapsed=false
     shadow=true
   }}
     {{control/md-record-table
-      data=model
-      dataColumns=(compute (route-action "getColumns") section.meta.type)
+      data=this.model
+      dataColumns=(compute (route-action "getColumns") this.section.meta.type)
       allActions=true
       selectProperty="_selectedFromList"
       showSlider=(route-action "showSlider")
@@ -16,22 +16,22 @@
 {{else}}
   <div class="alert alert-info">
     <h3>No Metadata Records found.
-      {{#link-to "record.new" class="btn btn-success btn-lg" }}
+      <LinkTo @route="record.new" class="btn btn-success btn-lg">
         {{fa-icon "plus"}} Create a Metadata Record
-      {{/link-to}}
+      </LinkTo>
     </h3>
   </div>
 {{/if}}
 
 {{outlet}}
 
-{{#if errorTarget}}
+{{#if this.errorTarget}}
   {{to-elsewhere
     named="md-slider-error"
     send=(hash
-      title=(concat "Viewing errors for: " errorTarget.title)
+      title=(concat "Viewing errors for: " this.errorTarget.title)
       body=(component "control/md-errors"
-        errors=errorTarget.schemaErrors
+        errors=this.errorTarget.schemaErrors
       )
     )
   }}

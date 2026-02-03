@@ -1,15 +1,10 @@
-import { oneWay } from '@ember/object/computed';
 import Component from '@ember/component';
-import {
-  computed,
-  get
-} from '@ember/object';
-import {
-  inject as service
-} from '@ember/service';
-import $ from 'jquery';
+import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-export default Component.extend({
+@classic
+export default class MdCardComponent extends Component {
   /**
    * Component that renders a Bootstrap card.
    *
@@ -46,16 +41,17 @@ export default Component.extend({
   //   }
   // },
 
-  spotlight: service(),
-  cleaner: service(),
+  @service spotlight;
+  @service cleaner;
 
-  classNames: ['md-card', 'card'],
-  classNameBindings: ['shadow:box-shadow--4dp', 'scroll:scroll-card',
+  classNames = ['md-card', 'card'];
+  classNameBindings = ['shadow:box-shadow--4dp', 'scroll:scroll-card',
     'maximizable', 'fullScreen', 'required', 'muted', 'borderColor'
-  ],
-  attributeBindings: ['data-spy'],
+  ];
+  attributeBindings = ['dataSpy:data-spy'];
 
-  content: null,
+  content = null;
+
   /**
    * The card element id.
    *
@@ -65,10 +61,9 @@ export default Component.extend({
    * @category computed
    * @requires elementId
    */
-  cardId: computed('elementId', function () {
-      return 'card-' + this.elementId;
-    })
-    .readOnly(),
+  get cardId() {
+    return 'card-' + this.elementId;
+  }
 
   /**
    * The card title.
@@ -100,7 +95,7 @@ export default Component.extend({
    * @type {Boolean}
    * @default true
    */
-  spotlightEnabled: true,
+  spotlightEnabled = true;
 
   /**
    * If true, the scroll-card class will be applied to the card.
@@ -125,7 +120,7 @@ export default Component.extend({
    * @type {Boolean}
    * @default true
    */
-  shadow: true,
+  shadow = true;
 
   /**
    * If true, the card header will have a white background.
@@ -134,7 +129,7 @@ export default Component.extend({
    * @type {Boolean}
    * @default false
    */
-  plain: false,
+  plain = false;
 
   /**
    * If true, the card-block class will be added.
@@ -143,7 +138,7 @@ export default Component.extend({
    * @type {Boolean}
    * @default true
    */
-  block: true,
+  block = true;
 
   /**
    * If true, the card-flex class will be added.
@@ -152,7 +147,7 @@ export default Component.extend({
    * @type {Boolean}
    * @default false
    */
-  flex: false,
+  flex = false;
 
   /**
    * If true, the card-block text color will be muted.
@@ -161,7 +156,7 @@ export default Component.extend({
    * @type {Boolean}
    * @default false
    */
-  muted: false,
+  muted = false;
 
   /**
    * If true, the collapse control will be added to the card header.
@@ -186,7 +181,7 @@ export default Component.extend({
    * @type {String}
    * @default 'primary'
    */
-  btnClass: 'primary',
+  btnClass = 'primary';
 
   /**
    * Icon to display in header button
@@ -232,54 +227,60 @@ export default Component.extend({
    * @type {Number}
    * @default 130
    */
-  offset: 130,
+  offset = 130;
 
   /**
    * The data-spy text. Defaults to the title.
    *
-   * @property data-spy
+   * @property dataSpy
    * @type {String}
    * @default "this.title"
    * @category computed
    */
-  'data-spy': oneWay('title'),
+  get dataSpy() {
+    return this.title;
+  }
 
-  borderColor: computed('border', function () {
+  get borderColor() {
     return this.border ? 'border-' + this.border : null;
-  }),
+  }
 
-  windowIcon: computed('fullScreen', function () {
+  get windowIcon() {
     return this.fullScreen ? 'compress' : 'expand';
-  }),
+  }
 
-  isCollapsible: computed('fullScreen', 'collapsible', function () {
+  get isCollapsible() {
     return !this.fullScreen && this.collapsible;
-  }),
+  }
 
   didInsertElement() {
-    this._super(...arguments);
+    super.didInsertElement(...arguments);
 
     if(this.collapsible) {
-      let card = this.$();
-      let body = this.$(' > .card-collapse');
+      let card = this.element;
+      let body = this.element.querySelector('.card-collapse');
       let offset = this.offset || 0;
 
-      body.on('shown.bs.collapse', function (e) {
-        e.stopPropagation();
-        // card.get(0).scrollIntoView({
-        //   block: "end",
-        //   behavior: "smooth"
-        // });
-        //
-        // let scrolledY = window.scrollY;
-        //
-        // if(scrolledY) {
-        //   window.scroll(0, scrolledY - offset);
-        // }
-        $('html,body').animate({
-          scrollTop: card.offset().top - offset
-        }, 'slow');
-      });
+      if (body) {
+        body.addEventListener('shown.bs.collapse', function (e) {
+          e.stopPropagation();
+          // card.scrollIntoView({
+          //   block: "end",
+          //   behavior: "smooth"
+          // });
+          //
+          // let scrolledY = window.scrollY;
+          //
+          // if(scrolledY) {
+          //   window.scroll(0, scrolledY - offset);
+          // }
+          const scrollTop = card.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({
+            top: scrollTop,
+            behavior: 'smooth'
+          });
+        });
+      }
     }
 
     let content = this.content;
@@ -290,20 +291,38 @@ export default Component.extend({
         })).length ===
         0 : true;
 
-      this.set('collapsed', empty);
-    }
-  },
-
-  actions: {
-    toggleFullScreen() {
-      let val = this.toggleProperty('fullScreen');
-
-      $(this.element).parents('.liquid-child,.liquid-container, .md-card').toggleClass(
-        'full-screen', val);
-      $('body').toggleClass('slider', val);
-    },
-    spotlight(id) {
-      this.spotlight.setTarget(id);
+      this.collapsed = empty;
     }
   }
-});
+
+  @action
+  toggleFullScreen() {
+    let val = !this.fullScreen;
+    this.fullScreen = val;
+
+    // Find and toggle all parent elements matching the selectors
+    let node = this.element.parentElement;
+    while (node) {
+      if (node.matches('.liquid-child, .liquid-container, .md-card')) {
+        if (val) {
+          node.classList.add('full-screen');
+        } else {
+          node.classList.remove('full-screen');
+        }
+      }
+      node = node.parentElement;
+    }
+
+    // Toggle body class
+    if (val) {
+      document.body.classList.add('slider');
+    } else {
+      document.body.classList.remove('slider');
+    }
+  }
+
+  @action
+  setSpotlight(id) {
+    this.spotlight.setTarget(id);
+  }
+}

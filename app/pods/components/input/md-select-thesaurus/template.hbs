@@ -1,11 +1,11 @@
  {{input/md-select
      placeholder="Pick a thesaurus"
-     disabled=disabled
-     objectArray=thesaurusList
+     disabled=this.disabled
+     objectArray=this.thesaurusList
      valuePath="id"
      namePath="label"
-     value=value
+     value=this.value
      tooltip=true
      tooltipPath="tooltipText"
-     change=(action "update" value thesaurus)
+     change=(action "update" this.value this.thesaurus)
    }}

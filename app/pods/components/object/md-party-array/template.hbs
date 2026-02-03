@@ -1,17 +1,17 @@
 {{#object/md-array-table
      columns="Role,Contacts"
-     title=title
-     pluralTitle=pluralTitle
-     required=required
-     plain=plain
-     value=value
-     validation=validation
-     errorMessage=errorMessage
-     tipPath=tipPath
-     tipModel=tipModel
+     title=this.title
+     pluralTitle=this.pluralTitle
+     required=this.required
+     plain=this.plain
+     value=this.value
+     validation=this.validation
+     errorMessage=this.errorMessage
+     tipPath=this.tipPath
+     tipModel=this.tipModel
      data-spy=false
-     profilePath=profilePath
-     templateClass=templateClass as |party|
+     profilePath=this.profilePath
+     templateClass=this.templateClass as |party|
    }}
    {{#with party.item as |item|}}
      <td>
@@ -21,11 +21,11 @@
          create=true
          tooltip=true
          icon=false
-         disabled=disabled
+         disabled=this.disabled
          mdCodeName="role"
          showValidations=true
          placeholder="Select or enter a role"
-         profilePath=(concat profilePath ".role")
+         profilePath=(concat this.profilePath ".role")
        }}
      </td>
      <td>
@@ -36,7 +36,7 @@
            icon=true
            tooltip=true
            showValidations=true
-           profilePath=(concat profilePath ".contacts")
+           profilePath=(concat this.profilePath ".contacts")
          }}
      </td>
     {{/with}}

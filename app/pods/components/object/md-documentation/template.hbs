@@ -1,16 +1,16 @@
 <div class="form-group">
     {{object/md-resource-type-array
       plain=false
-      value=model.resourceType
+      value=this.model.resourceType
       required=true
       data-spy="Resource Types"
-      profilePath=(concat profilePath ".resourceType")
+      profilePath=(concat this.profilePath ".resourceType")
     }}
 </div>
-{{#with model.citation.firstObject as |citation|}}
+{{#with this.model.citation.firstObject as |citation|}}
   {{object/md-citation
     model=citation
-    profilePath=(concat profilePath ".citation")
+    profilePath=(concat this.profilePath ".citation")
     simpleIdentifier=true
   }}
 {{/with}}

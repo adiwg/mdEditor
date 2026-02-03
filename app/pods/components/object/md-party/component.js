@@ -1,30 +1,21 @@
 import Component from '@ember/component';
-import EmberObject, { computed, get, getWithDefault, set } from '@ember/object';
-import {
-  A
-} from '@ember/array';
-import {
-  once
-} from '@ember/runloop';
-import {
-  alias
-} from '@ember/object/computed';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import EmberObject, { computed, get, set } from '@ember/object';
+import { A } from '@ember/array';
+import { once } from '@ember/runloop';
+import { alias } from '@ember/object/computed';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'role': [
+  role: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  '_contacts': validator('length', {
+  _contacts: validator('length', {
     min: 1,
-    message: 'At least one contact is required.'
-  })
+    message: 'At least one contact is required.',
+  }),
 });
 
 const Template = EmberObject.extend(Validations, {
@@ -41,13 +32,13 @@ const Template = EmberObject.extend(Validations, {
     set(key, value) {
       let map = value.map((itm) => {
         return {
-          contactId: itm
+          contactId: itm,
         };
       });
       set(this, 'party', map);
       return value;
-    }
-  })
+    },
+  }),
 });
 
 const theComp = Component.extend(Validations, {
@@ -59,12 +50,12 @@ const theComp = Component.extend(Validations, {
     set(key, value) {
       let map = value.map((itm) => {
         return {
-          contactId: itm
+          contactId: itm,
         };
       });
       set(this, 'model.party', map);
       return value;
-    }
+    },
   }),
 
   role: alias('model.role'),
@@ -74,18 +65,13 @@ const theComp = Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'party', getWithDefault(model, 'party', []));
-      set(model, 'role', getWithDefault(model, 'role', null));
+      set(model, 'party', get(model, 'party') ?? []);
+      set(model, 'role', get(model, 'role') ?? null);
     });
   },
 
   attributeBindings: ['data-spy'],
-  templateClass: Template
+  templateClass: Template,
 });
 
-export {
-  Validations,
-  Template,
-  theComp as
-  default
-};
+export { Validations, Template, theComp as default };

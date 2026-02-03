@@ -1,5 +1,7 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
-  tagName:''
-});
+@classic
+export default class ShowComponent extends Component {
+  tagName = '';
+}

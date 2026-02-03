@@ -1,5 +1,7 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
-  classNames: ['md-row-buttons']
-});
+@classic
+export default class RowButtonsComponent extends Component {
+  classNames = ['md-row-buttons'];
+}

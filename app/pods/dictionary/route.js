@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 
-export default Route.extend({
+export default class DictionaryRoute extends Route {
   init() {
     this._super(...arguments);
 
@@ -8,5 +8,5 @@ export default Route.extend({
       title: 'Dictionary',
       linkable: false
     }
-  },
-});
+  }
+}

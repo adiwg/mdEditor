@@ -9,10 +9,10 @@
         <form {{action "translate" on="submit"}}>
             <div class="card-block">
                 {{input/md-select label="Choose Format"
-                  value=writer
+                  value=this.writer
                   valuePath="value"
                   namePath="name"
-                  objectArray=writerOptions
+                  objectArray=this.writerOptions
                   tooltip=true
                   tooltipPath="tip"
                   searchEnabled=false
@@ -23,8 +23,8 @@
                     <div class="form-control">
                         <div class="inline-block">
                             {{input/md-toggle
-                              value=forceValid
-                              onToggle=(action (mut forceValid))
+                              value=this.forceValid
+                              onToggle=(action (mut this.forceValid))
                               showLabels=true
                               onLabel="Yes"
                               offLabel="No"
@@ -39,8 +39,8 @@
                     <div class="form-control">
                         <div class="inline-block">
                             {{input/md-toggle
-                              value=showAllTags
-                              onToggle=(action (mut showAllTags))
+                              value=this.showAllTags
+                              onToggle=(action (mut this.showAllTags))
                               showLabels=true
                               onLabel="Yes"
                               offLabel="No"
@@ -58,7 +58,7 @@
                         <a href="#" {{action "goToSettings"}}>Settings</a> to enable translation.
                     </div>
                 {{/unless}}
-                {{control/md-status model=model isBtn=true bntSize="lg"}}
+                {{control/md-status model=this.model isBtn=true bntSize="lg"}}
                 <button type="submit" class="btn btn-lg btn-primary pull-right"
                 disabled={{or (not this.writer) (not this.isApiConfigured)}}>
                     {{fa-icon "retweet"}} Translate </button>
@@ -68,23 +68,23 @@
 
 </div>
 <div class="col-md-7">
-    {{#if isLoading}}
+    {{#if this.isLoading}}
       {{control/md-spinner size=5 text="Translating..."}}
     {{/if}}
 
-    {{#if messages}}
+    {{#if this.messages}}
       {{#layout/md-card
-        title=(concat "Translation " errorTitle)
-        class=(concat "card-inverse card-outline-" errorClass " md-translator-error " errorClass)
+        title=(concat "Translation " this.errorTitle)
+        class=(concat "card-inverse card-outline-" this.errorClass " md-translator-error " this.errorClass)
         scroll=false
         maximizable=true
         titleIcon="exclamation"
         spotlightEnabled=false
         collapsible=true
       }}
-        <h4 class="text-{{errorClass}}">{{errorSubTitle}}</h4>
+        <h4 class="text-{{this.errorClass}}">{{this.errorSubTitle}}</h4>
         <ul class="list-group">
-          {{#each messages as |message|}}
+          {{#each this.messages as |message|}}
             {{#with (compute (action "errorClass") message.[0]) as |errorClass|}}
               <li class="list-group-item">
                 <div class="">
@@ -104,7 +104,7 @@
       {{/layout/md-card}}
     {{/if}}
 
-    {{#if xhrError}}
+    {{#if this.xhrError}}
       {{#layout/md-card
         title="mdTranslator Error"
         spotlightEnabled=false
@@ -113,41 +113,41 @@
         maximizable=true
         titleIcon="exclamation"
       }}
-        <p>{{xhrError}}</p>
+        <p>{{this.xhrError}}</p>
         <p>An error occurred during the translation. The incident has been
         logged. If the problem persists, please contact techincal support.</p>
       {{/layout/md-card}}
     {{/if}}
 
-    {{#if result}}
+    {{#if this.result}}
       {{#layout/md-card
         title="Result"
-        class=(if messages (concat "card-inverse card-outline-" errorClass " md-translator-error " errorClass " md-translator-preview") "md-translator-preview")
+        class=(if this.messages (concat "card-inverse card-outline-" this.errorClass " md-translator-error " this.errorClass " md-translator-preview") "md-translator-preview")
         scroll=false
         maximizable=true
         titleIcon="check"
         spotlightEnabled=false
       }}
-          {{#if isHtml}}
-          <iframe srcdoc={{result}} sandbox="allow-scripts" width="100%" height="100%">
+          {{#if this.isHtml}}
+          <iframe srcdoc={{this.result}} sandbox="allow-scripts" width="100%" height="100%">
           </iframe>
           {{else}}
-          {{input/md-textarea rows=20 class="md-translator-area" placeholder="" value=result}}
+          {{input/md-textarea rows=20 class="md-translator-area" placeholder="" value=this.result}}
           {{/if}}
 
           <div class="card-footer text-right">
-            {{#if isJson}}
-              {{control/md-json-button class="btn-lg btn-primary" json=result disabled=(if result false true)}}
+            {{#if this.isJson}}
+              {{control/md-json-button class="btn-lg btn-primary" json=this.result disabled=(if this.result false true)}}
 
               <button type="button" class="btn btn-lg btn-primary"
               {{action "prettifyJson"}}
-              disabled={{if result false true}}>
+              disabled={{if this.result false true}}>
               {{fa-icon "align-left"}} Format </button>
             {{/if}}
 
               <button type="button" class="btn btn-lg btn-success"
               {{action "saveResult"}}
-              disabled={{if result false true}}>
+              disabled={{if this.result false true}}>
               {{fa-icon "floppy-o"}} Save Result </button>
           </div>
       {{/layout/md-card}}

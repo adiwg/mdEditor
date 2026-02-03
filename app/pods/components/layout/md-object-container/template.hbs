@@ -1,31 +1,31 @@
 <div class="md-object-container-header">
-  {{#if isCollapsible}}
+  {{#if this.isCollapsible}}
   <a class="btn-collapse" data-toggle="collapse" aria-expanded="true"
-    href={{concat "#" elementId "-collapse"}} aria-controls={{concat elementId "-collapse"}}>
+    href={{concat "#" this.elementId "-collapse"}} aria-controls={{concat this.elementId "-collapse"}}>
     <span class="fa"></span>
   </a>
   {{/if}}
-  {{#if title}}
+  {{#if this.title}}
     <h4 class="title inline-block text-primary" code="">
-      <strong>{{concat title " #" index}}</strong>
+      <strong>{{concat this.title " #" this.index}}</strong>
     </h4>
   {{/if}}
 
   <div class="btn-group btn-group-sm">
-    {{#if editItem}}
-      <button type="button" class="btn btn-success" {{action editItem index}}>
+    {{#if this.editItem}}
+      <button type="button" class="btn btn-success" {{action this.editItem this.index}}>
         {{fa-icon "pencil"}} Edit</button>
     {{/if}}
 
-    {{#if deleteItem}}
+    {{#if this.deleteItem}}
       {{#control/md-button-confirm class="btn btn-danger"
-        onConfirm=(action deleteItem index)}}
+        onConfirm=(action this.deleteItem this.index)}}
         {{fa-icon "times"}} Delete
       {{/control/md-button-confirm}}
     {{/if}}
   </div>
 </div>
-<div id={{concat elementId "-collapse"}} class="md-object-container-body collapse in">
+<div id={{concat this.elementId "-collapse"}} class="md-object-container-body collapse in">
   <hr>
   {{yield}}
 </div>

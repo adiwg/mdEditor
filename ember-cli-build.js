@@ -5,6 +5,12 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
     hinting: false,
+    babel: {
+      plugins: [
+        // enable ember-concurrency async-arrow task transform
+        require.resolve('ember-concurrency/async-arrow-task-transform'),
+      ],
+    },
     // Add options here
     sassOptions: {
       includePaths: [
@@ -13,6 +19,13 @@ module.exports = function (defaults) {
         // 'node_modules/select2/src/scss',
         // 'node_modules/select2-bootstrap-theme/src',
         'node_modules/jquery-jsonview/src',
+      ],
+      silenceDeprecations: [
+        'import',
+        'global-builtin',
+        'color-functions',
+        'slash-div',
+        'mixed-decls',
       ],
     },
 
@@ -37,9 +50,9 @@ module.exports = function (defaults) {
       webpack: {
         resolve: {
           alias: {
-            'http': 'stream-http',
-            'https': 'https-browserify',
-            'path': 'path-browserify',
+            http: 'stream-http',
+            https: 'https-browserify',
+            path: 'path-browserify',
           },
         },
       },

@@ -1,64 +1,76 @@
 import Route from '@ember/routing/route';
 import { copy } from 'ember-copy';
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 import EmberObject from '@ember/object';
-import ScrollTo from 'mdeditor/mixins/scroll-to';
 
-export default Route.extend(ScrollTo, {
-  flashMessages: service(),
-  pouch: service(),
+export default class ContactShowRoute extends Route {
+  @service store;
+  @service flashMessages;
+  @service pouch;
+  @service router;
+
+  queryParams = {
+    scrollTo: true
+  };
 
   model(params) {
     return this.store.peekRecord('contact', params.contact_id);
-  },
+  }
 
-  actions: {
-    saveContact: async function() {
-      const model = this.currentRouteModel();
-      model.updateTimestamp();
-      await model.save();
-      await this.pouch.updatePouchRecord(model);
-      this.flashMessages.success(`Saved Contact: ${model.get('title')}`);
-    },
+  @action
+  setScrollTo(scrollTo) {
+    this.controller.set('scrollTo', scrollTo || '');
+  }
 
-    destroyContact: function() {
-      let model = this.currentRouteModel();
-      model
-        .destroyRecord()
-        .then(() => {
-          this.flashMessages
-            .success(`Deleted Contact: ${model.get('title')}`);
-          this.replaceWith('contacts');
-        });
-    },
+  @action
+  async saveContact() {
+    const model = this.currentRouteModel();
+    model.updateTimestamp();
+    await model.save();
+    await this.pouch.updatePouchRecord(model);
+    this.flashMessages.success(`Saved Contact: ${model.get('title')}`);
+  }
 
-    cancelContact: function() {
-      let model = this.currentRouteModel();
-      let message = `Cancelled changes to Contact: ${model.get('title')}`;
+  @action
+  destroyContact() {
+    let model = this.currentRouteModel();
+    model
+      .destroyRecord()
+      .then(() => {
+        this.flashMessages
+          .success(`Deleted Contact: ${model.get('title')}`);
+        this.router.replaceWith('contacts');
+      });
+  }
 
-      if (this.get('settings.data.autoSave')) {
-        let json = model.get('jsonRevert');
+  @action
+  cancelContact() {
+    let model = this.currentRouteModel();
+    let message = `Cancelled changes to Contact: ${model.get('title')}`;
 
-        if (json) {
-          model.revertChanges();
-          this.flashMessages.warning(message);
-        }
+    if (this.get('settings.data.autoSave')) {
+      let json = model.get('jsonRevert');
 
-        return;
+      if (json) {
+        model.revertChanges();
+        this.flashMessages.warning(message);
       }
 
-      model
-        .reload()
-        .then(() => {
-          this.flashMessages.warning(message);
-        });
-    },
-
-    copyContact: function() {
-
-      this.flashMessages
-        .success(`Copied Contact: ${this.currentRouteModel().get('title')}`);
-      this.transitionTo('contact.new.id', copy(this.currentRouteModel()));
+      return;
     }
+
+    model
+      .reload()
+      .then(() => {
+        this.flashMessages.warning(message);
+      });
   }
-});
+
+  @action
+  copyContact() {
+    this.flashMessages
+      .success(`Copied Contact: ${this.currentRouteModel().get('title')}`);
+    this.router.transitionTo('contact.new.id', copy(this.currentRouteModel()));
+  }
+}

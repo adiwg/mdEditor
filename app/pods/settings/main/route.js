@@ -1,8 +1,23 @@
 import Route from '@ember/routing/route';
-import ScrollTo from 'mdeditor/mixins/scroll-to';
+import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 
-export default Route.extend(ScrollTo, {
+export default class MainRoute extends Route {
+  @service settings;
+  queryParams = {
+    scrollTo: true
+  };
+
   model() {
     return this.settings.get('data');
   }
-});
+
+  setScrollTo(scrollTo) {
+    this.controller.set('scrollTo', scrollTo || '');
+  }
+
+  @action
+  setScrollToAction(scrollTo) {
+    this.setScrollTo(scrollTo);
+  }
+}

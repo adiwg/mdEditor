@@ -124,7 +124,20 @@ export default Table.extend({
    * @type {Object}
    * @required
    */
-  actionsColumn: computed('allActions', function () {
+  /**
+   * Flag to hide the actions column
+   *
+   * @property hideActionsColumn
+   * @type {Boolean}
+   * @default false
+   */
+  hideActionsColumn: false,
+
+  actionsColumn: computed('allActions', 'hideActionsColumn', function () {
+    if (this.hideActionsColumn) {
+      return null;
+    }
+
     let all = this.allActions;
 
     return {

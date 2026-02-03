@@ -2,23 +2,23 @@
   shadow=true
 }}
   {{input/md-textarea
-    value=model.attributeDescription
+    value=this.model.attributeDescription
     label="Attribute Description"
     infotip=false
     data-spy="Attribute Description"
     placeholder="Description of the attribute"
-    profilePath=(concat profilePath ".attributeDescription")
+    profilePath=(concat this.profilePath ".attributeDescription")
   }}
 
   {{object/md-identifier-object-table
     label="Attribute Identifier"
     shadow=false
-    model=model.attributeIdentifier
+    model=this.model.attributeIdentifier
     valuePath="attrIdentifier"
     data-spy="Attribute Identifier"
-    class=(if embedded "md-embedded")
+    class=(if this.embedded "md-embedded")
     visibility=true
-    profilePath=(concat profilePath ".attributeIdentifier")
+    profilePath=(concat this.profilePath ".attributeIdentifier")
   }}
 {{/layout/md-card}}
 
@@ -26,7 +26,7 @@
   shadow=true
 }}
   {{input/md-codelist-multi
-    value=model.bandBoundaryDefinition
+    value=this.model.bandBoundaryDefinition
     create=true
     icon=false
     mdCodeName="bandDefinition"
@@ -34,10 +34,10 @@
     placeholder="Designation of criterion for defining maxiumum and minimum wavelenghts for a spectral band"
     data-spy="Band Boundary Definition"
     label="Band Boundary Definition"
-    profilePath=(concat profilePath ".bandBoundaryDefinition")
+    profilePath=(concat this.profilePath ".bandBoundaryDefinition")
   }}
   {{input/md-codelist-multi
-    value=model.transferFunctionType
+    value=this.model.transferFunctionType
     create=true
     icon=false
     mdCodeName="transferFunctionTypeCode"
@@ -45,10 +45,10 @@
     placeholder="Transform function to be used when scaling a physical value for a given element."
     data-spy="Transfer Function Type"
     label="Transfer Function Type"
-    profilePath=(concat profilePath ".transferFunctionType")
+    profilePath=(concat this.profilePath ".transferFunctionType")
   }}
   {{input/md-codelist-multi
-    value=model.transmittedPolarization
+    value=this.model.transmittedPolarization
     create=true
     icon=false
     mdCodeName="polarisationOrientationCode"
@@ -56,10 +56,10 @@
     label="Transmitted Polarization"
     placeholder="Polarization of the radiation transmitted."
     data-spy="Transmitted Polarization"
-    profilePath=(concat profilePath ".transmittedPolarization")
+    profilePath=(concat this.profilePath ".transmittedPolarization")
   }}
   {{input/md-codelist-multi
-    value=model.detectedPolarization
+    value=this.model.detectedPolarization
     create=true
     icon=false
     mdCodeName="polarisationOrientationCode"
@@ -67,24 +67,24 @@
     label="Detected Polarization"
     placeholder="Polarization of the radiation transmitted."
     data-spy="Detected Polarization"
-    profilePath=(concat profilePath ".detectedPolarization")
+    profilePath=(concat this.profilePath ".detectedPolarization")
   }}
 
   {{#layout/md-wrap
     shadow=true
     class="md-flex-col-475 mt-4"
   }}
-    {{#each params as |param|}}
+    {{#each this.params as |param|}}
       {{input/md-input
-          model=model
+          model=this.model
           valuePath=param.property
           label=param.label
           infotip=true
-          data-spy=(if model param.label)
+          data-spy=(if this.model param.label)
           type=param.type
           class="col-lg-6 col-xxxl-4"
           placeholder=param.description
-          profilePath=(concat profilePath ".params." param.property)
+          profilePath=(concat this.profilePath ".params." param.property)
         }}
     {{/each}}
   {{/layout/md-wrap}}

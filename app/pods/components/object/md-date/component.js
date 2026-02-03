@@ -1,5 +1,6 @@
 import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { observer } from '@ember/object';
 import dayjs from 'dayjs';
@@ -15,34 +16,22 @@ const Validations = buildValidations({
   }),
 });
 
-export default Component.extend(Validations, {
-  init() {
-    this._super(...arguments);
+@classic
+export default class MdDateComponent extends Component.extend(Validations) {
+  tagName = '';
+  selectedPrecision = null;
 
-    this.set('precisionOptions', [
-      { value: 'Year', name: 'Year' },
-      { value: 'Month', name: 'Month' },
-      { value: 'Day', name: 'Day' },
-      { value: 'Time', name: 'Time' },
-    ]);
+  @alias('model.date') date;
+  @alias('model.dateType') dateType;
 
-    this.setPrecisionBasedOnDate();
-  },
-
-  selectedPrecision: null,
-
-  tagName: '',
-  date: alias('model.date'),
-  dateType: alias('model.dateType'),
-
-  selectedPrecisionChanged: observer('selectedPrecision', function () {
-    const date = this.get('model.date');
+  selectedPrecisionChanged = observer('selectedPrecision', function () {
+    const date = this.model?.date;
     if (!date) return;
 
     const parsedDate = dayjs(date);
     let newDate;
 
-    switch (this.get('selectedPrecision')) {
+    switch (this.selectedPrecision) {
       case 'Time':
         newDate = parsedDate.format('YYYY-MM-DD HH:mm:ss');
         break;
@@ -61,26 +50,39 @@ export default Component.extend(Validations, {
     }
 
     if (newDate !== date) {
-      this.set('model.date', newDate);
+      this.model.date = newDate;
     }
-  }),
+  });
 
   setPrecisionBasedOnDate() {
-    const date = this.get('model.date');
+    const date = this.model?.date;
     if (!date) {
-      this.set('selectedPrecision', 'Year');
+      this.selectedPrecision = 'Year';
       return;
     }
     if (/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/.test(date)) {
-      this.set('selectedPrecision', 'Time');
+      this.selectedPrecision = 'Time';
     } else if (/\d{4}-\d{2}-\d{2}/.test(date)) {
-      this.set('selectedPrecision', 'Day');
+      this.selectedPrecision = 'Day';
     } else if (/\d{4}-\d{2}/.test(date)) {
-      this.set('selectedPrecision', 'Month');
+      this.selectedPrecision = 'Month';
     } else if (/\d{4}/.test(date)) {
-      this.set('selectedPrecision', 'Year');
+      this.selectedPrecision = 'Year';
     } else {
-      this.set('selectedPrecision', 'Time');
+      this.selectedPrecision = 'Time';
     }
-  },
-});
+  }
+
+  init() {
+    super.init(...arguments);
+
+    this.precisionOptions = [
+      { value: 'Year', name: 'Year' },
+      { value: 'Month', name: 'Month' },
+      { value: 'Day', name: 'Day' },
+      { value: 'Time', name: 'Time' },
+    ];
+
+    this.setPrecisionBasedOnDate();
+  }
+}

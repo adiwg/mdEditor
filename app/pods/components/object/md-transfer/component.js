@@ -1,16 +1,8 @@
-import {
-  alias
-} from '@ember/object/computed';
+import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
-import EmberObject, {
-  computed,
-  getWithDefault,
-  get,
-  set
-} from '@ember/object';
-import {
-  once
-} from '@ember/runloop';
+import classic from 'ember-classic-decorator';
+import EmberObject from '@ember/object';
+import { once } from '@ember/runloop';
 
 // const Validations = buildValidations({
 //   // 'intervalAmount': [
@@ -40,28 +32,9 @@ import {
 //   // ]
 // });
 
-export default Component.extend({
-  didReceiveAttrs() {
-    this._super(...arguments);
-
-    let model = this.model;
-
-    once(function () {
-      set(model, 'onlineOption', getWithDefault(model, 'onlineOption', []));
-      set(model, 'offlineOption', getWithDefault(model, 'offlineOption', []));
-      set(model, 'transferFrequency', getWithDefault(model,
-        'transferFrequency', {}));
-      set(model, 'distributionFormat', getWithDefault(model,
-        'distributionFormat', []));
-      // set(model, 'presentationForm', getWithDefault(model,
-      //   'presentationForm', []));
-      // set(model, 'onlineResource', getWithDefault(model,
-      //   'onlineResource', []));
-      // set(model, 'identifier', getWithDefault(model, 'identifier', []));
-      // set(model, 'graphic', getWithDefault(model, 'graphic', []));
-    });
-  },
-  tagName: 'form',
+@classic
+export default class MdTransferComponent extends Component {
+  tagName = 'form';
 
   /**
    * The profile path for the component
@@ -92,9 +65,9 @@ export default Component.extend({
   //     });
   //   }
   // }),
-  formatUri: alias(
-    'model.distributionFormat.firstObject.formatSpecification.title'),
-  timeUnit: computed(function () {
+  @alias('model.distributionFormat.firstObject.formatSpecification.title') formatUri;
+
+  get timeUnit() {
     return [{
         name: 'year',
         value: 'year'
@@ -119,14 +92,31 @@ export default Component.extend({
         name: 'second',
         value: 'second'
       }
-    ]
-  }),
+    ];
+  }
 
-  formatTemplate: EmberObject.extend( /*Validations, */ {
+  formatTemplate = EmberObject.extend( /*Validations, */ {
     init() {
       this._super(...arguments);
       this.set('formatSpecification', {});
       this.set('formatSpecification.onlineResource', [{}]);
     }
-  })
-});
+  });
+
+  didReceiveAttrs() {
+    super.didReceiveAttrs(...arguments);
+
+    let model = this.model;
+
+    once(function () {
+      model.onlineOption = model.onlineOption ?? [];
+      model.offlineOption = model.offlineOption ?? [];
+      model.transferFrequency = model.transferFrequency ?? {};
+      model.distributionFormat = model.distributionFormat ?? [];
+      // model.presentationForm = model.presentationForm ?? [];
+      // model.onlineResource = model.onlineResource ?? [];
+      // model.identifier = model.identifier ?? [];
+      // model.graphic = model.graphic ?? [];
+    });
+  }
+}

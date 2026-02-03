@@ -1,5 +1,5 @@
 {{input/md-input
- model=record
+ model=this.record
  valuePath="title"
  label="Title"
  placeholder="Enter title for schema."
@@ -7,7 +7,7 @@
 }}
 
 {{input/md-input
- model=record
+ model=this.record
  valuePath="uri"
  label="URL"
  placeholder="Enter URL of root schema."
@@ -16,14 +16,14 @@
 
 <div class="form-group flex">
   <label>Version</label>
-  <span>{{if record.localVersion record.localVersion "--"}}</span>
-  {{#if record.hasUpdate}}
-    <span class="label label-pill label-info">Update Available ({{record.remoteVersion}})</span>
+  <span>{{if this.record.localVersion this.record.localVersion "--"}}</span>
+  {{#if this.record.hasUpdate}}
+    <span class="label label-pill label-info">Update Available ({{this.record.remoteVersion}})</span>
   {{/if}}
 </div>
 
 {{input/md-textarea
- model=record
+ model=this.record
  valuePath="description"
  label="Description"
  placeholder="Enter a description of the schema."
@@ -31,25 +31,25 @@
 }}
 
 {{input/md-select
- model=record
+ model=this.record
  path="schemaType"
  label="Type"
  valuePath="value"
  namePath="name"
  placeholder="Select the record type for schema."
- objectArray=typeOptions
+ objectArray=this.typeOptions
  searchEnabled=false
  showValidations=true
 }}
 
-{{#liquid-unless record.isNew use="toDown"}}
+{{#liquid-unless this.record.isNew use="toDown"}}
   <div class="form-group from-group-inlne">
       <label>Apply Globally?</label>
       <div class="form-control">
           <div class="inline-block">
               {{input/md-toggle
-                value=record.isGlobal
-                onToggle=(action (mut record.isGlobal))
+                value=this.record.isGlobal
+                onToggle=(action (mut this.record.isGlobal))
                 showLabels=true
                 onLabel="Yes"
                 offLabel="No"

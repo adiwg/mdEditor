@@ -1,64 +1,71 @@
 import Service from '@ember/service';
-import $ from 'jquery';
 import { isPresent } from '@ember/utils';
-import { setProperties } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
 
-export default Service.extend({
-  show: false,
-  elementId: undefined,
+export default class SpotlightService extends Service {
+  @tracked show = false;
+  @tracked elementId = undefined;
+  @tracked onClose = undefined;
+  @tracked scope = undefined;
 
   setTarget(id, onClose, scope) {
     let el = this.elementId;
 
-    if(id === el) {
+    if (id === el) {
       this.close();
-
       return;
     }
 
-    if(id && id !== el) {
-      $('#' + el).removeClass('md-spotlight-target');
+    if (id && id !== el) {
+      const element = document.getElementById(el);
+      if (element) {
+        element.classList.remove('md-spotlight-target');
+      }
     }
 
-    setProperties(this, {
-      show: true,
-      elementId: id,
-      onClose: onClose,
-      scope: scope
-    });
+    this.show = true;
+    this.elementId = id;
+    this.onClose = onClose;
+    this.scope = scope;
 
-    $('body').addClass('md-no-liquid');
-    $('#' + id).addClass('md-spotlight-target');
-  },
+    document.body.classList.add('md-no-liquid');
+    const targetElement = document.getElementById(id);
+    if (targetElement) {
+      targetElement.classList.add('md-spotlight-target');
+    }
+  }
 
-  closeTask: task(function * () {
+  closeTask = task({ drop: true }, async () => {
     let id = this.elementId;
     let onClose = this.onClose;
 
-    $('.md-spotlight-overlay').addClass('fade-out-fast');
+    const overlay = document.querySelector('.md-spotlight-overlay');
+    if (overlay) {
+      overlay.classList.add('fade-out-fast');
+    }
 
-    if(onClose) {
+    if (onClose) {
       onClose.call(this.scope || this);
     }
 
-    yield timeout(250);
+    await timeout(250);
 
-    if(isPresent(id)) {
-      $('body').removeClass('md-no-liquid');
-      $('#' + id).removeClass('md-spotlight-target');
+    if (isPresent(id)) {
+      document.body.classList.remove('md-no-liquid');
+      const element = document.getElementById(id);
+      if (element) {
+        element.classList.remove('md-spotlight-target');
+      }
     }
 
+    this.show = false;
+    this.elementId = undefined;
+    this.onClose = undefined;
+    this.scope = undefined;
+  });
 
-    setProperties(this, {
-      show: false,
-      elementId: undefined,
-      onClose: undefined,
-      scope: undefined
-    });
-  }).drop(),
-
-  close(){
+  close() {
     this.closeTask.perform();
   }
-});
+}

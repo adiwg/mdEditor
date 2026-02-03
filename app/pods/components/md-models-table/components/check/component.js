@@ -1,12 +1,14 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
-  attributeBindings: ['aria-checked:isSelected'],
+@classic
+export default class CheckComponent extends Component {
+  attributeBindings = ['aria-checked:isSelected'];
 
-  actions: {
+  actions = {
     clickOnRow(index, record, event) {
       this.clickOnRow(index, record);
       event.stopPropagation();
     }
   }
-});
+}

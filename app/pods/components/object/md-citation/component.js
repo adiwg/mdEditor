@@ -1,28 +1,23 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
-import { getWithDefault, set } from '@ember/object';
 import { once } from '@ember/runloop';
 
 const formatCitation = function(model) {
-  set(model, 'responsibleParty', getWithDefault(model,
-    'responsibleParty', []));
-  set(model, 'date', getWithDefault(model,
-    'date', []));
-  set(model, 'alternateTitle', getWithDefault(model,
-    'alternateTitle', []));
-  set(model, 'presentationForm', getWithDefault(model,
-    'presentationForm', []));
-  set(model, 'onlineResource', getWithDefault(model,
-    'onlineResource', []));
-  set(model, 'identifier', getWithDefault(model, 'identifier', []));
-  set(model, 'otherCitationDetails', getWithDefault(model,
-    'otherCitationDetails', []));
-  set(model, 'graphic', getWithDefault(model, 'graphic', []));
-  set(model, 'series', getWithDefault(model, 'series', {}));
+  model.responsibleParty = model.responsibleParty ?? [];
+  model.date = model.date ?? [];
+  model.alternateTitle = model.alternateTitle ?? [];
+  model.presentationForm = model.presentationForm ?? [];
+  model.onlineResource = model.onlineResource ?? [];
+  model.identifier = model.identifier ?? [];
+  model.otherCitationDetails = model.otherCitationDetails ?? [];
+  model.graphic = model.graphic ?? [];
+  model.series = model.series ?? {};
 
   return model;
 };
 
-const theComp = Component.extend({
+@classic
+class MdCitationComponent extends Component {
   /**
    * mdEditor class for input and edit of mdJSON 'citation' objects.
    *
@@ -40,17 +35,10 @@ const theComp = Component.extend({
    * @constructor
    */
 
-  didReceiveAttrs() {
-    this._super(...arguments);
+  tagName = 'form';
 
-    //let model = getWithDefault(this, 'model', {}) || {};
-
-    once(this, function() {
-      this.set('model', getWithDefault(this, 'model', {}));
-      formatCitation(this.model);
-    });
-  },
-  tagName: 'form',
+  // Passed-in action
+  editIdentifier = null;
 
   /**
    * The string representing the path in the profile object for the citation.
@@ -76,7 +64,7 @@ const theComp = Component.extend({
    * @type {Boolean}
    * @default "false"
    */
-  embedded: false,
+  embedded = false;
 
   /**
    * The data-spy title, set to false to hide.
@@ -85,7 +73,7 @@ const theComp = Component.extend({
    * @type {String}
    * @default "Citation"
    */
-  'data-spy': 'Citation',
+  'data-spy' = 'Citation';
 
   /**
    * Indicates whether the citation identifier Component should be rendered using
@@ -95,11 +83,19 @@ const theComp = Component.extend({
    * @type {Boolean}
    * @default "false"
    */
-  simpleIdentifier: false
-});
+  simpleIdentifier = false;
+
+  didReceiveAttrs() {
+    super.didReceiveAttrs(...arguments);
+
+    once(this, function() {
+      this.model = this.model ?? {};
+      formatCitation(this.model);
+    });
+  }
+};
 
 export {
   formatCitation,
-  theComp as
-  default
+  MdCitationComponent as default
 };

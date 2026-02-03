@@ -1,10 +1,8 @@
-import Component from 'mdeditor/pods/components/control/md-record-table/component';
+import MdRecordTableComponent from 'mdeditor/pods/components/control/md-record-table/component';
 //import Component from '@ember/component';
-import {
-  computed
-} from '@ember/object';
+import { action } from '@ember/object';
 
-export default Component.extend({
+export default class MdEditTableComponent extends MdRecordTableComponent {
   /**
    * @module mdeditor
    * @submodule components-control
@@ -27,9 +25,9 @@ export default Component.extend({
    * @extends md-record-table
    */
 
-  // classNames: ['md-edit-table'],
-  tagName: '',
-  spotlightRow: true,
+  // classNames = ['md-edit-table'];
+  tagName = '';
+  spotlightRow = true;
 
   /**
   * Array of button configs to add to action column
@@ -54,7 +52,7 @@ export default Component.extend({
    * @type {Object}
    * @required
    */
-  actionsColumn: computed('actionButtons', function () {
+  get actionsColumn() {
     let btns = [{
       title: 'Edit',
       type: 'success',
@@ -86,20 +84,20 @@ export default Component.extend({
       buttons: btns,
       badges: this.actionBadges
     };
-  }),
+  }
 
-  editRow(index, record){
+  editRowMethod(index, record){
     this.send('expandRow',index, record);
-  },
+  }
 
-actions: {
-  // body
+  @action
   editRow(col, index, record, evt){
     evt.stopPropagation();
-    this.editRow(index, record);
-  },
+    this.editRowMethod(index, record);
+  }
+
+  @action
   deleteRow(col, index, record){
     record.destroyRecord();
   }
 }
-});

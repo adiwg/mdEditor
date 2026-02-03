@@ -19,13 +19,26 @@ const Base = Model.extend({
   init() {
     this._super(...arguments);
 
-    this.on('didUpdate', this, this.wasUpdated);
-    this.on('didCreate', this, this.wasUpdated);
-    this.on('didLoad', this, this.applyPatch);
-    this.on('ready', this, this.isReady);
     this.hasDirtyAttributes;
-    //this.on('didLoad', this, this.wasLoaded);
   },
+
+  // Replace deprecated this.on('didLoad', ...) with observer on isLoaded
+  observeLoaded: observer('isLoaded', function () {
+    if (this.isLoaded && !this._didLoadCalled) {
+      this._didLoadCalled = true;
+      this.applyPatch();
+      this.isReady();
+    }
+  }),
+
+  // Replace deprecated this.on('didUpdate/didCreate', ...) with observer on isSaving
+  observeSaving: observer('isSaving', function () {
+    // When isSaving transitions from true to false, the save completed
+    if (!this.isSaving && this._wasSaving) {
+      this.wasUpdated();
+    }
+    this._wasSaving = this.isSaving;
+  }),
 
   settings: service(),
   schemas: service(),

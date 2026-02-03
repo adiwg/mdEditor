@@ -1,8 +1,9 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import {
   A
 } from '@ember/array';
-import EmberObject, { set, computed, getWithDefault, get } from '@ember/object';
+import EmberObject, { set, get } from '@ember/object';
 import {
   alias
 } from '@ember/object/computed';
@@ -12,6 +13,7 @@ import {
 import {
   assert
 } from '@ember/debug';
+import { action } from '@ember/object';
 
 import {
   Template as Attribute
@@ -38,30 +40,8 @@ const Validations = buildValidations({
   ]
 });
 
-export default Component.extend(Validations, {
-  init() {
-    this._super(...arguments);
-    assert(`You must supply a dictionary for ${this.toString()}.`, this.dictionary);
-  },
-
-  didReceiveAttrs() {
-    this._super(...arguments);
-
-    let model = this.model;
-
-    once(this, function () {
-      set(model, 'entityId', getWithDefault(model, 'entityId', uuidV4()));
-      set(model, 'alias', getWithDefault(model, 'alias', []));
-      set(model, 'primaryKeyAttributeCodeName', getWithDefault(model,
-        'primaryKeyAttributeCodeName', []));
-      set(model, 'index', getWithDefault(model, 'index', []));
-      set(model, 'attribute', getWithDefault(model, 'attribute', []));
-      set(model, 'foreignKey', getWithDefault(model, 'foreignKey', []));
-      set(model, 'entityReference', getWithDefault(model,
-        'entityReference', []));
-    });
-  },
-
+@classic
+export default class MdEntityComponent extends Component.extend(Validations) {
   /**
    * The string representing the path in the profile object for the entity.
    *
@@ -87,9 +67,9 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  tagName: 'form',
+  tagName = 'form';
 
-  foreignKeyTemplate: EmberObject.extend(buildValidations({
+  foreignKeyTemplate = EmberObject.extend(buildValidations({
     'referencedEntityCodeName': [
       validator('presence', {
         presence: true,
@@ -120,9 +100,9 @@ export default Component.extend(Validations, {
       this.set('localAttributeCodeName', []);
       this.set('referencedAttributeCodeName', []);
     }
-  }),
+  });
 
-  indexTemplate: EmberObject.extend(buildValidations({
+  indexTemplate = EmberObject.extend(buildValidations({
     'codeName': [
       validator('presence', {
         presence: true,
@@ -150,17 +130,17 @@ export default Component.extend(Validations, {
       this.set('attributeCodeName', []);
       this.set('allowDuplicates', false);
     }
-  }),
+  });
 
-  attributeTemplate: Attribute,
-  //entityId: alias('model.entityId'),
-  codeName: alias('model.codeName'),
-  description: alias('model.description'),
-  entities: alias('dictionary.entity'),
-  attributes: alias('model.attribute'),
+  attributeTemplate = Attribute;
 
-  attributeList: computed('attributes.{@each.codeName,[]}', function () {
-    let attr = get(this, 'model.attribute');
+  @alias('model.codeName') codeName;
+  @alias('model.description') description;
+  @alias('dictionary.entity') entities;
+  @alias('model.attribute') attributes;
+
+  get attributeList() {
+    let attr = this.model?.attribute;
     if(attr) {
       return attr.map((attr) => {
         return {
@@ -171,21 +151,20 @@ export default Component.extend(Validations, {
       });
     }
     return [];
-  }),
+  }
 
-  entityList: computed('entities.{@each.entityId,@each.codeName}',
-    function () {
-      return this.entities
-        .map((attr) => {
-          if(get(attr, 'entityId')) {
-            return {
-              codeId: get(attr, 'entityId'),
-              codeName: get(attr, 'codeName'),
-              tooltip: get(attr, 'definition')
-            };
-          }
-        });
-    }),
+  get entityList() {
+    return this.entities
+      .map((attr) => {
+        if(get(attr, 'entityId')) {
+          return {
+            codeId: get(attr, 'entityId'),
+            codeName: get(attr, 'codeName'),
+            tooltip: get(attr, 'definition')
+          };
+        }
+      });
+  }
 
    /**
     * The passed down editCitation method.
@@ -203,33 +182,55 @@ export default Component.extend(Validations, {
     * @required
     */
 
-  actions: {
-    getEntityAttributes(id) {
-      let entity = A(this.get('dictionary.entity'))
-        .findBy('entityId', id);
-
-      if(entity) {
-        let a = get(entity, 'attribute')
-          .map((attr) => {
-            return {
-              codeId: get(attr, 'codeName'),
-              codeName: get(attr, 'codeName'),
-              tooltip: get(attr, 'definition')
-            };
-          });
-
-        return a;
-      }
-
-      return [];
-    },
-
-    editCitation(id){
-      this.editCitation(id);
-    },
-
-    editAttribute(id){
-      this.editAttribute(id);
-    }
+  init() {
+    super.init(...arguments);
+    assert(`You must supply a dictionary for ${this.toString()}.`, this.dictionary);
   }
-});
+
+  didReceiveAttrs() {
+    super.didReceiveAttrs(...arguments);
+
+    let model = this.model;
+
+    once(this, function () {
+      model.entityId = model.entityId ?? uuidV4();
+      model.alias = model.alias ?? [];
+      model.primaryKeyAttributeCodeName = model.primaryKeyAttributeCodeName ?? [];
+      model.index = model.index ?? [];
+      model.attribute = model.attribute ?? [];
+      model.foreignKey = model.foreignKey ?? [];
+      model.entityReference = model.entityReference ?? [];
+    });
+  }
+
+  @action
+  getEntityAttributes(id) {
+    let entity = A(this.dictionary?.entity)
+      .findBy('entityId', id);
+
+    if(entity) {
+      let a = get(entity, 'attribute')
+        .map((attr) => {
+          return {
+            codeId: get(attr, 'codeName'),
+            codeName: get(attr, 'codeName'),
+            tooltip: get(attr, 'definition')
+          };
+        });
+
+      return a;
+    }
+
+    return [];
+  }
+
+  @action
+  editCitationAction(id){
+    this.editCitation(id);
+  }
+
+  @action
+  editAttributeAction(id){
+    this.editAttribute(id);
+  }
+}

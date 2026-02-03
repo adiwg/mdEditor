@@ -1,39 +1,39 @@
 <div class="row">
     <div class="col-sm-9 col-md-offset-1">
-        <h3>Editing Contact: {{model.json.name}} <small>{{model.json.contactId}}</small>
+        <h3>Editing Contact: {{this.model.json.name}} <small>{{this.model.json.contactId}}</small>
           <span class="text-danger">
-            {{!-- {{#if model.hasDirtyHash}}
+            {{!-- {{#if this.model.hasDirtyHash}}
               {{fa-icon "exclamation-circle"}}
               {{ember-tooltip text="This record has been modified!" side="right"
                 tooltipClass="ember-tooltip md-tooltip danger"
               }}
             {{/if}} --}}
-            {{control/md-status model=model}}
+            {{control/md-status model=this.model}}
           </span>
         </h3>
         <form>
             {{input/md-input-confirm
               valuePath="json.contactId"
-              model=model
+              model=this.model
               data-spy="Contact ID"
               confirmTip="Note! Editing the Contact ID may break links. Be aware."
               placeholder="User assigned Contact ID" label="Contact ID"}}
 
             {{input/md-input
               valuePath="json.name"
-              model=model
-              placeholder=(concat model.type " Name")
-              label=(concat model.type " Name")}}
+              model=this.model
+              placeholder=(concat this.model.type " Name")
+              label=(concat this.model.type " Name")}}
 
-            {{#unless model.json.isOrganization}}
+            {{#unless this.model.json.isOrganization}}
                 {{input/md-input
                   valuePath="json.positionName"
-                  model=model
+                  model=this.model
                   placeholder="Position Name" label="Position Name"}}
             {{/unless}}
 
             {{input/md-codelist
-              value=model.json.contactType label="Contact Type"
+              value=this.model.json.contactType label="Contact Type"
               create=false tooltip=true icon=false mdCodeName="entityType"
               placeholder="Select a contact type"
             }}
@@ -41,22 +41,22 @@
             {{input/md-select-contacts
                 label="Member Of Organization"
                 placeholder="Pick organization(s) this contact belongs to"
-                value=model.json.memberOfOrganization
+                value=this.model.json.memberOfOrganization
                 contactType="organizations"
                 icon=true
                 tooltip=false
                 defaultIcon="organizations"
-                filterId=model.json.contactId
+                filterId=this.model.json.contactId
               }}
 
-            {{object/md-contact-identifier-array value=model.json.externalIdentifier data-spy="ExternalIdentifiers"}}
+            {{object/md-contact-identifier-array value=this.model.json.externalIdentifier data-spy="ExternalIdentifiers"}}
 
-            {{object/md-phone-array value=model.json.phone data-spy="Phone"}}
+            {{object/md-phone-array value=this.model.json.phone data-spy="Phone"}}
 
            {{#object/md-simple-array-table data-spy="E-mail"
               title="E-mail Address"
               required=false
-              value=model.json.electronicMailAddress as |email|
+              value=this.model.json.electronicMailAddress as |email|
             }}
               <td>
                   {{input/md-input value=email.item.value
@@ -64,14 +64,14 @@
               </td>
             {{/object/md-simple-array-table}}
 
-            {{object/md-address model=model.json.address  data-spy="Address"}}
+            {{object/md-address model=this.model.json.address  data-spy="Address"}}
 
-            {{object/md-online-resource-array model=model.json.onlineResource
+            {{object/md-online-resource-array model=this.model.json.onlineResource
               profilePath="contact"
               data-spy="Online Resource"}}
 
             {{object/md-graphic-array
-              model=model.json.logoGraphic data-spy="Logo"
+              model=this.model.json.logoGraphic data-spy="Logo"
               button-text="Add Logo"
               label="Logo"
               profilePath="contact"
@@ -79,7 +79,7 @@
 
             {{#object/md-simple-array-table data-spy="Availability"
               title="Available Time"
-              value=model.json.hoursOfService as |hour|
+              value=this.model.json.hoursOfService as |hour|
             }}
               <td>
                   {{input/md-input value=hour.item.value
@@ -87,13 +87,13 @@
               </td>
             {{/object/md-simple-array-table}}
 
-            {{input/md-textarea value=model.json.contactInstructions data-spy="Instructions"
+            {{input/md-textarea value=this.model.json.contactInstructions data-spy="Instructions"
             placeholder="Supplemental Contact Instructions" label="Contact Instructions"}}
         </form>
     </div>
       <div class="md-control-sidebar col-sm-2 no-nav">
           {{control/md-crud-buttons
-              model=model
+              model=this.model
               doSave=(route-action "saveContact")
               doCancel=(route-action "cancelContact")
               doDelete=(route-action "destroyContact")

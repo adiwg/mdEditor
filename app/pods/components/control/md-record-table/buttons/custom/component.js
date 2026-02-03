@@ -1,32 +1,20 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 
-export default Component.extend({
-  /**
-   * Button style.
-   *
-   * @property column.buttonConfig.style
-   * @type {String}
-   */
-
-   /**
-    * Text to display in the button.
-    *
-    * @property column.buttonConfig.title
-    * @type {String}
-    */
-
-   /**
-    * The record passed to the component.
-    *
-    * @property record
-    * @type {Object}
-    */
-
-    /**
-     * Action to run on button click
-     *
-     * @property column.buttonConfig.action
-     * @param {Object} record The row record
-     */
-    action() {}
-});
+/**
+ * @property column.buttonConfig.style - Button style
+ * @type {String}
+ *
+ * @property column.buttonConfig.title - Text to display in the button
+ * @type {String}
+ *
+ * @property record - The record passed to the component
+ * @type {Object}
+ *
+ * @property column.buttonConfig.action - Action to run on button click
+ * @param {Object} record The row record
+ */
+@classic
+export default class CustomComponent extends Component {
+  action() {}
+}

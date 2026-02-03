@@ -1,4 +1,6 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import {
   isArray
 } from '@ember/array';
@@ -6,27 +8,26 @@ import {
   isEmpty
 } from '@ember/utils';
 
-export default Route.extend({
+export default class CitationRoute extends Route {
+  @service flashMessages;
+  @service router;
   init() {
     this._super(...arguments);
 
     this.breadCrumb = {
       title: 'Reference'
     };
-  },
-
+  }
   beforeModel() {
     this.set('entityId', this.paramsFor(
       'dictionary.show.edit.entity.edit').entity_id);
-  },
-
+  }
   model(params) {
     this.set('citationId', params.citation_id);
 
     return this.setupModel();
-  },
-
-  setupController: function () {
+  }
+  setupController() {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -37,8 +38,7 @@ export default Route.extend({
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
-
+  }
   setupModel() {
     let citationId = this.citationId;
     let model = this.modelFor('dictionary.show.edit');
@@ -50,17 +50,15 @@ export default Route.extend({
     if(isEmpty(citation)) {
       this.flashMessages
         .warning('No Entity Reference found! Re-directing...');
-      this.replaceWith('dictionary.show.edit.entity.edit');
+      this.router.replaceWith('dictionary.show.edit.entity.edit');
 
       return;
     }
 
     return citation;
-  },
-  actions: {
+  }
     backToEntity() {
-      this.transitionTo('dictionary.show.edit.entity.edit',
+      this.router.transitionTo('dictionary.show.edit.entity.edit',
         this.entityId);
     }
-  }
-});
+}

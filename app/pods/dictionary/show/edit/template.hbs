@@ -9,13 +9,13 @@
   </div>
   <div class="md-control-sidebar col-sm-2 hidden-print">
     {{control/md-crud-buttons
-        model=model
+        model=this.model
         doSave=(route-action "saveDictionary")
         doCancel=(route-action "cancelDictionary")
         doDelete=(route-action "destroyDictionary")
         doCopy=(route-action "copyDictionary")
     }}
-    {{component subbar context=(route-action "getContext")}}
+    {{component this.subbar context=(route-action "getContext")}}
     <hr>
     {{from-elsewhere name="md-subbar-extra"}}
 
@@ -26,8 +26,8 @@
   </div>
 </div>
 
-{{to-elsewhere named="dictionary-nav" send=(component "input/md-select-profile" value=model.profile record=model)}}
+{{to-elsewhere named="dictionary-nav" send=(component "input/md-select-profile" value=this.model.profile record=this.model)}}
 
-{{#if model}}
-  {{to-elsewhere named="nav-secondary" send=(component "layout/md-nav-secondary" model=model)}}
+{{#if this.model}}
+  {{to-elsewhere named="nav-secondary" send=(component "layout/md-nav-secondary" model=this.model)}}
 {{/if}}

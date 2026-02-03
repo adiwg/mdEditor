@@ -2,6 +2,7 @@ import Service, { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import RSVP from 'rsvp';
 import { guidFor } from '@ember/object/internals';
+import { camelize } from '@ember/string';
 
 export const POUCH_TYPES = {
   RECORD: 'record',
@@ -30,7 +31,7 @@ export const POUCH_PREFIX = 'pouch-';
 
 export const pouchPrefix = (type) => `${POUCH_PREFIX}${type}`;
 
-export const camelizedPouchPrefix = (type) => Ember.String.camelize(pouchPrefix(type));
+export const camelizedPouchPrefix = (type) => camelize(pouchPrefix(type));
 
 export const unPouchPrefix = (pouchType) => pouchType.replace(POUCH_PREFIX, '');
 
@@ -162,7 +163,7 @@ export default class PouchService extends Service {
     // Then remove related pouch record
     const relatedRecord = await this.queryRelatedRecord(pouchRecord);
     if (relatedRecord) {
-      relatedRecord[Ember.String.camelize(pouchRecord.constructor.modelName)] = null;
+      relatedRecord[camelize(pouchRecord.constructor.modelName)] = null;
       await relatedRecord.save();
     }
     return await pouchRecord.unloadRecord();
@@ -170,7 +171,7 @@ export default class PouchService extends Service {
 
   async queryRelatedRecord(pouchRecord) {
     const unPouchedType = unPouchPrefix(pouchRecord.constructor.modelName);
-    const camelizedRel = Ember.String.camelize(pouchRecord.constructor.modelName);
+    const camelizedRel = camelize(pouchRecord.constructor.modelName);
     return await this.store.queryRecord(unPouchedType, { filter: { [camelizedRel]: pouchRecord.id } });
   }
 
@@ -179,7 +180,7 @@ export default class PouchService extends Service {
     const unPouchedType = unPouchPrefix(pouchRecord.constructor.modelName);
     const relatedRecord = this.store.createRecord(unPouchedType, { json: pouchRecord.json });
     // Then add the related pouch record
-    relatedRecord[Ember.String.camelize(pouchRecord.constructor.modelName)] = pouchRecord;
+    relatedRecord[camelize(pouchRecord.constructor.modelName)] = pouchRecord;
     return await relatedRecord.save();
   }
 

@@ -1,7 +1,9 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import { or } from '@ember/object/computed';
 
-export default Component.extend({
+@classic
+export default class SubbarLinkComponent extends Component {
   /**
    * mdEditor Component that renders a button used to navigate to a parent route
    * or perform an action on click.
@@ -59,7 +61,7 @@ export default Component.extend({
    * @type {String}
    * @default 'primary'
    */
-  btnType: 'primary',
+  btnType = 'primary';
 
   /**
    * The route to link to.
@@ -75,7 +77,7 @@ export default Component.extend({
    * @type {String}
    */
 
-  clickTxt: or('clickText', 'text'),
-  clickButtonType: or('clickType', 'btnType'),
-  clickButtonIcon: or('clickIcon', 'icon')
-});
+  @or('clickText', 'text') clickTxt;
+  @or('clickType', 'btnType') clickButtonType;
+  @or('clickIcon', 'icon') clickButtonIcon;
+}

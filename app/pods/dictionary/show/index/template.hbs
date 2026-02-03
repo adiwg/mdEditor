@@ -1,11 +1,11 @@
 <div class="row md-no-spotlight">
-  {{#with model.json.dataDictionary as |dictionary|}}
+  {{#with this.model.json.dataDictionary as |dictionary|}}
   <div class="col-sm-9 col-md-offset-1">
     <h3>
       {{fa-icon "book" class="text-muted"}}
 
-      Viewing Dictionary: {{model.title}}
-      {{control/md-status model=model}}
+      Viewing Dictionary: {{this.model.title}}
+      {{control/md-status model=this.model}}
     </h3>
 
     {{#layout/md-card shadow=false muted=true title="Main" bodyIsRow=false
@@ -16,8 +16,8 @@
     }}
       <div class="row">
         <dl class="dl-horizontal col-xxl-6">
-            {{control/md-definition title="Dictionary Id" text=model.json.dataDictionary.dictionaryId}}
-            {{control/md-definition title="Dictionary Title" text=model.title}}
+            {{control/md-definition title="Dictionary Id" text=this.model.json.dataDictionary.dictionaryId}}
+            {{control/md-definition title="Dictionary Title" text=this.model.title}}
             {{control/md-definition title="Subject" text=(if dictionary.subject (join ", " dictionary.subject))}}
         </dl>
         <dl class="dl-horizontal col-xxl-6">
@@ -99,7 +99,7 @@
               {{!-- <td>{{domain.domainId}}</td> --}}
               <td>{{get-property domain "codeName"}}</td>
               <td>{{#if domain.description}} {{word-limit domain.description}} {{else}} <em>Not Described</em>{{/if}}</td>
-              <td>{{#link-to "dictionary.show.edit.domain.edit" index class="btn btn-xs btn-success"}}Edit{{/link-to}}</td>
+              <td><LinkTo @route="dictionary.show.edit.domain.edit" @model={{index}} class="btn btn-xs btn-success">Edit</LinkTo></td>
 
             </tr>
           {{/each}}
@@ -137,7 +137,7 @@
               {{!-- <td>{{entity.entityId}}</td> --}}
               <td>{{get-property entity "codeName"}}</td>
               <td>{{#if entity.description}} {{word-limit entity.description}} {{else}} <em>Not Described</em>{{/if}}</td>
-              <td>{{#link-to "dictionary.show.edit.entity.edit" index class="btn btn-xs btn-success"}}Edit{{/link-to}}</td>
+              <td><LinkTo @route="dictionary.show.edit.entity.edit" @model={{index}} class="btn btn-xs btn-success">Edit</LinkTo></td>
 
             </tr>
 
@@ -156,18 +156,18 @@
 
   <div class="md-control-sidebar col-sm-2 no-nav">
     {{#control/md-crud-buttons
-      model=model
+      model=this.model
       allowCopy=true
       allowDelete=true
       doDelete=(route-action "destroyDictionary")
       doCopy=(route-action "copyDictionary")
      }}
-      {{#link-to "dictionary.show.edit" model.id class="btn btn-lg btn-success" }}
-        {{fa-icon "pencil"}} Edit{{/link-to}}
+      <LinkTo @route="dictionary.show.edit" @model={{this.model.id}} class="btn btn-lg btn-success">
+        {{fa-icon "pencil"}} Edit</LinkTo>
     {{/control/md-crud-buttons}}
     <hr>
-    {{#link-to "dictionaries" class="btn btn-lg btn-primary btn-block" }}
-      {{fa-icon "list"}} Show List{{/link-to}}
-    {{control/md-scroll-spy scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}}
+    <LinkTo @route="dictionaries" class="btn btn-lg btn-primary btn-block">
+      {{fa-icon "list"}} Show List</LinkTo>
+    {{control/md-scroll-spy scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo")}}
   </div>
 </div>

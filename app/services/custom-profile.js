@@ -209,7 +209,6 @@ export default Service.extend({
     const response = await axios.get(url);
     const profilesList = response.data;
     if (!profilesList) {
-      console.log('no data');
       return;
     }
     const thesauri = [];

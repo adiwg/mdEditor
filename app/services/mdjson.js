@@ -1,13 +1,10 @@
 import Service, { inject as service } from '@ember/service';
 import { isArray } from '@ember/array';
-import EmberObject, { getWithDefault, get, set } from '@ember/object';
-import Ember from 'ember';
+import EmberObject, { get, set } from '@ember/object';
 import Ajv from 'ajv';
 import Schemas from 'mdjson-schemas/resources/js/schemas';
 import { formatCitation } from 'mdeditor/pods/components/object/md-citation/component';
 import * as draft4 from 'ajv/lib/refs/json-schema-draft-04';
-
-Ember.libraries.register('mdJson-schemas', Schemas.schema.version);
 
 const validator = new Ajv({
   verbose: true,
@@ -65,10 +62,10 @@ export default Service.extend({
           let info = get(record, 'json.metadata.metadataInfo') || {};
           let metadata = {
             title: `Metadata for ${get(record, 'title')}`,
-            responsibleParty: getWithDefault(info, 'metadataContact', []),
-            date: getWithDefault(info, 'metadataDate', []),
-            onlineResource: getWithDefault(info, 'metadataOnlineResource', []),
-            identifier: [getWithDefault(info, 'metadataIdentifier', {})],
+            responsibleParty: get(info, 'metadataContact') ?? [],
+            date: get(info, 'metadataDate') ?? [],
+            onlineResource: get(info, 'metadataOnlineResource') ?? [],
+            identifier: [get(info, 'metadataIdentifier') ?? {}],
           };
 
           let citation =
@@ -127,7 +124,6 @@ export default Service.extend({
       };
 
       if (key === 'sourceId' && !('amount' in this || 'currency' in this)) {
-        //console.log(this);
         return value;
       }
 
@@ -178,7 +174,7 @@ export default Service.extend({
     if (includeDictionaries) {
       this.injectDictionaries(rec, clean);
     }
-    
+
     // Always remove mdDictionary array from output as it's internal reference only
     if (clean.mdDictionary) {
       delete clean.mdDictionary;

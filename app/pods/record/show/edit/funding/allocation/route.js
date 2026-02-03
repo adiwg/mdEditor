@@ -1,4 +1,5 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import {
   isEmpty
 } from '@ember/utils';
@@ -9,23 +10,24 @@ import {
 } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
-export default Route.extend(ScrollTo, {
-  breadCrumb: computed('allocationId', function () {
+export default class AllocationRoute extends Route.extend(ScrollTo) {
+  @service flashMessages;
+  @service router;
+  get breadCrumb() {
     return {
       title: 'Allocation ' + this.allocationId,
       linkable: true
     };
-  }),
+  }
 
   model(params) {
     this.set('allocationId', params.allocation_id);
 
     return this.setupModel();
-  },
-
-  setupController: function () {
+  }
+  setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
     this.controller.set('allocationId', this.allocationId);
@@ -35,8 +37,7 @@ export default Route.extend(ScrollTo, {
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
-
+  }
   setupModel() {
     let allocationId = this.allocationId;
     let model = this.modelFor('record.show.edit');
@@ -48,11 +49,11 @@ export default Route.extend(ScrollTo, {
     if(isEmpty(resource)) {
       this.flashMessages
         .warning('No Funding object found! Re-directing to list...');
-      this.replaceWith('record.show.edit.funding');
+      this.router.replaceWith('record.show.edit.funding');
 
       return;
     }
 
     return resource;
   }
-});
+}

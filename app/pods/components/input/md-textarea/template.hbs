@@ -1,56 +1,53 @@
-{{#if label}}
-  {{#if isCollapsible}}
+{{#if this.label}}
+  {{#if this.isCollapsible}}
     <label role='button' {{action (toggle 'isExpanded' this)}}>
-      {{fa-icon (if isExpanded 'caret-up' 'caret-down')}}
-      {{label}}
+      {{fa-icon (if this.isExpanded 'caret-up' 'caret-down')}}
+      {{this.label}}
     </label>
   {{else}}
-    <label>{{label}}</label>
+    <label>{{this.label}}</label>
   {{/if}}
-  {{#if showInfotip}}
-    {{control/md-infotip text=placeholder}}
+  {{#if this.showInfotip}}
+    {{control/md-infotip text=this.placeholder}}
   {{/if}}
 {{/if}}
 
-{{#liquid-if isExpanded enableGrowth=true}}
+{{#if this.isExpanded}}
   <div class='md-input-input'>
     <Textarea
       @value={{this.value}}
-      @placeholder={{this.placeholder}}
-      @required={{this.required}}
-      @maxlength={{this.maxlength}}
-      @autoresize={{this.autoresize}}
-      @rows={{this.rows}}
-      @max-rows={{this.maxrows}}
-      @max-width={{this.maxwidth}}
-      @max-height={{this.maxheight}}
+      placeholder={{this.placeholder}}
+      required={{this.required}}
+      maxlength={{this.maxlength}}
+      rows={{this.rows}}
       class={{this.inputClass}}
-      @readonly={{this.readonly}}
-      @disabled={{this.readonly}}
+      readonly={{this.readonly}}
+      disabled={{this.readonly}}
+      {{autoresize}}
     />
     <span class='md-input-error'>
-      {{#if showErrorMessage}}
+      {{#if this.showErrorMessage}}
         <span class='md-error'>
           {{fa-icon 'exclamation-circle'}}
           {{#ember-tooltip
             side='right' tooltipClass='ember-tooltip md-tooltip danger'
           }}
-            {{v-get model valuePath 'message'}}
+            {{v-get this.model this.valuePath 'message'}}
           {{/ember-tooltip}}
         </span>
       {{/if}}
 
-      {{#if showWarningMessage}}
+      {{#if this.showWarningMessage}}
         <span class='md-warning'>
           {{fa-icon 'exclamation-triangle'}}
           {{#ember-tooltip
             side='right' tooltipClass='ember-tooltip md-tooltip warning'
           }}
-            {{v-get model valuePath 'warningMessage'}}
+            {{v-get this.model this.valuePath 'warningMessage'}}
           {{/ember-tooltip}}
         </span>
       {{/if}}
     </span>
   </div>
   {{yield}}
-{{/liquid-if}}
+{{/if}}

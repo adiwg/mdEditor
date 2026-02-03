@@ -1,12 +1,14 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import { get } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import { inject as service } from '@ember/service';
 
-export default Route.extend(ScrollTo, {
-  settings: service(),
+export default class IndexRoute extends Route.extend(ScrollTo) {
+  @service settings;
+  @service router;
 
-  setupController: function () {
+  setupController() {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -18,20 +20,22 @@ export default Route.extend(ScrollTo, {
         'collectionId'
       )
     );
-  },
+  }
 
-  actions: {
-    toList() {
-      this.transitionTo('record.show.edit.taxonomy');
-    },
+  @action
+  toList() {
+    this.router.transitionTo('record.show.edit.taxonomy');
+  }
 
-    addTaxa() {
-      this.controller.model.taxonomicClassification.pushObject({
-        _edit: true,
-      });
-    },
+  @action
+  addTaxa() {
+    this.controller.model.taxonomicClassification.pushObject({
+      _edit: true,
+    });
+  }
 
-    addITIS() {
+  @action
+  addITIS() {
       // Check if itisProxyUrl is configured
       if (!this.get('settings.data.itisProxyUrl')) {
         // Show modal to alert user
@@ -39,17 +43,19 @@ export default Route.extend(ScrollTo, {
         return;
       }
 
-      // If itisProxyUrl is configured, proceed to ITIS page
-      this.transitionTo('record.show.edit.taxonomy.collection.itis');
-    },
+    // If itisProxyUrl is configured, proceed to ITIS page
+    this.router.transitionTo('record.show.edit.taxonomy.collection.itis');
+  }
 
-    goToSettings() {
-      this.controller.set('showItisModal', false);
-      this.transitionTo('settings.main');
-    },
+  @action
+  goToSettings() {
+    this.controller.set('showItisModal', false);
+    this.router.transitionTo('settings.main');
+  }
 
-    editSystem(index) {
-      this.transitionTo(
+  @action
+  editSystem(index) {
+      this.router.transitionTo(
         'record.show.edit.taxonomy.collection.system',
         index
       ).then(
@@ -57,6 +63,5 @@ export default Route.extend(ScrollTo, {
           this.setScrollTo('system');
         }.bind(this)
       );
-    },
-  },
-});
+  }
+}

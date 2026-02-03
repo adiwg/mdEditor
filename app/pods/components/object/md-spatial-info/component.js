@@ -1,23 +1,12 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import { once } from '@ember/runloop';
-import { set, getWithDefault, get } from '@ember/object';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
-export default Component.extend({
-  didReceiveAttrs() {
-    this._super(...arguments);
-
-    let model = this.model;
-
-    once(this, function() {
-      set(model, 'spatialReferenceSystem', getWithDefault(model, 'spatialReferenceSystem', []));
-      set(model, 'spatialRepresentationType', getWithDefault(model, 'spatialRepresentationType', []));
-      set(model, 'spatialResolution', getWithDefault(model, 'spatialResolution', []));
-      set(model, 'coverageDescription', getWithDefault(model, 'coverageDescription', []));
-    });
-  },
-
-  router: service(),
+@classic
+export default class MdSpatialInfoComponent extends Component {
+  @service router;
 
   /**
    * The string representing the path in the profile object for the resource.
@@ -36,11 +25,23 @@ export default Component.extend({
    * @required
    */
 
-  tagName: 'form',
+  tagName = 'form';
 
-  actions: {
-    editRaster(id) {
-      this.router.transitionTo('record.show.edit.spatial.raster', this.parentModel, id);
-    }
+  didReceiveAttrs() {
+    super.didReceiveAttrs(...arguments);
+
+    let model = this.model;
+
+    once(this, function() {
+      model.spatialReferenceSystem = model.spatialReferenceSystem ?? [];
+      model.spatialRepresentationType = model.spatialRepresentationType ?? [];
+      model.spatialResolution = model.spatialResolution ?? [];
+      model.coverageDescription = model.coverageDescription ?? [];
+    });
   }
-});
+
+  @action
+  editRaster(id) {
+    this.router.transitionTo('record.show.edit.spatial.raster', this.parentModel, id);
+  }
+}

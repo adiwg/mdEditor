@@ -1,39 +1,32 @@
 import Component from '@ember/component';
-import {
-  computed
-} from '@ember/object';
-import $ from 'jquery';
+import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
 
-export default Component.extend({
-  classNames: ['md-slider'],
-  classNameBindings: ['visible:in'],
-  visible: false,
+@classic
+export default class MdSliderComponent extends Component {
+  classNames = ['md-slider'];
+  classNameBindings = ['visible:in'];
+
+  // visible is passed in as @visible from the parent
+  // fromName is passed in as @fromName from the parent
 
   didReceiveAttrs() {
-    $('body')
-      .toggleClass('slider', this.visible === true);
-  },
+    super.didReceiveAttrs(...arguments);
 
-  fromName: null,
-
-  name: computed('fromName', function () {
-    return this.fromName || 'md-slider-content';
-  }),
-
-  actions: {
-    toggleVisibility() {
-      this.toggleProperty('visible');
-
-      if(!this.visible) {
-        let context = this.get('context.isDestroying');
-
-        this.set('fromName', null);
-
-        if(!context) {
-          this.onClose
-            .call(this);
-        }
-      }
+    if (this.visible === true) {
+      document.body.classList.add('slider');
+    } else {
+      document.body.classList.remove('slider');
     }
   }
-});
+
+  @action
+  toggleVisibility() {
+    // Call the onClose callback which should toggle the slider service
+    let context = this.context?.isDestroying;
+
+    if(!context && this.onClose) {
+      this.onClose();
+    }
+  }
+}

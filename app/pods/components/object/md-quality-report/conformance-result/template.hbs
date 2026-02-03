@@ -10,17 +10,17 @@
   path='scopeCode'
   model=this
   placeholder='Select Scope'
-  profilePath=(concat profilePath '.scopeCode')
+  profilePath=(concat this.profilePath '.scopeCode')
   class=(if (v-get this 'isInvalid') 'required')
 }}
 
-{{input/md-input value=model.name label='Name' placeholder='Enter name'}}
+{{input/md-input value=this.model.name label='Name' placeholder='Enter name'}}
 
 <div class='row'>
   {{input/md-datetime
-    date=model.dateTime
+    date=this.model.dateTime
     class='col-xxl-4 col-md-10 col-sm-4'
-    profilePath=(concat profilePath '.dateTime')
+    profilePath=(concat this.profilePath '.dateTime')
     label='Date'
   }}
 </div>
@@ -29,25 +29,25 @@
   title='Specification' required=true collapsible=true collapsed=true
 }}
   {{object/md-citation
-    model=model.specification
+    model=this.model.specification
     required=true
-    profilePath=(concat profilePath '.specification')
+    profilePath=(concat this.profilePath '.specification')
     simpleIdentifier=true
   }}
 {{/layout/md-card}}
 
 {{input/md-textarea
-  value=model.explanation
+  value=this.model.explanation
   label='Explanation'
   placeholder='Textual expression of the quality result.'
-  profilePath=(concat profilePath '.explanation')
+  profilePath=(concat this.profilePath '.explanation')
 }}
 
 {{input/md-boolean
-  value=model.pass
+  value=this.model.pass
   label='Conformance Result'
-  profilePath=(concat profilePath '.pass')
+  profilePath=(concat this.profilePath '.pass')
   showInfotip=true
   placeholder='Indicates whether the result conforms to the specification.'
-  text=resultText
+  text=this.resultText
 }}

@@ -1,21 +1,21 @@
 <div class="row">
   <div class="col-xxl-11 col-xxxl-10 col-xxl-offset-1">
     <h3 class="text-info">{{fa-icon "book"}} Dictionaries
-      <span class="small">for <em>{{parentModel.title}}</em></span>
-      {{control/md-status model=parentModel}}
+      <span class="small">for <em>{{this.parentModel.title}}</em></span>
+      {{control/md-status model=this.parentModel}}
     </h3>
-    {{#if model.length}}
+    {{#if this.model.length}}
       {{#layout/md-card collapsible=true collapsed=false shadow=true
         title="Select Dictionaries"
         spotlightEnabled=false
       }}
         {{control/md-record-table
-          data=model
+          data=this.model
           dataColumns=(compute (route-action "getColumns"))
           select=(route-action "select")
-          actionsColumn=false
+          hideActionsColumn=true
           selectProperty="selected"
-          selectedItems=selected
+          selectedItems=this.selected
         }}
       {{/layout/md-card}}
 
@@ -25,7 +25,7 @@
         spotlightEnabled=false
       }}
       <ul class="list-group">
-        {{#each selected as |item|}}
+        {{#each this.selected as |item|}}
         <li class="list-group-item">
           <h4 class="">{{item.title}}
             {{#control/md-button-confirm class="btn btn btn-danger pull-right"
@@ -51,9 +51,9 @@
     {{else}}
       <div class="alert alert-info">
         <h3>No Dictionaries found.
-          {{#link-to "dictionary.new" class="btn btn-success btn-lg" }}
+          <LinkTo @route="dictionary.new" class="btn btn-success btn-lg">
             {{fa-icon "plus"}} Create a Dictionary
-          {{/link-to}}
+          </LinkTo>
         </h3>
       </div>
     {{/if}}

@@ -1,4 +1,5 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import {
   inject as service
 } from '@ember/service';
@@ -15,29 +16,35 @@ const columns = [{
   title: 'ID'
 }]
 
-export default Route.extend({
-  slider: service(),
+export default class RecordsRoute extends Route {
+  @service slider;
+
+  columns = columns;
+
   model() {
     //return this.store.peekAll('contact');
     return this.modelFor('application').findBy('modelName', 'record');
-  },
-
-  columns: columns,
-
-  actions: {
-    getColumns() {
-      return this.columns;
-    },
-
-    showSlider(rec, evt) {
-      let slider = this.slider;
-
-      evt.stopPropagation();
-      this.controller.set('errorTarget', rec);
-      slider.set('fromName', 'md-slider-error');
-      slider.toggleSlider(true);
-
-      return false;
-    }
   }
-});
+
+  setupController(controller, model) {
+    super.setupController(controller, model);
+    controller.set('model', model);
+  }
+
+  @action
+  getColumns() {
+    return this.columns;
+  }
+
+  @action
+  showSlider(rec, evt) {
+    let slider = this.slider;
+
+    evt.stopPropagation();
+    this.controller.set('errorTarget', rec);
+    slider.set('fromName', 'md-slider-error');
+    slider.toggleSlider(true);
+
+    return false;
+  }
+}

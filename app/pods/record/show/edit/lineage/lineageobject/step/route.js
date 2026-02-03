@@ -1,27 +1,30 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
-import { computed, get } from '@ember/object';
+import { get } from '@ember/object';
 
-export default Route.extend({
+export default class StepRoute extends Route {
+  @service flashMessages;
+  @service router;
   model(params) {
     this.set('stepId', params.step_id);
     this.set('lineageId', this.paramsFor(
       'record.show.edit.lineage.lineageobject').lineage_id);
 
     return this.setupModel();
-  },
-
-  breadCrumb: computed('stepId', function () {
+  }
+  get breadCrumb() {
     return {
       title: 'Step ' + this.stepId,
       linkable: true
     };
-  }),
+  }
 
-  setupController: function () {
+  setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
     this.controller.set('stepId', this.stepId);
@@ -30,8 +33,7 @@ export default Route.extend({
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
-
+  }
   setupModel() {
     let stepId = this.stepId;
     let lineageId = this.lineageId;
@@ -45,16 +47,14 @@ export default Route.extend({
     if(isEmpty(step)) {
       this.flashMessages
         .warning('No Process Step found! Re-directing...');
-      this.replaceWith('record.show.edit.lineage.lineageobject');
+      this.router.replaceWith('record.show.edit.lineage.lineageobject');
 
       return;
     }
 
     return step;
-  },
-  actions: {
+  }
     parentModel() {
       return this.modelFor('record.show.edit');
     }
-  }
-});
+}

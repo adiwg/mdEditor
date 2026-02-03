@@ -1,6 +1,6 @@
 import Model, { attr } from '@ember-data/model';
 import { alias } from '@ember/object/computed';
-import { run } from '@ember/runloop';
+import { once } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import EmberObject, { observer } from '@ember/object';
 
@@ -40,11 +40,16 @@ const theModel = Model.extend({
   init() {
     this._super(...arguments);
 
-    //this.on('didUpdate', this, this.wasUpdated);
-    this.on('didLoad', this, this.wasLoaded);
-    //this.on('didUpdate', this, this.wasLoaded);
     this.updateSettings;
   },
+
+  // Replace deprecated this.on('didLoad', ...) with an observer on isLoaded
+  observeLoaded: observer('isLoaded', function () {
+    if (this.isLoaded && !this._wasLoadedCalled) {
+      this._wasLoadedCalled = true;
+      this.wasLoaded();
+    }
+  }),
   //cleaner: inject.service(),
   compressOnSave: attr('boolean', {
     defaultValue: true,
@@ -107,7 +112,7 @@ const theModel = Model.extend({
   },
   updateSettings: observer('hasDirtyAttributes', function () {
     if (this.hasDirtyAttributes) {
-      run.once(this, function () {
+      once(this, function () {
         this.save();
       });
     }

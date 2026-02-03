@@ -1,9 +1,9 @@
 <h4 class="section-header">
   Editing Funding
-  {{control/md-status model=parentModel}}
+  {{control/md-status model=this.parentModel}}
 </h4>
 
-{{#each model.json.metadata.funding as |allocation index|}}
+{{#each this.model.json.metadata.funding as |allocation index|}}
   {{#layout/md-object-container
     title="Funding Period"
     index=index
@@ -30,4 +30,4 @@
 }}
 
 {{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"  refresh=refresh scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+  send=(component "control/md-scroll-spy"  refresh=this.refresh scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo"))}}

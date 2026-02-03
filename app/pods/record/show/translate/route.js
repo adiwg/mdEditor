@@ -1,6 +1,9 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-export default Route.extend({
+export default class TranslateRoute extends Route {
+  @service router;
   setupController(controller, model) {
     this._super(controller, model);
 
@@ -9,11 +12,8 @@ export default Route.extend({
       forceValid: controller.forceValid || false,
       showAllTags: controller.showAllTags || false,
     });
-  },
-
-  actions: {
-    goToSettings() {
-      this.transitionTo('settings.main');
-    },
-  },
-});
+  }
+  goToSettings() {
+    this.router.transitionTo('settings.main');
+  }
+}

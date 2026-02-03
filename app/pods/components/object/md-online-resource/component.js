@@ -1,5 +1,7 @@
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
 import { getOwner } from '@ember/application';
 import EmObject, { get, set } from '@ember/object';
 import { once } from '@ember/runloop';
@@ -24,9 +26,10 @@ const Validations = buildValidations({
   ]
 });
 
-const theComp = Component.extend({
+@classic
+class MdOnlineResourceComponent extends Component {
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     once(this, ()=>{
         let plain = this.model;
@@ -36,14 +39,14 @@ const theComp = Component.extend({
           const owner = getOwner(this);
 
           let model = Model.create(owner.ownerInjection(), plain);
-          this.set('model', model);
+          this.model = model;
         }
     });
-  },
+  }
 
-  flashMessages: service(),
-  classNames: ['md-online-resource'],
-  attributeBindings: ['data-spy'],
+  @service flashMessages;
+  classNames = ['md-online-resource'];
+  attributeBindings = ['data-spy'];
 
   /**
    * Display the image picker and preview
@@ -53,36 +56,34 @@ const theComp = Component.extend({
    * @default undefined
    */
 
-  actions: {
-    handleFile(file) {
-      if (file.size > 50000) {
+  @action
+  handleFile(file) {
+    if (file.size > 50000) {
+      this.flashMessages
+        .danger(
+          `The image exceeded the maximum size of 50KB: ${file.size} bytes.
+          Please use an online URL to load the image.`
+        );
+    } else {
+      let model = this.model;
+
+      set(model, 'name', file.name);
+      set(model, 'uri', file.data);
+
+      if (file.size > 25000) {
         this.flashMessages
-          .danger(
-            `The image exceeded the maximum size of 50KB: ${file.size} bytes.
-            Please use an online URL to load the image.`
+          .warning(
+            `The image exceeded the recommended size of 25KB: ${file.size} bytes`
           );
-      } else {
-        let model = this.model;
-
-        set(model, 'name', file.name);
-        set(model, 'uri', file.data);
-
-        if (file.size > 25000) {
-          this.flashMessages
-            .warning(
-              `The image exceeded the recommended size of 25KB: ${file.size} bytes`
-            );
-        }
-        //reset the input field
-        //this.$('.import-file-picker input:file').val('');
       }
+      //reset the input field
+      //this.$('.import-file-picker input:file').val('');
     }
   }
-});
+}
 
 export {
   Validations,
   regex,
-  theComp as
-  default
+  MdOnlineResourceComponent as default
 };

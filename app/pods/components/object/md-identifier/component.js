@@ -1,32 +1,26 @@
 import { alias, and } from '@ember/object/computed';
 import Component from '@ember/component';
-import { getWithDefault, set } from '@ember/object';
-import {
-  once
-} from '@ember/runloop';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { get, set } from '@ember/object';
+import { once } from '@ember/runloop';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'identifier': [
+  identifier: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 const theComp = Component.extend(Validations, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = getWithDefault(this, 'model', {}) || {};
+    let model = get(this, 'model') || {};
 
     once(this, function () {
-      set(model, 'authority', getWithDefault(model, 'authority',
-        {}));
+      set(model, 'authority', get(model, 'authority') ?? {});
     });
   },
 
@@ -61,8 +55,4 @@ const theComp = Component.extend(Validations, {
   isCollapsed: and('collapsible', 'collapse'),
 });
 
-export {
-  Validations,
-  theComp as
-  default
-};
+export { Validations, theComp as default };

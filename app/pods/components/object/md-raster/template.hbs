@@ -2,32 +2,32 @@
   {{input/md-input
     label="Name"
     data-spy="Name"
-    value=model.coverageName
+    value=this.model.coverageName
     placeholder="The name(title) of the raster."
-    profilePath=(concat profilePath ".coverageName")
+    profilePath=(concat this.profilePath ".coverageName")
     showValidations=true
   }}
   {{input/md-textarea
     label="Description"
     data-spy="Description"
-    value=model.coverageDescription
+    value=this.model.coverageDescription
     placeholder="A description of the raster"
-    profilePath=(concat profilePath ".coverageDescription")
+    profilePath=(concat this.profilePath ".coverageDescription")
     showValidations=true
   }}
 {{/layout/md-card}}
 
 {{object/md-raster/attrgroup
   hideIndex=true
-  value=model.attributeGroup
+  value=this.model.attributeGroup
   title="Attribute Groups"
-  editAttribute=editAttribute
-  deleteAttrGroup=deleteAttrGroup
+  editAttribute=this.editAttribute
+  deleteAttrGroup=this.deleteAttrGroup
   data-spy=false
-  addAttrGroup=addAttrGroup
+  addAttrGroup=this.addAttrGroup
   collapsible=true
   collapsed=false
-  profilePath=(concat profilePath ".attributeGroup")
+  profilePath=(concat this.profilePath ".attributeGroup")
 }}
 
 {{#layout/md-card
@@ -35,11 +35,11 @@
   title="Processing Level Code"
   collapsed=false
   shadow=true
-  profilePath=(concat profilePath ".processingLevelCode")
+  profilePath=(concat this.profilePath ".processingLevelCode")
 }}
   {{object/md-identifier
-    model=model.processingLevelCode
-    profilePath=(concat profilePath ".processingLevelCode")
+    model=this.model.processingLevelCode
+    profilePath=(concat this.profilePath ".processingLevelCode")
     collapsed=true
     collapsible=true
     data-spy=false
@@ -51,11 +51,11 @@
   title="Image Description"
   collapsed=false
   shadow=true
-  profilePath=(concat profilePath ".imageDescription")
+  profilePath=(concat this.profilePath ".imageDescription")
 }}
   {{object/md-raster/image-desc
-    model=model.imageDescription
-    profilePath=(concat profilePath ".imageDescription")
+    model=this.model.imageDescription
+    profilePath=(concat this.profilePath ".imageDescription")
     data-spy=false
     collapsed=true
     collapsible=true

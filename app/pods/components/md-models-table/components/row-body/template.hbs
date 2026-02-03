@@ -1,12 +1,12 @@
-{{!-- {{#liquid-if record class="md-row-body-liquid"}} --}}
-  {{component rowBodyComponent
-    record=record
-    visibleProcessedColumns=visibleProcessedColumns
-    index=index
-    clickOnRow=clickOnRow
-    sendAction=sendAction
-    themeInstance=themeInstance
-    expandRow=expandRow
-    collapseRow=collapseRow
+{{!-- {{#liquid-if this.record class="md-row-body-liquid"}} --}}
+  {{component this.rowBodyComponent
+    record=this.record
+    visibleProcessedColumns=this.visibleProcessedColumns
+    index=this.index
+    clickOnRow=this.clickOnRow
+    sendAction=this.sendAction
+    themeInstance=this.themeInstance
+    expandRow=this.expandRow
+    collapseRow=this.collapseRow
   }}
 {{!-- {{/liquid-if}} --}}

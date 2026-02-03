@@ -1,25 +1,27 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
-import { computed, get } from '@ember/object';
+import { get } from '@ember/object';
 
-export default Route.extend({
-  breadCrumb: computed('lineageId', function () {
+export default class LineageobjectRoute extends Route {
+  @service flashMessages;
+  @service router;
+  get breadCrumb() {
     return {
       title: this.lineageId,
       linkable: true
     };
-  }),
+  }
 
   model(params) {
     this.set('lineageId', params.lineage_id);
 
     return this.setupModel();
-  },
-
-  setupController: function () {
+  }
+  setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     //this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
     this.controller.set('lineageId', this.lineageId);
@@ -28,8 +30,7 @@ export default Route.extend({
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
-
+  }
   setupModel() {
     let lineageId = this.lineageId;
     let model = this.modelFor('record.show.edit');
@@ -41,11 +42,11 @@ export default Route.extend({
     if(isEmpty(lineage)) {
       this.flashMessages
         .warning('No lineage object found! Re-directing to list...');
-      this.replaceWith('record.show.edit.lineage');
+      this.router.replaceWith('record.show.edit.lineage');
 
       return;
     }
 
     return lineage;
   }
-});
+}

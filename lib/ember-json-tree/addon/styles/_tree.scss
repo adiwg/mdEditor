@@ -1,3 +1,6 @@
+@use "sass:color";
+@use "variables" as *;
+
 .tree-trunk.list-group {
   border-bottom: 1px;
   margin: 0;
@@ -22,7 +25,7 @@
 
   .draggable-object-target.accepts-drag {
     .tree-leaf {
-      background-color: lighten($orange, 15);
+      background-color: color.adjust($orange, $lightness: 15%);
     }
   }
 }
@@ -42,7 +45,7 @@
     color: $white;
 
     &:hover {
-      background-color: darken($green, 5);
+      background-color: color.adjust($green, $lightness: -5%);
     }
 
     .tree-icon {

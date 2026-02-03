@@ -1,18 +1,18 @@
 {{#object/md-array-table
   columns="Precision,Date,Date Type,Description"
-  required=required
+  required=this.required
   title="Date"
-  value=value
-  plain=plain
-  validation=validation
-  profilePath=profilePath
-  data-spy=data-spy
-  templateClass=templateClass
+  value=this.value
+  plain=this.plain
+  validation=this.validation
+  profilePath=this.profilePath
+  data-spy=this.data-spy
+  templateClass=this.templateClass
   as |date|
 }}
   {{object/md-date
     model=date.item
-    profilePath=(concat profilePath ".dateItem")
+    profilePath=(concat this.profilePath ".dateItem")
   }}
   {{yield}}
 {{/object/md-array-table}}

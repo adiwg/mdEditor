@@ -1,39 +1,36 @@
 import Component from '@ember/component';
-import {
-  inject
-} from '@ember/service';
-import {
-  computed
-} from '@ember/object';
+import classic from 'ember-classic-decorator';
+import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 
-export default Component.extend({
-  slider: inject(),
+@classic
+export default class MdJsonButtonComponent extends Component {
+  @service slider;
 
-  tagName: 'button',
-  classNames: ['btn'],
-  attributeBindings: ['type'],
-  type: 'button',
+  tagName = 'button';
+  classNames = ['btn'];
+  attributeBindings = ['type'];
+  type = 'button';
 
-  text: 'Preview JSON',
-  icon: 'binoculars',
-  json: computed(function () {
-    return {};
-  }),
-  hideSlider: true,
-  propagateClick: false,
+  text = 'Preview JSON';
+  icon = 'binoculars';
+  hideSlider = true;
+  propagateClick = false;
+
+  json = {};
 
   click(evt) {
-    //this.set('preview', true);
+    //this.preview = true;
     if(!this.propagateClick) {
       evt.stopPropagation();
     }
     this.showSlider();
-  },
+  }
 
   _close() {
-    this.set('preview', false);
-    this.set('hideSlider', true);
-  },
+    this.preview = false;
+    this.hideSlider = true;
+  }
 
   showSlider() {
     let slider = this.slider;
@@ -42,15 +39,16 @@ export default Component.extend({
     slider.set('onClose', this._close);
     slider.set('context', this);
     slider.toggleSlider(true);
-    this.set('hideSlider', false);
-  },
-
-  actions: {
-    close() {
-      this._close;
-    },
-    showSlider() {
-      this.showSlider();
-    }
+    this.hideSlider = false;
   }
-});
+
+  @action
+  close() {
+    this._close();
+  }
+
+  @action
+  showSliderAction() {
+    this.showSlider();
+  }
+}

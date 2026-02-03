@@ -1,17 +1,13 @@
-import {
-  inject as service
-} from '@ember/service';
-import {
-  set,
-  computed
-} from '@ember/object';
+import { inject as service } from '@ember/service';
+import { action, set } from '@ember/object';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
+import { dasherize } from '@ember/string';
 import $ from 'jquery';
-import {
-  A
-} from '@ember/array';
+import { A } from '@ember/array';
 
-export default Component.extend({
+@classic
+export default class MdScrollSpyComponent extends Component {
   /**
    * mdEditor Component that enables scrollspy
    *
@@ -21,9 +17,9 @@ export default Component.extend({
    * @constructor
    */
 
-  profile: service('profile'),
-  router: service('router'),
-  classNames: ['md-scroll-spy'],
+  @service('custom-profile') profile;
+  @service('router') router;
+  classNames = ['md-scroll-spy'];
 
   /**
    * The height to offset from top of container.
@@ -32,7 +28,7 @@ export default Component.extend({
    * @type {Number}
    * @default 110
    */
-  offset: 110,
+  offset = 110;
 
   /**
    * The initial scroll target when the component is inserted.
@@ -57,7 +53,7 @@ export default Component.extend({
    * @category computed
    * @requires refresh,profile.active
    */
-  links: computed('refresh', 'profile.active', function () {
+  get links() {
     let liquid = '';
 
     if($('.liquid-spy').length) {
@@ -81,26 +77,7 @@ export default Component.extend({
     });
 
     return links;
-  }),
-
-  /**
-   * Click handler for nav links.
-   *
-   * @method clickLink
-   * @param {Event} e The click event.
-   */
-  clickLink(e) {
-    let setScrollTo = this.setScrollTo;
-    let $target = $(e.currentTarget);
-    let targetId = $target.attr('href');
-
-    e.preventDefault();
-    this.scroll(targetId);
-
-    if((typeof setScrollTo === 'function')) {
-      setScrollTo($target.text().dasherize());
-    }
-  },
+  }
 
   /**
    * Setup the scrollspy on  the body element
@@ -113,7 +90,7 @@ export default Component.extend({
         target: '.md-scroll-spy',
         offset: this.offset
       });
-  },
+  }
 
   /**
    * Call setupSpy and perform initial scroll.
@@ -121,7 +98,7 @@ export default Component.extend({
    * @method didInsertElement
    */
   didInsertElement() {
-    this._super(...arguments);
+    super.didInsertElement(...arguments);
 
     let data = $('body').data('bs.scrollspy');
 
@@ -136,7 +113,7 @@ export default Component.extend({
       this.scroll();
     } else {
       let link = this.links.find((link) => {
-        return init === link.text.dasherize();
+        return init === dasherize(link.text);
       });
 
       if(link) {
@@ -149,15 +126,15 @@ export default Component.extend({
         }
       }
     }
-  },
+  }
 
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     if(!this.setScrollTo) {
       this.scroll();
     }
-  },
+  }
 
   /**
    * Scrolls to the target.
@@ -167,29 +144,49 @@ export default Component.extend({
    * @param {Boolean} hilite If true, set the spy nav link to active
    */
   scroll(id, hilite) {
-    let $anchor = $(id);
+    const anchor = id ? document.querySelector(id) : null;
 
-    if($anchor.length === 0) {
-      $('html, body').scrollTop(0 - this.offset);
+    if(!anchor) {
+      window.scrollTo({
+        top: 0 - this.offset,
+        behavior: 'auto'
+      });
       return;
     }
-    $('html, body').scrollTop($anchor.offset().top - this.offset);
+
+    const scrollTop = anchor.getBoundingClientRect().top + window.scrollY - this.offset;
+    window.scrollTo({
+      top: scrollTop,
+      behavior: 'auto'
+    });
 
     if(hilite) {
-      $('[href="' + id + '"]')
-        .closest('li')
-        .addClass('active');
+      const link = document.querySelector('[href="' + id + '"]');
+      if (link) {
+        const li = link.closest('li');
+        if (li) {
+          li.classList.add('active');
+        }
+      }
     }
 
-    $anchor.removeClass('md-flash');
-    void $anchor[0].offsetWidth;
-    $anchor.addClass('md-flash');
+    anchor.classList.remove('md-flash');
+    void anchor.offsetWidth; // Force reflow
+    anchor.classList.add('md-flash');
 
-  },
+  }
 
-  actions: {
-    clickLink(e) {
-      this.clickLink(e);
+  @action
+  clickLink(e) {
+    let setScrollTo = this.setScrollTo;
+    let target = e.currentTarget;
+    let targetId = target.getAttribute('href');
+
+    e.preventDefault();
+    this.scroll(targetId);
+
+    if((typeof setScrollTo === 'function')) {
+      setScrollTo(dasherize(target.textContent));
     }
   }
-});
+}

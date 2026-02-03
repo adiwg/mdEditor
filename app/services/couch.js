@@ -1,6 +1,7 @@
 import Service, { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import { dasherize } from '@ember/string';
 import PouchDB from 'ember-pouch/pouchdb';
 
 export default class CouchService extends Service {
@@ -54,7 +55,7 @@ export default class CouchService extends Service {
   // and extract its id (e.g. 'USGS:ASC365')
   extractParsedIdAndType(rawId) {
     const [ camelizedType ] = rawId.split('_');
-    const dasherizedType = Ember.String.dasherize(camelizedType);
+    const dasherizedType = dasherize(camelizedType);
     const adapter = this.store.adapterFor(dasherizedType);
     const relationalPouch = adapter.db.rel;
     return relationalPouch.parseDocID(rawId);

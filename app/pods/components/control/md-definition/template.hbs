@@ -1,12 +1,12 @@
-<dt class={{titleClass}}>{{if title title "--"}}</dt>
+<dt class={{this.titleClass}}>{{if this.title this.title "--"}}</dt>
 <dd>
-  {{#if hasBlock}}
+  {{#if this.hasBlock}}
     {{yield}}
   {{else}}
-    {{#if text}}
-      {{text}}
+    {{#if this.text}}
+      {{this.text}}
     {{else}}
-      <em class="text-muted">{{empty}}</em>
+      <em class="text-muted">{{this.empty}}</em>
     {{/if}}
   {{/if}}
 </dd>

@@ -4,12 +4,12 @@
   collapsed=false
   shadow=false
   required=(v-get this "isInvalid")
-  profilePath=(concat profilePath ".imageQualityCode")
+  profilePath=(concat this.profilePath ".imageQualityCode")
   class="md-embedded"
 }}
   {{object/md-identifier
-    model=model.imageQualityCode
-    profilePath=(concat profilePath ".imageQualityCode")
+    model=this.model.imageQualityCode
+    profilePath=(concat this.profilePath ".imageQualityCode")
     collapsed=true
     collapsible=true
     data-spy=false
@@ -18,19 +18,19 @@
 
 {{#layout/md-wrap class="md-flex-col-275"}}
   {{input/md-input
-    value=model.illuminationElevationAngle
+    value=this.model.illuminationElevationAngle
     type="number"
     label="Illumination Elevation Angle"
     infotip=true
     data-spy="Illumination Elevation Angle"
     class="md-embedded col-lg-6 col-xxxl-4"
     placeholder="Illumination elevation measured in degrees clockwise from the target plane at intersection of the optical line of sight
-    with the Earth’s surface. For images from a scanning device, refer to the centre pixel of the image."
-    profilePath=(concat profilePath ".illuminationElevationAngle")
+    with the Earth's surface. For images from a scanning device, refer to the centre pixel of the image."
+    profilePath=(concat this.profilePath ".illuminationElevationAngle")
   }}
 
   {{input/md-input
-    value=model.illuminationAzimuthAngle
+    value=this.model.illuminationAzimuthAngle
     type="number"
     label="Illumination Azimuth Angle"
     infotip=true
@@ -38,94 +38,94 @@
     class="md-embedded col-lg-6 col-xxxl-4"
     placeholder="Illumination azimuth measured in degrees clockwise from true north at the time the image is taken. For images from a
     scanning device, refer to the centre pixel of the image."
-    profilePath=(concat profilePath ".illuminationAzimuthAngle")
+    profilePath=(concat this.profilePath ".illuminationAzimuthAngle")
   }}
 
   {{input/md-input
-    value=model.imagingCondition
+    value=this.model.imagingCondition
     label="Imaging Condition"
     infotip=true
     data-spy="Imaging condition"
     class="md-embedded col-lg-6 col-xxxl-4"
     placeholder="Code which indicates conditions which may affect the image."
-    profilePath=(concat profilePath ".imagingCondition")
+    profilePath=(concat this.profilePath ".imagingCondition")
   }}
 
   {{input/md-input
-    value=model.cloudCoverPercent
+    value=this.model.cloudCoverPercent
     type="number"
     label="Cloud Cover Percent "
     infotip=true
     data-spy="Cloud Cover Percent"
     class="md-embedded col-lg-6 col-xxxl-4"
     placeholder="Area of the dataset obscured by clouds, expressed as a percentage of the spatial extent."
-    profilePath=(concat profilePath ".cloudCoverPercent")
+    profilePath=(concat this.profilePath ".cloudCoverPercent")
   }}
 
   {{input/md-input
-    value=model.compressionQuantity
+    value=this.model.compressionQuantity
     type="number"
     label="Compression Quantity"
     infotip=true
     data-spy="Compression Quantity"
     class="md-embedded col-lg-6 col-xxxl-4"
     placeholder="Count of the number of lossy compression cycles performed on the image."
-    profilePath=(concat profilePath ".compressionQuantity")
+    profilePath=(concat this.profilePath ".compressionQuantity")
   }}
 
   {{input/md-input
-    value=model.triangulationIndicator
+    value=this.model.triangulationIndicator
     type="boolean"
     label="Triangulation Indicator"
     infotip=true
     data-spy="Triangulation Indicator"
     class="md-embedded col-lg-6 col-xxxl-4"
     placeholder="Indication of whether or not triangulation has been performed upon the image."
-    profilePath=(concat profilePath ".triangulationIndicator")
+    profilePath=(concat this.profilePath ".triangulationIndicator")
   }}
 
   {{input/md-input
-    value=model.radiometricCalibrationAvailable
+    value=this.model.radiometricCalibrationAvailable
     type="boolean"
     label="Radiometric Calibration Available"
     infotip=true
     data-spy="Radiometric Calibration Available"
     class="md-embedded col-lg-6 col-xxxl-4"
     placeholder="Indication of whether or not the radiometric calibration information for generating the radiometrically calibrated standard data product is available."
-    profilePath=(concat profilePath ".radiometricCalibrationAvailable")
+    profilePath=(concat this.profilePath ".radiometricCalibrationAvailable")
   }}
 
   {{input/md-input
-    value=model.cameraCalibrationAvailable
+    value=this.model.cameraCalibrationAvailable
     type="boolean"
     label="Camera Calibration Available"
     infotip=true
     data-spy="Camera Calibration Available"
     class="md-embedded col-lg-6 col-xxxl-4"
     placeholder="Indication of whether or not constants are available which allow for camera calibration corrections."
-    profilePath=(concat profilePath ".cameraCalibrationAvailable")
+    profilePath=(concat this.profilePath ".cameraCalibrationAvailable")
   }}
 
   {{input/md-input
-    value=model.filmDistortionAvailable
+    value=this.model.filmDistortionAvailable
     type="boolean"
     label="Film Distortion Available"
     infotip=true
     data-spy="Film Distortion Available"
     class="md-embedded col-lg-6 col-xxxl-4"
     placeholder="Indication of whether or not Calibration Reseau information is available."
-    profilePath=(concat profilePath ".filmDistortionAvailable")
+    profilePath=(concat this.profilePath ".filmDistortionAvailable")
   }}
 
   {{input/md-input
-    value=model.lensDistortionAvailable
+    value=this.model.lensDistortionAvailable
     type="boolean"
     label="Lens Distortion Available"
     infotip=true
     data-spy="Lens Distortion Available"
     class="md-embedded col-lg-6 col-xxxl-4"
     placeholder="Indication of whether or not lens aberration correction information is available."
-    profilePath=(concat profilePath ".lensDistortionAvailable")
+    profilePath=(concat this.profilePath ".lensDistortionAvailable")
   }}
 {{/layout/md-wrap}}
 

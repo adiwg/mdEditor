@@ -1,19 +1,33 @@
-import $ from 'jquery';
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
+import { action } from '@ember/object';
 
-export default Component.extend({
-  /*didInsertElement: function () {
-    this.$('[data-toggle="tooltip"]')
-      .tooltip();
-  },*/
-  actions: {
-    toggleSidebar() {
-      $('#md-wrapper')
-        .toggleClass('toggled');
-      //hack to force reflow
-      $('#md-navbar-main-collapse ul')
-        .hide()
-        .show(0);
+@classic
+export default class MdNavMainComponent extends Component {
+  /*didInsertElement() {
+    super.didInsertElement(...arguments);
+
+    const tooltips = this.element.querySelectorAll('[data-toggle="tooltip"]');
+    tooltips.forEach((el) => {
+      // Initialize Bootstrap tooltips if needed
+      // bootstrap.Tooltip.getOrCreateInstance(el);
+    });
+  }*/
+
+  @action
+  toggleSidebar() {
+    const wrapper = document.getElementById('md-wrapper');
+    if (wrapper) {
+      wrapper.classList.toggle('toggled');
+    }
+
+    //hack to force reflow
+    const navList = document.querySelector('#md-navbar-main-collapse ul');
+    if (navList) {
+      navList.style.display = 'none';
+      // Force reflow
+      navList.offsetHeight;
+      navList.style.display = '';
     }
   }
-});
+}

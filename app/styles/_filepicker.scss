@@ -1,3 +1,7 @@
+.file-picker__input {
+  display: none !important;
+}
+
 @keyframes fp-pulse {
   0% {
     box-shadow: 0 0 0 0 rgba($btn-success-border, .7);

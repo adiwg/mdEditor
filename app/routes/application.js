@@ -1,6 +1,6 @@
-import $ from 'jquery';
 import { A } from '@ember/array';
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import EmberObject from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import RSVP from 'rsvp';
@@ -13,11 +13,20 @@ const {
 
 const console = window.console;
 
-export default Route.extend({
-  init() {
-    this._super(...arguments);
+export default class ApplicationRoute extends Route {
+  @service store;
+  @service spotlight;
+  @service slider;
+  @service router;
+  @service keyword;
+  @service profile;
+  @service('custom-profile') customProfile;
+  @service flashMessages;
 
-    $(window).bind('beforeunload', (evt) => {
+  constructor() {
+    super(...arguments);
+
+    window.addEventListener('beforeunload', (evt) => {
       let dirty = this.currentRouteModel().filter(function (itm) {
         return itm.filterBy('hasDirtyHash').length;
       }).length;
@@ -28,14 +37,7 @@ export default Route.extend({
 
       return evt.returnValue;
     });
-  },
-
-  spotlight: service(),
-  slider: service(),
-  router: service(),
-  keyword: service(),
-  profile: service(),
-  customProfile: service('custom-profile'),
+  }
 
   /**
    * Models for sidebar navigation
@@ -100,7 +102,7 @@ export default Route.extend({
 
       // return result;
     });
-  },
+  }
 
   beforeModel() {
     if (!defaultProfileId) {
@@ -116,15 +118,13 @@ export default Route.extend({
     const loadThesauriPromise = this.keyword.loadThesauri();
     const loadProfilesPromise = this.profile.loadCoreProfiles();
     return Promise.all([loadThesauriPromise, loadProfilesPromise]);
-  },
+  }
 
   setupController(controller, model) {
-    // Call _super for default behavior
-    this._super(controller, model);
-    // Implement your custom setup after
-    controller.set('spotlight', this.spotlight);
-    controller.set('slider', this.slider);
-  },
+    // Call super for default behavior
+    super.setupController(controller, model);
+    // Services are now injected directly in the controller
+  }
 
   /**
    * The current model for the route
@@ -132,20 +132,21 @@ export default Route.extend({
    * @return {Object}
    */
 
-  actions: {
-    error(error) {
-      console.error(error);
+  @action
+  error(error) {
+    console.error(error);
 
-      if (error.status === 404) {
-        return this.transitionTo('not-found');
-      }
+    if (error.status === 404) {
+      return this.transitionTo('not-found');
+    }
 
-      return this.replaceWith('error').then(function (route) {
-        route.controller.set('lastError', error);
-      });
-    },
-    didTransition() {
-      this.controller.set('currentRoute', this.router.get('currentRouteName'));
-    },
-  },
-});
+    return this.replaceWith('error').then(function (route) {
+      route.controller.set('lastError', error);
+    });
+  }
+
+  @action
+  didTransition() {
+    // currentRoute is now a getter on the controller that reads from router.currentRouteName
+  }
+}

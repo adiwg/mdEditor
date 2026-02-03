@@ -1,16 +1,17 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import { once } from '@ember/runloop';
-import { set, get, getWithDefault } from '@ember/object';
 
-export default Component.extend({
+@classic
+export default class VerticalComponent extends Component {
   didReceiveAttrs() {
-    this._super(...arguments);
-    let model = get(this, 'model');
+    super.didReceiveAttrs(...arguments);
+    let model = this.model;
     once(this, function () {
-      set(model, 'description', getWithDefault(model, 'description', null));
-      set(model, 'minValue', getWithDefault(model, 'minValue', null));
-      set(model, 'maxValue', getWithDefault(model, 'maxValue', null));
-      set(model, 'crsId', getWithDefault(model, 'crsId', {}));
+      model.description = model.description ?? null;
+      model.minValue = model.minValue ?? null;
+      model.maxValue = model.maxValue ?? null;
+      model.crsId = model.crsId ?? {};
     });
-  },
-});
+  }
+}

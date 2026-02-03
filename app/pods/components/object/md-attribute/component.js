@@ -1,42 +1,35 @@
 import Component from '@ember/component';
-import EmberObject, { set, getWithDefault, get, computed } from '@ember/object';
-import {
-  alias
-} from '@ember/object/computed';
-import {
-  once
-} from '@ember/runloop';
+import EmberObject, { set, get, computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { once } from '@ember/runloop';
 
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'codeName': [
+  codeName: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'dataType': [
+  dataType: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'allowNull': [
+  allowNull: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'definition': [
+  definition: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 const TemplateClass = EmberObject.extend(Validations, {
@@ -48,7 +41,7 @@ const TemplateClass = EmberObject.extend(Validations, {
     set(this, 'alias', []);
     set(this, 'valueRange', []);
     set(this, 'timePeriod', []);
-  }
+  },
 });
 
 const theComp = Component.extend(Validations, {
@@ -58,11 +51,11 @@ const theComp = Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'allowNull', getWithDefault(model, 'allowNull', false));
-      set(model, 'reference', getWithDefault(model, 'reference', {}));
-      set(model, 'alias', getWithDefault(model, 'alias', []));
-      set(model, 'valueRange', getWithDefault(model, 'valueRange', []));
-      set(model, 'timePeriod', getWithDefault(model, 'timePeriod', []));
+      set(model, 'allowNull', get(model, 'allowNull') ?? false);
+      set(model, 'reference', get(model, 'reference') ?? {});
+      set(model, 'alias', get(model, 'alias') ?? []);
+      set(model, 'valueRange', get(model, 'valueRange') ?? []);
+      set(model, 'timePeriod', get(model, 'timePeriod') ?? []);
     });
   },
 
@@ -90,44 +83,41 @@ const theComp = Component.extend(Validations, {
   allowNull: alias('model.allowNull'),
   domains: alias('dictionary.domain'),
 
-  domainList: computed('domains.{@each.domainId,@each.codeName}',
-    function () {
-      let domains = this.domains || [];
+  domainList: computed('domains.{@each.domainId,@each.codeName}', function () {
+    let domains = this.domains || [];
 
-      return domains.map((domain) => {
-        if(get(domain, 'domainId')) {
-          return {
-            codeId: get(domain, 'domainId'),
-            codeName: get(domain, 'codeName'),
-            tooltip: get(domain, 'description')
-          };
-        }
-      });
-    }),
-
-  rangeTemplate: EmberObject.extend(buildValidations({
-    'minRangeValue': [
-      validator('presence', {
-        presence: true,
-        ignoreBlank: true
-      })
-    ],
-    'maxRangeValue': [
-      validator('presence', {
-        presence: true,
-        ignoreBlank: true
-      })
-    ]
-  }), {
-    init() {
-      this._super(...arguments);
-    }
+    return domains.map((domain) => {
+      if (get(domain, 'domainId')) {
+        return {
+          codeId: get(domain, 'domainId'),
+          codeName: get(domain, 'codeName'),
+          tooltip: get(domain, 'description'),
+        };
+      }
+    });
   }),
+
+  rangeTemplate: EmberObject.extend(
+    buildValidations({
+      minRangeValue: [
+        validator('presence', {
+          presence: true,
+          ignoreBlank: true,
+        }),
+      ],
+      maxRangeValue: [
+        validator('presence', {
+          presence: true,
+          ignoreBlank: true,
+        }),
+      ],
+    }),
+    {
+      init() {
+        this._super(...arguments);
+      },
+    }
+  ),
 });
 
-export {
-  Validations,
-  TemplateClass as Template,
-  theComp as
-  default
-};
+export { Validations, TemplateClass as Template, theComp as default };

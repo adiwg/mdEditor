@@ -1,4 +1,6 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import {
   //computed,
   get
@@ -10,17 +12,18 @@ import {
   isEmpty
 } from '@ember/utils';
 
-export default Route.extend({
+export default class AttributeRoute extends Route {
+  @service flashMessages;
+  @service router;
   beforeModel() {
     this.set('entityId', this.paramsFor(
       'dictionary.show.edit.entity.edit').entity_id);
-  },
+  }
   model(params) {
     this.set('attributeId', params.attribute_id);
 
     return this.setupModel();
-  },
-
+  }
   // breadCrumb: computed('attributeId', function () {
   //   let model = get(this, 'currentRouteModel').call(this);
   //
@@ -30,12 +33,11 @@ export default Route.extend({
   // }),
 
   setupController(controller, model) {
-    this._super(controller, model);
+    super.setupController(controller, model);
 
     this.controller.set('setupModel', this.setupModel);
 
-  },
-
+  }
   setupModel() {
     let attributeId = this.attributeId;
     let model = this.modelFor('dictionary.show.edit');
@@ -48,28 +50,25 @@ export default Route.extend({
     if(isEmpty(resource)) {
       this.flashMessages
         .warning('No Attribute found! Re-directing to Entity...');
-      this.replaceWith('dictionary.show.edit.entity.edit');
+      this.router.replaceWith('dictionary.show.edit.entity.edit');
 
       return;
     }
 
     return resource;
-  },
-
-  actions: {
+  }
     backToEntity() {
-      this.transitionTo('dictionary.show.edit.entity.edit',
+      this.router.transitionTo('dictionary.show.edit.entity.edit',
         this.entityId);
-    },
+    }
     editIdentifier(index) {
       let model = this.currentRouteModel();
 
-      this.transitionTo(
+      this.router.transitionTo(
           'dictionary.show.edit.entity.edit.attribute.identifier',
           get(model, 'attributeReference.identifier.' + index))
         .then(function () {
           this.setScrollTo('identifier');
         }.bind(this));
     }
-  }
-});
+}

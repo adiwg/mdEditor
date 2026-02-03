@@ -3,12 +3,15 @@
  * @submodule components-input
  */
 
-import EmberObject, { computed } from '@ember/object';
+import EmberObject from '@ember/object';
 
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 
-export default Component.extend({
+@classic
+export default class MdSelectThesaurusComponent extends Component {
 
   /**
    * A select list control for displaying and selecting thesaurus entries from
@@ -17,8 +20,8 @@ export default Component.extend({
    * @class md-select-thesaurus
    * @constructor
    */
-  profile: service(),
-  keyword: service(),
+  @service profile;
+  @service keyword;
 
   /**
    * This method is called after the thesaurus selection is updated. It should be
@@ -28,9 +31,9 @@ export default Component.extend({
    * @param  {Object} selected  The selected thesaurus from the keyword service
    * @param  {Object} thesaurus The thesaurus for the keyword record
    */
-  selectThesaurus() {},
+  selectThesaurus() {}
 
-  thesaurusList: computed('keyword.thesaurus.[]', 'profile.profiles', 'recordProfile', function () {
+  get thesaurusList() {
     const profileConfig = this.profile.profiles.find((p) => {
       return p.id === this.recordProfile;
     });
@@ -65,12 +68,11 @@ export default Component.extend({
       tooltipText: "Select this option to use a custom thesaurus that you define yourself. This allows you to use your own set of keywords and categories that are specific to your project."
     }));
     return list;
-  }),
-
-  actions: {
-    update(id, thesaurus) {
-      let selected = this.keyword.findById(id);
-      this.selectThesaurus(selected, thesaurus);
-    }
   }
-});
+
+  @action
+  update(id, thesaurus) {
+    let selected = this.keyword.findById(id);
+    this.selectThesaurus(selected, thesaurus);
+  }
+}

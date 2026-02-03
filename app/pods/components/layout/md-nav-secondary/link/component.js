@@ -1,24 +1,38 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import { scheduleOnce } from '@ember/runloop';
 import { measure } from "liquid-fire/components/liquid-measured";
 
-export default Component.extend({
-  tagName: 'li',
-  didInsertElement() {
-    this._super(...arguments);
-    let width = measure(this.$()).width;
+@classic
+export default class LinkComponent extends Component {
+  tagName = 'li';
 
-    if(width === this.link.width || this.link.isOverflow) return;
+  didInsertElement() {
+    super.didInsertElement(...arguments);
 
     scheduleOnce('afterRender', () => {
-      //next(this, () => {
-      let sliced = this.nav.links.slice(0, this.index + 1);
-      this.set('link.width', width);
+      try {
+        if (!this.element) return;
 
-      this.link.set('linkWidth', sliced.reduce((a, b) => {
-        return a + b.width;
-      }, this.nav.navPadding));
-      //});
+        let measured = measure(this.element);
+        if (!measured) return;
+
+        let width = measured.width;
+
+        if (width === this.link?.width || this.link?.isOverflow) return;
+
+        let sliced = this.nav?.links?.slice(0, this.index + 1);
+        if (!sliced) return;
+
+        this.link.width = width;
+
+        this.link.set('linkWidth', sliced.reduce((a, b) => {
+          return a + (b.width || 0);
+        }, this.nav?.navPadding || 0));
+      } catch (e) {
+        // Element measurement failed, likely due to timing issues during render
+        // This is non-critical functionality for nav width calculation
+      }
     });
   }
-});
+}

@@ -4,9 +4,9 @@
     {{input/md-input
       class="col-lg-9"
       placeholder="The name(title) of the raster."
-      profilePath=(concat profilePath ".coverageName")
+      profilePath=(concat this.profilePath ".coverageName")
       showValidations=true
-      value=item.coverageName
+      value=this.item.coverageName
       readonly=true
     }}
   </div>
@@ -15,9 +15,9 @@
     {{input/md-textarea
       class="col-lg-9"
       placeholder="A description of the raster."
-      profilePath=(concat profilePath ".coverageDescription")
+      profilePath=(concat this.profilePath ".coverageDescription")
       showValidations=true
-      value=item.coverageDescription
+      value=this.item.coverageDescription
       readonly=true
     }}
   </div>

@@ -1,6 +1,6 @@
 {{input/md-textarea
-  value=model.statement
-  profilePath=(concat profilePath ".statement")
+  value=this.model.statement
+  profilePath=(concat this.profilePath ".statement")
   label="Statement"
   placeholder="A general statement of the actions taken to verify, transform, repair, and integrate the resource."
   data-spy="Statement"
@@ -11,14 +11,14 @@
 
 {{object/md-objectroute-table
   attributes="description"
-  items=model.processStep
+  items=this.model.processStep
   header="Process Step"
   buttonText="Add Step"
   ellipsis=false
   previewTemplateTable="object/md-process-step/preview"
-  templateClass=stepTemplateClass
-  editItem=editProcessStep
-  profilePath=(concat profilePath ".processStep")
+  templateClass=this.stepTemplateClass
+  editItem=this.editProcessStep
+  profilePath=(concat this.profilePath ".processStep")
   verticalButtons=true
   hideIndex=false
   condensed=false
@@ -29,14 +29,14 @@
 
 {{object/md-objectroute-table
   attributes="description"
-  items=model.source
+  items=this.model.source
   header="Source"
   shadow=true
   buttonText="Add Source"
   ellipsis=false
   previewTemplateTable="object/md-source/preview"
-  editItem=editSource
-  profilePath=(concat profilePath ".source")
+  editItem=this.editSource
+  profilePath=(concat this.profilePath ".source")
   verticalButtons=true
   hideIndex=false
   condensed=false
@@ -45,13 +45,13 @@
   data-spy="Source"
 }}
 
-{{object/md-citation-array model=model.citation
-  profilePath=(concat profilePath ".citation") data-spy="Lineage Citation"
-  editItem=editCitation label="Citation"
+{{object/md-citation-array model=this.model.citation
+  profilePath=(concat this.profilePath ".citation") data-spy="Lineage Citation"
+  editItem=this.editCitation label="Citation"
 }}
 
 {{input/md-codelist
-  value=model.scope.scopeCode
+  value=this.model.scope.scopeCode
   label="Scope"
   create=true
   tooltip=true
@@ -59,7 +59,7 @@
   mdCodeName="scope"
   closeOnSelect=false
   placeholder="Select type of resource."
-  profilePath=(concat profilePath ".scope")
+  profilePath=(concat this.profilePath ".scope")
   data-spy="Scope"
 }}
 {{yield}}

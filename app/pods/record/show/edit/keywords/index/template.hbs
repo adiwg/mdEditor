@@ -1,9 +1,9 @@
 <h4 class="section-header">
   Editing Keywords
-  {{control/md-status model=model}}
+  {{control/md-status model=this.model}}
 </h4>
   <section>
-    {{#each model.json.metadata.resourceInfo.keyword as |thesaurus index|}}
+    {{#each this.model.json.metadata.resourceInfo.keyword as |thesaurus index|}}
       <div class="md-keywords-container md-object-container" data-spy={{concat "Thesaurus " index}} id={{concat "thesaurus-container-" index}}>
         <div class="md-keywords-header">
           {{#if thesaurus.thesaurus.identifier.0.identifier}}
@@ -16,7 +16,7 @@
             <strong>{{concat "Thesaurus #" index}}</strong>
           </h4>
           {{input/md-select-thesaurus class="md-keywords-select"
-          recordProfile=model.profile
+          recordProfile=this.model.profile
           thesaurus=thesaurus
           selectThesaurus=(route-action "selectThesaurus")
           value=thesaurus.thesaurus.identifier.0.identifier
@@ -70,4 +70,4 @@
   }}
 
   {{to-elsewhere named="md-scroll-spy-record-edit"
-    send=(component "control/md-scroll-spy"  refresh=refresh scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+    send=(component "control/md-scroll-spy"  refresh=this.refresh scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo"))}}

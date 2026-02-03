@@ -1,26 +1,26 @@
-{{#if label}}
+{{#if this.label}}
     <label class="md-card-chevron">
-      {{#if collapsible}}
-        <a role="button" data-toggle="collapse" href="#{{concat "md-" elementId}}"
-          aria-expanded={{if collapsed "false" "true"}}
-          class={{if collapsed "collapsed"}} aria-controls={{concat "md-" elementId}}>
+      {{#if this.collapsible}}
+        <a role="button" data-toggle="collapse" href="#{{concat "md-" this.elementId}}"
+          aria-expanded={{if this.collapsed "false" "true"}}
+          class={{if this.collapsed "collapsed"}} aria-controls={{concat "md-" this.elementId}}>
         <span class="fa"></span>
-        {{label}}
+        {{this.label}}
         </a>
       {{else}}
-        {{label}}
+        {{this.label}}
       {{/if}}
     </label>
 {{/if}}
-<div id={{concat "md-" elementId}} class={{if collapsed "collapse" "in"}}>
+<div id={{concat "md-" this.elementId}} class={{if this.collapsed "collapse" "in"}}>
   {{simple-mde
-    value=value
-    options=options
-    maxlength=maxlength
+    value=this.value
+    options=this.options
+    maxlength=this.maxlength
     spellcheck=true
-    disabled=disabled
-    change=(if change change (action (mut value)))
-    currentEditor=editor
+    disabled=this.disabled
+    change=(if this.change this.change (action (mut this.value)))
+    currentEditor=this.editor
   }}
 </div>
 {{yield}}

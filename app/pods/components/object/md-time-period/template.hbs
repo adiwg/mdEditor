@@ -1,42 +1,42 @@
 {{#layout/md-card
   title="Time Period"
   collapsible=true
-  collapsed=collapsed
+  collapsed=this.collapsed
   data-spy="Time Period"
-  required=required
+  required=this.required
   shadow=true
-  content=model
+  content=this.model
 }}
 
   {{#layout/md-card shadow=false
-    profilePath=(concat profilePath ".dateRange")
+    profilePath=(concat this.profilePath ".dateRange")
     muted=false
     plain=true
   }}
     {{input/md-date-range
-      startDateTime=startDateTime
-      endDateTime=endDateTime
-      profilePath=(concat profilePath ".dateRange")
+      startDateTime=this.startDateTime
+      endDateTime=this.endDateTime
+      profilePath=(concat this.profilePath ".dateRange")
     }}
   {{/layout/md-card}}
 
   {{input/md-input
-   value=identifier
+   value=this.identifier
    label="Identifier"
    placeholder="Enter a unique identifier for the time period."
    required=false
-   profilePath=(concat profilePath ".identifier")
+   profilePath=(concat this.profilePath ".identifier")
  }}
 
   {{input/md-textarea
-      value=model.description
-      profilePath=(concat profilePath ".description")
+      value=this.model.description
+      profilePath=(concat this.profilePath ".description")
       label="Description"
       placeholder="A brief description providing relevant information about the time period."
   }}
 
   {{#layout/md-card shadow=false
-    profilePath=(concat profilePath ".periodName")
+    profilePath=(concat this.profilePath ".periodName")
     muted=false
     plain=true
   }}
@@ -44,7 +44,7 @@
     {{#object/md-simple-array-table title="Time Period Name"
       data-spy=false
       plain=true
-      value=model.periodName as |val|
+      value=this.model.periodName as |val|
     }}
       <td>
         {{input/md-input value=val.item.value
@@ -55,7 +55,7 @@
 
   {{#layout/md-card
     shadow=false
-    profilePath=(concat profilePath ".interval")
+    profilePath=(concat this.profilePath ".interval")
     muted=false
     plain=true
   }}
@@ -68,12 +68,12 @@
         step="0.01"
         label="Interval Amount"
         placeholder="Enter amount of time for the interval."
-        profilePath=(concat profilePath ".interval.intervalAmount")
+        profilePath=(concat this.profilePath ".interval.intervalAmount")
         showValidations=true
       }}
       {{input/md-select
         create=false
-        objectArray=timeUnit
+        objectArray=this.timeUnit
         valuePath="value"
         namePath="name"
         label="Time Unit"
@@ -81,8 +81,8 @@
         tooltip=false
         icon=false
         allowClear=true
-        value=model.timeInterval.units
-        profilePath=(concat profilePath ".interval.units")
+        value=this.model.timeInterval.units
+        profilePath=(concat this.profilePath ".interval.units")
         placeholder="Choose unit of time"
       }}
     </div>
@@ -90,7 +90,7 @@
 
   {{#layout/md-card
     shadow=false
-    profilePath=(concat profilePath ".duration")
+    profilePath=(concat this.profilePath ".duration")
     muted=false
     plain=true
     bodyIsRow=true
@@ -98,15 +98,15 @@
     <label class="text-info col-sm-2">Duration</label>
     <div class="col-sm-10">
       <div class="row">
-        {{#each durationUnit as |unit|}}
+        {{#each this.durationUnit as |unit|}}
           {{input/md-input
             class="col-sm-6 col-md-4 col-lg-2"
             valuePath=(concat "duration." unit)
-            model=model
+            model=this.model
             type="number"
             label=(uc-words unit)
             placeholder=(concat "Enter " unit)
-            profilePath=(concat profilePath ".duration." unit)
+            profilePath=(concat this.profilePath ".duration." unit)
           }}
         {{/each}}
       </div>

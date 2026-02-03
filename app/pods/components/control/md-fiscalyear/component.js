@@ -5,6 +5,7 @@ import moment from 'moment';
 import {
   inject as service
 } from '@ember/service';
+import $ from 'jquery';
 
 export default Select.extend({
   layout,
@@ -44,12 +45,15 @@ export default Select.extend({
 
     if(context) {
       //have to set values using datetimepicker
-      context.$('.start .date')
-        .data("DateTimePicker")
-        .date(start);
-      context.$('.end .date')
-        .data("DateTimePicker")
-        .date(end);
+      const startDate = context.element.querySelector('.start .date');
+      const endDate = context.element.querySelector('.end .date');
+
+      if (startDate) {
+        $(startDate).data("DateTimePicker").date(start);
+      }
+      if (endDate) {
+        $(endDate).data("DateTimePicker").date(end);
+      }
     }
 
     this.set('value', null);

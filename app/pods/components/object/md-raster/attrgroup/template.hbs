@@ -1,31 +1,31 @@
-{{#unless showAlert}}
-  <div class="panel panel-default {{if shadow "box-shadow--4dp"}}">
+{{#unless this.showAlert}}
+  <div class="panel panel-default {{if this.shadow "box-shadow--4dp"}}">
     <div class="panel-heading">
       <h3 class="panel-title md-panel-chevron">
-        <a data-toggle="collapse" aria-expanded={{if collapsed "false" "true"}}
-            class={{if collapsed "collapsed"}}
-            href="#{{panelId}}" aria-controls="#{{panelId}}">
-            <span class="fa"></span> {{unless pluralTitle (pluralize title) pluralTitle}}
-            <div class="label label-pill {{pillColor}}"> {{value.length}} </div>
+        <a data-toggle="collapse" aria-expanded={{if this.collapsed "false" "true"}}
+            class={{if this.collapsed "collapsed"}}
+            href="#{{this.panelId}}" aria-controls="#{{this.panelId}}">
+            <span class="fa"></span> {{unless this.pluralTitle (pluralize this.title) this.pluralTitle}}
+            <div class="label label-pill {{this.pillColor}}"> {{this.value.length}} </div>
         </a>
-        <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info pull-right"
+        <button type="button" id="{{this.panelId}}-btn" class="btn btn-xs btn-info pull-right"
             {{action "addItem"}}>
             {{fa-icon "plus"}} Add
         </button>
       </h3>
     </div>
 
-    <div id={{panelId}} class="panel-collapse {{if collapsed "collapse" "in"}}">
-      <div class="panel-body {{if responsive "table-responsive"}}">
+    <div id={{this.panelId}} class="panel-collapse {{if this.collapsed "collapse" "in"}}">
+      <div class="panel-body {{if this.responsive "table-responsive"}}">
         {{! template-lint-disable table-groups }}
         <table class="table table-striped table-hover fadeIn md-table-align-middle">
-          {{#if columnArray}}
+          {{#if this.columnArray}}
               <thead>
                 <tr>
-                  {{#unless hideIndex}}
+                  {{#unless this.hideIndex}}
                   <th>#</th>
                   {{/unless}}
-                  {{#each columnArray as |prop|}}
+                  {{#each this.columnArray as |prop|}}
                   <th>{{uc-words prop}}</th>
                   {{/each}}
                   <th></th>
@@ -33,16 +33,16 @@
               </thead>
           {{/if}}
           <tbody>
-            {{#each arrayValues as |item index|}}
+            {{#each this.arrayValues as |item index|}}
               <tr>
-                {{#unless hideIndex}}
+                {{#unless this.hideIndex}}
                 <td>{{index}}</td>
                 {{/unless}}
                 {{#layout/md-object-container
                   title="Attribute Group"
                   index=index
-                  profilePath=(concat profilePath ".attributeGroup")
-                  deleteItem=deleteAttrGroup
+                  profilePath=(concat this.profilePath ".attributeGroup")
+                  deleteItem=this.deleteAttrGroup
                 }}
                   {{input/md-codelist-multi
                     value=item.attributeContentType
@@ -56,7 +56,7 @@
                     closeOnSelect=false
                     placeholder="Specific type of information represented in the cell"
                     label="Attribute Content Type"
-                    profilePath=(concat profilePath ".atttributeContentType")
+                    profilePath=(concat this.profilePath ".atttributeContentType")
                   }}
                   {{object/md-objectroute-table
                     attributes="attributeDescription"
@@ -66,8 +66,8 @@
                     buttonText="Add Attribute"
                     ellipsis=false
                     previewTemplateTable="object/md-raster/attrgroup/attribute/preview"
-                    editItem=editAttribute
-                    profilePath=(concat profilePath ".attribute")
+                    editItem=this.editAttribute
+                    profilePath=(concat this.profilePath ".attribute")
                     verticalButtons=true
                     hideIndex=false
                     condensed=false
@@ -80,10 +80,10 @@
               </tr>
               {{else}}
               <tr>
-                <td colspan={{add-em (if hideIndex 1 2) columnArray.length}}>
-                  <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info"
+                <td colspan={{add-em (if this.hideIndex 1 2) this.columnArray.length}}>
+                  <button type="button" id="{{this.panelId}}-btn" class="btn btn-xs btn-info"
                     {{action "addItem"}}>
-                    {{fa-icon "plus"}} Add {{title}}
+                    {{fa-icon "plus"}} Add {{this.title}}
                   </button>
                 </td>
               </tr>
@@ -95,10 +95,10 @@
 </div>
 {{else}}
   {{control/md-alert-table
-    title=title
-    required=required
+    title=this.title
+    required=this.required
     addItem=(action "addItem")
-    target=arrayValues
-    tipMessage=alertTipMessage
+    target=this.arrayValues
+    tipMessage=this.alertTipMessage
   }}
 {{/unless}}

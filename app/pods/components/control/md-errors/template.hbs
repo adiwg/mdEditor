@@ -1,5 +1,5 @@
 <!-- template.hbs -->
-{{#each formattedErrors as |errorGroup|}}
+{{#each this.formattedErrors as |errorGroup|}}
   <section>
     <h3>{{errorGroup.title}}</h3>
     <ul class='list-group'>
@@ -23,8 +23,9 @@
               {{/if}}
               <!-- Add the "Go To Error" button below the existing content -->
               <button
+                type='button'
                 class='btn btn-default btn-xs'
-                onclick={{action 'navigateToEndpoint' err.url}}
+                {{on "click" (fn this.navigateToEndpoint err.url)}}
               >
                 Go To Error
               </button>

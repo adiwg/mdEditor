@@ -1,18 +1,18 @@
 {{input/md-input
-  value=model.sourceId
+  value=this.model.sourceId
   model=null
   valuePath=null
   label='Source ID'
   data-spy='Source ID'
   placeholder='Enter unique identifer for the source.'
   required=false
-  profilePath=(concat profilePath '.sourceId')
+  profilePath=(concat this.profilePath '.sourceId')
 }}
 
 {{input/md-textarea
-  value=model.description
+  value=this.model.description
   required=true
-  profilePath=(concat profilePath '.description')
+  profilePath=(concat this.profilePath '.description')
   label='Description'
   placeholder='Description of the source.'
   data-spy='Source Description'
@@ -20,7 +20,7 @@
 }}
 
 {{input/md-codelist
-  value=model.scope.scopeCode
+  value=this.model.scope.scopeCode
   label='Scope'
   create=true
   tooltip=true
@@ -28,33 +28,33 @@
   mdCodeName='scope'
   closeOnSelect=false
   placeholder='Select type of resource.'
-  profilePath=(concat profilePath '.scope')
+  profilePath=(concat this.profilePath '.scope')
   data-spy='Scope'
 }}
 
 {{#layout/md-card
   title='Source Citation'
   collapsible=true
-  profilePath=(concat profilePath '.sourceCitation')
+  profilePath=(concat this.profilePath '.sourceCitation')
   data-spy='Source Citation'
   shadow=true
-  content=model.sourceCitation
+  content=this.model.sourceCitation
 }}
   {{object/md-citation
-    model=model.sourceCitation
-    profilePath=(concat profilePath '.sourceCitation')
+    model=this.model.sourceCitation
+    profilePath=(concat this.profilePath '.sourceCitation')
     data-spy=false
     simpleIdentifier=true
   }}
 {{/layout/md-card}}
 
 {{#object/md-object-table
-  items=model.metadataCitation
+  items=this.model.metadataCitation
   header='Metadata Citation'
   data-spy='Metadata Citation'
   buttonText='Add Citation'
   previewTemplate=''
-  profilePath=(concat profilePath '.metadataCitation')
+  profilePath=(concat this.profilePath '.metadataCitation')
   attributes='title'
   as |editing|
 }}
@@ -63,21 +63,21 @@
     simpleIdentifier=true
     data-spy=false
     embedded=true
-    profilePath=(concat profilePath '.metadataCitation')
+    profilePath=(concat this.profilePath '.metadataCitation')
   }}
 {{/object/md-object-table}}
 
 {{#layout/md-card
   title='Spatial Reference System'
   collapsible=true
-  profilePath=(concat profilePath '.referenceSystem')
+  profilePath=(concat this.profilePath '.referenceSystem')
   data-spy='Spatial Reference System'
   shadow=true
-  content=model.referenceSystem
+  content=this.model.referenceSystem
 }}
   {{object/md-srs
-    model=model.referenceSystem
-    profilePath=(concat profilePath '.referenceSystem')
+    model=this.model.referenceSystem
+    profilePath=(concat this.profilePath '.referenceSystem')
   }}
 {{/layout/md-card}}
 
@@ -85,11 +85,11 @@
   title='Spatial Resolution'
   collapsible=true
   data-spy='Spatial Resolution'
-  profilePath=(concat profilePath '.spatialResolution')
-  content=model.spatialResolution
+  profilePath=(concat this.profilePath '.spatialResolution')
+  content=this.model.spatialResolution
 }}
   {{object/md-spatial-resolution
-    model=model.spatialResolution
-    profilePath=(concat profilePath '.spatialResolution')
+    model=this.model.spatialResolution
+    profilePath=(concat this.profilePath '.spatialResolution')
   }}
 {{/layout/md-card}}

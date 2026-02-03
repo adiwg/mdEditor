@@ -1,25 +1,27 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import { isArray, A } from '@ember/array';
-import { computed, get } from '@ember/object';
+import { get } from '@ember/object';
 
-export default Route.extend({
-  breadCrumb: computed('citationId', function () {
+export default class CitationRoute extends Route {
+  @service flashMessages;
+  @service router;
+  get breadCrumb() {
     return {
       title: this.citationId,
       linkable: true
     };
-  }),
+  }
 
   model(params) {
     this.set('citationId', params.citation_id);
 
     return this.setupModel();
-  },
-
-  setupController: function () {
+  }
+  setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     //this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
     this.controller.set('citationId', this.citationId);
@@ -28,8 +30,7 @@ export default Route.extend({
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
-
+  }
   setupModel() {
     let citationId = this.citationId;
     let model = this.modelFor('record.show.edit');
@@ -43,11 +44,11 @@ export default Route.extend({
     if(isEmpty(resource)) {
       this.flashMessages
         .warning('No Document object found! Re-directing to list...');
-      this.replaceWith('record.show.edit.documents');
+      this.router.replaceWith('record.show.edit.documents');
 
       return;
     }
 
     return resource;
   }
-});
+}

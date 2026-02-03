@@ -1,7 +1,8 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import { once } from '@ember/runloop';
 import { alias } from '@ember/object/computed';
-import { get, set, getWithDefault } from '@ember/object';
+import { get } from '@ember/object';
 import { ucWords } from 'mdeditor/helpers/uc-words';
 import { decamelize } from '@ember/string';
 import Attribute from 'mdjson-schemas/resources/js/attribute';
@@ -36,7 +37,8 @@ const params = {
   nominalSpatialResolution: 'number',
 };
 
-export default Component.extend(Validations, {
+@classic
+export default class MdRasterAttrgroupAttributeComponent extends Component.extend(Validations) {
   /**
    * mdEditor class for input and edit of mdJson 'coverageDescription.attributeGroup.attribute' object
    * The class manages the maintenance of an array of 'attribute' ojbects.
@@ -54,7 +56,33 @@ export default Component.extend(Validations, {
    * @class md-raster-attrgroup-attribute
    */
 
-  init() {
+  tagName = 'form';
+
+  /**
+   * 'attrIdentifier' is the alias for 'attributeIdentifier.identifier' used in the validations for the
+   * 'attributeIdentifier' object.
+   *
+   * @property attrIdentifier
+   * @type String
+   * @requires alias
+   * @default "alias('model.attributeIdentifier.identifier')"
+   */
+  @alias('model.attributeIdentifier.identifier') attrIdentifier;
+
+  /**
+   * 'attrDesc' is the alias for 'attributeDescription' used in the validations for the
+   * 'attribute' object.
+   *
+   * @property attrDesc
+   * @type String
+   * @requires alias
+   * @default "alias('model.attributeDescription')"
+   */
+  @alias('model.attriuteDescription') attrDesc;
+
+  constructor() {
+    super(...arguments);
+
     this.params = Object.keys(params).map(p => {
       return {
         property: p,
@@ -66,50 +94,19 @@ export default Component.extend(Validations, {
         description: get(Attribute, `properties.${p}.description`)
       };
     });
-
-    this._super(...arguments);
-  },
+  }
 
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
-    let model = getWithDefault(this, 'model', []) || [];
+    let model = this.model ?? [];
 
     once(this, function () {
-      set(model, 'attributeIdentifier', getWithDefault(model,
-        'attributeIdentifier', []));
-      set(model, 'bandBoundaryDefinition', getWithDefault(model,
-      'bandBoundaryDefinition', []));
-      set(model, 'transferFunctionType', getWithDefault(model,
-        'transferFunctionType', []));
-      set(model, 'transmittedPolarization', getWithDefault(model,
-        'transmittedPolarization', []));
-      set(model, 'detectedPolarization', getWithDefault(model,
-        'detectedPolarization', []));
+      model.attributeIdentifier = model.attributeIdentifier ?? [];
+      model.bandBoundaryDefinition = model.bandBoundaryDefinition ?? [];
+      model.transferFunctionType = model.transferFunctionType ?? [];
+      model.transmittedPolarization = model.transmittedPolarization ?? [];
+      model.detectedPolarization = model.detectedPolarization ?? [];
     });
-  },
-
-  tagName: 'form',
-
-  /**
-   * 'attrIdentifier' is the alias for 'attributeIdentifier.identifier' used in the validations for the
-   * 'attributeIdentifier' object.
-   *
-   * @property attrIdentifier
-   * @type String
-   * @requires alias
-   * @default "alias('model.attributeIdentifier.identifier')"
-   */
-  attrIdentifier: alias('model.attributeIdentifier.identifier'),
-
-  /**
-   * 'attrDesc' is the alias for 'attributeDescription' used in the validations for the
-   * 'attribute' object.
-   *
-   * @property attrDesc
-   * @type String
-   * @requires alias
-   * @default "alias('model.attributeDescription')"
-   */
-  attrDesc: alias('model.attriuteDescription'),
-});
+  }
+}

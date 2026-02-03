@@ -1,8 +1,12 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
-import { or } from '@ember/object/computed';
 
-export default Component.extend({
-  classNameBindings: ['textMuted'],
-  textMuted: true,
-  config: or('record.config', 'record')
-});
+@classic
+export default class PreviewComponent extends Component {
+  classNameBindings = ['textMuted'];
+  textMuted = true;
+
+  get config() {
+    return this.record?.config || this.record;
+  }
+}

@@ -1,5 +1,7 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
-  classNames: ['md-schema']
-});
+@classic
+export default class MdSchemaComponent extends Component {
+  classNames = ['md-schema'];
+}

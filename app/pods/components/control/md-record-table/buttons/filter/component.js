@@ -1,13 +1,16 @@
 import { inject as service } from '@ember/service';
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import { action } from '@ember/object';
 import { once } from '@ember/runloop';
 
-export default Component.extend({
-  flashMessages: service(),
-  showButton: computed('selectedItems.[]', function() {
-    return this.get('selectedItems.length') > 1;
-  }),
+@classic
+export default class FilterComponent extends Component {
+  @service flashMessages;
+
+  get showButton() {
+    return this.selectedItems?.length > 1;
+  }
 
   deleteSelected(records) {
     records.forEach(rec => {
@@ -23,11 +26,10 @@ export default Component.extend({
           });
         });
     });
-  },
-
-  actions: {
-    deleteSelected(records) {
-      this.deleteSelected(records);
-    }
   }
-});
+
+  @action
+  deleteSelectedAction(records) {
+    this.deleteSelected(records);
+  }
+}

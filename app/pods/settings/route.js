@@ -7,6 +7,9 @@ import { get, set, action } from '@ember/object';
 @classic
 export default class SettingsRoute extends Route {
   @service
+  store;
+
+  @service
   settings;
 
   @service
@@ -43,7 +46,6 @@ export default class SettingsRoute extends Route {
     controller.set('links', links);
   }
 
-  @action
   clearLocalStorage() {
     let data = this.settings.data.serialize({ includeId: true });
 
@@ -64,21 +66,17 @@ export default class SettingsRoute extends Route {
     //this.transitionTo('application');
   }
 
-  @action
   save() {
     this.settings.data.save();
   }
 
-  @action
   catalogs() {
     return this.get('publish.catalogs');
   }
 
-  @action
   deriveItisProxyUrl() {
     let model = this.modelFor('settings.main');
     const mdTranslatorAPI = model.get('mdTranslatorAPI');
-    console.log(mdTranslatorAPI);
     if (mdTranslatorAPI) {
       // Extract the base URL by removing the API path
       // This will convert https://api.sciencebase.gov/mdTranslator/api/v3/translator
@@ -89,7 +87,6 @@ export default class SettingsRoute extends Route {
     }
   }
 
-  @action
   getPublishOptions(catalogName) {
     let model = this.modelFor('settings.main');
     let publishOptions = model.get('publishOptions') || [];

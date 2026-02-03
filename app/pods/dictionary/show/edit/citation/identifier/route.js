@@ -1,17 +1,18 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
-export default Route.extend(ScrollTo, {
+export default class IdentifierRoute extends Route.extend(ScrollTo) {
+  @service flashMessages;
+  @service router;
   model(params) {
     this.set('identifierId', params.identifier_id);
 
     return this.setupModel();
-  },
-
-
-  setupController: function () {
+  }
+  setupController() {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -21,8 +22,7 @@ export default Route.extend(ScrollTo, {
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
-
+  }
   setupModel() {
     let identifierId = this.identifierId;
     let model = this.modelFor('dictionary.show.edit.citation');
@@ -33,11 +33,11 @@ export default Route.extend(ScrollTo, {
     if (isEmpty(identifier)) {
       this.flashMessages
         .warning('No identifier found! Re-directing to citation...');
-      this.replaceWith('dictionary.show.edit.citation.index');
+      this.router.replaceWith('dictionary.show.edit.citation.index');
 
       return;
     }
 
     return identifier;
   }
-});
+}

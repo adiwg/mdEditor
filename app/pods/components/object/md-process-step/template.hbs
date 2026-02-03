@@ -1,18 +1,18 @@
 {{input/md-input
-   value=model.stepId
+   value=this.model.stepId
    model=null
    valuePath=null
    label="Step ID"
    data-spy="Step ID"
    placeholder="Enter an identifer for the step."
    required=false
-   profilePath=(concat profilePath ".stepId")
+   profilePath=(concat this.profilePath ".stepId")
  }}
 
 {{input/md-textarea
-  value=model.description
+  value=this.model.description
   required=true
-  profilePath=(concat profilePath ".description")
+  profilePath=(concat this.profilePath ".description")
   label="Description"
   placeholder="Description of the process or methodology step."
   data-spy="Step Description"
@@ -21,16 +21,16 @@
 
 {{#object/md-array-table
   columns="Description"
-  value=model.stepSource
+  value=this.model.stepSource
   title="Step Source"
-  templateClass=sourceTemplate
-  profilePath=(concat profilePath ".stepSource")
+  templateClass=this.sourceTemplate
+  profilePath=(concat this.profilePath ".stepSource")
   data-spy="Step Source" as |source|
 }}
   <td>
     {{input/md-textarea
       value=source.item.description
-      profilePath=(concat profilePath ".stepSource.description")
+      profilePath=(concat this.profilePath ".stepSource.description")
       placeholder="Information about the source data used in the process step."
     }}
   </td>
@@ -38,16 +38,16 @@
 
 {{#object/md-array-table
   columns="Description"
-  value=model.stepProduct
+  value=this.model.stepProduct
   title="Step Product"
-  templateClass=sourceTemplate
-  profilePath=(concat profilePath ".stepProduct")
+  templateClass=this.sourceTemplate
+  profilePath=(concat this.profilePath ".stepProduct")
   data-spy="Step Product" as |source|
 }}
   <td>
     {{input/md-textarea
       value=source.item.description
-      profilePath=(concat profilePath ".stepProduct.description")
+      profilePath=(concat this.profilePath ".stepProduct.description")
       placeholder="Information about an intermediate data set that (1) is significant in the opinion of the data producer, (2) is generated in the processing step, and (3) is used in later processing steps."
     }}
   </td>
@@ -56,25 +56,25 @@
 {{object/md-party-array
   title="Processors"
   data-spy="Processors"
-  class=(if embedded "md-embedded")
+  class=(if this.embedded "md-embedded")
   collapsible=true collapsed=false
   required=false
-  value=model.processor
-  profilePath=(concat profilePath ".processor")
+  value=this.model.processor
+  profilePath=(concat this.profilePath ".processor")
 }}
 
-{{object/md-citation-array model=model.reference
-  profilePath=(concat profilePath ".stepReference") data-spy="Step Reference"
-  editItem=editCitation label="Step Reference"
+{{object/md-citation-array model=this.model.reference
+  profilePath=(concat this.profilePath ".stepReference") data-spy="Step Reference"
+  editItem=this.editCitation label="Step Reference"
 }}
 
-{{object/md-time-period model=model.timePeriod
-  profilePath=(concat profilePath ".timePeriod") data-spy="Time Period"
+{{object/md-time-period model=this.model.timePeriod
+  profilePath=(concat this.profilePath ".timePeriod") data-spy="Time Period"
   label="Time Period"
 }}
 
 {{input/md-codelist
-  value=model.scope.scopeCode
+  value=this.model.scope.scopeCode
   label="Scope"
   create=true
   tooltip=true
@@ -82,7 +82,7 @@
   mdCodeName="scope"
   closeOnSelect=false
   placeholder="Select type of resource."
-  profilePath=(concat profilePath ".scope")
+  profilePath=(concat this.profilePath ".scope")
   data-spy="Scope"
 }}
 {{yield}}

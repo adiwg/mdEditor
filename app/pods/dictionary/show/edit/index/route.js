@@ -1,37 +1,50 @@
 import Route from '@ember/routing/route';
-import { set, getWithDefault, get } from '@ember/object';
+import { action } from '@ember/object';
+import { set, get } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
+import { inject as service } from '@ember/service';
 
-export default Route.extend(ScrollTo, {
+export default class IndexRoute extends Route.extend(ScrollTo) {
+  @service router;
+
+  model() {
+    return this.modelFor('dictionary.show.edit');
+  }
+
   afterModel(m) {
-    this._super(...arguments);
+    super.afterModel(...arguments);
 
     let model = get(m, 'json.dataDictionary');
-    set(model, 'citation', getWithDefault(model, 'citation', {}));
-    set(model, 'responsibleParty', getWithDefault(model, 'responsibleParty', {}));
-    set(model, 'subject', getWithDefault(model, 'subject', []));
-    set(model, 'recommendedUse', getWithDefault(model, 'recommendedUse', []));
-    set(model, 'locale', getWithDefault(model, 'locale', []));
-    set(model, 'domain', getWithDefault(model, 'domain', []));
-    set(model, 'entity', getWithDefault(model, 'entity', []));
-  },
+    set(model, 'citation', get(model, 'citation') ?? {});
+    set(model, 'responsibleParty', get(model, 'responsibleParty') ?? {});
+    set(model, 'subject', get(model, 'subject') ?? []);
+    set(model, 'recommendedUse', get(model, 'recommendedUse') ?? []);
+    set(model, 'locale', get(model, 'locale') ?? []);
+    set(model, 'domain', get(model, 'domain') ?? []);
+    set(model, 'entity', get(model, 'entity') ?? []);
+  }
 
   setupController(controller, model) {
-    this._super(controller, model);
+    super.setupController(controller, model);
+    controller.set('model', model);
 
-    this.controllerFor('dictionary.show.edit')
-      .setProperties({
-        onCancel: () => this,
-        cancelScope: this
-      });
-  },
-
-  actions: {
-    editCitation(scrollTo) {
-      this.transitionTo('dictionary.show.edit.citation')
-        .then(function () {
-          this.setScrollTo(scrollTo);
-        }.bind(this));
-    }
+    this.controllerFor('dictionary.show.edit').setProperties({
+      onCancel: () => this,
+      cancelScope: this,
+    });
   }
-});
+
+  @action
+  setScrollTo(scrollTo) {
+    this.controller.set('scrollTo', scrollTo || '');
+  }
+
+  @action
+  editCitation(scrollTo) {
+    this.router.transitionTo('dictionary.show.edit.citation').then(
+      function () {
+        this.setScrollTo(scrollTo);
+      }.bind(this)
+    );
+  }
+}

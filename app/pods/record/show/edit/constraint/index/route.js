@@ -1,19 +1,17 @@
 import Route from '@ember/routing/route';
-import { get, getWithDefault, set } from '@ember/object';
+import { get, set } from '@ember/object';
 
-export default Route.extend({
+export default class IndexRoute extends Route {
   afterModel(m) {
-    this._super(...arguments);
+    super.afterModel(...arguments);
 
     let model = get(m, 'json.metadata.resourceInfo');
-    set(model, 'constraint', getWithDefault(model, 'constraint', []));
-  },
-
-  setupController: function() {
-    // Call _super for default behavior
-    this._super(...arguments);
-
-    this.controller.set('parentModel', this.modelFor(
-      'record.show.edit'));
+    set(model, 'constraint', get(model, 'constraint') ?? []);
   }
-});
+  setupController() {
+    // Call _super for default behavior
+    super.setupController(...arguments);
+
+    this.controller.set('parentModel', this.modelFor('record.show.edit'));
+  }
+}

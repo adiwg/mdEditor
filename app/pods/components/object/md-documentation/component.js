@@ -1,6 +1,6 @@
 import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
-import { getWithDefault, get, set } from '@ember/object';
+import classic from 'ember-classic-decorator';
 import { once } from '@ember/runloop';
 import {
   validator,
@@ -16,19 +16,20 @@ const Validations = buildValidations({
   ]
 });
 
-export default Component.extend(Validations, {
+@classic
+export default class MdDocumentationComponent extends Component.extend(Validations) {
+  tagName = 'form';
+
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
     once(this, function() {
-      set(model, 'resourceType', getWithDefault(model, 'resourceType', []));
-      set(model, 'citation', A(getWithDefault(model, 'citation', [{}])));
+      model.resourceType = model.resourceType ?? [];
+      model.citation = A(model.citation ?? [{}]);
     });
-  },
-
-  tagName: 'form',
+  }
 
   /**
    * The string representing the path in the profile object for the resource.
@@ -47,6 +48,6 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  citation: alias('model.citation'),
-  resourceType: alias('model.resourceType')
-});
+  @alias('model.citation') citation;
+  @alias('model.resourceType') resourceType;
+}

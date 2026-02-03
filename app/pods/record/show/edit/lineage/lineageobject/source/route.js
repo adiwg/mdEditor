@@ -1,17 +1,20 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
 
-export default Route.extend({
+export default class SourceRoute extends Route {
+  @service flashMessages;
+  @service router;
   model(params) {
     this.set('sourceId', params.source_id);
     this.set('lineageId', this.paramsFor(
       'record.show.edit.lineage.lineageobject').lineage_id);
 
     return this.setupModel();
-  },
-
-  setupController: function () {
+  }
+  setupController() {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -21,8 +24,7 @@ export default Route.extend({
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
-
+  }
   setupModel() {
     let sourceId = this.sourceId;
     let lineageId = this.lineageId;
@@ -36,16 +38,14 @@ export default Route.extend({
     if(isEmpty(source)) {
       this.flashMessages
         .warning('No source found! Re-directing...');
-      this.replaceWith('record.show.edit.lineage.lineageobject');
+      this.router.replaceWith('record.show.edit.lineage.lineageobject');
 
       return;
     }
 
     return source;
-  },
-  actions: {
+  }
     parentModel() {
       return this.modelFor('record.show.edit');
     }
-  }
-});
+}
