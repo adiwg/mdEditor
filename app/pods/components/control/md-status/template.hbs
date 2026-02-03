@@ -8,7 +8,7 @@
 {{/if}}
 
 {{#if this.model.hasSchemaErrors}}
-<span role="button" class="md-status-icon" {{on "click" this.showSlider}}>
+<span role="button" class="md-status-icon" {{on "click" this.handleShowSlider}}>
   {{fa-icon "exclamation-triangle" class=(if this.isBtn (concat "btn btn-warning btn-" this.btnSize) "md-warning")}}
   {{ember-tooltip text="This record has errors! Click to view." side="right"
     tooltipClass="ember-tooltip md-tooltip warning"

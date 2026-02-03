@@ -24,11 +24,16 @@ export default class MdStatusComponent extends Component {
   btnSize = 'sm';
 
   @action
-  showSlider() {
-    let slider = this.slider;
-
-    slider.fromName = 'md-slider-error';
-    slider.toggleSlider(true);
+  handleShowSlider() {
+    // If a custom showSlider action was passed, use it
+    if (this.showSlider && typeof this.showSlider === 'function') {
+      this.showSlider();
+    } else {
+      // Default behavior
+      let slider = this.slider;
+      slider.fromName = 'md-slider-error';
+      slider.toggleSlider(true);
+    }
   }
 
   @action

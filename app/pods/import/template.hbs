@@ -97,7 +97,7 @@
         {{control/md-record-table
           data=item
           dataColumns=(compute (route-action "getColumns") key)
-          actionsColumn=false
+          hideActionsColumn=true
           selectProperty="meta.export"
           showColumnsDropdown=(not-eq key "settings")
           showComponentFooter=(not-eq key "settings")

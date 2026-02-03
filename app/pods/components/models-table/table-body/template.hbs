@@ -2,13 +2,13 @@
 {{#with
   (hash
     columns-hidden=(
-      component this.themeInstance.components.columns-hidden
+      component this.themeInstance.columnsHiddenComponent
       columnsCount=this.columnsCount
       sendAction=this.sendAction
       themeInstance=this.themeInstance
     )
     row=(
-      component this.themeInstance.components.row
+      component this.themeInstance.rowComponent
       visibleProcessedColumns=this.visibleProcessedColumns
       groupingRowComponent=this.groupingRowComponent
       collapsedGroupValues=this.collapsedGroupValues
@@ -31,7 +31,7 @@
       toggleGroupedRowsExpands=this.toggleGroupedRowsExpands
     )
     row-expand=(
-      component this.themeInstance.components.row-expand
+      component this.themeInstance.rowExpandComponent
       expandedRowComponent=this.expandedRowComponent
       selectedItems=this.selectedItems
       processedColumns=this.processedColumns
@@ -43,14 +43,14 @@
       collapseRow=this.collapseRow
     )
     no-data=(
-      component this.themeInstance.components.no-data
+      component this.themeInstance.noDataComponent
       columnsCount=this.visibleProcessedColumns.length
       displayGroupedValueAs=this.displayGroupedValueAs
       sendAction=this.sendAction
       themeInstance=this.themeInstance
     )
     row-grouping=(
-      component this.themeInstance.components.row-grouping
+      component this.themeInstance.rowGroupingComponent
       groupingRowComponent=this.groupingRowComponent
       currentGroupingPropertyName=this.currentGroupingPropertyName
       visibleProcessedColumns=this.visibleProcessedColumns
