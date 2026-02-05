@@ -3,11 +3,10 @@
       <h3>Translate Record</h3>
         {{md-translate
           model=this.model
-          store=this.store
           writer=this.writer
           forceValid=this.forceValid
           showAllTags=this.showAllTags
-          goToSettings=(route-action "goToSettings")
+          onGoToSettings=(route-action "goToSettings")
         }}
     </div>
 </div>

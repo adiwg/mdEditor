@@ -27,7 +27,8 @@ const Base = Model.extend({
     if (this.isLoaded && !this._didLoadCalled) {
       this._didLoadCalled = true;
       this.applyPatch();
-      this.isReady();
+      // Schedule isReady after applyPatch completes (applyPatch uses once())
+      scheduleOnce('afterRender', this, this.isReady);
     }
   }),
 
@@ -115,6 +116,16 @@ const Base = Model.extend({
     this.setCurrentHash(json);
     this.set('jsonSnapshot', json);
 
+    // Clear any lingering dirty attributes state
+    if (this.hasDirtyAttributes) {
+      this.rollbackAttributes();
+      // Re-apply the saved json to ensure consistency
+      this.set('json', EmberObject.create(json));
+    }
+
+    // Notify property change to force hasDirtyHash recomputation
+    this.notifyPropertyChange('currentHash');
+
     // Pouch handling
     this.pouch.updatePouchRecord(this);
   },
@@ -174,7 +185,7 @@ const Base = Model.extend({
   setCurrentHash(json) {
     let target = json || this.json;
 
-    set(this, 'currentHash', this.hashObject(target), true);
+    set(this, 'currentHash', this.hashObject(target, true));
   },
 
   /**

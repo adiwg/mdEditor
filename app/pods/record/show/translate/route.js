@@ -4,8 +4,13 @@ import { inject as service } from '@ember/service';
 
 export default class TranslateRoute extends Route {
   @service router;
+
+  model() {
+    return this.modelFor('record.show');
+  }
+
   setupController(controller, model) {
-    this._super(controller, model);
+    super.setupController(controller, model);
 
     controller.setProperties({
       writer: controller.writer || null,
@@ -13,6 +18,7 @@ export default class TranslateRoute extends Route {
       showAllTags: controller.showAllTags || false,
     });
   }
+  @action
   goToSettings() {
     this.router.transitionTo('settings.main');
   }

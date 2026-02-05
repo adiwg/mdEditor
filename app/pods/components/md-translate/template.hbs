@@ -9,7 +9,8 @@
         <form {{action "translate" on="submit"}}>
             <div class="card-block">
                 {{input/md-select label="Choose Format"
-                  value=this.writer
+                  model=this
+                  path="writer"
                   valuePath="value"
                   namePath="name"
                   objectArray=this.writerOptions
@@ -85,7 +86,7 @@
         <h4 class="text-{{this.errorClass}}">{{this.errorSubTitle}}</h4>
         <ul class="list-group">
           {{#each this.messages as |message|}}
-            {{#with (compute (action "errorClass") message.[0]) as |errorClass|}}
+            {{#with (compute (action "errorClassAction") message.[0]) as |errorClass|}}
               <li class="list-group-item">
                 <div class="">
                   <h4 class="list-group-item-heading">
