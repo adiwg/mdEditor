@@ -25,8 +25,13 @@ export default Component.extend(Validations, {
       { value: 'Day', name: 'Day' },
       { value: 'Time', name: 'Time' },
     ]);
+  },
 
+  didReceiveAttrs() {
+    this._super(...arguments);
+    this._suppressReformat = true;
     this.setPrecisionBasedOnDate();
+    this._suppressReformat = false;
   },
 
   selectedPrecision: null,
@@ -37,6 +42,8 @@ export default Component.extend(Validations, {
   dateType: alias('model.dateType'),
 
   selectedPrecisionChanged: observer('selectedPrecision', function () {
+    if (this._suppressReformat) return;
+
     const dateObj = this.get('model.date');
     let newDate;
 

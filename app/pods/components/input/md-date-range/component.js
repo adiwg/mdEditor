@@ -47,14 +47,21 @@ export default Component.extend(Validations, {
       { value: 'Day', name: 'Day' },
       { value: 'Time', name: 'Time' },
     ]);
+  },
 
+  didReceiveAttrs() {
+    this._super(...arguments);
+    this._suppressReformat = true;
     this.setPrecisionBasedOnDate();
+    this._suppressReformat = false;
   },
 
   selectedPrecision: null,
   selectedFormat: 'YYYY-MM-DDTHH:mm:ssZ',
 
   selectedPrecisionChanged: observer('selectedPrecision', function () {
+    if (this._suppressReformat) return;
+
     const startDate = this.start;
     const endDate = this.end;
     let newStartDate, newEndDate;
