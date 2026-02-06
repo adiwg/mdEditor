@@ -28,18 +28,18 @@ export default class MdJsonButtonComponent extends Component {
   }
 
   _close() {
-    this.preview = false;
-    this.hideSlider = true;
+    this.set('preview', false);
+    this.set('hideSlider', true);
   }
 
   showSlider() {
     let slider = this.slider;
 
-    slider.set('fromName', 'md-slider-json');
-    slider.set('onClose', this._close);
-    slider.set('context', this);
+    slider.fromName = 'md-slider-json';
+    slider.customOnClose = this._close.bind(this);
+    slider.context = this;
     slider.toggleSlider(true);
-    this.hideSlider = false;
+    this.set('hideSlider', false);
   }
 
   @action

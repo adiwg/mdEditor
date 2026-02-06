@@ -10,6 +10,8 @@ export default class SliderService extends Service {
 
   @tracked showSlider = false;
   @tracked fromName = 'md-slider-content';
+  @tracked customOnClose = null;
+  @tracked context = null;
 
   constructor() {
     super(...arguments);
@@ -19,12 +21,19 @@ export default class SliderService extends Service {
   routeObserver = observer('router.currentRouteName', function () {
     this.toggleSlider(false);
     this.fromName = 'md-slider-content';
+    this.customOnClose = null;
+    this.context = null;
   });
 
   @action
   onClose() {
+    if (this.customOnClose) {
+      this.customOnClose();
+    }
     this.toggleSlider(false);
     this.fromName = 'md-slider-content';
+    this.customOnClose = null;
+    this.context = null;
   }
 
   @action
