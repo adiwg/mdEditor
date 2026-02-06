@@ -10,6 +10,9 @@ import Component from '@ember/component';
 import { set, observer } from '@ember/object';
 import { once } from '@ember/runloop';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
 
 import { validator, buildValidations } from 'ember-cp-validations';
 
@@ -35,7 +38,9 @@ const Validations = buildValidations({
 });
 
 @classic
-export default class MdDateRangeComponent extends Component.extend(Validations) {
+export default class MdDateRangeComponent extends Component.extend(
+  Validations
+) {
   /**
    * Date range with start date and end date fields.
    *
@@ -68,10 +73,6 @@ export default class MdDateRangeComponent extends Component.extend(Validations) 
   selectedPrecisionChanged = observer('selectedPrecision', function () {
     const startDate = this.start;
     const endDate = this.end;
-    if (!startDate || !endDate) return;
-
-    const parsedStartDate = dayjs(startDate);
-    const parsedEndDate = dayjs(endDate);
     let newStartDate, newEndDate;
 
     switch (this.selectedPrecision) {
@@ -95,6 +96,7 @@ export default class MdDateRangeComponent extends Component.extend(Validations) 
         newEndDate = parsedEndDate.format('YYYY');
         this.selectedFormat = 'YYYY';
         break;
+      case 'Time':
       default:
         newStartDate = parsedStartDate.format('YYYY-MM-DD HH:mm:ss');
         newEndDate = parsedEndDate.format('YYYY-MM-DD HH:mm:ss');

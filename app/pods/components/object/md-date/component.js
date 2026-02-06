@@ -28,7 +28,7 @@ export default class MdDateComponent extends Component.extend(Validations) {
     const date = this.model?.date;
     if (!date) return;
 
-    const parsedDate = dayjs(date);
+    const dateObj = this.get('model.date');
     let newDate;
 
     switch (this.selectedPrecision) {
@@ -39,13 +39,17 @@ export default class MdDateComponent extends Component.extend(Validations) {
         newDate = parsedDate.format('YYYY-MM-DD');
         break;
       case 'Month':
-        newDate = parsedDate.format('YYYY-MM');
+        this.set('selectedFormat', 'YYYY-MM');
+        if (dateObj) newDate = dayjs(dateObj).format('YYYY-MM');
         break;
-      case 'Year':
-        newDate = parsedDate.format('YYYY');
+      case 'Day':
+        this.set('selectedFormat', 'YYYY-MM-DD');
+        if (dateObj) newDate = dayjs(dateObj).format('YYYY-MM-DD');
         break;
+      case 'Time':
       default:
-        newDate = parsedDate.format('YYYY-MM-DD HH:mm:ss');
+        this.set('selectedFormat', 'YYYY-MM-DDTHH:mm:ssZ');
+        if (dateObj) newDate = dayjs(dateObj).format('YYYY-MM-DDTHH:mm:ssZ');
         break;
     }
 
