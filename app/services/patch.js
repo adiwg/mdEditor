@@ -64,7 +64,7 @@ export default Service.extend({
                     set(
                       src,
                       'description',
-                      get(src, 'description', get(src, 'value'))
+                      get(src, 'description') || get(src, 'value')
                     );
                     set(src, 'value', null);
                   });
