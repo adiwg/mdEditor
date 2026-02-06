@@ -1,5 +1,18 @@
 # Changelog for [mdEditor](https://github.com/adiwg/mdEditor)
 
+## v1.3.2 (2006-02-05)
+
+### Bug fixes
+
+  - Can not add organization contact [#796](https://github.com/adiwg/mdEditor/issues/796)
+  - Dates-time values not displayed with proper precision [#804](https://github.com/adiwg/mdEditor/issues/804)
+
+### Associated Pull requests
+
+  - https://github.com/adiwg/mdEditor/pull/688
+  - https://github.com/adiwg/mdEditor/pull/801
+
+
 ## v1.3.1 (2026-01-22)
 
 Minor documentation updates. This is the last release that is based on the Ember 3.15 framework.
