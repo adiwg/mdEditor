@@ -12,12 +12,8 @@ export default class MainRoute extends Route {
     return this.settings.get('data');
   }
 
+  @action
   setScrollTo(scrollTo) {
     this.controller.set('scrollTo', scrollTo || '');
-  }
-
-  @action
-  setScrollToAction(scrollTo) {
-    this.setScrollTo(scrollTo);
   }
 }

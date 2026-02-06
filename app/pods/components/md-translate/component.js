@@ -2,6 +2,7 @@ import { alias, equal, or } from '@ember/object/computed';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import { Promise } from 'rsvp';
 import moment from 'moment';
@@ -46,12 +47,12 @@ export default class MdTranslateComponent extends Component {
   forceValid = false;
 
   writer = null;
-  result = null;
-  errorLevel = null;
-  errors = null;
-  xhrError = null;
-  isLoading = false;
-  subTitle = null;
+  @tracked result = null;
+  @tracked errorLevel = null;
+  @tracked errors = null;
+  @tracked xhrError = null;
+  @tracked isLoading = false;
+  @tracked subTitle = null;
 
   @alias('errors') messages;
   @equal('writerType', 'json') isJson;
@@ -147,7 +148,7 @@ export default class MdTranslateComponent extends Component {
 
   _clearResult() {
     this.result = null;
-    this.subtitle = null;
+    this.subTitle = null;
     this.errors = null;
     this.xhrError = null;
   }
@@ -278,8 +279,9 @@ export default class MdTranslateComponent extends Component {
 
   @action
   goToSettings() {
-    // This action should be handled by the parent route/controller
-    // We'll send the action up the component hierarchy
-    this.sendAction('goToSettings');
+    // Invoke the closure action passed from the parent route
+    if (this.onGoToSettings && typeof this.onGoToSettings === 'function') {
+      this.onGoToSettings();
+    }
   }
 }

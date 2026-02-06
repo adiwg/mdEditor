@@ -103,7 +103,7 @@ export default class BreadcrumbsService extends Service {
         title: defaultTitle,
         path: routeName,
         linkable: true,
-        model: this._getRouteModel(route),
+        model: this._getRouteModel(route, routeName),
       };
     }
 
@@ -112,7 +112,7 @@ export default class BreadcrumbsService extends Service {
       title: breadCrumb.title ?? defaultTitle,
       path: breadCrumb.path ?? routeName,
       linkable: breadCrumb.linkable !== false,
-      model: this._getRouteModel(route),
+      model: this._getRouteModel(route, routeName),
     };
   }
 
@@ -127,13 +127,37 @@ export default class BreadcrumbsService extends Service {
   }
 
   /**
+   * Check if a route has dynamic segments that require a model
+   * @private
+   */
+  _routeRequiresModel(routeName) {
+    // Routes with dynamic segments (e.g., record.show has :record_id)
+    const routesWithDynamicSegments = [
+      'record.show',
+      'record.new.id',
+      'contact.show',
+      'dictionary.show',
+    ];
+    return routesWithDynamicSegments.some(r => routeName.startsWith(r));
+  }
+
+  /**
    * Get the model from the route's controller if available
    * @private
    */
-  _getRouteModel(route) {
+  _getRouteModel(route, routeName) {
+    // Only return model for routes that actually need it
+    if (!this._routeRequiresModel(routeName)) {
+      return undefined;
+    }
     try {
       const controller = route.controller;
-      return controller?.model;
+      const model = controller?.model;
+      // Only return model if it has an id (valid Ember Data record)
+      if (model && model.id) {
+        return model;
+      }
+      return undefined;
     } catch {
       return undefined;
     }
