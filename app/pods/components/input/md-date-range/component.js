@@ -6,10 +6,13 @@
 import { notEmpty, alias } from '@ember/object/computed';
 
 import Component from '@ember/component';
-import { set, get, computed } from '@ember/object';
+import { set, computed } from '@ember/object';
 import { observer } from '@ember/object';
 import { once } from '@ember/runloop';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
 
 import { validator, buildValidations } from 'ember-cp-validations';
 
@@ -44,47 +47,47 @@ export default Component.extend(Validations, {
       { value: 'Day', name: 'Day' },
       { value: 'Time', name: 'Time' },
     ]);
+  },
 
+  didReceiveAttrs() {
+    this._super(...arguments);
+    this._suppressReformat = true;
     this.setPrecisionBasedOnDate();
+    this._suppressReformat = false;
   },
 
   selectedPrecision: null,
   selectedFormat: 'YYYY-MM-DDTHH:mm:ssZ',
 
   selectedPrecisionChanged: observer('selectedPrecision', function () {
+    if (this._suppressReformat) return;
+
     const startDate = this.start;
     const endDate = this.end;
-    if (!startDate || !endDate) return;
-
-    const parsedStartDate = dayjs(startDate);
-    const parsedEndDate = dayjs(endDate);
     let newStartDate, newEndDate;
 
     switch (this.selectedPrecision) {
-      case 'Time':
-        newStartDate = parsedStartDate.format('YYYY-MM-DD HH:mm:ss');
-        newEndDate = parsedEndDate.format('YYYY-MM-DD HH:mm:ss');
-        this.set('selectedFormat', 'YYYY-MM-DDTHH:mm:ssZ');
-        break;
-      case 'Day':
-        newStartDate = parsedStartDate.format('YYYY-MM-DD');
-        newEndDate = parsedEndDate.format('YYYY-MM-DD');
-        this.set('selectedFormat', 'YYYY-MM-DD');
+      case 'Year':
+        this.set('selectedFormat', 'YYYY');
+        if (startDate) newStartDate = dayjs(startDate).format('YYYY');
+        if (endDate) newEndDate = dayjs(endDate).format('YYYY');
         break;
       case 'Month':
-        newStartDate = parsedStartDate.format('YYYY-MM');
-        newEndDate = parsedEndDate.format('YYYY-MM');
         this.set('selectedFormat', 'YYYY-MM');
+        if (startDate) newStartDate = dayjs(startDate).format('YYYY-MM');
+        if (endDate) newEndDate = dayjs(endDate).format('YYYY-MM');
         break;
-      case 'Year':
-        newStartDate = parsedStartDate.format('YYYY');
-        newEndDate = parsedEndDate.format('YYYY');
-        this.set('selectedFormat', 'YYYY');
+      case 'Day':
+        this.set('selectedFormat', 'YYYY-MM-DD');
+        if (startDate) newStartDate = dayjs(startDate).format('YYYY-MM-DD');
+        if (endDate) newEndDate = dayjs(endDate).format('YYYY-MM-DD');
         break;
+      case 'Time':
       default:
-        newStartDate = parsedStartDate.format('YYYY-MM-DD HH:mm:ss');
-        newEndDate = parsedEndDate.format('YYYY-MM-DD HH:mm:ss');
         this.set('selectedFormat', 'YYYY-MM-DDTHH:mm:ssZ');
+        if (startDate)
+          newStartDate = dayjs(startDate).format('YYYY-MM-DDTHH:mm:ssZ');
+        if (endDate) newEndDate = dayjs(endDate).format('YYYY-MM-DDTHH:mm:ssZ');
         break;
     }
 
@@ -103,18 +106,15 @@ export default Component.extend(Validations, {
       this.set('selectedFormat', 'YYYY');
       return;
     }
-    if (/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/.test(date)) {
-      this.set('selectedPrecision', 'Time');
-      this.set('selectedFormat', 'YYYY-MM-DDTHH:mm:ssZ');
-    } else if (/\d{4}-\d{2}-\d{2}/.test(date)) {
-      this.set('selectedPrecision', 'Day');
-      this.set('selectedFormat', 'YYYY-MM-DD');
-    } else if (/\d{4}-\d{2}/.test(date)) {
-      this.set('selectedPrecision', 'Month');
-      this.set('selectedFormat', 'YYYY-MM');
-    } else if (/\d{4}/.test(date)) {
+    if (/^\d{4}$/.test(date)) {
       this.set('selectedPrecision', 'Year');
       this.set('selectedFormat', 'YYYY');
+    } else if (/^\d{4}-\d{2}$/.test(date)) {
+      this.set('selectedPrecision', 'Month');
+      this.set('selectedFormat', 'YYYY-MM');
+    } else if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+      this.set('selectedPrecision', 'Day');
+      this.set('selectedFormat', 'YYYY-MM-DD');
     } else {
       this.set('selectedPrecision', 'Time');
       this.set('selectedFormat', 'YYYY-MM-DDTHH:mm:ssZ');
