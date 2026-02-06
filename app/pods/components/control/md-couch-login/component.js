@@ -25,7 +25,8 @@ export default class CouchLoginComponent extends Component {
 
   loadDefaults() {
     if (this.settings.data && !this.couch.loggedIn) {
-      const publishOptions = this.settings.data.publishOptions || [];
+      const rawOptions = this.settings.data.publishOptions;
+      const publishOptions = Array.isArray(rawOptions) ? rawOptions : [];
       // Support both legacy 'catalog' field and new 'publisher' field
       const couchdbSettings = publishOptions.find(
         (option) =>

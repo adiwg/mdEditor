@@ -130,6 +130,10 @@ export default class ExportRoute extends Route.extend(ScrollTo) {
         if (item.type === 'settings' && item.attributes?.publishOptions) {
           let publishOptions = item.attributes.publishOptions;
 
+          if (!Array.isArray(publishOptions)) {
+            publishOptions = [];
+          }
+
           // Migrate legacy 'catalog' field to new 'publisher' field for each publish option
           publishOptions = publishOptions.map((option) => {
             if (option.catalog && !option.publisher) {
