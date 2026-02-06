@@ -33,7 +33,16 @@ const Validations = buildValidations({
       message: 'Position Name should not be only white-space.',
     }),
     validator('presence', {
-      disabled: notEmpty('model.json.postiionName'),
+      disabled: computed(
+        'model.json.isOrganization',
+        'model.json.positionName',
+        function () {
+          return (
+            this.get('model.json.isOrganization') ||
+            !isEmpty(this.get('model.json.positionName'))
+          );
+        }
+      ),
       presence: true,
     }),
   ],
