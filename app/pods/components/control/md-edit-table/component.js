@@ -25,8 +25,7 @@ export default class MdEditTableComponent extends MdRecordTableComponent {
    * @extends md-record-table
    */
 
-  // classNames = ['md-edit-table'];
-  tagName = '';
+  classNames = ['md-edit-table'];
   spotlightRow = true;
 
   /**
@@ -57,16 +56,14 @@ export default class MdEditTableComponent extends MdRecordTableComponent {
       title: 'Edit',
       type: 'success',
       icon: 'pencil',
-      // action: this.actions.editRow,
-      action: "editRow",
+      action: "handleEditRow",
       target: this
     }, {
       title: 'Delete',
       type: 'danger',
       icon: 'times',
       confirm: true,
-      //action: this.actions.deleteRow,
-      action: "deleteRow",
+      action: "handleDeleteRow",
       target: this
     }]
 
@@ -91,13 +88,17 @@ export default class MdEditTableComponent extends MdRecordTableComponent {
   }
 
   @action
-  editRow(col, index, record, evt){
+  handleEditRow(col, index, record, evt){
     evt.stopPropagation();
-    this.editRowMethod(index, record);
+    if (typeof this.editRow === 'function') {
+      this.editRow(col, index, record, evt);
+    } else {
+      this.editRowMethod(index, record);
+    }
   }
 
   @action
-  deleteRow(col, index, record){
+  handleDeleteRow(col, index, record){
     record.destroyRecord();
   }
 }

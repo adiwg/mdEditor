@@ -1,8 +1,9 @@
 import { inject as service } from '@ember/service';
-import { action, set } from '@ember/object';
+import { action, set, observer } from '@ember/object';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { dasherize } from '@ember/string';
+import { scheduleOnce } from '@ember/runloop';
 import $ from 'jquery';
 import { A } from '@ember/array';
 
@@ -50,10 +51,30 @@ export default class MdScrollSpyComponent extends Component {
    *
    * @property links
    * @type {Array}
-   * @category computed
-   * @requires refresh,profile.active
    */
-  get links() {
+  links = A();
+
+  /**
+   * Refresh links from the DOM when the active profile changes.
+   * Uses afterRender to ensure profile-hidden classes have been applied.
+   */
+  _profileChanged = observer('profile.active', function () {
+    scheduleOnce('afterRender', this, '_refreshLinks');
+  });
+
+  /**
+   * Read visible data-spy elements from the DOM and update links.
+   */
+  _refreshLinks() {
+    if (this.isDestroying || this.isDestroyed) return;
+    this.set('links', this._computeLinks());
+    this.setupSpy();
+  }
+
+  /**
+   * Compute navigation links from visible data-spy DOM elements.
+   */
+  _computeLinks() {
     let liquid = '';
 
     if($('.liquid-spy').length) {
@@ -105,6 +126,9 @@ export default class MdScrollSpyComponent extends Component {
     if(data) {
       set(data, 'options.offset', this.offset);
     }
+
+    // Compute initial links from the DOM
+    this.set('links', this._computeLinks());
     this.setupSpy();
 
     let init = this.scrollInit;
@@ -134,6 +158,9 @@ export default class MdScrollSpyComponent extends Component {
     if(!this.setScrollTo) {
       this.scroll();
     }
+
+    // Refresh links when attrs change (e.g., refresh property)
+    scheduleOnce('afterRender', this, '_refreshLinks');
   }
 
   /**
