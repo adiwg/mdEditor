@@ -15,6 +15,7 @@ import {
   get,
   //set
 } from '@ember/object';
+import { inject as service } from '@ember/service';
 import {
   isNone
 } from '@ember/utils';
@@ -51,6 +52,8 @@ Route.reopen({
 });
 //for profiles
 Component.reopen({
+  profile: service('custom-profile'),
+
   init() {
     this._super(...arguments);
 

@@ -1,8 +1,7 @@
 export function initialize(/* appInstance */) {
-  // Implicit injections are deprecated in Ember 3.x+
-  // Components that need the custom-profile service should use:
-  //   @service('custom-profile') profile;
-  // See: https://deprecations.emberjs.com/v3.x#toc_implicit-injections
+  // The custom-profile service is injected into all components via
+  // Component.reopen() in app/app.js (replaces the deprecated
+  // appInstance.inject('component', 'profile', 'service:custom-profile')).
 }
 
 export default {
