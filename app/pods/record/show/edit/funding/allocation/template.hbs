@@ -1,9 +1,9 @@
 <h4 class="section-header">
   Editing Funding Period #{{allocationId}}
-  {{control/md-status model=parentModel}}
+  {{control/md-status model=this.parentModel}}
 </h4>
 
-{{object/md-funding model=model profilePath="record.funding.fundingPeriod"}}
+{{object/md-funding model=this.model profilePath="record.funding.fundingPeriod"}}
 
 {{to-elsewhere
   named="md-subbar-extra"
@@ -15,4 +15,4 @@
 }}
 
 {{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+  send=(component "control/md-scroll-spy"  scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo"))}}

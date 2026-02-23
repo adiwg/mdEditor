@@ -1,47 +1,47 @@
-<span class="tree-label-text tree-cell {{if model.notSelectable "text-muted"}} {{if model._record._dropped "tree-label-dropped"}}">
-  <span class="tree-cell {{if model.isRoot "tree-root-label" "sb-label-cell"}}">
-    {{fa-icon model.icon}} {{model.label}}
+<span class="tree-label-text tree-cell {{if this.model.notSelectable "text-muted"}} {{if this.model._record._dropped "tree-label-dropped"}}">
+  <span class="tree-cell {{if this.model.isRoot "tree-root-label" "sb-label-cell"}}">
+    {{fa-icon this.model.icon}} {{this.model.label}}
   {{!-- </span> --}}
 
   {{!-- <span class="tree-cell"> SB Id: --}}
-    {{#if model.sbId}}
-        : <a href="{{model.config.rootItemURL}}{{model.sbId}}"
+    {{#if this.model.sbId}}
+        : <a href="{{this.model.config.rootItemURL}}{{this.model.sbId}}"
         target="_blank" class="md-fa-link"
         onclick={{action "clicked" preventDefault=false}}
         rel="noopener noreferrer">
-          {{model.sbId}}<sup>{{fa-icon "external-link"}}</sup>
+          {{this.model.sbId}}<sup>{{fa-icon "external-link"}}</sup>
         </a>
     {{else}}
       : <em>No Id</em>
     {{/if}}
   </span>
-  {{#unless model.isRoot}}
+  {{#unless this.model.isRoot}}
   <span class="tree-cell sb-parent-cell"> Parent Id:
-    {{#if model.sbParentId}}
-        <a href="{{model.config.rootItemURL}}{{model.sbParentId}}"
+    {{#if this.model.sbParentId}}
+        <a href="{{this.model.config.rootItemURL}}{{this.model.sbParentId}}"
         target="_blank" class="md-fa-link"
         onclick={{action "clicked" preventDefault=false}}
         rel="noopener noreferrer">
-          {{model.sbParentId}}<sup>{{fa-icon "external-link"}}</sup>
+          {{this.model.sbParentId}}<sup>{{fa-icon "external-link"}}</sup>
         </a>
     {{else}}
       <em>None</em>
     {{/if}}
   </span>
 
-  {{#if model.isLoading}}
+  {{#if this.model.isLoading}}
     <span class="tree-cell text-info text-nowrap sb-date-cell"> <strong>{{fa-icon "spinner" spin=true}} Publishing... </strong></span>
   {{else}}
-    {{#if model.xhrError}}
+    {{#if this.model.xhrError}}
       <span class="tree-cell text-danger sb-date-cell">{{fa-icon "exclamation-circle"}} Publishing Error
           {{#ember-tooltip side="right"}}
-            {{#each model.xhrError as |error|}}
+            {{#each this.model.xhrError as |error|}}
               <div>{{error}}</div>
             {{/each}}
           {{/ember-tooltip}}
       </span>
     {{else}}
-      <span class="tree-cell sb-date-cell {{unless model.sbDate "text-nowrap"}}"> {{if model.sbDate (moment-format model.sbDate "LLL") "--"}}</span>
+      <span class="tree-cell sb-date-cell {{unless this.model.sbDate "text-nowrap"}}"> {{if this.model.sbDate (moment-format this.model.sbDate "LLL") "--"}}</span>
     {{/if}}
   {{/if}}
   {{/unless}}

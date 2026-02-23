@@ -101,7 +101,7 @@
   as |editing|
 }}
   {{object/md-citation
-    model=editing
+    model=this.editing
     profilePath=(concat this.profilePath '.identificationReference')
     simpleIdentifier=true
   }}
@@ -120,7 +120,7 @@
   as |editing|
 }}
   {{object/md-taxonomy/collection/voucher
-    model=editing
+    model=this.editing
     profilePath=(concat this.profilePath '.voucher')
   }}
 {{/object/md-object-table}}

@@ -1,11 +1,11 @@
 import { A, isArray } from '@ember/array';
 import EmObject, { computed, get, set } from '@ember/object';
 import { or } from '@ember/object/computed';
-import { assign } from '@ember/polyfills';
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Base from 'ember-local-storage/adapters/base';
+import { importData as localStorageImportData } from 'ember-local-storage/helpers/import-export';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import { JsonDefault as Contact } from 'mdeditor/models/contact';
 import { Promise, allSettled } from 'rsvp';
@@ -15,6 +15,7 @@ import { fixLiabilityTypo } from '../../utils/fix-liability-typo';
 const generateIdForRecord = Base.create().generateIdForRecord;
 
 export default class ImportRoute extends Route.extend(ScrollTo) {
+  @service store;
   @service flashMessages;
   @service jsonvalidator;
   @service settings;
@@ -146,7 +147,7 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
         data.pushObject(
           template.create({
             attributes: {
-              json: JSON.stringify(assign(Contact.create(), item)),
+              json: JSON.stringify(Object.assign(Contact.create(), item)),
             },
             type: 'contacts',
           })
@@ -314,8 +315,10 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
       },
       {
         title: 'Actions',
-        component: 'control/md-record-table/buttons/custom',
+        propertyName: 'type',
+        component: 'custom',
         disableFiltering: true,
+        disableSorting: true,
         buttonConfig: {
           title: 'Preview JSON',
           action(model) {
@@ -329,7 +332,7 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
 
   showPreview(model) {
     let json = {};
-    assign(json, model.attributes);
+    Object.assign(json, model.attributes);
 
     if (model.attributes.json) {
       json.json = JSON.parse(model.attributes.json);
@@ -538,29 +541,32 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
       }
     });
 
-    store
-      .importData(data, {
-        truncate: !this.currentRouteModel().get('merge'),
-        json: false,
-      })
-      .then(() => {
-        this.flashMessages.success(
-          `Imported data. Records were
+    localStorageImportData(store, data, {
+      truncate: !this.currentRouteModel().get('merge'),
+      json: false,
+    }).then(() => {
+      this.flashMessages.success(
+        `Imported data. Records were
               ${
                 this.currentRouteModel().get('merge') ? 'merged' : 'replaced'
               }.`,
-          {
-            extendedTimeout: 1500,
-          }
-        );
-        this.router.transitionTo('dashboard');
-      });
+        {
+          extendedTimeout: 1500,
+        }
+      );
+      this.router.transitionTo('dashboard');
+    });
 
     let settingService = this.settings;
     let newSettings = this.currentRouteModel()
       .get('data')
       .filterBy('meta.export')
-      .findBy('type', 'settings');
+      .find(
+        (item) =>
+          (item && typeof item.get === 'function'
+            ? item.get('type')
+            : item.type) === 'settings'
+      );
 
     if (newSettings) {
       let settings = {
@@ -573,16 +579,14 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
       });
 
       allSettled(destroys).then(() => {
-        store
-          .importData(settings, {
-            json: false,
-          })
-          .then(() => {
-            settingService.setup();
-            this.flashMessages.success(`Imported Settings.`, {
-              extendedTimeout: 1500,
-            });
+        localStorageImportData(store, settings, {
+          json: false,
+        }).then(() => {
+          settingService.setup();
+          this.flashMessages.success(`Imported Settings.`, {
+            extendedTimeout: 1500,
           });
+        });
       });
     }
   }

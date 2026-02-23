@@ -84,7 +84,12 @@ export default Model.extend(Validations, {
   components: alias('profile.components').readOnly(),
   schemas: hasMany('schemas'),
   definition: computed('profileId', function () {
-    return this.definitions.profiles.findBy('identifier', this.profileId);
+    return this.definitions.profiles.find(
+      (item) =>
+        (item && typeof item.get === 'function'
+          ? item.get('identifier')
+          : item.identifier) === this.profileId
+    );
   }),
 
   /* eslint-disable ember/no-observers */

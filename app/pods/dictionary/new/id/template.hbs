@@ -9,12 +9,12 @@
     class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 col-xxl-6 col-xxl-offset-3">
         <div class="form-group">
             <label class="control-label
-            {{if (v-get model "json.dataDictionary.citation.title"
+            {{if (v-get this.model "json.dataDictionary.citation.title"
              "options.presence.presence") "required"}}">Dictionary Title</label>
             <div class="">
                 {{input/md-input
                 valuePath="json.dataDictionary.citation.title"
-                model=model
+                model=this.model
                 showValidations=true
                 placeholder="Enter a title for the dictionary"}}
             </div>
@@ -26,11 +26,11 @@
                 create=true
                 tooltip=true
                 icon=true
-                disabled=disabled
+                disabled=false
                 allowClear=true
                 mdCodeName="scope"
                 showValidations=true
-                model=model
+                model=this.model
                 path="json.dataDictionary.subject" placeholder="Choose type(s) of resource" }}
             </div>
         </div>
@@ -38,7 +38,7 @@
             <div class="col-sm-offset-4 col-sm-8">
                  <span class="pull-right">
                       <button type="submit" class="btn btn-success md-form-save"
-                                                      disabled={{v-get model "isInvalid"}}>Save</button>
+                                                      disabled={{v-get this.model "isInvalid"}}>Save</button>
                       <button type="button" {{action "cancelDictionary"}} class="btn btn-warning ">Cancel</button>
                  </span>
             </div>

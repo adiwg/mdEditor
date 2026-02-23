@@ -169,7 +169,7 @@
     as |editing|
   }}
     {{object/md-citation
-      model=editing
+      model=this.editing
       profilePath=(concat this.profilePath '.evaluationMethod.referenceDocument')
       simpleIdentifier=true
     }}
@@ -237,7 +237,7 @@
     as |editing|
   }}
     {{object/md-quality-report/quantitative-result
-      model=editing
+      model=this.editing
       profilePath=(concat this.profilePath '.quantitativeResult')
     }}
   {{/object/md-object-table}}
@@ -252,7 +252,7 @@
     as |editing|
   }}
     {{object/md-quality-report/descriptive-result
-      model=editing
+      model=this.editing
       profilePath=(concat this.profilePath '.descriptiveResult')
     }}
   {{/object/md-object-table}}
@@ -267,7 +267,7 @@
     as |editing|
   }}
     {{object/md-quality-report/conformance-result
-      model=editing
+      model=this.editing
       profilePath=(concat this.profilePath '.conformanceResult')
     }}
   {{/object/md-object-table}}
@@ -279,7 +279,7 @@
   }}
 
   {{!-- {{#object/md-object-table
-    items=this.model.coverageResult
+    items=model.coverageResult
     header="Coverage Result"
     buttonText="Add Coverage Result"
     ellipsis=true
@@ -288,7 +288,7 @@
     as |editing|
   }}
     {{object/md-quality-report/coverage-result
-      model=editing
+      model=this.editing
       profilePath=(concat this.profilePath ".coverageResult")
     }}
   {{/object/md-object-table}} --}}

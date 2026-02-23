@@ -1,0 +1,51 @@
+{{! template-lint-disable no-curly-component-invocation }}
+{{#if (has-block)}}
+  {{#models-table
+    data=this.data
+    columns=this.columns
+    themeInstance=this.themeInstance
+    columnComponents=this.columnComponents
+    columnSets=this.columnSets
+    multipleSelect=this.multipleSelect
+    multipleExpand=this.multipleExpand
+    expandedItems=this.expandedItems
+    selectedItems=this.selectedItems
+    pageSize=this.pageSize
+    currentPageNumber=this.currentPageNumber
+    showGlobalFilter=this.showGlobalFilter
+    showColumnsDropdown=this.showColumnsDropdown
+    useFilteringByColumns=this.useFilteringByColumns
+    filteringIgnoreCase=this.filteringIgnoreCase
+    showPageSize=this.showPageSize
+    showComponentFooter=this.showComponentFooter
+    expandedRowComponent=this.expandedRowComponent
+    selectRowOnClick=this.selectRowOnClick
+    onDisplayDataChanged=this.onDisplayDataChanged
+    as |mt|
+  }}
+    {{yield mt}}
+  {{/models-table}}
+{{else}}
+  {{models-table
+    data=this.data
+    columns=this.columns
+    themeInstance=this.themeInstance
+    columnComponents=this.columnComponents
+    columnSets=this.columnSets
+    multipleSelect=this.multipleSelect
+    multipleExpand=this.multipleExpand
+    expandedItems=this.expandedItems
+    selectedItems=this.selectedItems
+    pageSize=this.pageSize
+    currentPageNumber=this.currentPageNumber
+    showGlobalFilter=this.showGlobalFilter
+    showColumnsDropdown=this.showColumnsDropdown
+    useFilteringByColumns=this.useFilteringByColumns
+    filteringIgnoreCase=this.filteringIgnoreCase
+    showPageSize=this.showPageSize
+    showComponentFooter=this.showComponentFooter
+    expandedRowComponent=this.expandedRowComponent
+    selectRowOnClick=this.selectRowOnClick
+    onDisplayDataChanged=this.onDisplayDataChanged
+  }}
+{{/if}}

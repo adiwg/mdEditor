@@ -30,10 +30,9 @@ export default class PreviewComponent extends Component {
 
     let store = this.store;
     let linked = store.peekAll('record')
-      .filterBy('recordId', this.item.mdRecordId)
-      .get('firstObject.json.metadata.resourceInfo.citation');
+      .filterBy('recordId', this.item.mdRecordId)[0];
 
-    return linked || this.item?.resourceCitation;
+    return linked?.get('json.metadata.resourceInfo.citation') || this.item?.resourceCitation;
   }
 
   get metadataIdentifier() {
@@ -44,7 +43,7 @@ export default class PreviewComponent extends Component {
     let store = this.store;
 
     return store.peekAll('record')
-      .filterBy('recordId', this.item.mdRecordId)
-      .get('firstObject.json.metadata.metadataInfo.metadataIdentifier');
+      .filterBy('recordId', this.item.mdRecordId)[0]
+      ?.get('json.metadata.metadataInfo.metadataIdentifier');
   }
 }

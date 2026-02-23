@@ -18,7 +18,8 @@
   {{/if}}
 {{/if}}
 
-{{#with this.model.json.metadata.resourceInfo as |resource|}}
+{{#let this.model.json.metadata.resourceInfo as |resource|}}
+{{#if resource}}
 <div class="row">
     <form class="col-xxl-11 col-xxxl-10 col-xxl-offset-1">
       <h4 class="section-header">
@@ -190,7 +191,7 @@
           collapsible=true
           as |editing|
         }}
-          {{object/md-maintenance model=editing
+          {{object/md-maintenance model=this.editing
             profilePath="record.main.maintenance"
           }}
         {{/object/md-object-table}}
@@ -217,7 +218,8 @@
         {{/if}}
     </form>
 </div>
-{{/with}}
+{{/if}}
+{{/let}}
 
 {{to-elsewhere named="md-scroll-spy-record-edit"
   send=(component "control/md-scroll-spy"  scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo") refresh=this.model.profile)}}

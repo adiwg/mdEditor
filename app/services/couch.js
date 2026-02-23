@@ -96,7 +96,7 @@ export default class CouchService extends Service {
 
   async getCouch() {
     const store = await this.store.findAll('couch');
-    const couch = store.get('firstObject');
+    const couch = store[0];
     return couch;
   }
 

@@ -7,7 +7,7 @@
     {{#if column.isVisible}}
       <td class={{column.className}}>
         {{#if column.template}}
-          {{partial column.template}}
+          {{component column.template record=record column=column}}
         {{else}}
           {{get record column.propertyName}}
         {{/if}}

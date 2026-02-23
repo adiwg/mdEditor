@@ -8,8 +8,6 @@ module('Integration | Component | models-table/cell-content-display', function(h
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
     this.set('column', {
       propertyName: 'title'
     });
@@ -19,7 +17,7 @@ module('Integration | Component | models-table/cell-content-display', function(h
       uri: 'bar'
     }));
 
-    await render(hbs`{{models-table/cell-content-display column=column record=data}}`);
+    await render(hbs`{{models-table/cell-content-display column=this.column record=this.data}}`);
     assert.equal(this.element.textContent.trim(), 'foo biz baz');
 
     this.set('column1', {
@@ -28,7 +26,7 @@ module('Integration | Component | models-table/cell-content-display', function(h
       wordLimit: 2
     });
 
-    await render(hbs`{{models-table/cell-content-display column=column1 record=data}}`);
+    await render(hbs`{{models-table/cell-content-display column=this.column1 record=this.data}}`);
     assert.equal(this.element.textContent.trim(), 'foo biz ...');
   });
 });

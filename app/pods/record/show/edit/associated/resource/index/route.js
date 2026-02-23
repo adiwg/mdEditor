@@ -23,7 +23,7 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
   sliderColumns = sliderColumns;
   setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor(
       'record.show.edit'));
@@ -34,7 +34,7 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
   @action
   insertResource(selected) {
       let slider = this.slider;
-      let rec = selected.get('firstObject');
+      let rec = selected[0];
 
       if(rec) {
         let resource = this.currentRouteModel();

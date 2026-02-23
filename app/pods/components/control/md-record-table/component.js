@@ -1,11 +1,13 @@
-import { computed, get, defineProperty } from '@ember/object';
-import Table from 'mdeditor/pods/components/md-models-table/component';
-import {
-  warn
-} from '@ember/debug';
+import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
+import { computed, get } from '@ember/object';
+import { warn } from '@ember/debug';
 import { isArray, A } from '@ember/array';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-export default Table.extend({
+@classic
+export default class MdRecordTableComponent extends Component {
   /**
    * @module mdeditor
    * @submodule components-control
@@ -23,35 +25,22 @@ export default Table.extend({
    * }}
    * ```
    *
-   * @class md-select-table
-   * @extends models-table
+   * @class md-record-table
+   * @extends Component
    */
+
+  @service('emt-themes/md-bootstrap3') themeInstance;
+
+  classNames = ['md-record-table'];
+
   init() {
+    super.init(...arguments);
 
     this.dataColumns = this.dataColumns || [];
-    this.filteringIgnoreCase = this.filteringIgnoreCase || true;
-    this.multipleSelect = this.multipleSelect || true;
-
-    defineProperty(this, 'columns', computed('dataColumns', 'checkColumn',
-      function () {
-        let chk = this.checkColumn;
-        let action = this.actionsColumn;
-        let cols = A().concat(this.dataColumns);
-
-        if(chk) {
-          cols = [chk].concat(cols);
-        }
-
-        if(action) {
-          cols.push(action);
-        }
-
-        return cols;
-      }));
-
-    this._super(...arguments);
-  },
-  classNames: ['md-record-table'],
+    this.filteringIgnoreCase = this.filteringIgnoreCase !== false;
+    this.multipleSelect = this.multipleSelect !== false;
+    this._expandedItems = A(this.expandedItems || []);
+  }
 
   /**
    * Property name used to identify selected records. Should begin with underscore.
@@ -59,71 +48,39 @@ export default Table.extend({
    * @property selectProperty
    * @type {String}
    * @default "_selected"
-   * @static
-   * @readOnly
-   * @required
    */
-  selectProperty: '_selected',
+  selectProperty = '_selected';
 
-  /**
-   * Array of table records
-   *
-   * @property data
-   * @type {Array}
-   * @default []
-   * @required
-   */
+  @computed('dataColumns', 'checkColumn', 'actionsColumn')
+  get columns() {
+    let chk = this.checkColumn;
+    let actionCol = this.actionsColumn;
+    let cols = A().concat(this.dataColumns);
 
-  /**
-   * Array of column configs for the table.
-   * See http://onechiporenko.github.io/ember-models-table
-   *
-   * ```javascript
-   * [{
-   *  propertyName: 'id',
-   *  title: 'ID'
-   * }, {
-   *  title: '',
-   *  template: 'components/leaflet-table/actions',
-   *  className: 'text-center text-nowrap'
-   * }]
-   * ```
-   *
-   * @property dataColumns
-   * @type {Array}
-   * @required
-   * @default []
-   */
+    if (chk) {
+      cols = [chk].concat(cols);
+    }
 
-  /**
-   * Column configs for the checkbox column.
-   * See http://onechiporenko.github.io/ember-models-table
-   *
-   *
-   * @property checkColumns
-   * @type {Object}
-   * @required
-   */
-  checkColumn: computed(function () {
+    if (actionCol) {
+      cols.push(actionCol);
+    }
 
+    return cols;
+  }
+
+  @computed()
+  get checkColumn() {
     return {
-      component: 'components/md-models-table/components/check',
+      propertyName: '_selected',
+      component: 'check',
       disableFiltering: true,
+      disableSorting: true,
       mayBeHidden: false,
-      componentForSortCell: 'components/md-models-table/components/check-all',
+      componentForSortCell: 'md-models-table/components/check-all',
       className: 'text-center'
     };
-  }),
+  }
 
-  /**
-   * Column configs for the action column.
-   * See http://onechiporenko.github.io/ember-models-table
-   *
-   *
-   * @property actionsColumn
-   * @type {Object}
-   * @required
-   */
   /**
    * Flag to hide the actions column
    *
@@ -131,9 +88,10 @@ export default Table.extend({
    * @type {Boolean}
    * @default false
    */
-  hideActionsColumn: false,
+  hideActionsColumn = false;
 
-  actionsColumn: computed('allActions', 'hideActionsColumn', function () {
+  @computed('allActions', 'hideActionsColumn')
+  get actionsColumn() {
     if (this.hideActionsColumn) {
       return null;
     }
@@ -142,35 +100,36 @@ export default Table.extend({
 
     return {
       title: 'Actions',
+      propertyName: 'id',
       className: 'md-actions-column',
       component: all ?
-        'control/md-record-table/buttons' :
-        'control/md-record-table/buttons/show',
+        'record-table-buttons' :
+        'record-table-buttons-show',
       disableFiltering: !all,
+      disableSorting: true,
       componentForFilterCell: all ?
         'control/md-record-table/buttons/filter' : null,
       showSlider: this.showSlider
     };
-  }),
+  }
 
-  selectedItems: computed({
-    get() {
-      let prop = this.selectProperty;
-
-      return this.data
-        .filterBy(prop)
-        .toArray();
-
-    },
-    set(k, v) {
-      if(!isArray(v)) {
-        warn('`selectedItems` must be an array.', false, {
-          id: '#emt-selectedItems-array'
-        });
-      }
-      return A(v);
+  @computed('data.@each.{_selected}', 'selectProperty')
+  get selectedItems() {
+    let prop = this.selectProperty;
+    if (!this.data) {
+      return A();
     }
-  }),
+    return A(A(this.data).filterBy(prop));
+  }
+
+  set selectedItems(v) {
+    if (!isArray(v)) {
+      warn('`selectedItems` must be an array.', false, {
+        id: '#emt-selectedItems-array'
+      });
+    }
+    return A(v);
+  }
 
   /**
    * Callback on row selection.
@@ -183,44 +142,48 @@ export default Table.extend({
    */
   select(rec, index, selected) {
     return selected;
-  },
+  }
 
-  actions: {
-    clickOnRow(idx, rec) {
-      this._super(...arguments);
+  @action
+  handleDisplayDataChanged(settings) {
+    // Sync _selected property on records based on selectedItems from the table
+    let prop = this.selectProperty;
+    let data = this.data;
+    let selected = settings.selectedItems || [];
 
-      let prop = this.selectProperty;
-      let sel = this.selectedItems;
+    if (data) {
+      data.forEach((record) => {
+        let isSelected = selected.includes(record);
+        if (get(record, prop) !== isSelected) {
+          record.set ? record.set(prop, isSelected) : (record[prop] = isSelected);
+        }
+      });
+    }
 
-      rec.toggleProperty(prop);
-      this.select(rec, idx, sel);
-    },
+    this.select(null, null, A(selected));
 
-    toggleAllSelection() {
-      //this._super(...arguments);
-      let selectedItems = this.selectedItems;
-      let data = this.data;
-      const allSelectedBefore = get(selectedItems, 'length') === get(data,
-        'length');
-      this.selectedItems
-        .clear();
-
-      if(!allSelectedBefore) {
-        this.selectedItems
-          .pushObjects(data.toArray());
-      }
-      this.userInteractionObserver();
-
-      let selected = this.selectedItems;
-      let prop = this.selectProperty;
-      //let data = get(this, 'data');
-
-      if(get(selected, 'length')) {
-        selected.setEach(prop, true);
-      } else {
-        data.setEach(prop, false);
-      }
-      this.select(null, null, selected);
+    if (this.onDisplayDataChanged) {
+      this.onDisplayDataChanged(settings);
     }
   }
-});
+
+  @action
+  expandRecord(index, record) {
+    let expanded = this._expandedItems;
+    let idx = expanded.indexOf(record);
+    if (idx === -1) {
+      expanded.pushObject(record);
+    } else {
+      expanded.removeObject(record);
+    }
+    this.notifyPropertyChange('_expandedItems');
+  }
+
+  /**
+   * columnComponents hash mapping string keys to components for v5 column resolution
+   */
+  @computed()
+  get columnComponents() {
+    return {};
+  }
+}

@@ -213,7 +213,12 @@ export default class MdCodelistComponent extends Select {
 
     if (value) {
       if (create) {
-        let found = codelist.findBy('codeId', value);
+        let found = codelist.find(
+          (item) =>
+            (item && typeof item.get === 'function'
+              ? item.get('codeId')
+              : item.codeId) === value
+        );
         if (found === undefined) {
           let newObject = this.createCode(value);
           codelist.pushObject(newObject);

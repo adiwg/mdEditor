@@ -3,20 +3,45 @@
 {{/if}}
 
 <div class='md-input-input'>
-  {{bs-datetimepicker
-    date=this._date
-    format=this.format
-    extraFormats=this.extraFormats
-    dateIcon='fa fa-calendar'
-    timeIcon='fa fa-clock-o'
-    icons=this.calendarIcons
-    placeholder=this.placeholder
-    showClear=this.showClear
-    useCurrent=this.useCurrent
-    textFieldRequired=this.required
-    showTodayButton=this.showTodayButton
-    change=this.change
-  }}
+  <div class="input-group date">
+    {{#if (eq this.inputType "number")}}
+      <input
+        type="number"
+        class="form-control"
+        value={{this.inputValue}}
+        placeholder={{this.placeholder}}
+        min="1"
+        max="9999"
+        step="1"
+        {{on "change" this.handleDateChange}}
+      >
+    {{else if (eq this.inputType "datetime-local")}}
+      <input
+        type="datetime-local"
+        class="form-control"
+        value={{this.inputValue}}
+        placeholder={{this.placeholder}}
+        step="1"
+        {{on "change" this.handleDateChange}}
+      >
+    {{else}}
+      <input
+        type={{this.inputType}}
+        class="form-control"
+        value={{this.inputValue}}
+        placeholder={{this.placeholder}}
+        {{on "change" this.handleDateChange}}
+      >
+    {{/if}}
+    <span class="input-group-addon" role="button" {{on "click" this.handleToday}}>
+      <i class="fa fa-calendar"></i>
+    </span>
+    {{#if this.showClear}}
+      <span class="input-group-addon" role="button" {{on "click" this.handleClear}}>
+        <i class="fa fa-trash"></i>
+      </span>
+    {{/if}}
+  </div>
 
   <span class='md-inputgroup-error'>
     {{#if this.showErrorMessage}}

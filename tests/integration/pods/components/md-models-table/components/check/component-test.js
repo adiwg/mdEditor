@@ -7,16 +7,14 @@ module('Integration | Component | md models table/components/check', function(ho
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
     this.themeInstance = {
-        'select-row': 'select',
-        'deselect-row': 'deselect'
-      };
+      selectRowIcon: 'select',
+      deselectRowIcon: 'deselect'
+    };
 
     this.set('isSelected', false);
 
-    await render(hbs`{{md-models-table/components/check isSelected=isSelected themeInstance=themeInstance}}`);
+    await render(hbs`{{md-models-table/components/check isSelected=this.isSelected themeInstance=this.themeInstance}}`);
 
     assert.ok(find('span').classList.contains('deselect'), 'add class');
 

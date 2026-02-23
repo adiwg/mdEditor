@@ -1,7 +1,8 @@
 <h4 class="col-xxl-11 col-xxxl-10 col-xxl-offset-1 section-header">Editing Parent Metadata Citation
-  {{control/md-status model=model}}
+  {{control/md-status model=this.model}}
 </h4>
-{{#with model.json.metadata.metadataInfo.parentMetadata as |citation|}}
+{{#let this.model.json.metadata.metadataInfo.parentMetadata as |citation|}}
+  {{#if citation}}
     <div class="row">
       {{object/md-citation
         class="col-xxl-11 col-xxxl-10 col-xxl-offset-1"
@@ -11,11 +12,12 @@
       }}
       {{outlet}}
     </div>
-{{/with}}
+  {{/if}}
+{{/let}}
 {{to-elsewhere
   named="md-subbar-extra"
   send=(component "control/subbar-link" text="Back to Metadata" icon="arrow-left"
     route="record.show.edit.metadata")
 }}
 {{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+  send=(component "control/md-scroll-spy"  scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo"))}}

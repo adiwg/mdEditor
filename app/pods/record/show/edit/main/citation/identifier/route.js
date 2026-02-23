@@ -14,7 +14,7 @@ export default class IdentifierRoute extends Route.extend(ScrollTo) {
   }
   setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
     this.controllerFor('record.show.edit')

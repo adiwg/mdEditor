@@ -30,7 +30,7 @@
     as |editing|
   }}
     {{object/md-extent/vertical
-      model=editing
+      model=this.editing
       profilePath=(concat this.profilePath '.vertical')
     }}
   {{/object/md-object-table}}
@@ -46,7 +46,7 @@
     as |editing|
   }}
     {{object/md-time-period
-      model=editing
+      model=this.editing
       profilePath=(concat this.profilePath '.temporal')
     }}
   {{/object/md-object-table}}

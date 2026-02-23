@@ -3,6 +3,8 @@ import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import EmObject, { computed, defineProperty } from '@ember/object';
 import moment from 'moment';
+import { exportData as localStorageExportData } from 'ember-local-storage/helpers/import-export';
+import { exportSelectedData } from 'mdeditor/initializers/local-storage-export';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import { singularize } from 'ember-inflector';
 
@@ -53,7 +55,7 @@ export default class ExportRoute extends Route.extend(ScrollTo) {
     });
   }
   setupController(controller, model) {
-    this._super(controller, model);
+    super.setupController(controller, model);
 
     defineProperty(
       this.controller,
@@ -91,7 +93,7 @@ export default class ExportRoute extends Route.extend(ScrollTo) {
       { propertyName: 'title', title: 'Title' },
       { propertyName: 'defaultOrganization', title: 'Organization' },
       {
-        propertyName: 'json.electronicMailAddress.firstObject',
+        propertyName: 'json.electronicMailAddress.0',
         title: 'E-mail',
       },
       { propertyName: 'contactId', title: 'ID' },
@@ -189,7 +191,7 @@ export default class ExportRoute extends Route.extend(ScrollTo) {
   exportData() {
     fixLiabilityTypo(this.store).then(() => {
       const modifiedData = this.processExportData(
-        this.store.exportData(modelTypes)
+        localStorageExportData(this.store, modelTypes)
       );
       window.saveAs(
         new Blob([modifiedData._result], {
@@ -223,19 +225,31 @@ export default class ExportRoute extends Route.extend(ScrollTo) {
           filterIds[singularType] = this.store
             .peekAll(singularType)
             .filterBy('_selected')
-            .mapBy('id');
+            .map((item) =>
+              item && typeof item.get === 'function' ? item.get('id') : item.id
+            );
         });
 
         // Export schemas with settings
         if (filterIds.setting.length) {
-          filterIds.schema = this.store.peekAll('schema').mapBy('id');
-          filterIds.profile = this.store.peekAll('profile').mapBy('id');
+          filterIds.schema = this.store
+            .peekAll('schema')
+            .map((item) =>
+              item && typeof item.get === 'function' ? item.get('id') : item.id
+            );
+          filterIds.profile = this.store
+            .peekAll('profile')
+            .map((item) =>
+              item && typeof item.get === 'function' ? item.get('id') : item.id
+            );
           filterIds['custom-profile'] = this.store
             .peekAll('custom-profile')
-            .mapBy('id');
+            .map((item) =>
+              item && typeof item.get === 'function' ? item.get('id') : item.id
+            );
         }
         const modifiedSelectedData = this.processExportData(
-          this.store.exportSelectedData(modelTypes, { filterIds })
+          exportSelectedData(this.store, modelTypes, { filterIds })
         );
 
         window.saveAs(

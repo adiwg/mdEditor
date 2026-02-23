@@ -2,27 +2,26 @@ import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { once } from '@ember/runloop';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 import { A } from '@ember/array';
 
 const Validations = buildValidations({
-  'role': [
+  role: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'contacts': validator('length', {
+  contacts: validator('length', {
     min: 1,
-    message: 'At least one contact is required.'
-  })
+    message: 'At least one contact is required.',
+  }),
 });
 
 @classic
-export default class MdDistributorComponent extends Component.extend(Validations) {
+export default class MdDistributorComponent extends Component.extend(
+  Validations
+) {
   tagName = 'form';
 
   // Passed-in action
@@ -49,13 +48,19 @@ export default class MdDistributorComponent extends Component.extend(Validations
 
   get contacts() {
     let party = this.model?.contact?.party;
-    return party ? party.mapBy('contactId') : null;
+    return party
+      ? party.map((item) =>
+          item && typeof item.get === 'function'
+            ? item.get('contactId')
+            : item.contactId
+        )
+      : null;
   }
 
   set contacts(value) {
     let map = value.map((itm) => {
       return {
-        contactId: itm
+        contactId: itm,
       };
     });
     this.model.contact.party = map;
@@ -67,10 +72,10 @@ export default class MdDistributorComponent extends Component.extend(Validations
 
     let model = this.model;
 
-    once(this, function() {
+    once(this, function () {
       model.contact = model.contact ?? {
         role: null,
-        party: []
+        party: [],
       };
       model.orderProcess = A(model.orderProcess ?? [{}]);
       model.transferOption = A(model.transferOption ?? [{}]);

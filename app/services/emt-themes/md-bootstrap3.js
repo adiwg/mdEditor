@@ -1,11 +1,11 @@
-import Theme from 'ember-models-table/themes/bootstrap3';
-import classic from 'ember-classic-decorator';
+import Bootstrap3Theme from 'ember-models-table/services/emt-themes/bootstrap3';
+import { ensureSafeComponent } from '@embroider/util';
+import CellContentDisplay from 'mdeditor/pods/components/models-table/cell-content-display/component';
+import RowExpand from 'mdeditor/pods/components/models-table/row-expand/component';
+import TableBody from 'mdeditor/pods/components/models-table/table-body/component';
 
-@classic
-export default class MdBootstrap3Theme extends Theme {
-  // Override componentsPath to use our custom components at models-table/
-  componentsPath = 'models-table/';
-
+export default class MdBootstrap3Theme extends Bootstrap3Theme {
+  // Icon overrides (Font Awesome instead of Glyphicons)
   sortAscIcon = 'fa fa-caret-up';
   sortDescIcon = 'fa fa-caret-down';
   columnVisibleIcon = 'fa fa-check-square-o';
@@ -31,4 +31,17 @@ export default class MdBootstrap3Theme extends Theme {
   expandRow = 'expand-row md-collapsible-content';
   table = 'table table-striped table-bordered table-condensed table-hover';
   selectRowOnExpandClick = false;
+
+  // Override sub-component getters for custom components
+  get cellContentDisplayComponent() {
+    return ensureSafeComponent(CellContentDisplay, this);
+  }
+
+  get rowExpandComponent() {
+    return ensureSafeComponent(RowExpand, this);
+  }
+
+  get tableBodyComponent() {
+    return ensureSafeComponent(TableBody, this);
+  }
 }

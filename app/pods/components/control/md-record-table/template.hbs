@@ -1,0 +1,29 @@
+{{! template-lint-disable no-curly-component-invocation }}
+{{md-models-table
+  data=this.data
+  columns=this.columns
+  themeInstance=this.themeInstance
+  columnComponents=(hash
+    check=(component "md-models-table/components/check")
+    check-all=(component "md-models-table/components/check-all")
+    record-table-buttons=(component "control/md-record-table/buttons")
+    record-table-buttons-show=(component "control/md-record-table/buttons/show")
+    record-table-buttons-filter=(component "control/md-record-table/buttons/filter")
+    row-buttons=(component "md-models-table/components/row-buttons")
+    custom=(component "control/md-record-table/buttons/custom")
+  )
+  columnSets=this.columnSets
+  multipleSelect=this.multipleSelect
+  expandedItems=this._expandedItems
+  selectedItems=this.selectedItems
+  pageSize=this.pageSize
+  filteringIgnoreCase=this.filteringIgnoreCase
+  expandedRowComponent=this.expandedRowComponent
+  selectRowOnClick=true
+  showGlobalFilter=this.showGlobalFilter
+  showColumnsDropdown=this.showColumnsDropdown
+  showComponentFooter=this.showComponentFooter
+  showPageSize=this.showPageSize
+  useFilteringByColumns=this.useFilteringByColumns
+  onDisplayDataChanged=(action "handleDisplayDataChanged")
+}}

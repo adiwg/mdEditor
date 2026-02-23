@@ -4,13 +4,13 @@
   </h3>
 </div>
 <div class='card-block'>
-  {{#if profile}}
+  {{#if this.profile}}
     <h4 class='tab-header'>
       {{#liquid-if profile use='fade' growDuration=100 class='inline-block'}}
-        {{#if profile.isNew}}
+        {{#if this.profile.isNew}}
           Add Profile
         {{else}}
-          {{concat 'Edit ' profile.title}}
+          {{concat 'Edit ' this.profile.title}}
         {{/if}}
       {{/liquid-if}}
       <hr />
@@ -18,29 +18,29 @@
   {{/if}}
 
   {{#liquid-if profile use='fade'}}
-    {{#if profile.isNew}}
-      {{object/md-profile/custom record=profile}}
-    {{else if profile}}
-      {{#if profile.validations.hasWarnings}}
+    {{#if this.profile.isNew}}
+      {{object/md-profile/custom record=this.profile}}
+    {{else if this.profile}}
+      {{#if this.profile.validations.hasWarnings}}
         <div class='alert alert-warning' role='alert'>{{fa-icon
             'exclamation-triangle'
           }}
-          {{#each profile.validations.warningMessages as |message|}}
+          {{#each this.profile.validations.warningMessages as |message|}}
             <span>{{message}} </span>
           {{/each}}
         </div>
       {{/if}}
-      {{object/md-profile/custom record=profile}}
+      {{object/md-profile/custom record=this.profile}}
     {{/if}}
   {{else}}
     {{control/md-edit-table
-      data=model
-      dataColumns=columns
-      columnSets=columnSets
+      data=this.model
+      dataColumns=this.columns
+      columnSets=this.columnSets
       rowBodyComponent='object/md-profile/form'
       pageSize=25
       editRow=(action 'editProfile')
-      actionBadges=badges
+      actionBadges=this.badges
     }}
     <div class='card-block'>
       <div class='form-group'>
@@ -48,7 +48,7 @@
         {{input
           id='profileUrl'
           type='text'
-          value=profileUrl
+          value=this.profileUrl
           class='form-control'
           placeholder='Enter URL'
         }}
@@ -60,15 +60,15 @@
   {{/liquid-if}}
 </div>
 
-{{#if profile}}
-  {{#if profile.isNew}}
+{{#if this.profile}}
+  {{#if this.profile.isNew}}
     {{to-elsewhere
       named='md-subbar-settings'
       send=(component
         'control/md-button'
-        text=(if profile.isNew 'Save Profile' 'Update Profile')
+        text=(if this.profile.isNew 'Save Profile' 'Update Profile')
         icon='floppy-o'
-        disabled=disableSave
+        disabled=this.disableSave
         class='btn-success btn-lg'
         click=(action 'saveProfile')
       )
@@ -78,9 +78,9 @@
     named='md-subbar-settings'
     send=(component
       'control/md-button'
-      text=(if profile.isNew 'Cancel' 'Back to List')
-      icon=(if profile.isNew 'undo' 'arrow-left')
-      class=(if profile.isNew 'btn-warning btn-lg' 'btn-primary btn-lg')
+      text=(if this.profile.isNew 'Cancel' 'Back to List')
+      icon=(if this.profile.isNew 'undo' 'arrow-left')
+      class=(if this.profile.isNew 'btn-warning btn-lg' 'btn-primary btn-lg')
       click=(action 'cancelEdit')
     )
   }}

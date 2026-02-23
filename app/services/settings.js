@@ -24,7 +24,7 @@ export default Service.extend({
     let store = this.store;
 
     store.findAll('setting').then(function (s) {
-      let rec = s.get('firstObject');
+      let rec = s[0];
 
       settings = rec ? rec : store.createRecord('setting');
 

@@ -19,7 +19,7 @@ export default class CitationRoute extends Route.extend(ScrollTo) {
   }
   setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
     this.controller.set('stepId', this.stepId);

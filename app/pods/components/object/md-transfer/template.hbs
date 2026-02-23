@@ -34,7 +34,7 @@
    profilePath=(concat this.profilePath ".offlineOption")
    attributes="mediumSpecification.title" as |editing|
   }}
-    {{object/md-medium model=editing
+    {{object/md-medium model=this.editing
       profilePath=(concat this.profilePath ".offlineOption")
     }}
   {{/object/md-object-table}}
@@ -75,7 +75,7 @@
     </td>
     <td>
       {{input/md-input
-        value=format.item.formatSpecification.onlineResource.firstObject.uri
+        value=(get format.item.formatSpecification.onlineResource "0.uri")
         placeholder="On-line information about the format"
         profilePath=(concat this.profilePath ".distributionFormat.url")
       }}

@@ -5,11 +5,11 @@ export default class EditRoute extends Route {
   @service hashPoll;
 
   afterModel(model) {
-    this._super(...arguments);
+    super.afterModel(...arguments);
     this.hashPoll.startPolling(model);
   }
   deactivate() {
-    this._super(...arguments);
+    super.deactivate(...arguments);
     this.hashPoll.stopPolling();
   }
 }

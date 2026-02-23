@@ -9,9 +9,9 @@
   templateClass=this.templateClass
   attributes=this.attributes as |editing|
 }}
-    {{!-- Editing: {{editing.name}} --}}
+    {{!-- Editing: {{this.editing.name}} --}}
 
-    {{object/md-online-resource imagePicker=this.imagePicker model=editing
+    {{object/md-online-resource imagePicker=this.imagePicker model=this.editing
       profilePath=this.profilePath
     }}
 

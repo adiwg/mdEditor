@@ -1,5 +1,6 @@
 <div class="row md-no-spotlight">
-  {{#with this.model.json.dataDictionary as |dictionary|}}
+  {{#let this.model.json.dataDictionary as |dictionary|}}
+  {{#if dictionary}}
   <div class="col-sm-9 col-md-offset-1">
     <h3>
       {{fa-icon "book" class="text-muted"}}
@@ -22,7 +23,8 @@
         </dl>
         <dl class="dl-horizontal col-xxl-6">
           {{#control/md-definition title="Responsible Party" }}
-              {{#with dictionary.responsibleParty as |party|}}
+              {{#let dictionary.responsibleParty as |party|}}
+                {{#if party}}
                   {{html-safe (if party.role party.role "<em>No Roles assigned.</em>")}}
                   (
                   {{#each party.party as |contact index|}}
@@ -32,9 +34,10 @@
                   {{/each}}
                   )
                   <br>
-                  {{else}}
+                {{else}}
                   <em class="text-muted">No responsibility assigned.</em>
-              {{/with}}
+                {{/if}}
+              {{/let}}
           {{/control/md-definition}}
         </dl>
         <div class="col-xs-12">
@@ -152,7 +155,8 @@
       {{/if}}
     {{/layout/md-card}}
   </div>
-  {{/with}}
+  {{/if}}
+  {{/let}}
 
   <div class="md-control-sidebar col-sm-2 no-nav">
     {{#control/md-crud-buttons

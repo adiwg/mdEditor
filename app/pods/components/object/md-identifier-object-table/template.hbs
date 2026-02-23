@@ -9,13 +9,13 @@
 }}
 
 {{object/md-identifier
-  model=editing
+  model=this.editing
   short=this.short
   profilePath=this.profilePath
 }}
 
 {{!-- {{input/md-input
-  value=editing.identifier
+  value=this.editing.identifier
   placeholder="Enter the identifier for the resource."
   label="Identifier"
   required=true
@@ -33,19 +33,19 @@
   allowClear=true
   mdCodeName="namespace"
   valuePath="code"
-  value=editing.namespace
+  value=this.editing.namespace
   profilePath=(concat this.profilePath 'namespace')
 }}
 
 {{input/md-input
-  value=editing.version
+  value=this.editing.version
   placeholder="Enter the version for the identifier."
   label="Version"
   profilePath=(concat this.profilePath 'version')
 }}
 
 {{input/md-textarea
-  value=editing.description
+  value=this.editing.description
   profilePath=(concat this.profilePath 'description')
   label="Description"
   placeholder="Enter a description of the identifier."

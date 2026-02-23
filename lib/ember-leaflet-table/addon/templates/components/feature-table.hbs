@@ -1,0 +1,31 @@
+{{! template-lint-disable no-curly-component-invocation }}
+{{#if (has-block)}}
+  {{#models-table
+    data=this.data
+    columns=this.columns
+    themeInstance=this.themeInstance
+    columnComponents=this.columnComponents
+    showGlobalFilter=this.showGlobalFilter
+    showColumnsDropdown=this.showColumnsDropdown
+    pageSize=this.pageSize
+    onRowHover=(action "handleRowHover")
+    onRowOut=(action "handleRowOut")
+    onRowDoubleClick=(action "handleRowDoubleClick")
+    as |mt|
+  }}
+    {{yield mt}}
+  {{/models-table}}
+{{else}}
+  {{models-table
+    data=this.data
+    columns=this.columns
+    themeInstance=this.themeInstance
+    columnComponents=this.columnComponents
+    showGlobalFilter=this.showGlobalFilter
+    showColumnsDropdown=this.showColumnsDropdown
+    pageSize=this.pageSize
+    onRowHover=(action "handleRowHover")
+    onRowOut=(action "handleRowOut")
+    onRowDoubleClick=(action "handleRowDoubleClick")
+  }}
+{{/if}}

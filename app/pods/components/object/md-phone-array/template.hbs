@@ -1,10 +1,10 @@
 {{#object/md-array-table
   columns="Name,Number,Services"
   title="Phone"
-  value=value
-  validation=validation
+  value=this.value
+  validation=this.validation
   data-spy=null
-  templateClass=templateClass as |phone|
+  templateClass=this.templateClass as |phone|
 }}
   <td>
       {{input/md-input value=phone.item.phoneName
@@ -20,7 +20,7 @@
       create=true
       tooltip=true
       icon=false
-      disabled=disabled
+      disabled=false
       allowClear=true
       mdCodeName="telephone"
       value=phone.item.service placeholder="Choose phone type" }}

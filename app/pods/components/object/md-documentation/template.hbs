@@ -7,11 +7,11 @@
       profilePath=(concat this.profilePath ".resourceType")
     }}
 </div>
-{{#with this.model.citation.firstObject as |citation|}}
+{{#let (get this.model.citation "0") as |citation|}}
   {{object/md-citation
     model=citation
     profilePath=(concat this.profilePath ".citation")
     simpleIdentifier=true
   }}
-{{/with}}
+{{/let}}
 {{yield}}

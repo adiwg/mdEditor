@@ -111,12 +111,18 @@ export default class MdItisComponent extends Component {
     taxonomy.taxonomicSystem = taxonomy.taxonomicSystem ?? [{ citation: {} }];
     let systems = taxonomy.taxonomicSystem;
 
-    let system = systems.findBy('citation.title', itisCitation.title);
+    let system = systems.find((item) => {
+      let cit =
+        item && typeof item.get === 'function'
+          ? item.get('citation')
+          : item.citation;
+      let title =
+        cit &&
+        (cit && typeof cit.get === 'function' ? cit.get('title') : cit.title);
+      return title === itisCitation.title;
+    });
 
-    let allTaxa = taxa.reduce(
-      (acc, itm) => acc.pushObjects(itm.taxonomy),
-      []
-    );
+    let allTaxa = taxa.reduce((acc, itm) => acc.pushObjects(itm.taxonomy), []);
     let today = moment().format('YYYY-MM-DD');
     let dateObj = {
       date: today,
@@ -142,7 +148,14 @@ export default class MdItisComponent extends Component {
 
       let date = A(citation.date);
 
-      if (!date.findBy('date', today)) {
+      if (
+        !date.find(
+          (item) =>
+            (item && typeof item.get === 'function'
+              ? item.get('date')
+              : item.date) === today
+        )
+      ) {
         date.pushObject(dateObj);
       }
     }

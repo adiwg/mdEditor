@@ -1,6 +1,6 @@
 <h4 class="section-header">
   Editing Transfer Options for
-  <span class="text-success">Distributor #{{distributorId}}</span> in
+  <span class="text-success">Distributor #{{this.distributorId}}</span> in
   <span class="text-primary">Distribution #{{distributionId}}</span>
   {{#control/md-button-confirm
     class="btn btn-xs btn-danger"
@@ -11,11 +11,11 @@
   }}
     {{fa-icon "times"}} Delete
   {{/control/md-button-confirm}}
-  {{control/md-status model=parentModel}}
+  {{control/md-status model=this.parentModel}}
 </h4>
 
 {{object/md-transfer
-  model=model
+  model=this.model
   profilePath="record.distribution.distributor.transferOption"
 }}
 
@@ -30,4 +30,4 @@
 }}
 
 {{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"  refresh=refresh scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+  send=(component "control/md-scroll-spy"  refresh=this.refresh scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo"))}}

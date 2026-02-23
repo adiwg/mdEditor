@@ -1,14 +1,14 @@
-import Body from 'ember-models-table/components/models-table/table-body';
-import { action } from '@ember/object';
+import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
 
 @classic
-export default class TableBodyComponent extends Body {
-  layoutName = 'components/models-table/table-body';
+export default class TableBodyComponent extends Component {
+  tagName = '';
 
   @action
   clickOnRowExpand(index, record) {
-    if(this.themeInstance.selectRowOnExpandClick) {
+    if (this.themeInstance && this.themeInstance.selectRowOnExpandClick) {
       this.clickOnRow(index, record);
     }
   }

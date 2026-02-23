@@ -1,8 +1,10 @@
-import MdRecordTableComponent from 'mdeditor/pods/components/control/md-record-table/component';
-//import Component from '@ember/component';
+import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import { action } from '@ember/object';
+import { A } from '@ember/array';
 
-export default class MdEditTableComponent extends MdRecordTableComponent {
+@classic
+export default class MdEditTableComponent extends Component {
   /**
    * @module mdeditor
    * @submodule components-control
@@ -13,43 +15,23 @@ export default class MdEditTableComponent extends MdRecordTableComponent {
    * selection for all rows. Component supplied in `editRowComponent` is rendered
    * when the row is expanded.
    *
-   *```handlebars
-   * \{{control/md-record-table
-   *   data=model.data
-   *   columns=model.columns
-   *   select=callback
-   * }}
-   * ```
-   *
    * @class md-edit-table
-   * @extends md-record-table
+   * @extends Component
    */
 
   classNames = ['md-edit-table'];
   spotlightRow = true;
 
-  /**
-  * Array of button configs to add to action column
-  *
-  * @property actionButtons
-  * @type {[Object]}
-  */
-
-  /**
-  * Array of badge configs to add to action column
-  *
-  * @property actionBadges
-  * @type {[Object]}
-  */
+  init() {
+    super.init(...arguments);
+    this._expandedItems = A(this.expandedItems || []);
+  }
 
   /**
    * Column configs for the action column.
-   * See http://onechiporenko.github.io/ember-models-table
-   *
    *
    * @property actionsColumn
    * @type {Object}
-   * @required
    */
   get actionsColumn() {
     let btns = [{
@@ -65,15 +47,15 @@ export default class MdEditTableComponent extends MdRecordTableComponent {
       confirm: true,
       action: "handleDeleteRow",
       target: this
-    }]
+    }];
 
-    if(this.actionButtons) {
+    if (this.actionButtons) {
       btns.push(this.actionButtons);
     }
 
     return {
       className: 'md-actions-column',
-      component: 'components/md-models-table/components/row-buttons',
+      component: 'row-buttons',
       componentForFilterCell: 'control/md-record-table/buttons/filter',
       disableFiltering: true,
       disableSorting: true,
@@ -83,12 +65,24 @@ export default class MdEditTableComponent extends MdRecordTableComponent {
     };
   }
 
-  editRowMethod(index, record){
-    this.send('expandRow',index, record);
+  @action
+  expandRecord(index, record) {
+    let expanded = this._expandedItems;
+    let idx = expanded.indexOf(record);
+    if (idx === -1) {
+      expanded.pushObject(record);
+    } else {
+      expanded.removeObject(record);
+    }
+    this.notifyPropertyChange('_expandedItems');
+  }
+
+  editRowMethod(index, record) {
+    this.expandRecord(index, record);
   }
 
   @action
-  handleEditRow(col, index, record, evt){
+  handleEditRow(col, index, record, evt) {
     evt.stopPropagation();
     if (typeof this.editRow === 'function') {
       this.editRow(col, index, record, evt);
@@ -98,7 +92,7 @@ export default class MdEditTableComponent extends MdRecordTableComponent {
   }
 
   @action
-  handleDeleteRow(col, index, record){
+  handleDeleteRow(col, index, record) {
     record.destroyRecord();
   }
 }

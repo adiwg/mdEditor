@@ -178,12 +178,10 @@ const Contact = Model.extend(Validations, Copyable, {
    * @requires json.logoGraphic.firstObject.fileUri.firstObject.uri
    */
   defaultLogo: computed(
-    'json.logoGraphic.firstObject.fileUri.firstObject.uri',
+    'json.logoGraphic.[]',
     'defaultOrganization',
     function () {
-      let uri = this.get(
-        'json.logoGraphic.firstObject.fileUri.firstObject.uri'
-      );
+      let uri = this.get('json.logoGraphic')?.[0]?.fileUri?.[0]?.uri;
 
       if (uri) {
         return uri;
@@ -192,7 +190,18 @@ const Contact = Model.extend(Validations, Copyable, {
 
       if (orgId && orgId !== this.get('json.contactId')) {
         let contacts = this.get('contactsService.organizations');
-        let org = contacts.findBy('json.contactId', orgId);
+        let org = contacts.find((item) => {
+          let json =
+            item && typeof item.get === 'function'
+              ? item.get('json')
+              : item.json;
+          let id =
+            json &&
+            (json && typeof json.get === 'function'
+              ? json.get('contactId')
+              : json.contactId);
+          return id === orgId;
+        });
 
         if (org) {
           return get(org, 'defaultLogo');
@@ -225,10 +234,16 @@ const Contact = Model.extend(Validations, Copyable, {
   defaultOrganizationName: computed('defaultOrganization', function () {
     let contacts = this.get('contactsService.organizations');
 
-    let org = contacts.findBy(
-      'json.contactId.identifier',
-      this.defaultOrganization
-    );
+    let org = contacts.find((item) => {
+      let json =
+        item && typeof item.get === 'function' ? item.get('json') : item.json;
+      let id =
+        json &&
+        (json && typeof json.get === 'function'
+          ? json.get('contactId')
+          : json.contactId);
+      return id === this.defaultOrganization;
+    });
 
     return org ? get(org, 'name') : null;
   }),
@@ -258,7 +273,18 @@ const Contact = Model.extend(Validations, Copyable, {
 
       if (orgId) {
         let contacts = this.get('contactsService.organizations');
-        let org = contacts.findBy('json.contactId', orgId);
+        let org = contacts.find((item) => {
+          let json =
+            item && typeof item.get === 'function'
+              ? item.get('json')
+              : item.json;
+          let id =
+            json &&
+            (json && typeof json.get === 'function'
+              ? json.get('contactId')
+              : json.contactId);
+          return id === orgId;
+        });
 
         if (org) {
           orgName = get(org, 'name');

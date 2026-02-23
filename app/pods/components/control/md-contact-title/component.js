@@ -35,9 +35,16 @@ export default class MdContactTitleComponent extends Component {
    * @requires contactId
    */
   get contact() {
-    let rec = this.store
-      .peekAll('contact')
-      .findBy('json.contactId', this.contactId);
+    let rec = this.store.peekAll('contact').find((item) => {
+      let json =
+        item && typeof item.get === 'function' ? item.get('json') : item.json;
+      let id =
+        json &&
+        (json && typeof json.get === 'function'
+          ? json.get('contactId')
+          : json.contactId);
+      return id === this.contactId;
+    });
 
     return rec;
   }

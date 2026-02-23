@@ -1,16 +1,14 @@
-{{#with this.item
-  as
-  |model|}}
+{{#let this.item as |model|}}
   <dl class="dl-horizontal">
     {{!-- <h4 class="text-info">Allocation #{{index}}</h4> --}}
     <div class="row">
       <div class="col-sm-6">
         <label>Start Date:</label>
-        {{if model.timePeriod.startDateTime (moment-format model.timePeriod.startDateTime "MM-DD-YYYY") "Not defined"}}
+        {{if this.model.timePeriod.startDateTime (moment-format this.model.timePeriod.startDateTime "MM-DD-YYYY") "Not defined"}}
       </div>
       <div class="col-sm-6">
         <label>End Date:</label>
-        {{if model.timePeriod.endDateTime (moment-format model.timePeriod.endDateTime "MM-DD-YYYY") "Not defined"}}
+        {{if this.model.timePeriod.endDateTime (moment-format this.model.timePeriod.endDateTime "MM-DD-YYYY") "Not defined"}}
       </div>
     </div>
   </dl>
@@ -28,7 +26,7 @@
         </tr>
       </thead>
       <tbody>
-        {{#each model.allocation
+        {{#each this.model.allocation
           as
           |alloc|}}
           <tr>
@@ -46,4 +44,4 @@
       </tbody>
     </table>
   </div>
-{{/with}}
+{{/let}}

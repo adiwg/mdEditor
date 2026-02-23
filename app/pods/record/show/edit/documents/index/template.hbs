@@ -1,10 +1,10 @@
 <h4 class="section-header">
   Editing Additional Documentation
-  {{control/md-status model=parentModel}}
+  {{control/md-status model=this.parentModel}}
 </h4>
 
 {{object/md-objectroute-table
-  items=model.json.metadata.additionalDocumentation
+  items=this.model.json.metadata.additionalDocumentation
   header="Additional Documents"
   shadow=true
   verticalButtons=true
