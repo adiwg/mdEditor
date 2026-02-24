@@ -34,7 +34,11 @@ export default class ContactsRoute extends Route {
   columns = columns;
 
   model() {
-    return this.store.peekAll('contact');
+    // findAll returns a PromiseArray; convert to plain array after resolution
+    // so models-table can properly compute visibleContent
+    return this.store.findAll('contact').then((contacts) => {
+      return contacts.toArray();
+    });
   }
 
   setupController(controller, model) {

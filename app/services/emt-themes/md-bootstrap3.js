@@ -1,8 +1,6 @@
 import Bootstrap3Theme from 'ember-models-table/services/emt-themes/bootstrap3';
 import { ensureSafeComponent } from '@embroider/util';
-import CellContentDisplay from 'mdeditor/pods/components/models-table/cell-content-display/component';
 import RowExpand from 'mdeditor/pods/components/models-table/row-expand/component';
-import TableBody from 'mdeditor/pods/components/models-table/table-body/component';
 
 export default class MdBootstrap3Theme extends Bootstrap3Theme {
   // Icon overrides (Font Awesome instead of Glyphicons)
@@ -33,15 +31,11 @@ export default class MdBootstrap3Theme extends Bootstrap3Theme {
   selectRowOnExpandClick = false;
 
   // Override sub-component getters for custom components
-  get cellContentDisplayComponent() {
-    return ensureSafeComponent(CellContentDisplay, this);
-  }
-
   get rowExpandComponent() {
     return ensureSafeComponent(RowExpand, this);
   }
 
-  get tableBodyComponent() {
-    return ensureSafeComponent(TableBody, this);
-  }
+  // Use default tableBodyComponent from ember-models-table addon
+  // The custom TableBody component in app/pods/components/models-table/table-body
+  // isn't resolving correctly; using addon default fixes tbody rendering
 }

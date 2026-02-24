@@ -25,7 +25,11 @@ export default class DictionariesRoute extends Route {
   columns = columns;
 
   model() {
-    return this.store.peekAll('dictionary');
+    // findAll returns a PromiseArray; convert to plain array after resolution
+    // so models-table can properly compute visibleContent
+    return this.store.findAll('dictionary').then((dictionaries) => {
+      return dictionaries.toArray();
+    });
   }
 
   setupController(controller, model) {

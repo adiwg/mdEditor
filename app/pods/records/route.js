@@ -25,7 +25,11 @@ export default class RecordsRoute extends Route {
   columns = columns;
 
   model() {
-    return this.store.peekAll('record');
+    // findAll returns a PromiseArray; convert to plain array after resolution
+    // so models-table can properly compute visibleContent
+    return this.store.findAll('record').then((records) => {
+      return records.toArray();
+    });
   }
 
   setupController(controller, model) {
