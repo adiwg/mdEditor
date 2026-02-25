@@ -217,9 +217,10 @@ const Base = Model.extend({
 
     //if the currentHash is undefined, the record is either new or hasn't had the
     //hash calculated yet
-    // if(this.get('currentHash') === undefined) {
-    //   this.set('currentHash', newHash);
-    // }
+    if (this.currentHash === undefined) {
+      this.set('currentHash', newHash);
+      return false;
+    }
 
     if (this.currentHash !== newHash || this.hasDirtyAttributes) {
       return true;
