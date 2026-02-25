@@ -14,7 +14,7 @@ export default class AlternateRoute extends Route {
   }
   setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
     this.controllerFor('record.show.edit')

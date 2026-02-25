@@ -7,10 +7,10 @@
   profilePath=this.profilePath
   attributes=this.attributes as |editing|
 }}
-    {{!-- Editing: {{editing.fileName}} --}}
+    {{!-- Editing: {{this.editing.fileName}} --}}
 
     {{input/md-input
-      value=editing.fileName
+      value=this.editing.fileName
       label="Name"
       placeholder="File Name"
       required=true
@@ -18,7 +18,7 @@
     }}
 
     {{input/md-input
-      value=editing.fileType
+      value=this.editing.fileType
       label="File Type"
       placeholder="Enter the file format(s) of the logo."
       profilePath=(concat this.profilePath ".fileType")
@@ -26,7 +26,7 @@
 
     {{input/md-textarea
       maxlength=500
-      value=editing.fileDescription
+      value=this.editing.fileDescription
       label="Description"
       placeholder="Description of the file: Less than 500 characters"
       profilePath=(concat this.profilePath ".fileDescription")
@@ -34,7 +34,7 @@
 
     {{object/md-online-resource-array
       shadow=false
-      model=editing.fileUri
+      model=this.editing.fileUri
       ellipsis=true
       imagePicker=true
       profilePath=(concat this.profilePath ".onlineResource")

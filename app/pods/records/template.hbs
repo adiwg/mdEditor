@@ -7,7 +7,7 @@
   }}
     {{control/md-record-table
       data=this.model
-      dataColumns=(compute (route-action "getColumns") this.section.meta.type)
+      dataColumns=(compute (route-action "getColumns"))
       allActions=true
       selectProperty="_selectedFromList"
       showSlider=(route-action "showSlider")

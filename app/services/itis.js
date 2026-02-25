@@ -192,10 +192,23 @@ export default Service.extend({
 
     if (common) {
       taxonomy.forEach((i) => {
-        const taxa = i.findBy('tsn', tsn);
+        const taxa = i.find(
+          (item) =>
+            (item && typeof item.get === 'function'
+              ? item.get('tsn')
+              : item.tsn) === tsn
+        );
 
         if (taxa) {
-          set(taxa, 'common', common.mapBy('name'));
+          set(
+            taxa,
+            'common',
+            common.map((item) =>
+              item && typeof item.get === 'function'
+                ? item.get('name')
+                : item.name
+            )
+          );
         }
       });
     }
@@ -250,7 +263,12 @@ export default Service.extend({
   getBranch(taxon, branches) {
     let branch = branches
       .filterBy('taxonomicLevel', taxon.rank)
-      .findBy('taxonomicName', taxon.value);
+      .find(
+        (item) =>
+          (item && typeof item.get === 'function'
+            ? item.get('taxonomicName')
+            : item.taxonomicName) === taxon.value
+      );
 
     if (!branch) {
       return branches.pushObject({

@@ -1,12 +1,12 @@
-{{#nestable-draggable-object content=this isDraggable=model.draggable dragStartAction=(action "dragStart")}}
+{{#nestable-draggable-object content=this isDraggable=this.model.draggable dragStartAction=(action "dragStart")}}
   {{#draggable-object-target
     action=handleDrop
-    model=model
+    model=this.model
     validateDragEvent=validateDragEvent
     validateDrag=validateDrag
     dragged=tree.dragged
   }}
-  {{tree-leaf model=model
+  {{tree-leaf model=this.model
     inTree=true
     select=select
     selected=selected
@@ -18,8 +18,8 @@
   }}
   {{/draggable-object-target}}
 
-  {{#if model.isExpanded}}
-    {{tree-view model=model.children
+  {{#if this.model.isExpanded}}
+    {{tree-view model=this.model.children
       select=select
       selected=selected
       sortKeys=sortKeys

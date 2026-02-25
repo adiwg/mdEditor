@@ -1,11 +1,9 @@
-import Theme from 'ember-models-table/themes/bootstrap3';
-import classic from 'ember-classic-decorator';
+import Bootstrap3Theme from 'ember-models-table/services/emt-themes/bootstrap3';
+import { ensureSafeComponent } from '@embroider/util';
+import RowExpand from 'mdeditor/pods/components/models-table/row-expand/component';
 
-@classic
-export default class MdBootstrap3Theme extends Theme {
-  // Override componentsPath to use our custom components at models-table/
-  componentsPath = 'models-table/';
-
+export default class MdBootstrap3Theme extends Bootstrap3Theme {
+  // Icon overrides (Font Awesome instead of Glyphicons)
   sortAscIcon = 'fa fa-caret-up';
   sortDescIcon = 'fa fa-caret-down';
   columnVisibleIcon = 'fa fa-check-square-o';
@@ -31,4 +29,13 @@ export default class MdBootstrap3Theme extends Theme {
   expandRow = 'expand-row md-collapsible-content';
   table = 'table table-striped table-bordered table-condensed table-hover';
   selectRowOnExpandClick = false;
+
+  // Override sub-component getters for custom components
+  get rowExpandComponent() {
+    return ensureSafeComponent(RowExpand, this);
+  }
+
+  // Use default tableBodyComponent from ember-models-table addon
+  // The custom TableBody component in app/pods/components/models-table/table-body
+  // isn't resolving correctly; using addon default fixes tbody rendering
 }

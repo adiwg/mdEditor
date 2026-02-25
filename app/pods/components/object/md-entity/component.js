@@ -1,43 +1,30 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import {
-  A
-} from '@ember/array';
+import { A } from '@ember/array';
 import EmberObject, { set, get } from '@ember/object';
-import {
-  alias
-} from '@ember/object/computed';
-import {
-  once
-} from '@ember/runloop';
-import {
-  assert
-} from '@ember/debug';
+import { alias } from '@ember/object/computed';
+import { once } from '@ember/runloop';
+import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 
-import {
-  Template as Attribute
-} from '../md-attribute/component';
+import { Template as Attribute } from '../md-attribute/component';
 
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
-import uuidV4 from "uuid/v4";
+import { validator, buildValidations } from 'ember-cp-validations';
+import uuidV4 from 'uuid/v4';
 
 const Validations = buildValidations({
-  'codeName': [
+  codeName: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'definition': [
+  definition: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 @classic
@@ -69,68 +56,74 @@ export default class MdEntityComponent extends Component.extend(Validations) {
 
   tagName = 'form';
 
-  foreignKeyTemplate = EmberObject.extend(buildValidations({
-    'referencedEntityCodeName': [
-      validator('presence', {
-        presence: true,
-        ignoreBlank: true
-      })
-    ],
-    'localAttributeCodeName': [
-      validator('presence', {
-        presence: true,
-        ignoreBlank: true
-      }),
-      validator('array-required', {
-        track: []
-      })
-    ],
-    'referencedAttributeCodeName': [
-      validator('presence', {
-        presence: true,
-        ignoreBlank: true
-      }),
-      validator('array-required', {
-        track: []
-      })
-    ]
-  }), {
-    init() {
-      this._super(...arguments);
-      this.set('localAttributeCodeName', []);
-      this.set('referencedAttributeCodeName', []);
+  foreignKeyTemplate = EmberObject.extend(
+    buildValidations({
+      referencedEntityCodeName: [
+        validator('presence', {
+          presence: true,
+          ignoreBlank: true,
+        }),
+      ],
+      localAttributeCodeName: [
+        validator('presence', {
+          presence: true,
+          ignoreBlank: true,
+        }),
+        validator('array-required', {
+          track: [],
+        }),
+      ],
+      referencedAttributeCodeName: [
+        validator('presence', {
+          presence: true,
+          ignoreBlank: true,
+        }),
+        validator('array-required', {
+          track: [],
+        }),
+      ],
+    }),
+    {
+      init() {
+        this._super(...arguments);
+        this.set('localAttributeCodeName', []);
+        this.set('referencedAttributeCodeName', []);
+      },
     }
-  });
+  );
 
-  indexTemplate = EmberObject.extend(buildValidations({
-    'codeName': [
-      validator('presence', {
-        presence: true,
-        ignoreBlank: true
-      })
-    ],
-    'allowDuplicates': [
-      validator('presence', {
-        presence: true,
-        ignoreBlank: true
-      })
-    ],
-    'attributeCodeName': [
-      validator('presence', {
-        presence: true,
-        ignoreBlank: true
-      }),
-      validator('array-required', {
-        track: []
-      })
-    ]
-  }), {
-    init() {
-      this._super(...arguments);
-      this.set('attributeCodeName', []);
-      this.set('allowDuplicates', false);
+  indexTemplate = EmberObject.extend(
+    buildValidations({
+      codeName: [
+        validator('presence', {
+          presence: true,
+          ignoreBlank: true,
+        }),
+      ],
+      allowDuplicates: [
+        validator('presence', {
+          presence: true,
+          ignoreBlank: true,
+        }),
+      ],
+      attributeCodeName: [
+        validator('presence', {
+          presence: true,
+          ignoreBlank: true,
+        }),
+        validator('array-required', {
+          track: [],
+        }),
+      ],
+    }),
+    {
+      init() {
+        this._super(...arguments);
+        this.set('attributeCodeName', []);
+        this.set('allowDuplicates', false);
+      },
     }
-  });
+  );
 
   attributeTemplate = Attribute;
 
@@ -141,12 +134,12 @@ export default class MdEntityComponent extends Component.extend(Validations) {
 
   get attributeList() {
     let attr = this.model?.attribute;
-    if(attr) {
+    if (attr) {
       return attr.map((attr) => {
         return {
           codeId: get(attr, 'codeName'),
           codeName: get(attr, 'codeName'),
-          tooltip: get(attr, 'definition')
+          tooltip: get(attr, 'definition'),
         };
       });
     }
@@ -154,37 +147,39 @@ export default class MdEntityComponent extends Component.extend(Validations) {
   }
 
   get entityList() {
-    return this.entities
-      .map((attr) => {
-        if(get(attr, 'entityId')) {
-          return {
-            codeId: get(attr, 'entityId'),
-            codeName: get(attr, 'codeName'),
-            tooltip: get(attr, 'definition')
-          };
-        }
-      });
+    return this.entities.map((attr) => {
+      if (get(attr, 'entityId')) {
+        return {
+          codeId: get(attr, 'entityId'),
+          codeName: get(attr, 'codeName'),
+          tooltip: get(attr, 'definition'),
+        };
+      }
+    });
   }
 
-   /**
-    * The passed down editCitation method.
-    *
-    * @method editCitation
-    * @param {Number} id
-    * @required
-    */
+  /**
+   * The passed down editCitation method.
+   *
+   * @method editCitation
+   * @param {Number} id
+   * @required
+   */
 
-   /**
-    * The passed down editAttribute method.
-    *
-    * @method editAttribute
-    * @param {Number} id
-    * @required
-    */
+  /**
+   * The passed down editAttribute method.
+   *
+   * @method editAttribute
+   * @param {Number} id
+   * @required
+   */
 
   init() {
     super.init(...arguments);
-    assert(`You must supply a dictionary for ${this.toString()}.`, this.dictionary);
+    assert(
+      `You must supply a dictionary for ${this.toString()}.`,
+      this.dictionary
+    );
   }
 
   didReceiveAttrs() {
@@ -195,7 +190,8 @@ export default class MdEntityComponent extends Component.extend(Validations) {
     once(this, function () {
       model.entityId = model.entityId ?? uuidV4();
       model.alias = model.alias ?? [];
-      model.primaryKeyAttributeCodeName = model.primaryKeyAttributeCodeName ?? [];
+      model.primaryKeyAttributeCodeName =
+        model.primaryKeyAttributeCodeName ?? [];
       model.index = model.index ?? [];
       model.attribute = model.attribute ?? [];
       model.foreignKey = model.foreignKey ?? [];
@@ -205,18 +201,21 @@ export default class MdEntityComponent extends Component.extend(Validations) {
 
   @action
   getEntityAttributes(id) {
-    let entity = A(this.dictionary?.entity)
-      .findBy('entityId', id);
+    let entity = A(this.dictionary?.entity).find(
+      (item) =>
+        (item && typeof item.get === 'function'
+          ? item.get('entityId')
+          : item.entityId) === id
+    );
 
-    if(entity) {
-      let a = get(entity, 'attribute')
-        .map((attr) => {
-          return {
-            codeId: get(attr, 'codeName'),
-            codeName: get(attr, 'codeName'),
-            tooltip: get(attr, 'definition')
-          };
-        });
+    if (entity) {
+      let a = get(entity, 'attribute').map((attr) => {
+        return {
+          codeId: get(attr, 'codeName'),
+          codeName: get(attr, 'codeName'),
+          tooltip: get(attr, 'definition'),
+        };
+      });
 
       return a;
     }
@@ -225,12 +224,12 @@ export default class MdEntityComponent extends Component.extend(Validations) {
   }
 
   @action
-  editCitationAction(id){
+  editCitationAction(id) {
     this.editCitation(id);
   }
 
   @action
-  editAttributeAction(id){
+  editAttributeAction(id) {
     this.editAttribute(id);
   }
 }

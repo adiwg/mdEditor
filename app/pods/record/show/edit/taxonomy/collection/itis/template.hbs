@@ -1,9 +1,9 @@
 <h4 class="section-header">
   Add Taxa from ITIS<small> Taxonomy Collection #{{collectionId}}</small>
-  {{control/md-status model=parentModel}}
+  {{control/md-status model=this.parentModel}}
 </h4>
 
-{{control/md-itis taxonomy=model}}
+{{control/md-itis taxonomy=this.model}}
 
 {{to-elsewhere
   named="md-subbar-extra"

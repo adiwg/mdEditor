@@ -1,5 +1,5 @@
 <h3 class="section-header">Generate Entity from CSV</h3>
-{{#unless processed}}
+{{#unless this.processed}}
   {{control/md-import-csv
     beforeFirstChunk=(route-action "processData")
     processChunk=(route-action "reduceData")
@@ -17,14 +17,14 @@
   {{else}}
     <form class="form">
       {{input/md-input
-        value=entity.entityId
+        value=this.entity.entityId
         placeholder="Enter the identifier for the entity."
         label="Entity Identifier"
         data-spy="Identifier"
       }}
 
       {{input/md-input
-        value=entity.codeName
+        value=this.entity.codeName
         required=true
         placeholder="Enter the name used to refer to the entity in schema definitions or application software."
         label="Entity Code Name"
@@ -32,7 +32,7 @@
       }}
 
       {{input/md-textarea
-        value=entity.definition
+        value=this.entity.definition
         required=true
         autoresize=true
         placeholder="A brief description of the entity."
@@ -63,7 +63,7 @@
               </tr>
             </thead>
             <tbody>
-              {{#each-in columns as |col row|}}
+              {{#each-in this.columns as |col row|}}
                 <tr>
                   <td>{{input type="checkbox" name="import" checked=row.import}}</td>
                   <td class="text-nowrap">
@@ -130,7 +130,7 @@
       {{/layout/md-card}}
   {{/unless}}
 
-{{#if processed}}
+{{#if this.processed}}
   {{to-elsewhere
     named="md-subbar-extra"
     send=(component "control/subbar-importcsv"

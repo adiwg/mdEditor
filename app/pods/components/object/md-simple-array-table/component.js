@@ -1,4 +1,9 @@
-import { observer, computed, action, notifyPropertyChange } from '@ember/object';
+import {
+  observer,
+  computed,
+  action,
+  notifyPropertyChange,
+} from '@ember/object';
 import { A } from '@ember/array';
 import ArrayTable from '../md-array-table/component';
 
@@ -42,14 +47,14 @@ export default ArrayTable.extend({
     get() {
       let items = this.value;
 
-      if(items === undefined) {
+      if (items === undefined) {
         items = [];
         //items[0] = '';
       }
 
       return items.reduce(function (acc, value) {
         acc.pushObject({
-          value: value
+          value: value,
         });
         return acc;
       }, []);
@@ -58,10 +63,14 @@ export default ArrayTable.extend({
     set(key, value) {
       let newValue = value
         .filterBy('value')
-        .mapBy('value');
+        .map((item) =>
+          item && typeof item.get === 'function'
+            ? item.get('value')
+            : item.value
+        );
       this.set('value', newValue);
       return value;
-    }
+    },
   }),
 
   /**
@@ -79,7 +88,7 @@ export default ArrayTable.extend({
   /**
    * Override addItem to push to primitive value array
    */
-  addItem: action(function() {
+  addItem: action(function () {
     // Initialize value if it's not set
     if (!this.value) {
       this.set('value', A());
@@ -97,7 +106,7 @@ export default ArrayTable.extend({
   /**
    * Override deleteItem to remove from primitive value array
    */
-  deleteItem: action(function(item, idx) {
+  deleteItem: action(function (item, idx) {
     if (this.value && this.value.length > idx) {
       this.value.removeAt(idx);
     }
@@ -105,5 +114,5 @@ export default ArrayTable.extend({
     notifyPropertyChange(this, 'value');
     notifyPropertyChange(this, 'arrayValues');
     this.valueChanged();
-  })
+  }),
 });

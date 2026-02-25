@@ -16,7 +16,7 @@ export default class SpatialRoute extends Route {
   }
   setupController(controller) {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controllerFor('record.show.edit')
       .setProperties({

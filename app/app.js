@@ -8,7 +8,7 @@
 import Route from '@ember/routing/route';
 import Component from '@ember/component';
 import Application from '@ember/application';
-import Resolver from 'ember-resolver';
+import Resolver from './resolver';
 import {
   computed,
   defineProperty,
@@ -20,11 +20,23 @@ import {
   isNone
 } from '@ember/utils';
 import {
-  assert
+  assert,
+  registerDeprecationHandler
 } from '@ember/debug';
 // import Resolver from './resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';
+
+// Silence @ember/string deprecation — the standalone @ember/string package IS
+// installed but ember-source's internal copy still fires the deprecation when
+// addons (e.g. ember-tooltips) resolve through the bundled ember.debug.js path.
+registerDeprecationHandler((message, options, next) => {
+  if (options?.id === 'ember-string.add-package') {
+    return;
+  }
+  next(message, options);
+});
+
 let events = {
   // add support for the blur event
   blur: 'blur'

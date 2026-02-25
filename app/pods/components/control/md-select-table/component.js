@@ -1,6 +1,10 @@
-import Table from 'mdeditor/pods/components/md-models-table/component';
+import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
+import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 
-export default Table.extend({
+@classic
+export default class MdSelectTableComponent extends Component {
   /**
    * @module mdeditor
    * @submodule components-control
@@ -18,42 +22,14 @@ export default Table.extend({
    * ```
    *
    * @class md-select-table
-   * @extends models-table
+   * @extends Component
    */
 
-  classNames: ['md-select-table'],
+  @service('emt-themes/md-bootstrap3') themeInstance;
 
-  /**
-   * Array of table records
-   *
-   * @property data
-   * @type {Array}
-   * @default []
-   * @required
-   */
+  classNames = ['md-select-table'];
 
-  /**
-   * Array of column configs for the table.
-   * See http://onechiporenko.github.io/ember-models-table
-   *
-   * ```javascript
-   * [{
-   *  propertyName: 'id',
-   *  title: 'ID'
-   * }, {
-   *  title: '',
-   *  template: 'components/leaflet-table/actions',
-   *  className: 'text-center text-nowrap'
-   * }]
-   * ```
-   *
-   * @property columns
-   * @type {Array}
-   * @required
-   * @default []
-   */
-
-  filteringIgnoreCase: true,
+  filteringIgnoreCase = true;
 
   /**
    * Callback on row selection.
@@ -64,15 +40,11 @@ export default Table.extend({
    */
   select(selected) {
     return selected;
-  },
-
-  actions: {
-    clickOnRow() {
-      this._super(...arguments);
-
-      let sel = this.selectedItems;
-
-      this.select(sel);
-    }
   }
-});
+
+  @action
+  handleDisplayDataChanged(settings) {
+    let sel = settings.selectedItems || [];
+    this.select(sel);
+  }
+}

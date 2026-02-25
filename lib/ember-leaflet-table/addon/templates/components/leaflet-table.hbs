@@ -43,37 +43,36 @@
       ))
       showGlobalFilter=false
       showColumnsDropdown=false
+      showForm=(action "showForm")
       pageSize=10 as |ft|
     }}
-      {{#ft.table as |table|}}
-        {{table.header}}
-        {{#table.body as |body|}}
-          {{#if body.body.allColumnsAreHidden}}
-              {{body.columns-hidden}}
+      {{#ft.Table as |table|}}
+        <table.Header />
+        {{#table.Body as |body|}}
+          {{#if body.allColumnsAreHidden}}
+              <body.ColumnsHidden />
           {{else}}
             {{#if body.visibleContent.length}}
                 {{#each body.visibleContent as |record index|}}
-                  {{body.row record=record index=index
-                    showForm=(action "showForm")
-                    zoomTo=(action "zoomTo")
-                    deleteFeature=(action "deleteFeature")
-                  }}
-                    {{#if (exists-in body.expandedItems record)}}
-                      {{body.row-expand
-                        expandedRowComponent=expandedRowComponent
-                        record=record
-                        index=index
-                      }}
-                    {{/if}}
+                  <body.Row
+                    @record={{record}}
+                    @index={{index}}
+                  />
+                  {{#if (exists-in body.expandedItems record)}}
+                    <body.RowExpand
+                      @record={{record}}
+                      @index={{index}}
+                    />
+                  {{/if}}
                 {{/each}}
             {{else}}
-              {{body.no-data}}
+              <body.NoData />
             {{/if}}
           {{/if}}
-        {{/table.body}}
-        {{table.footer}}
-      {{/ft.table}}
-      {{ft.footer}}
+        {{/table.Body}}
+        <table.Footer />
+      {{/ft.Table}}
+      <ft.Footer />
     {{/feature-table}}
   {{/if}}
   {{yield}}

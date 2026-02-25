@@ -3,6 +3,8 @@
   {{control/md-status model=this.model}}
 </h4>
 
-{{#with this.model.json.metadata.resourceInfo as |resourceInfo|}}
-  {{object/md-spatial-info model=resourceInfo profilePath="record.spatial" parentModel=this.model}}
-{{/with}}
+{{#let this.model.json.metadata.resourceInfo as |resourceInfo|}}
+  {{#if resourceInfo}}
+    {{object/md-spatial-info model=resourceInfo profilePath="record.spatial" parentModel=this.model}}
+  {{/if}}
+{{/let}}

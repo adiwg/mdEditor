@@ -1,16 +1,16 @@
 <h4 class="section-header">
-  Editing Domain Item {{#if model.name}}
-    <em>{{model.name}}</em>
+  Editing Domain Item {{#if this.model.name}}
+    <em>{{this.model.name}}</em>
   {{else}}
     #{{itemId}}
   {{/if}}
   {{!-- <span class="small">for <em>{{parentModel.codeName}}</em></span> --}}
-  {{control/md-status model=parentModel}}
+  {{control/md-status model=this.parentModel}}
 </h4>
 
 {{object/md-domainitem
   class=""
-  model=model
+  model=this.model
   profilePath="dictionary.domain.domainItem"
 }}
 
@@ -25,4 +25,4 @@
 }}
 
 {{to-elsewhere named="md-scroll-spy-dict-edit"
-  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+  send=(component "control/md-scroll-spy" scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo"))}}

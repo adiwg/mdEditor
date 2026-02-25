@@ -1,12 +1,12 @@
 <h4 class="section-header">
-  Editing Identifier: {{model.identifier}}
-  {{control/md-status model=parentModel}}
+  Editing Identifier: {{this.model.identifier}}
+  {{control/md-status model=this.parentModel}}
 </h4>
 
 <div class="">
   {{object/md-identifier
     class=""
-    model=model
+    model=this.model
     profilePath="dictionary.domain.citation.identifier"
     data-spy="Identifier"
   }}
@@ -18,4 +18,4 @@
   send=(component "control/subbar-link" text="Back to Domain Citation" icon="arrow-left" route="dictionary.show.edit.domain.edit.citation")
 }}
 {{to-elsewhere named="md-scroll-spy-dict-edit"
-  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+  send=(component "control/md-scroll-spy" scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo"))}}

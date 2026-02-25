@@ -64,7 +64,13 @@ const theComp = Component.extend({
   scopes: computed('scope', {
     get() {
       let scope = get(this, 'model.scope');
-      return scope ? scope.mapBy('scopeCode') : [];
+      return scope
+        ? scope.map((item) =>
+            item && typeof item.get === 'function'
+              ? item.get('scopeCode')
+              : item.scopeCode
+          )
+        : [];
     },
     set(key, value) {
       let map = value.map((itm) => {

@@ -1,7 +1,6 @@
-import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import EmberObject from '@ember/object';
+import EmberObject, { computed } from '@ember/object';
 import { once } from '@ember/runloop';
 
 // const Validations = buildValidations({
@@ -65,7 +64,9 @@ export default class MdTransferComponent extends Component {
   //     });
   //   }
   // }),
-  @alias('model.distributionFormat.firstObject.formatSpecification.title') formatUri;
+  formatUri = computed('model.distributionFormat.[]', function () {
+    return this.model?.distributionFormat?.[0]?.formatSpecification?.title;
+  });
 
   get timeUnit() {
     return [{

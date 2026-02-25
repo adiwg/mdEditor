@@ -8,7 +8,7 @@
       </tr>
     </thead>
     <tbody>
-      {{#each model.keyword as |keyword|}}
+      {{#each this.model.keyword as |keyword|}}
         <tr>
           <td>
             {{input/md-input
@@ -26,7 +26,7 @@
           </td>
           <td>
             <div class="md-button-column">
-              <button class="btn btn-xs btn-danger" {{action "deleteKeyword" model.keyword keyword}}>
+              <button class="btn btn-xs btn-danger" {{action "deleteKeyword" this.model.keyword keyword}}>
                 <span class="fa fa-times"></span> Delete
               </button>
             </div>
@@ -41,7 +41,7 @@
       {{/each}}
       <tr>
         <td colspan="3">
-          <button type="button" class="btn btn-xs btn-success" {{action "addKeyword" model.keyword}}>
+          <button type="button" class="btn btn-xs btn-success" {{action "addKeyword" this.model.keyword}}>
             {{fa-icon "plus"}} Add Keyword
           </button>
           <button type="button" class="btn btn-xs btn-info" {{action "hideThesaurus" this.element}}>
@@ -54,9 +54,9 @@
 {{else}}
 
   <ul class="list-group">
-    {{#each model.keyword as |keyword|}}
+    {{#each this.model.keyword as |keyword|}}
       <li class="list-group-item">
-        <button class="btn btn-xs btn-danger pull-right" {{action "deleteKeyword" model.keyword keyword}}>
+        <button class="btn btn-xs btn-danger pull-right" {{action "deleteKeyword" this.model.keyword keyword}}>
           <span class="fa fa-times"></span> Delete
         </button>
         {{keyword.keyword}}

@@ -1,10 +1,10 @@
 {{#object/md-array-table
   columns="Identifier,Namespace"
   title="External Identifier"
-  value=value
-  validation=validation
+  value=this.value
+  validation=this.validation
   data-spy=null
-  templateClass=templateClass as |contactId|
+  templateClass=this.templateClass as |contactId|
 }}
   <td>
       {{input/md-input

@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import EmberObject, { set, get } from '@ember/object';
+import EmberObject, { set, get, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 
@@ -91,7 +91,9 @@ const theComp = Component.extend(Validations, {
 
   tagName: 'form',
   taxonomicSystem: alias('model.taxonomicSystem'),
-  title: alias('model.taxonomicSystem.firstObject.citation.title'),
+  title: computed('model.taxonomicSystem.[]', function () {
+    return this.get('model.taxonomicSystem')?.[0]?.citation?.title;
+  }),
   identificationProcedure: alias('model.identificationProcedure'),
   taxonomicClassification: alias('model.taxonomicClassification'),
   systemTemplate: EmberObject.extend({

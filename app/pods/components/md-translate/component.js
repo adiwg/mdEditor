@@ -127,7 +127,12 @@ export default class MdTranslateComponent extends Component {
   }
 
   get writeObj() {
-    return this.writerOptions.findBy('value', this.writer);
+    return this.writerOptions.find(
+      (item) =>
+        (item && typeof item.get === 'function'
+          ? item.get('value')
+          : item.value) === this.writer
+    );
   }
 
   get writerType() {

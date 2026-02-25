@@ -27,7 +27,11 @@ const Template = EmberObject.extend(Validations, {
   _contacts: computed('party', {
     get() {
       let party = this.party;
-      return party.mapBy('contactId');
+      return party.map((item) =>
+        item && typeof item.get === 'function'
+          ? item.get('contactId')
+          : item.contactId
+      );
     },
     set(key, value) {
       let map = value.map((itm) => {
@@ -45,7 +49,13 @@ const theComp = Component.extend(Validations, {
   _contacts: computed('model', {
     get() {
       let party = get(this, 'model.party');
-      return party ? party.mapBy('contactId') : [];
+      return party
+        ? party.map((item) =>
+            item && typeof item.get === 'function'
+              ? item.get('contactId')
+              : item.contactId
+          )
+        : [];
     },
     set(key, value) {
       let map = value.map((itm) => {

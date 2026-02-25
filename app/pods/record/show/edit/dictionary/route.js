@@ -1,9 +1,12 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import uuidV4 from 'uuid/v4';
 import EmberObject, { get, computed, defineProperty, set } from '@ember/object';
 
 export default class DictionaryRoute extends Route {
+  @service store;
+
   init() {
     super.init(...arguments);
 
@@ -25,7 +28,7 @@ export default class DictionaryRoute extends Route {
 
   model() {
     //return this.store.peekAll('contact');
-    let dicts = this.modelFor('application').findBy('modelName', 'dictionary');
+    let dicts = this.store.peekAll('dictionary');
     let rec = this.modelFor('record.show.edit');
 
     set(rec, 'json.mdDictionary', get(rec, 'json.mdDictionary') ?? []);

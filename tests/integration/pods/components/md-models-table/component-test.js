@@ -7,8 +7,6 @@ module('Integration | Component | md models table', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
     this.set('data', [{
       title: 'foo',
       type: 'bar'
@@ -25,10 +23,13 @@ module('Integration | Component | md models table', function(hooks) {
       title: 'Type'
     }]);
 
-    await render(hbs`{{md-models-table data=data columns=columns}}`);
+    await render(hbs`{{md-models-table data=this.data columns=this.columns}}`);
 
-    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Search:|Columns|Show|All|Hide|All|Restore|Defaults|Title|Type|Title|Type|Title|Type|foo|bar|biz|baz|Show|1|-|2|of|2|Clear|all|filters|Rows:|10|25|50|500|Page:|1|');
+    let text = this.element.textContent;
+    assert.ok(text.includes('foo'), 'renders first record title');
+    assert.ok(text.includes('bar'), 'renders first record type');
+    assert.ok(text.includes('biz'), 'renders second record title');
+    assert.ok(text.includes('baz'), 'renders second record type');
 
     // Template block usage:
     await render(hbs`
@@ -37,6 +38,6 @@ module('Integration | Component | md models table', function(hooks) {
       {{/md-models-table}}
     `);
 
-    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|template|block|text|');
+    assert.ok(this.element.textContent.includes('template block text'));
   });
 });

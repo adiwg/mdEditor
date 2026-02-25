@@ -139,8 +139,8 @@ const theComp = Model.extend(Validations, {
     checkVersion
   ),
 
-  rootSchema: computed('customSchemas.firstObject.schema', function () {
-    return this.customSchemas.get('firstObject.schema');
+  rootSchema: computed('customSchemas.[]', function () {
+    return this.customSchemas?.[0]?.schema;
   }),
 
   validator: computed('isGlobal', 'customSchemas', function () {
@@ -155,7 +155,13 @@ const theComp = Model.extend(Validations, {
     });
 
     if (valid) {
-      return this.schemaValidator.addSchema(this.customSchemas.mapBy('schema'));
+      return this.schemaValidator.addSchema(
+        this.customSchemas.map((item) =>
+          item && typeof item.get === 'function'
+            ? item.get('schema')
+            : item.schema
+        )
+      );
     }
 
     this.flashMessages.danger(

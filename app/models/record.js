@@ -128,7 +128,7 @@ const Record = Model.extend(Validations, Copyable, {
   title: alias('json.metadata.resourceInfo.citation.title'),
 
   icon: computed(
-    'json.metadata.resourceInfo.resourceType.firstObject.type',
+    'json.metadata.resourceInfo.resourceType.[]',
     function () {
       const type =
         this.get('json.metadata.resourceInfo.resourceType.0.type') || '';
@@ -170,7 +170,14 @@ const Record = Model.extend(Validations, Copyable, {
     }
 
     return ids.find((id) => {
-      return records.findBy('recordId', id.identifier) ? true : false;
+      return records.find(
+        (item) =>
+          (item && typeof item.get === 'function'
+            ? item.get('recordId')
+            : item.recordId) === id.identifier
+      )
+        ? true
+        : false;
     });
   }),
 
@@ -182,11 +189,19 @@ const Record = Model.extend(Validations, Copyable, {
       return undefined;
     }
 
-    return allRecords.findBy('recordId', id);
+    return allRecords.find(
+      (item) =>
+        (item && typeof item.get === 'function'
+          ? item.get('recordId')
+          : item.recordId) === id
+    );
   }),
 
-  defaultType: alias(
-    'json.metadata.resourceInfo.resourceType.firstObject.type'
+  defaultType: computed(
+    'json.metadata.resourceInfo.resourceType.[]',
+    function () {
+      return this.get('json.metadata.resourceInfo.resourceType.0.type');
+    }
   ),
 
   /**

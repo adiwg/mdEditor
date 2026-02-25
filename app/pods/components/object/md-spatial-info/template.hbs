@@ -18,7 +18,7 @@
  profilePath=(concat this.profilePath ".spatialReferenceSystem")
  attributes="referenceSystemType,referenceSystemIdentifier.identifier" as |editing|
 }}
-  {{object/md-srs model=editing profilePath=(concat this.profilePath ".spatialReferenceSystem")}}
+  {{object/md-srs model=this.editing profilePath=(concat this.profilePath ".spatialReferenceSystem")}}
 {{/object/md-object-table}}
 
 {{#object/md-object-table
@@ -29,7 +29,7 @@
  profilePath=(concat this.profilePath ".spatialResolution")
  attributes="scaleFactor,levelOfDetail,measure.type" as |editing|
 }}
-  {{object/md-spatial-resolution model=editing profilePath=(concat this.profilePath ".spatialResolution")}}
+  {{object/md-spatial-resolution model=this.editing profilePath=(concat this.profilePath ".spatialResolution")}}
 {{/object/md-object-table}}
 
 {{object/md-objectroute-table

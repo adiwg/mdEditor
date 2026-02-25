@@ -1,0 +1,9 @@
+{{! template-lint-disable no-curly-component-invocation }}
+{{md-models-table
+  data=this.data
+  columns=this.columns
+  themeInstance=this.themeInstance
+  filteringIgnoreCase=this.filteringIgnoreCase
+  selectRowOnClick=true
+  onDisplayDataChanged=(action "handleDisplayDataChanged")
+}}

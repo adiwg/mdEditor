@@ -8,11 +8,8 @@ module('Integration | Component | md-models-table/components/row-buttons', funct
 
   test('it renders', async function(assert) {
     assert.expect(6);
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
     this.set('myAction', function (col, index, record) {
       assert.equal(record.title, 'foo', 'called passed action');
-      this.expandRow(index, record);
     });
 
     await render(hbs`{{md-models-table/components/row-buttons}}`);
@@ -32,7 +29,7 @@ module('Integration | Component | md-models-table/components/row-buttons', funct
       propertyName: 'type',
       title: 'Type'
     }, {
-      component: 'components/md-models-table/components/row-buttons',
+      component: 'row-buttons',
       disableFiltering: true,
       disableSorting : true,
       mayBeHidden: false,
@@ -51,7 +48,14 @@ module('Integration | Component | md-models-table/components/row-buttons', funct
       }]
     }]);
 
-    await render(hbs`{{md-models-table data=data columns=columns expandedRowComponent=(component "md-models-table/components/row-body" spotlighted=true)}}`);
+    await render(hbs`{{md-models-table
+      data=this.data
+      columns=this.columns
+      columnComponents=(hash
+        row-buttons=(component "md-models-table/components/row-buttons")
+      )
+      expandedRowComponent=(component "md-models-table/components/row-body" spotlighted=true)
+    }}`);
 
     assert.equal(findAll('.md-row-buttons .btn').length, 4);
     assert.equal(findAll('.md-row-buttons .btn-danger').length, 2);

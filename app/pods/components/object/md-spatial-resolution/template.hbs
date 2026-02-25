@@ -7,7 +7,7 @@
   profilePath=(concat profilePath ".scaleFactor")
   showValidations=true
   disabled=scaleDisabled
-  class=(if (v-get model "scaleFactor" "isInvalid") "required")
+  class=(if (v-get this.model "scaleFactor" "isInvalid") "required")
 }}
 
 {{input/md-input
@@ -19,7 +19,7 @@
    showValidations=true
    disabled=levelDisabled
    profilePath=(concat profilePath ".levelOfDetail")
-   class=(if (v-get model "levelOfDetail" "isInvalid") "required")
+   class=(if (v-get this.model "levelOfDetail" "isInvalid") "required")
  }}
 
 {{#layout/md-card
@@ -30,7 +30,7 @@
    profilePath=(concat profilePath ".measure")
    class=(if measureDisabled "text-muted")
 }}
-  <label class="text-info {{if (v-get model "measure" "isInvalid") "required"}}">Measure</label>
+  <label class="text-info {{if (v-get this.model "measure" "isInvalid") "required"}}">Measure</label>
   {{input/md-select
     label="Measure Type"
     showValidations=true

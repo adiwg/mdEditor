@@ -29,7 +29,7 @@ export default class CitationRoute extends Route {
   }
   setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor(
       'dictionary.show.edit'));

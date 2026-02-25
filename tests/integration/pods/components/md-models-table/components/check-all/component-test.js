@@ -8,12 +8,10 @@ module('Integration | Component | md models table/components/check all', functio
 
   test('it renders', async function(assert) {
     assert.expect(4);
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
     this.data = {
       themeInstance: {
-        'select-all-rows': 'select',
-        'deselect-all-rows': 'deselect'
+        selectAllRowsIcon: 'select',
+        deselectAllRowsIcon: 'deselect'
       },
       selectedItems: {
         length: 0
@@ -21,19 +19,17 @@ module('Integration | Component | md models table/components/check all', functio
       length: 1
     };
 
-    this.toggleAllSelection=function(){
-        assert.ok(true, 'toggleAll action');
+    this.toggleAllSelection = function() {
+      assert.ok(true, 'toggleAll action');
 
-        this.set('selectedItems.length', 1);
+      this.set('selectedItems.length', 1);
     };
 
-    await render(hbs`{{md-models-table/components/check-all data=data selectedItems=data.selectedItems themeInstance=data.themeInstance toggleAllSelection=toggleAllSelection}}`);
+    await render(hbs`{{md-models-table/components/check-all data=this.data selectedItems=this.data.selectedItems themeInstance=this.data.themeInstance toggleAllSelection=this.toggleAllSelection}}`);
 
     assert.ok(find('span').classList.contains('deselect'), 'add class');
 
     await click('span');
-
-    // await render(hbs`{{md-models-table/components/check-all data=data themeInstance=data.themeInstance toggleAllSelection=toggleAllSelection}}`);
 
     assert.ok(find('span').classList.contains('select'), 'deselect');
 

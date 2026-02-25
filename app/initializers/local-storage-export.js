@@ -1,10 +1,8 @@
-import Store from '@ember-data/store';
 import { Promise } from 'rsvp';
-import { assign } from '@ember/polyfills';
 import { run } from '@ember/runloop';
 import { singularize } from 'ember-inflector';
 
-const exportSelected = function(store, types, options) {
+export function exportSelectedData(store, types, options) {
   // merge defaults
   options = {
     json: true,
@@ -12,7 +10,7 @@ const exportSelected = function(store, types, options) {
     filename: 'ember-data.json',
     filterIds: null,
     ...options || {}
-  }
+  };
 
   let json, data;
   let filter = typeof options.filterIds === 'object' ? options.filterIds :
@@ -51,14 +49,10 @@ const exportSelected = function(store, types, options) {
   return new Promise((resolve) => {
     run(null, resolve, data);
   }, 'DS: LocalStorageAdapter#exportData');
-};
+}
 
 export function initialize() {
-  Store.reopen({
-    exportSelectedData(types, options) {
-      return exportSelected(this, types, options);
-    }
-  });
+  // No-op: exportSelectedData is now imported directly where needed
 }
 
 export default {

@@ -1,4 +1,4 @@
-{{#with this.item as |model|}}
+{{#let this.item as |model|}}
   <dl class="dl-horizontal">
     <dt>
       <h4 class="text-info">Resource #{{this.index}}</h4>
@@ -7,14 +7,14 @@
     <div class="row">
       <div class="col-xxl-6">
         {{#control/md-definition title="Association Type" profilePath=(concat this.profilePath ".associationType")}}
-          {{model.associationType}}
-          {{#if model.mdRecordId}}
+          {{this.model.associationType}}
+          {{#if this.model.mdRecordId}}
             (<em>linked</em>)
           {{/if}}
         {{/control/md-definition}}
       </div>
       <div class="col-xxl-6">
-        {{control/md-definition title="Initiative Type" text=model.initiativeType
+        {{control/md-definition title="Initiative Type" text=this.model.initiativeType
           profilePath=(concat this.profilePath ".initiativeType")
         }}
       </div>
@@ -25,11 +25,13 @@
 
   <dl class="dl-horizontal col-lg-12">
   {{#control/md-definition title="Metadata Identifier"}}
-    {{#with this.metadataIdentifier as |meta|}}
-      {{meta.identifier}} {{if meta.namespace (concat "(" meta.namespace ")")}}
-    {{else}}
-      <em class="text-muted">No metadata identifier assigned.</em>
-    {{/with}}
+    {{#let this.metadataIdentifier as |meta|}}
+      {{#if meta}}
+        {{meta.identifier}} {{if meta.namespace (concat "(" meta.namespace ")")}}
+      {{else}}
+        <em class="text-muted">No metadata identifier assigned.</em>
+      {{/if}}
+    {{/let}}
   {{/control/md-definition}}
 </dl>
-{{/with}}
+{{/let}}

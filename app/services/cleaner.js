@@ -1,10 +1,8 @@
 import { isArray } from '@ember/array';
 import { isBlank, typeOf } from '@ember/utils';
 import Service from '@ember/service';
-import { assign } from '@ember/polyfills';
-
 const clean = function (obj, options) {
-  const opt = assign({
+  const opt = Object.assign({
     target: {},
     preserveArrays: true,
     //preserveObjects: true,

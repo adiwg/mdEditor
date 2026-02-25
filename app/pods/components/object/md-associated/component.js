@@ -4,22 +4,21 @@ import classic from 'ember-classic-decorator';
 import { set } from '@ember/object';
 import { once } from '@ember/runloop';
 import { inject as service } from '@ember/service';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'associationType': [
+  associationType: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 @classic
-export default class MdAssociatedComponent extends Component.extend(Validations) {
+export default class MdAssociatedComponent extends Component.extend(
+  Validations
+) {
   @service store;
 
   tagName = 'form';
@@ -46,20 +45,29 @@ export default class MdAssociatedComponent extends Component.extend(Validations)
   get linkedRecord() {
     let store = this.store;
 
-    return store.peekAll('record')
-      .filterBy('recordId', this.model?.mdRecordId)
-      .get('firstObject');
+    return store
+      .peekAll('record')
+      .find(
+        (item) =>
+          (item && typeof item.get === 'function'
+            ? item.get('recordId')
+            : item.recordId) === this.model?.mdRecordId
+      );
   }
 
   get linkedAssociation() {
     let ar = this.linkedRecord?.json?.metadata?.associatedResource;
 
-    if(!ar) {
+    if (!ar) {
       return null;
     }
 
-    return ar.findBy(
-      'mdRecordId', this.recordId);
+    return ar.find(
+      (item) =>
+        (item && typeof item.get === 'function'
+          ? item.get('mdRecordId')
+          : item.mdRecordId) === this.recordId
+    );
   }
 
   get linkedAssociationType() {
@@ -70,12 +78,13 @@ export default class MdAssociatedComponent extends Component.extend(Validations)
     let assoc = this.linkedAssociation;
     let model = this.linkedRecord;
 
-    if(!assoc) {
-      model.json.metadata.associatedResource = model.json.metadata.associatedResource ?? [];
+    if (!assoc) {
+      model.json.metadata.associatedResource =
+        model.json.metadata.associatedResource ?? [];
 
       model.get('json.metadata.associatedResource').pushObject({
         mdRecordId: this.recordId,
-        associationType: value
+        associationType: value,
       });
 
       model.notifyPropertyChange('hasDirtyHash');
@@ -98,7 +107,7 @@ export default class MdAssociatedComponent extends Component.extend(Validations)
 
     let model = this.model;
 
-    once(this, function() {
+    once(this, function () {
       model.scope = model.scope ?? {};
       model.resourceType = model.resourceType ?? [];
       model.resourceCitation = model.resourceCitation ?? {};

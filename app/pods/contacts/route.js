@@ -2,33 +2,43 @@ import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
-const columns = [{
-  propertyName: 'title',
-  title: 'Title'
-}, {
-  propertyName: 'defaultOrganizationName',
-  title: 'Organization'
-}, {
-  propertyName: 'json.electronicMailAddress.firstObject',
-  title: 'E-mail'
-}, {
-  propertyName: 'contactId',
-  title: 'ID',
-  isHidden: true
-}, {
-  propertyName: 'type',
-  title: 'Contact Type',
-  filterWithSelect: true
-}];
+const columns = [
+  {
+    propertyName: 'title',
+    title: 'Title',
+  },
+  {
+    propertyName: 'defaultOrganizationName',
+    title: 'Organization',
+  },
+  {
+    propertyName: 'json.electronicMailAddress.0',
+    title: 'E-mail',
+  },
+  {
+    propertyName: 'contactId',
+    title: 'ID',
+    isHidden: true,
+  },
+  {
+    propertyName: 'type',
+    title: 'Contact Type',
+    filterWithSelect: true,
+  },
+];
 
 export default class ContactsRoute extends Route {
   @service slider;
+  @service store;
 
   columns = columns;
 
   model() {
-    //return this.store.peekAll('contact');
-    return this.modelFor('application').findBy('modelName','contact');
+    // findAll returns a PromiseArray; convert to plain array after resolution
+    // so models-table can properly compute visibleContent
+    return this.store.findAll('contact').then((contacts) => {
+      return contacts.toArray();
+    });
   }
 
   setupController(controller, model) {
@@ -37,7 +47,7 @@ export default class ContactsRoute extends Route {
   }
 
   @action
-  getColumns(){
+  getColumns() {
     return this.columns;
   }
 

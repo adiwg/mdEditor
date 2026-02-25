@@ -1,29 +1,35 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
-import {
-  inject as service
-} from '@ember/service';
+import { inject as service } from '@ember/service';
 
-const columns = [{
-  propertyName: 'title',
-  title: 'Title'
-}, {
-  propertyName: 'defaultType',
-  title: 'Resource Type',
-  filterWithSelect: true
-}, {
-  propertyName: 'recordId',
-  title: 'ID'
-}]
+const columns = [
+  {
+    propertyName: 'title',
+    title: 'Title',
+  },
+  {
+    propertyName: 'defaultType',
+    title: 'Resource Type',
+    filterWithSelect: true,
+  },
+  {
+    propertyName: 'recordId',
+    title: 'ID',
+  },
+];
 
 export default class RecordsRoute extends Route {
   @service slider;
+  @service store;
 
   columns = columns;
 
   model() {
-    //return this.store.peekAll('contact');
-    return this.modelFor('application').findBy('modelName', 'record');
+    // findAll returns a PromiseArray; convert to plain array after resolution
+    // so models-table can properly compute visibleContent
+    return this.store.findAll('record').then((records) => {
+      return records.toArray();
+    });
   }
 
   setupController(controller, model) {

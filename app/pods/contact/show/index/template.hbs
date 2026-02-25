@@ -9,7 +9,7 @@
 
       Viewing {{this.model.type}} Contact: {{this.model.title}}
           {{!-- <span class="text-danger">
-            {{#if this.model.hasDirtyHash}}
+            {{#if model.hasDirtyHash}}
               {{fa-icon "exclamation-circle"}}
               {{ember-tooltip text='This record has been modified!' side="right"
                 tooltipClass="ember-tooltip md-tooltip danger"
@@ -35,7 +35,7 @@
           {{#control/md-definition title="Organizations"}}
             {{#each this.model.json.memberOfOrganization as |orgId|}}
               {{control/md-contact-link
-                contactId=orgId
+                contactId=this.orgId
               }}<br>
               {{else}}
                 <em class="text-muted">No organizations assigned.</em>

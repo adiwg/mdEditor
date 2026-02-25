@@ -1,14 +1,15 @@
 {{! template-lint-disable attribute-indentation }}
-{{#with
+{{! template-lint-disable no-curly-component-invocation }}
+<tbody>
+{{#let
   (hash
-    columns-hidden=(
-      component this.themeInstance.columnsHiddenComponent
+    ColumnsHidden=(
+      component (ensure-safe-component this.themeInstance.columnsHiddenComponent)
       columnsCount=this.columnsCount
-      sendAction=this.sendAction
       themeInstance=this.themeInstance
     )
-    row=(
-      component this.themeInstance.rowComponent
+    Row=(
+      component (ensure-safe-component this.themeInstance.rowComponent)
       visibleProcessedColumns=this.visibleProcessedColumns
       groupingRowComponent=this.groupingRowComponent
       collapsedGroupValues=this.collapsedGroupValues
@@ -17,7 +18,6 @@
       doubleClickOnRow=this.doubleClickOnRow
       hoverOnRow=this.hoverOnRow
       outRow=this.outRow
-      sendAction=this.sendAction
       expandRow=this.expandRow
       collapseRow=this.collapseRow
       expandAllRows=this.expandAllRows
@@ -29,28 +29,27 @@
       toggleGroupedRows=this.toggleGroupedRows
       toggleGroupedRowsSelection=this.toggleGroupedRowsSelection
       toggleGroupedRowsExpands=this.toggleGroupedRowsExpands
+      columnComponents=this.columnComponents
     )
-    row-expand=(
-      component this.themeInstance.rowExpandComponent
+    RowExpand=(
+      component (ensure-safe-component this.themeInstance.rowExpandComponent)
       expandedRowComponent=this.expandedRowComponent
       selectedItems=this.selectedItems
       processedColumns=this.processedColumns
       visibleProcessedColumns=this.visibleProcessedColumns
       clickOnRow=(action "clickOnRowExpand")
-      sendAction=this.sendAction
       themeInstance=this.themeInstance
       expandRow=this.expandRow
       collapseRow=this.collapseRow
     )
-    no-data=(
-      component this.themeInstance.noDataComponent
+    NoData=(
+      component (ensure-safe-component this.themeInstance.noDataComponent)
       columnsCount=this.visibleProcessedColumns.length
       displayGroupedValueAs=this.displayGroupedValueAs
-      sendAction=this.sendAction
       themeInstance=this.themeInstance
     )
-    row-grouping=(
-      component this.themeInstance.rowGroupingComponent
+    RowGrouping=(
+      component (ensure-safe-component this.themeInstance.rowGroupingComponent)
       groupingRowComponent=this.groupingRowComponent
       currentGroupingPropertyName=this.currentGroupingPropertyName
       visibleProcessedColumns=this.visibleProcessedColumns
@@ -59,7 +58,6 @@
       toggleGroupedRowsSelection=this.toggleGroupedRowsSelection
       toggleGroupedRowsExpands=this.toggleGroupedRowsExpands
       themeInstance=this.themeInstance
-      sendAction=this.sendAction
     )
     allColumnsAreHidden=this.allColumnsAreHidden
     visibleContent=this.visibleContent
@@ -70,7 +68,6 @@
     toggleGroupedRowsExpands=this.toggleGroupedRowsExpands
     groupedVisibleContent=this.groupedVisibleContent
     useDataGrouping=this.useDataGrouping
-    sendAction=this.sendAction
     themeInstance=this.themeInstance
   )
 as |tb|}}
@@ -78,24 +75,24 @@ as |tb|}}
     {{yield tb}}
   {{else}}
     {{#if this.allColumnsAreHidden}}
-      {{component tb.columns-hidden}}
+      <tb.ColumnsHidden />
     {{else}}
       {{#if this.useDataGrouping}}
         {{#each this.groupedVisibleContentValuesOrder as |groupedValue groupedIndex|}}
-          {{#with
+          {{#let
             (filter-by
               this.currentGroupingPropertyName
               groupedValue
               this.groupedArrangedContent)
               as |groupedItems|}}
-            {{#with
+            {{#let
               (hash
                 selectedGroupedItems=(intersect this.selectedItems groupedItems)
                 expandedGroupedItems=(intersect this.expandedItems groupedItems)
                 visibleGroupedItems=(object-at groupedIndex this.groupedVisibleContent)
               ) as |gi|}}
-              {{#with
-                (component tb.row-grouping
+              {{#let
+                (component tb.RowGrouping
                   groupedValue=groupedValue
                   groupedLength=groupedItems.length
                   groupedItems=groupedItems
@@ -103,50 +100,45 @@ as |tb|}}
                   selectedGroupedItems=gi.selectedGroupedItems
                   expandedGroupedItems=gi.expandedGroupedItems
                 )
-                as |row-gr|}}
+                as |RowGr|}}
                 {{#if (is-equal this.displayGroupedValueAs "row")}}
-                  {{component
-                    row-gr
-                    groupIsCollapsed=(exists-in this.collapsedGroupValues groupedValue)
-                    visibleGroupedLength=gi.visibleGroupedItems.length}}
+                  <RowGr
+                    @groupIsCollapsed={{includes groupedValue this.collapsedGroupValues}}
+                    @visibleGroupedLength={{gi.visibleGroupedItems.length}} />
                 {{/if}}
-                {{#if (exists-in this.collapsedGroupValues groupedValue)}}
+                {{#if (includes groupedValue this.collapsedGroupValues)}}
                   {{#if (is-equal this.displayGroupedValueAs "column")}}
-                    {{component
-                      row-gr
-                      groupIsCollapsed=true
-                      visibleGroupedLength=gi.visibleGroupedItems.length}}
+                    <RowGr
+                      @groupIsCollapsed={{true}}
+                      @visibleGroupedLength={{gi.visibleGroupedItems.length}} />
                   {{/if}}
                 {{else}}
                   {{#each gi.visibleGroupedItems as |record index|}}
-                    {{component
-                      tb.row
-                      record=record
-                      index=index
-                      groupedValue=groupedValue
-                      groupedLength=groupedItems.length
-                      groupedItems=groupedItems
-                      groupSummaryRowComponent=this.groupSummaryRowComponent
-                      visibleGroupedItems=gi.visibleGroupedItems
-                      selectedGroupedItems=gi.selectedGroupedItems
-                      expandedGroupedItems=gi.expandedGroupedItems
-                      isFirstGroupedRow=(is-equal index 0)
-                      expandedGroupItemsCount=(get (intersect this.expandedItems gi.visibleGroupedItems) "length")
-                      isSelected=(exists-in this.selectedItems record)
-                      isExpanded=(exists-in this.expandedItems record)}}
-                    {{#if (exists-in this.expandedItems record)}}
-                      {{component
-                        tb.row-expand
-                        record=record
-                        index=index
-                        isSelected=(exists-in this.selectedItems record)}}
+                    <tb.Row
+                      @record={{record}}
+                      @index={{index}}
+                      @groupedValue={{groupedValue}}
+                      @groupedLength={{groupedItems.length}}
+                      @groupedItems={{groupedItems}}
+                      @groupSummaryRowComponent={{this.groupSummaryRowComponent}}
+                      @visibleGroupedItems={{gi.visibleGroupedItems}}
+                      @selectedGroupedItems={{gi.selectedGroupedItems}}
+                      @expandedGroupedItems={{gi.expandedGroupedItems}}
+                      @isFirstGroupedRow={{is-equal index 0}}
+                      @expandedGroupItemsCount={{get (intersect this.expandedItems gi.visibleGroupedItems) "length"}}
+                      @isSelected={{includes record this.selectedItems}}
+                      @isExpanded={{includes record this.expandedItems}} />
+                    {{#if (includes record this.expandedItems)}}
+                      <tb.RowExpand
+                        @record={{record}}
+                        @index={{index}}
+                        @isSelected={{includes record this.selectedItems}} />
                     {{/if}}
                   {{/each}}
                   {{#if this.groupSummaryRowComponent}}
                     {{component
                       this.groupSummaryRowComponent
                       visibleProcessedColumns=this.visibleProcessedColumns
-                      sendAction=this.sendAction
                       themeInstance=this.themeInstance
                       groupedItems=groupedItems
                       visibleGroupedItems=gi.visibleGroupedItems
@@ -155,32 +147,31 @@ as |tb|}}
                     }}
                   {{/if}}
                 {{/if}}
-              {{/with}}
-            {{/with}}
-          {{/with}}
+              {{/let}}
+            {{/let}}
+          {{/let}}
         {{else}}
-          {{component tb.no-data}}
+          <tb.NoData />
         {{/each}}
       {{else}}
         {{#each this.visibleContent as |record index|}}
-          {{component
-            tb.row
-            record=record
-            index=index
-            isSelected=(exists-in this.selectedItems record)
-            isExpanded=(exists-in this.expandedItems record)}}
-          {{#if (exists-in this.expandedItems record)}}
-            {{component
-              tb.row-expand
-              expandedRowComponent=this.expandedRowComponent
-              record=record
-              index=index
-              isSelected=(exists-in this.selectedItems record)}}
+          <tb.Row
+            @record={{record}}
+            @index={{index}}
+            @isSelected={{includes record this.selectedItems}}
+            @isExpanded={{includes record this.expandedItems}} />
+          {{#if (includes record this.expandedItems)}}
+            <tb.RowExpand
+              @expandedRowComponent={{this.expandedRowComponent}}
+              @record={{record}}
+              @index={{index}}
+              @isSelected={{includes record this.selectedItems}} />
           {{/if}}
         {{else}}
-          {{component tb.no-data}}
+          <tb.NoData />
         {{/each}}
       {{/if}}
     {{/if}}
   {{/if}}
-{{/with}}
+{{/let}}
+</tbody>

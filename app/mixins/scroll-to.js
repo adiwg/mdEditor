@@ -7,7 +7,9 @@ import Mixin from '@ember/object/mixin';
 
 export default Mixin.create({
   queryParams: {
-    scrollTo: true
+    scrollTo: {
+      replace: true
+    }
   },
   setScrollTo(scrollTo) {
     this.controller.set('scrollTo', scrollTo || '');

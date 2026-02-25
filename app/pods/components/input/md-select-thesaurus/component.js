@@ -37,7 +37,7 @@ export default class MdSelectThesaurusComponent extends Component {
     const profileConfig = this.profile.profiles.find((p) => {
       return p.id === this.recordProfile;
     });
-    const profileThesauri = profileConfig.thesauri;
+    const profileThesauri = profileConfig?.thesauri;
     const list = this.keyword
       .thesaurus
       .filter((k) => {

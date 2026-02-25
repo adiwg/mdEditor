@@ -2,26 +2,34 @@ import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
-const columns = [{
-  propertyName: 'title',
-  title: 'Title'
-},{
-  propertyName: 'dictionaryId',
-  title: 'ID',
-  isHidden: true
-}, {
-  propertyName: 'json.dataDictionary.subject',
-  title: 'Subject'
-}];
+const columns = [
+  {
+    propertyName: 'title',
+    title: 'Title',
+  },
+  {
+    propertyName: 'dictionaryId',
+    title: 'ID',
+    isHidden: true,
+  },
+  {
+    propertyName: 'json.dataDictionary.subject',
+    title: 'Subject',
+  },
+];
 
 export default class DictionariesRoute extends Route {
   @service slider;
+  @service store;
 
   columns = columns;
 
   model() {
-    //return this.store.peekAll('contact');
-    return this.modelFor('application').findBy('modelName','dictionary');
+    // findAll returns a PromiseArray; convert to plain array after resolution
+    // so models-table can properly compute visibleContent
+    return this.store.findAll('dictionary').then((dictionaries) => {
+      return dictionaries.toArray();
+    });
   }
 
   setupController(controller, model) {
@@ -30,7 +38,7 @@ export default class DictionariesRoute extends Route {
   }
 
   @action
-  getColumns(){
+  getColumns() {
     return this.columns;
   }
 

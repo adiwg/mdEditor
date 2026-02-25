@@ -1,8 +1,8 @@
 <h4 class="section-header">Editing Reference
-  <span class="small">for <em>{{model.title}}</em></span>
-  {{control/md-status model=model}}
+  <span class="small">for <em>{{this.model.title}}</em></span>
+  {{control/md-status model=this.model}}
 </h4>
-{{#with model as |citation|}}
+{{#let this.model as |citation|}}
   {{object/md-citation
     class=""
     model=citation
@@ -10,7 +10,7 @@
     editIdentifier=(route-action "editIdentifier")
   }}
   {{outlet}}
-{{/with}}
+{{/let}}
 {{to-elsewhere
   named="md-subbar-extra"
   send=(component "control/subbar-link"
@@ -20,4 +20,4 @@
   )
 }}
 {{to-elsewhere named="md-scroll-spy-dict-edit"
-  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+  send=(component "control/md-scroll-spy" scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo"))}}

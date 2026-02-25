@@ -9,7 +9,7 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
   @service flashMessages;
   @service router;
   afterModel(model) {
-    this._super(...arguments);
+    super.afterModel(...arguments);
 
     if(isNone(get(model, 'json.metadata.metadataInfo.parentMetadata'))) {
       this.flashMessages
