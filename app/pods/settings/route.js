@@ -23,6 +23,10 @@ export default class SettingsRoute extends Route {
   @service
   profile;
 
+  beforeModel() {
+    return this.settings._setupPromise;
+  }
+
   setupController(controller, model) {
     super.setupController(controller, model);
 
@@ -80,6 +84,7 @@ export default class SettingsRoute extends Route {
   @action
   deriveItisProxyUrl() {
     let model = this.modelFor('settings.main');
+    if (!model || typeof model.get !== 'function') { return; }
     const mdTranslatorAPI = model.get('mdTranslatorAPI');
     if (mdTranslatorAPI) {
       // Extract the base URL by removing the API path
@@ -94,6 +99,7 @@ export default class SettingsRoute extends Route {
   @action
   getPublishOptions(catalogName) {
     let model = this.modelFor('settings.main');
+    if (!model || typeof model.get !== 'function') { return {}; }
     let publishOptions = model.get('publishOptions') || [];
 
     // Ensure publishOptions is always an array
