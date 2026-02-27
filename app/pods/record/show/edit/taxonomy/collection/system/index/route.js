@@ -7,8 +7,8 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
   @service router;
 
   setupController(controller) {
-    // Call _super for default behavior
-    this._super(...arguments);
+    // Call super for default behavior
+    super.setupController(...arguments);
 
     let systemId = this.paramsFor(
       'record.show.edit.taxonomy.collection.system'
