@@ -100,11 +100,9 @@ const Base = Model.extend({
       true
     );
 
-    // if the currentHash is undefined, the record is either new or hasn't had the
-    // hash calculated yet
-    if (this.currentHash === undefined) {
-      this.set('currentHash', newHash);
-    }
+    // Always set the currentHash to ensure imported records get proper hash
+    this.set('currentHash', newHash);
+    this.set('jsonSnapshot', JSON.parse(this.serialize().data.attributes.json));
   },
 
   wasUpdated() {

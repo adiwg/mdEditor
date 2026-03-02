@@ -53,7 +53,7 @@ export default class ExportRoute extends Route.extend(ScrollTo) {
     });
   }
   setupController(controller, model) {
-    this._super(controller, model);
+    super.setupController(controller, model);
 
     defineProperty(
       this.controller,
