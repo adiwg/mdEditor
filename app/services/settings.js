@@ -11,7 +11,8 @@ const {
 
 export default Service.extend({
   store: service(),
-  data: 'null',
+  data: null,
+  _setupPromise: null,
 
   init() {
     this._super(...arguments);
@@ -20,13 +21,11 @@ export default Service.extend({
   },
   setup() {
     let me = this;
-    let settings;
     let store = this.store;
 
-    store.findAll('setting').then(function (s) {
+    let promise = store.findAll('setting').then(function (s) {
       let rec = s.get('firstObject');
-
-      settings = rec ? rec : store.createRecord('setting');
+      let settings = rec ? rec : store.createRecord('setting');
 
       if (settings.get('lastVersion') !== version) {
         settings.set('showSplash', environment !== 'test');
@@ -44,7 +43,12 @@ export default Service.extend({
       if (!(me.get('isDestroyed') || me.get('isDestroying'))) {
         me.set('data', settings);
       }
+
+      return settings;
     });
+
+    this.set('_setupPromise', promise);
+    return promise;
   },
   repositoryTemplate: EmberObject.extend({
     init() {

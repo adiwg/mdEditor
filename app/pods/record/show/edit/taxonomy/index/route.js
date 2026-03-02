@@ -31,7 +31,13 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
     let taxa = this.currentRouteModel().get(
       'json.metadata.resourceInfo.taxonomy'
     );
-    let collection = EmberObject.create({});
+    let collection = EmberObject.create({
+      taxonomicSystem: [],
+      identificationReference: [],
+      observer: [],
+      voucher: [],
+      taxonomicClassification: [],
+    });
 
     // once(this, () => {
 
