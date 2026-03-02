@@ -5,6 +5,7 @@ import { assign } from '@ember/polyfills';
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { later, scheduleOnce } from '@ember/runloop';
 import Base from 'ember-local-storage/adapters/base';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import { JsonDefault as Contact } from 'mdeditor/models/contact';
@@ -544,6 +545,34 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
         json: false,
       })
       .then(() => {
+        // Wait for all records to be fully loaded and their observers to fire
+        // before resetting the hash to prevent dirty state
+        later(() => {
+          ['record', 'contact', 'dictionary'].forEach((modelName) => {
+            store.peekAll(modelName).forEach((record) => {
+              if (
+                record &&
+                record.isLoaded &&
+                !record.isNew &&
+                !record.isDeleted
+              ) {
+                try {
+                  let json = JSON.parse(
+                    record.serialize().data.attributes.json
+                  );
+                  record.setCurrentHash(json);
+                  record.set('jsonSnapshot', json);
+                  // Notify property change to force hasDirtyHash recomputation
+                  record.notifyPropertyChange('currentHash');
+                } catch (e) {
+                  // Skip records that can't be serialized
+                  console.warn('Could not reset hash for record:', e);
+                }
+              }
+            });
+          });
+        }, 100);
+
         this.flashMessages.success(
           `Imported data. Records were
               ${
