@@ -169,6 +169,11 @@
     background-color: lighten($brand-info, 40);
     cursor: pointer;
   }
+
+  .md-checkbox-cell,
+  .md-checkbox-all {
+    cursor: pointer;
+  }
 }
 //Wider Responsive tables
 
