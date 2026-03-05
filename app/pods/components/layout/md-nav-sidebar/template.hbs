@@ -3,8 +3,8 @@
       <a class="sidebar-brand-link" href="#" {{action "toggleSidebar"}}>md<span class="md-icon-mdeditor"></span>ditor</a><span class="md-app-version {{this.prerelease}}">v{{this.version}}</span>
       <a class="md-btn-help pull-right" href="#" {{action "toggleHelp"}}>{{fa-icon (if this.showHelp "list" "question-circle")}}</a>
     </li>
-    {{#if this.showHelp}}
-      {{md-help}}
+    {{#liquid-if predicate=this.showHelp class="help-selected"}}
+      <MdHelp/>
     {{else}}
     <li id="md-sidebar-lists">
       <div class="panel-group">
@@ -61,5 +61,5 @@
         {{/each}}
       </div>
     </li>
-    {{/if}}
+    {{/liquid-if}}
   </ul>
