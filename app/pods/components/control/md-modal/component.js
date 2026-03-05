@@ -76,41 +76,30 @@ export default class MdModalComponent extends Component {
    *
    * @method closeModal
    */
+  @action
   closeModal() {
     this.toggleProperty('isShowing');
   }
 
   /**
    * Confirm action callback
-   * @method confirm
+   * @property confirm
    */
-  confirm() {
+  confirm = () => {
     if (this.confirmAction) {
       this.confirmAction();
     }
     this.closeModal();
-  }
+  };
 
   /**
    * Cancel action callback
    *
-   * @method cancel
+   * @property cancel
    */
-  cancel() {
+  cancel = () => {
     this.closeModal();
-  }
+  };
 
-  actions = {
-    closeModal() {
-      this.closeModal();
-    },
 
-    confirm() {
-      this.confirm();
-    },
-
-    cancel() {
-      this.cancel();
-    }
-  }
 }
