@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import config from 'mdeditor/config/environment';
 
 @classic
@@ -8,7 +9,7 @@ export default class MdNavSidebarComponent extends Component {
   classNames = ['md-sidebar-wrapper'];
   classNameBindings = ['showHelp:help'];
 
-  showHelp = false;
+  @tracked showHelp = false;
 
   get prerelease() {
     let version = this.version;
