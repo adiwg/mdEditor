@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { htmlSafe } from '@ember/string';
 import { action, get } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { validator, buildValidations } from 'ember-cp-validations';
@@ -30,7 +31,8 @@ export default class MdTaxonomyClassificationTaxonComponent extends Component.ex
   tagName = 'li';
   classNames = ['list-group-item', 'md-taxon'];
   classNameBindings = ['collapse'];
-  isEditing = false;
+  @tracked isEditing = false;
+  @tracked collapse = false;
   preview = false;
 
   @alias('model.taxonomicLevel') taxonomicLevel;
@@ -83,8 +85,7 @@ export default class MdTaxonomyClassificationTaxonComponent extends Component.ex
 
     this.isEditing = true;
 
-    // this.spotlight.setTarget('editor-' + this.elementId, this.stopEditing,this);
-    this.spotlight.setTarget(id, this.stopEditing, this);
+    this.spotlight.setTarget(id, null, null);
 
     scrollIntoView(document.getElementById(editor), {
       behavior: 'smooth',
@@ -92,16 +93,14 @@ export default class MdTaxonomyClassificationTaxonComponent extends Component.ex
     });
   }
 
-  stopEditing() {
-    this.isEditing = false;
-  }
-
+  @action
   deleteTaxa(taxa) {
     let parent = this.top || get(this.parentItem, 'model.subClassification');
 
     parent.removeObject(taxa);
   }
 
+  @action
   addChild() {
     this.model.subClassification.pushObject({
       commonName: [],
@@ -117,11 +116,6 @@ export default class MdTaxonomyClassificationTaxonComponent extends Component.ex
   }
 
   @action
-  deleteTaxaAction(taxa) {
-    this.deleteTaxa(taxa);
-  }
-
-  @action
   toggleEditing() {
     if(this.isEditing) {
       this.spotlight.close();
@@ -129,10 +123,5 @@ export default class MdTaxonomyClassificationTaxonComponent extends Component.ex
       return;
     }
     this.startEditing();
-  }
-
-  @action
-  addChildAction() {
-    this.addChild();
   }
 }

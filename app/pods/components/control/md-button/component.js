@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
+import { computed } from '@ember/object';
 
 @classic
 export default class MdButtonComponent extends Component {
@@ -73,6 +74,7 @@ export default class MdButtonComponent extends Component {
   * @category computed
   * @requires text
   */
+  @computed('text')
   get responsive() {
     return this.text.length > 12 || this.text.indexOf(' ') > 0;
   }
