@@ -14,8 +14,8 @@ export default class ItisRoute extends Route {
     };
   }
   setupController() {
-    // Call _super for default behavior
-    this._super(...arguments);
+    // Call super for default behavior
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
     this.controller.set(

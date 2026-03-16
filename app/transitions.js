@@ -247,8 +247,9 @@ export default function () {
     }) //,
     //this.debug()
   );
+
   this.transition(
-    this.hasClass('help-selected'),
-    this.use('toLeft', { duration: 300 })
+    this.hasClass('button-confirm'),
+    this.use('toDown', { duration: 250 })
   );
 }

@@ -1,7 +1,8 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { htmlSafe } from '@ember/string';
-import { action, get } from '@ember/object';
+import { action, computed, set } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { validator, buildValidations } from 'ember-cp-validations';
@@ -30,7 +31,8 @@ export default class MdTaxonomyClassificationTaxonComponent extends Component.ex
   tagName = 'li';
   classNames = ['list-group-item', 'md-taxon'];
   classNameBindings = ['collapse'];
-  isEditing = false;
+  @tracked isEditing = false;
+  @tracked collapse = false;
   preview = false;
 
   @alias('model.taxonomicLevel') taxonomicLevel;
@@ -39,8 +41,7 @@ export default class MdTaxonomyClassificationTaxonComponent extends Component.ex
 
   get level() {
     let parent = this.parentItem;
-
-    return parent ? parent.get('level') + 1 : 0;
+    return parent ? parent.level + 1 : 0;
   }
 
   get padding() {
@@ -48,7 +49,8 @@ export default class MdTaxonomyClassificationTaxonComponent extends Component.ex
 
     return htmlSafe('padding-left: ' + pad + 'rem;');
   }
-
+  
+  @computed('model.subClassification.length')
   get collapsible() {
     return this.model?.subClassification?.length;
   }
@@ -63,8 +65,8 @@ export default class MdTaxonomyClassificationTaxonComponent extends Component.ex
     super.didReceiveAttrs(...arguments);
 
     once(this, function () {
-      this.model.commonName = this.model.commonName ?? [];
-      this.model.subClassification = this.model.subClassification ?? [];
+      set(this.model, 'commonName', this.model.commonName || []);
+      set(this.model, 'subClassification', this.model.subClassification || []);
     });
   }
 
@@ -83,8 +85,7 @@ export default class MdTaxonomyClassificationTaxonComponent extends Component.ex
 
     this.isEditing = true;
 
-    // this.spotlight.setTarget('editor-' + this.elementId, this.stopEditing,this);
-    this.spotlight.setTarget(id, this.stopEditing, this);
+    this.spotlight.setTarget(id, null, null);
 
     scrollIntoView(document.getElementById(editor), {
       behavior: 'smooth',
@@ -92,33 +93,37 @@ export default class MdTaxonomyClassificationTaxonComponent extends Component.ex
     });
   }
 
-  stopEditing() {
-    this.isEditing = false;
-  }
-
+  @action
   deleteTaxa(taxa) {
-    let parent = this.top || get(this.parentItem, 'model.subClassification');
+    let parent = this.top || this.parentItem?.model?.subClassification;
+    if (!parent) return;
 
-    parent.removeObject(taxa);
+    let next = (parent || []).filter((item) => item !== taxa);
+
+    if (this.top) {
+      set(this, 'top', next);
+    } else if (this.parentItem && this.parentItem.model) {
+      set(this.parentItem.model, 'subClassification', next);
+    }
   }
 
+  @action
   addChild() {
-    this.model.subClassification.pushObject({
+    let children = this.model.subClassification || [];
+    let child = {
       commonName: [],
       subClassification: [],
       _edit: true
-    });
+    };
+
+    let next = [...children, child];
+    set(this.model, 'subClassification', next);
   }
 
   @action
   toggleCollapse(event) {
     event.stopPropagation();
     this.collapse = !this.collapse;
-  }
-
-  @action
-  deleteTaxaAction(taxa) {
-    this.deleteTaxa(taxa);
   }
 
   @action
@@ -129,10 +134,5 @@ export default class MdTaxonomyClassificationTaxonComponent extends Component.ex
       return;
     }
     this.startEditing();
-  }
-
-  @action
-  addChildAction() {
-    this.addChild();
   }
 }
