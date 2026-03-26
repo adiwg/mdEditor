@@ -26,9 +26,9 @@ module('Integration | Component | object/md-schema', function(hooks) {
     assert.equal(find('.md-schema input').value, 'foo', 'render form');
     // Template block usage:
     await render(hbs`
-      {{#object/md-schema record=data}}
+      <Object::MdSchema @record={{data}}>
         template block text
-      {{/object/md-schema}}
+      </Object::MdSchema>
     `);
 
     assert.equal(this.element.textContent.replace(/[ \s\n]+/g, '|').trim(),

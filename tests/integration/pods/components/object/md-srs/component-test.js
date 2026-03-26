@@ -31,9 +31,9 @@ module('Integration | Component | object/md srs', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-srs profilePath="foobar"}}
+      <Object::MdSrs @profilePath="foobar">
         template block text
-      {{/object/md-srs}}
+      </Object::MdSrs>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),

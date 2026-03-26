@@ -23,9 +23,9 @@ module('Integration | Component | control/md record table/buttons', function (
         assert.dom('.md-status-icon .btn-danger').isVisible();
         assert.dom('.md-status-icon .btn-warning').isVisible();
         // Template block usage:
-      await render(hbs`{{#control/md-record-table/buttons}}
+      await render(hbs`<Control::MdRecordTable::Buttons>
           template block text
-        {{/control/md-record-table/buttons}}`
+        </Control::MdRecordTable::Buttons>`
       );
 
         assert.equal(find('.md-dashboard-buttons').textContent.replace(

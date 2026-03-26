@@ -50,9 +50,9 @@ module('Integration | Component | object/md-process-step/preview', function(hook
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-process-step/preview model=source profilePath="foobar"}}
+      <Object::MdProcessStep::Preview @model={{source}} @profilePath="foobar">
         template block text
-      {{/object/md-process-step/preview}}
+      </Object::MdProcessStep::Preview>
     `);
 
     assert.equal(find('textarea').value, 'description');

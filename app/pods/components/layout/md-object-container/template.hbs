@@ -1,31 +1,46 @@
-<div class="md-object-container-header">
+<div class='md-object-container-header'>
   {{#if this.isCollapsible}}
-  <a class="btn-collapse" data-toggle="collapse" aria-expanded="true"
-    href={{concat "#" this.elementId "-collapse"}} aria-controls={{concat this.elementId "-collapse"}}>
-    <span class="fa"></span>
-  </a>
+    <a
+      class='btn-collapse'
+      data-toggle='collapse'
+      href={{concat '#' this.elementId '-collapse'}}
+      aria-controls={{concat this.elementId '-collapse'}}
+    >
+      <span class='fa'></span>
+    </a>
   {{/if}}
   {{#if this.title}}
-    <h4 class="title inline-block text-primary" code="">
-      <strong>{{concat this.title " #" this.index}}</strong>
+    <h4 class='title inline-block text-primary' code=''>
+      <strong>{{concat this.title ' #' this.index}}</strong>
     </h4>
   {{/if}}
 
-  <div class="btn-group btn-group-sm">
+  <div class='btn-group btn-group-sm'>
     {{#if this.editItem}}
-      <button type="button" class="btn btn-success" {{action this.editItem this.index}}>
-        {{fa-icon "pencil"}} Edit</button>
+      <button
+        type='button'
+        class='btn btn-success'
+        {{action this.editItem this.index}}
+      >
+        {{fa-icon 'pencil'}}
+        Edit</button>
     {{/if}}
 
     {{#if this.deleteItem}}
-      {{#control/md-button-confirm class="btn btn-danger"
-        onConfirm=(action this.deleteItem this.index)}}
-        {{fa-icon "times"}} Delete
-      {{/control/md-button-confirm}}
+      <Control::MdButtonConfirm
+        @class='btn btn-danger'
+        @onConfirm={{action this.deleteItem this.index}}
+      >
+        {{fa-icon 'times'}}
+        Delete
+      </Control::MdButtonConfirm>
     {{/if}}
   </div>
 </div>
-<div id={{concat this.elementId "-collapse"}} class="md-object-container-body collapse in">
-  <hr>
+<div
+  id={{concat this.elementId '-collapse'}}
+  class='md-object-container-body collapse in'
+>
+  <hr />
   {{yield}}
 </div>

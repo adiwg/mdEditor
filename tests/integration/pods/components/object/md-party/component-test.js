@@ -35,9 +35,9 @@ module('Integration | Component | object/md party', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-party model=(hash)}}
+      <Object::MdParty @model={{hash}}>
         template block text
-      {{/object/md-party}}
+      </Object::MdParty>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),

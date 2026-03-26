@@ -19,9 +19,9 @@ module('Integration | Component | object/md citation/preview/body', function(hoo
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-citation/preview/body}}
+      <Object::MdCitation::Preview::Body>
         template block text
-      {{/object/md-citation/preview/body}}
+      </Object::MdCitation::Preview::Body>
     `);
 
     assert.equal(find('.row').textContent.replace(/[ \n]+/g, '|').trim(),

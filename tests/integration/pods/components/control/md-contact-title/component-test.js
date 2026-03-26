@@ -21,9 +21,9 @@ module('Integration | Component | control/md contact title', function(hooks) {
 
     // Template block usage:
     await render(hbs`<div class="test1">
-      {{#control/md-contact-title contactId=0 as |c|}}
+      <Control::MdContactTitle @contactId={{0}} as |c|>
         template block text {{c.title}}
-      {{/control/md-contact-title}}
+      </Control::MdContactTitle>
       </div>
     `);
 

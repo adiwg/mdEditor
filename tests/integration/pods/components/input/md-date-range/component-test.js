@@ -22,9 +22,9 @@ module('Integration | Component | input/md date range', function(hooks) {
     assert.equal(new Date(findAll('.date input')[1].value).toISOString(), this.end.toISOString(), 'set end');
     // Template block usage:
     await render(hbs`
-      {{#input/md-date-range class="testme" startDateTime=start endDateTime=end profilePath="foobar"}}
+      <Input::MdDateRange @class="testme" @startDateTime={{start}} @endDateTime={{end}} @profilePath="foobar">
         template block text
-      {{/input/md-date-range}}
+      </Input::MdDateRange>
     `);
 
     assert.equal(find('.testme').textContent.replace(/[ \n]+/g, '|').trim(),

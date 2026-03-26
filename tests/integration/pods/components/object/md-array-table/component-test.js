@@ -18,19 +18,14 @@ module('Integration | Component | object/md array table', function(hooks) {
     }]);
 
     await render(hbs`
-      {{#object/md-array-table
-        columns="biz,baz"
-        value=data
-        title="FooBar"
-        data-spy="FooBar" as |f|
-      }}
+      <Object::MdArrayTable @columns="biz,baz" @value={{data}} @title="FooBar" @data-spy="FooBar" as |f|>
         <td>
           {{f.item.biz}}
         </td>
         <td>
           {{f.item.baz}}
         </td>
-      {{/object/md-array-table}}
+      </Object::MdArrayTable>
       `);
 
     assert.equal(find('.panel').textContent.replace(/[ \n]+/g, '|').trim(),
@@ -38,13 +33,9 @@ module('Integration | Component | object/md array table', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-array-table
-        columns="biz,baz"
-        value=data
-        title="FooBar"
-      }}
+      <Object::MdArrayTable @columns="biz,baz" @value={{data}} @title="FooBar">
         template block text
-      {{/object/md-array-table}}
+      </Object::MdArrayTable>
     `);
 
     assert.equal(find('.panel').textContent.replace(/[ \n]+/g, '|').trim(),

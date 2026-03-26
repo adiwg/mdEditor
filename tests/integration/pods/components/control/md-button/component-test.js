@@ -20,9 +20,9 @@ module('Integration | Component | control/md-button', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#control/md-button}}
+      <Control::MdButton>
         template block text
-      {{/control/md-button}}
+      </Control::MdButton>
     `);
 
     assert.equal(this.element.textContent.trim(), 'template block text');

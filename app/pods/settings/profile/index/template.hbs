@@ -53,7 +53,11 @@
           placeholder='Enter URL'
         }}
       </div>
-      <button class='btn btn-primary' {{action 'loadProfilesFromUrl'}}>
+      <button
+        class='btn btn-primary'
+        type='button'
+        {{action 'loadProfilesFromUrl'}}
+      >
         Load Profile[s]
       </button>
     </div>

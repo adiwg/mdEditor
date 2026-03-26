@@ -26,9 +26,9 @@ module('Integration | Component | input/md toggle', function(hooks) {
     assert.ok(find('.toggle-on'), 'toggle on')
     // Template block usage:
     await render(hbs`
-      {{#input/md-toggle class="testme"}}
+      <Input::MdToggle @class="testme">
         template block text
-      {{/input/md-toggle}}
+      </Input::MdToggle>
     `);
 
     assert.equal(find('.testme').textContent.trim(), 'template block text');

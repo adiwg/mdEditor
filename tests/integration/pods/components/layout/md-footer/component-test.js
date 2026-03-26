@@ -24,9 +24,9 @@ module('Integration | Component | layout/md footer', function(hooks) {
       this.set('settings.data.autoSave', true);
     // Template block usage:
     await render(hbs`
-      {{#layout/md-footer settings=settings}}
+      <Layout::MdFooter @settings={{settings}}>
         template block text
-      {{/layout/md-footer}}
+      </Layout::MdFooter>
     `);
 
     assert.equal(find('.md-footer').textContent.replace(/[ \n]+/g, '|').trim(),

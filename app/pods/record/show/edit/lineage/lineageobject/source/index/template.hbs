@@ -1,18 +1,26 @@
-<h4 class="section-header">Editing Source #{{sourceId}}
-  {{control/md-status model=(compute (route-action "parentModel"))}}
+<h4 class='section-header'>Editing Source #{{sourceId}}
+  {{control/md-status model=(compute (route-action 'parentModel'))}}
 </h4>
 {{#with model as |source|}}
-    <div class="">
-      {{object/md-source
-        model=source
-        profilePath="record.lineage.source"
-      }}
-      {{outlet}}
-    </div>
+  <div class=''>
+    {{object/md-source model=source profilePath='record.lineage.source'}}
+    {{outlet}}
+  </div>
 {{/with}}
 {{to-elsewhere
-  named="md-subbar-extra"
-  send=(component "control/subbar-link" text="Back to Lineage Object" icon="arrow-left" click=(route-action "goBack"))
+  named='md-subbar-extra'
+  send=(component
+    'control/subbar-link'
+    text='Back to Lineage Object'
+    icon='arrow-left'
+    click=(route-action 'goBack')
+  )
 }}
-{{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+{{to-elsewhere
+  named='md-scroll-spy-record-edit'
+  send=(component
+    'control/md-scroll-spy'
+    scrollInit=scrollTo
+    setScrollTo=(route-action 'setScrollTo')
+  )
+}}

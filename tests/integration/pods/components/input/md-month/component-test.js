@@ -16,9 +16,9 @@ module('Integration | Component | input/md month', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#input/md-month class="testme" date="10"}}
+      <Input::MdMonth @class="testme" @date="10">
         template block text
-      {{/input/md-month}}
+      </Input::MdMonth>
     `);
 
     assert.equal(find('.testme').textContent.trim(), '', 'no block');

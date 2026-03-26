@@ -40,9 +40,9 @@ module('Integration | Component | object/md identifier array', function(hooks) {
 
     // Template block usage:
     await render(hbs`<section>
-      {{#object/md-identifier-array}}
+      <Object::MdIdentifierArray>
         template block text
-      {{/object/md-identifier-array}}
+      </Object::MdIdentifierArray>
       </section>
     `);
 

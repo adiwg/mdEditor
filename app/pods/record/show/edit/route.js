@@ -10,7 +10,7 @@ export default class EditRoute extends Route {
 
     this.breadCrumb = {
       title: 'Edit',
-      linkable: false
+      linkable: false,
     };
   }
   @service pouch;
@@ -45,15 +45,15 @@ export default class EditRoute extends Route {
   }
   doCancel() {
     let controller = this.controller;
-    let same = !controller.cancelScope || getOwner(this)
-      .lookup('controller:application')
-      .currentPath === get(controller, 'cancelScope.routeName');
+    let same =
+      !controller.cancelScope ||
+      getOwner(this).lookup('controller:application').currentPath ===
+        get(controller, 'cancelScope.routeName');
 
-    if(controller.onCancel) {
+    if (controller.onCancel) {
       once(() => {
-        if(same) {
-          controller.onCancel.call(controller.cancelScope ||
-            this);
+        if (same) {
+          controller.onCancel.call(controller.cancelScope || this);
         } else {
           controller.set('onCancel', null);
           controller.set('cancelScope', null);
@@ -62,41 +62,44 @@ export default class EditRoute extends Route {
       });
     }
   }
-    @action
-    async saveRecord() {
-      const model = this.currentRouteModel();
-      model.updateTimestamp();
-      await model.save();
-      this.flashMessages.success(`Saved Record: ${model.get('title')}`);
-    }
+  @action
+  async saveRecord() {
+    const model = this.currentRouteModel();
+    model.updateTimestamp();
+    await model.save();
+    let json = JSON.parse(model.serialize().data.attributes.json);
 
-    @action
-    cancelRecord() {
-      let model = this.currentRouteModel();
-      let message = `Cancelled changes to Record: ${model.get('title')}`;
+    model.setCurrentHash(json);
+    model.notifyPropertyChange('currentHash');
+    model.notifyPropertyChange('hasDirtyHash');
+    this.flashMessages.success(`Saved Record: ${model.get('title')}`);
+  }
 
-      if(this.get('settings.data.autoSave')) {
-        let json = model.get('jsonRevert');
+  @action
+  cancelRecord() {
+    let model = this.currentRouteModel();
+    let message = `Cancelled changes to Record: ${model.get('title')}`;
 
-        if(json) {
-          model.revertChanges();
-          this.doCancel();
-          this.flashMessages.warning(message);
-        }
+    if (this.get('settings.data.autoSave')) {
+      let json = model.get('jsonRevert');
 
-        return;
+      if (json) {
+        model.revertChanges();
+        this.doCancel();
+        this.flashMessages.warning(message);
       }
 
-      model
-        .reload()
-        .then(() => {
-          this.doCancel();
-          this.flashMessages.warning(message);
-        });
+      return;
     }
 
-    @action
-    getContext() {
-      return this;
-    }
+    model.reload().then(() => {
+      this.doCancel();
+      this.flashMessages.warning(message);
+    });
+  }
+
+  @action
+  getContext() {
+    return this;
+  }
 }

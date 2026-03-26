@@ -39,9 +39,9 @@ module('Integration | Component | md models table/components/check all', functio
 
     // Template block usage:
     await render(hbs`
-      {{#md-models-table/components/check-all}}
+      <MdModelsTable::Components::CheckAll>
         template block text
-      {{/md-models-table/components/check-all}}
+      </MdModelsTable::Components::CheckAll>
     `);
 
     assert.equal(this.element.textContent.trim(), '');

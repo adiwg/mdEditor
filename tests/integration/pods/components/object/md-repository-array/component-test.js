@@ -31,9 +31,9 @@ module('Integration | Component | object/md repository array', function(hooks) {
     assert.dom('.select-value').hasText('data.gov');
     // Template block usage:
     await render(hbs`
-      {{#object/md-repository-array profilePath="foo"}}
+      <Object::MdRepositoryArray @profilePath="foo">
         template block text
-      {{/object/md-repository-array}}
+      </Object::MdRepositoryArray>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),

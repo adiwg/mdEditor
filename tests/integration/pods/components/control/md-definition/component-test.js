@@ -23,9 +23,9 @@ module('Integration | Component | control/md definition', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#control/md-definition title="foobar"}}
+      <Control::MdDefinition @title="foobar">
         template block text
-      {{/control/md-definition}}
+      </Control::MdDefinition>
     `);
 
     assert.equal(find('.ember-view').textContent.replace(/[ \n]+/g, '|').trim(),

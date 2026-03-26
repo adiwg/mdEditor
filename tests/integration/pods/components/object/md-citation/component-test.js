@@ -19,9 +19,9 @@ module('Integration | Component | object/md citation', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-citation profilePath="foobar"}}
+      <Object::MdCitation @profilePath="foobar">
         template block text
-      {{/object/md-citation}}
+      </Object::MdCitation>
     `);
 
     assert.equal(find('form').textContent.replace(/[ \n]+/g, '|').trim(),

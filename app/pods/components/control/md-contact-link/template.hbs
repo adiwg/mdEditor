@@ -1,5 +1,5 @@
 {{#if this.contactRecordId}}
-  <LinkTo @route="contact.show" @model={{this.contactRecordId}} ...attributes>
+  <LinkTo @route='contact.show' @model={{this.contactRecordId}} ...attributes>
     {{#if (has-block)}}
       {{yield}}
     {{else}}
@@ -7,5 +7,5 @@
     {{/if}}
   </LinkTo>
 {{else}}
-  <span class="text-muted" ...attributes>{{this.title}}</span>
+  <span class='text-muted' ...attributes>{{this.title}}</span>
 {{/if}}

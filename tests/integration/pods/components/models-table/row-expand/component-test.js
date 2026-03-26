@@ -16,9 +16,9 @@ module('Integration | Component | models-table/row-expand', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#models-table/row-expand}}
+      <ModelsTable::RowExpand>
         template block text
-      {{/models-table/row-expand}}
+      </ModelsTable::RowExpand>
     `);
 
     assert.equal(this.element.textContent.trim(), 'template block text');

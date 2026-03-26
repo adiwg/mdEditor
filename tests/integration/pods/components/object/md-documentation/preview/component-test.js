@@ -24,9 +24,9 @@ module('Integration | Component | object/md documentation/preview', function(hoo
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-documentation/preview class="testme" item=doc}}
+      <Object::MdDocumentation::Preview @class="testme" @item={{doc}}>
         template block text
-      {{/object/md-documentation/preview}}
+      </Object::MdDocumentation::Preview>
     `);
 
     assert.equal(find('.testme').textContent.replace(/[\s\n]+/g, '|').trim(),

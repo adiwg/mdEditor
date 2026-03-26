@@ -1,13 +1,21 @@
 {{yield}}
 <Control::MdModal
   @isShowing={{this.isShowingModal}}
-  @closeModal={{action "cancel"}}
+  @closeModal={{action 'cancel'}}
   @target={{this.target}}
   @renderInPlace={{this.renderInPlace}}
 >
   {{html-safe this.message}}
-  <div class="md-modal-buttons pull-right">
-    <button type="button" class="btn btn-danger" {{action "confirm"}}>Confirm</button>
-    <button type="button" class="btn btn-primary" {{action "cancel"}}>Cancel</button>
+  <div class='md-modal-buttons pull-right'>
+    <button
+      type='button'
+      class='btn btn-danger'
+      {{action 'confirm'}}
+    >Confirm</button>
+    <button
+      type='button'
+      class='btn btn-primary'
+      {{action 'cancel'}}
+    >Cancel</button>
   </div>
 </Control::MdModal>

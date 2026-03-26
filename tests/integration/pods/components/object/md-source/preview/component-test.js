@@ -49,9 +49,9 @@ module('Integration | Component | object/md source/preview', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-source/preview model=source profilePath="foobar"}}
+      <Object::MdSource::Preview @model={{source}} @profilePath="foobar">
         template block text
-      {{/object/md-source/preview}}
+      </Object::MdSource::Preview>
     `);
 
     assert.equal(find('textarea').value, 'description');  });

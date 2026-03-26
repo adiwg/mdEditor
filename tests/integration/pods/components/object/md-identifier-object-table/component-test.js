@@ -19,9 +19,9 @@ module('Integration | Component | object/md identifier object table', function(h
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-identifier-object-table}}
+      <Object::MdIdentifierObjectTable>
         template block text
-      {{/object/md-identifier-object-table}}
+      </Object::MdIdentifierObjectTable>
     `);
 
     assert.equal(find('.md-object-table').textContent.replace(/[\s\n]+/g, '|').trim(),

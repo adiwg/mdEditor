@@ -1,32 +1,33 @@
-{{#object/md-array-table
-  columns="Repository, Collection Title"
-  value=this.value
-  plain=this.plain
-  data-spy=this.data-spy
-  title="Metadata Repository"
-  profile=this.profile
-  templateClass=this.repositoryTemplate as |meta|
-}}
+<Object::MdArrayTable
+  @columns='Repository, Collection Title'
+  @value={{this.value}}
+  @plain={{this.plain}}
+  @data-spy={{this.data-spy}}
+  @title='Metadata Repository'
+  @profile={{this.profile}}
+  @templateClass={{this.repositoryTemplate}}
+  as |meta|
+>
   <td>
     {{input/md-codelist
       value=meta.item.repository
       create=true
       tooltip=true
       icon=false
-      mdCodeName="metadataRepository"
+      mdCodeName='metadataRepository'
       closeOnSelect=true
-      placeholder="Select or enter a repository."
-      profilePath=(concat this.profilePath ".repository")
-      change=(action "lookupTitle" meta.item)
+      placeholder='Select or enter a repository.'
+      profilePath=(concat this.profilePath '.repository')
+      change=(action 'lookupTitle' meta.item)
     }}
   </td>
   <td>
     {{input/md-input
-      type="text"
+      type='text'
       value=meta.item.citation.title
-      profilePath=(concat this.profilePath ".collectionTitle")
-      placeholder="Text string used to identify a set of resources in the repository."
+      profilePath=(concat this.profilePath '.collectionTitle')
+      placeholder='Text string used to identify a set of resources in the repository.'
     }}
   </td>
   {{yield}}
-{{/object/md-array-table}}
+</Object::MdArrayTable>

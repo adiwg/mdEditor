@@ -56,9 +56,9 @@ module('Integration | Component | object/md taxonomy/classification/taxon', func
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-taxonomy/classification/taxon model=model profilePath="foobar"}}
+      <Object::MdTaxonomy::Classification::Taxon @model={{model}} @profilePath="foobar">
         template block text
-      {{/object/md-taxonomy/classification/taxon}}
+      </Object::MdTaxonomy::Classification::Taxon>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),

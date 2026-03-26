@@ -39,9 +39,9 @@ module('Integration | Component | control/md select table', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#control/md-select-table}}
+      <Control::MdSelectTable>
         template block text
-      {{/control/md-select-table}}
+      </Control::MdSelectTable>
     `);
 
     assert.equal(find('.md-select-table').textContent.replace(/[ \n\t\s]+/g, '|').trim(),

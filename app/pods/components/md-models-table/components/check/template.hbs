@@ -1,3 +1,13 @@
-<span {{on "click" (fn this.doClickOnRow this.index this.record)}} role="checkbox" class="md-checkbox-cell">
-  <i class={{if this.isSelected this.themeInstance.selectRowIcon this.themeInstance.deselectRowIcon}}></i>
+<span
+  {{on 'click' (fn this.doClickOnRow this.index this.record)}}
+  role='checkbox'
+  class='md-checkbox-cell'
+>
+  <i
+    class={{if
+      this.isSelected
+      this.themeInstance.selectRowIcon
+      this.themeInstance.deselectRowIcon
+    }}
+  ></i>
 </span>

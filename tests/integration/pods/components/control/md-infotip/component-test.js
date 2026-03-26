@@ -16,9 +16,9 @@ module('Integration | Component | control/md-infotip', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#control/md-infotip}}
+      <Control::MdInfotip>
         template block text
-      {{/control/md-infotip}}
+      </Control::MdInfotip>
     `);
 
     assert.equal(this.element.textContent.trim(), 'template block text');

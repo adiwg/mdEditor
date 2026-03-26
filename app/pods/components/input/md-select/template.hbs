@@ -1,106 +1,106 @@
-    {{#if this.label}}
-      <label>{{this.label}}</label>
-    {{/if}}
-<div class="md-input-input">
-      {{#if this.create}}
-        {{#power-select-with-create
-          selected=this.selectedItem
-          multiple=this.multiple
-          options=this.codelist
-          disabled=this.disabled
-          placeholder=this.placeholder
-          searchField="codeName"
-          searchEnabled=this.searchEnabled
-          matchTriggerWidth=this.matchTriggerWidth
-          calculatePosition=this.calculatePosition
-          allowClear=this.allowClear
-          closeOnSelect=this.closeOnSelect
-          onChange=(action "setValue")
-          onCreate=(action "create")
-          ariaLabel=this.ariaLabel
-          as |code|
-        }}
-          {{#unless this.filter}}
-          <span class="md-select-option {{if code.tooltip "with-tip"}}">
-            {{#if this.icon}}
-              {{#if code.icon}}
-                <span class="fa fa-{{code.icon}}"> </span>
-              {{/if}}
+{{#if this.label}}
+  <label>{{this.label}}</label>
+{{/if}}
+<div class='md-input-input'>
+  {{#if this.create}}
+    <PowerSelectWithCreate
+      @selected={{this.selectedItem}}
+      @multiple={{this.multiple}}
+      @options={{this.codelist}}
+      @disabled={{this.disabled}}
+      @placeholder={{this.placeholder}}
+      @searchField='codeName'
+      @searchEnabled={{this.searchEnabled}}
+      @matchTriggerWidth={{this.matchTriggerWidth}}
+      @calculatePosition={{this.calculatePosition}}
+      @allowClear={{this.allowClear}}
+      @closeOnSelect={{this.closeOnSelect}}
+      @onChange={{action 'setValue'}}
+      @onCreate={{action 'create'}}
+      @ariaLabel={{this.ariaLabel}}
+      as |code|
+    >
+      {{#unless this.filter}}
+        <span class='md-select-option {{if code.tooltip "with-tip"}}'>
+          {{#if this.icon}}
+            {{#if code.icon}}
+              <span class='fa fa-{{code.icon}}'> </span>
             {{/if}}
-            <span class="select-value">{{code.codeName}}</span>
-            {{#if this.tooltip}}
-              {{#if code.tooltip}}
-              <span class="select-tip">
-                <span class="badge tooltip">?
-                  {{ember-tooltip
-                    text=code.tooltip
-                    side="right"
-                  }}
+          {{/if}}
+          <span class='select-value'>{{code.codeName}}</span>
+          {{#if this.tooltip}}
+            {{#if code.tooltip}}
+              <span class='select-tip'>
+                <span class='badge tooltip'>?
+                  {{ember-tooltip text=code.tooltip side='right'}}
                 </span>
               </span>
-              {{/if}}
             {{/if}}
-          </span>
-          {{/unless}}
-        {{/power-select-with-create}}
-      {{else}}
-        {{#power-select
-          selected=this.selectedItem
-          multiple=this.multiple
-          options=this.codelist
-          disabled=this.disabled
-          placeholder=this.placeholder
-          searchField="codeName"
-          searchEnabled=this.searchEnabled
-          matchTriggerWidth=this.matchTriggerWidth
-          calculatePosition=this.calculatePosition
-          allowClear=this.allowClear
-          closeOnSelect=this.closeOnSelect
-          onChange=(action "setValue")
-          ariaLabel=this.ariaLabel
-          as |code|
-        }}
-          {{#unless this.filter}}
-          <span class="md-select-option {{if code.tooltip "with-tip"}}">
-            {{#if this.icon}}
-              {{#if code.icon}}
-                <span class="fa fa-{{code.icon}}"> </span>
-              {{/if}}
+          {{/if}}
+        </span>
+      {{/unless}}
+    </PowerSelectWithCreate>
+  {{else}}
+    <PowerSelect
+      @selected={{this.selectedItem}}
+      @multiple={{this.multiple}}
+      @options={{this.codelist}}
+      @disabled={{this.disabled}}
+      @placeholder={{this.placeholder}}
+      @searchField='codeName'
+      @searchEnabled={{this.searchEnabled}}
+      @matchTriggerWidth={{this.matchTriggerWidth}}
+      @calculatePosition={{this.calculatePosition}}
+      @allowClear={{this.allowClear}}
+      @closeOnSelect={{this.closeOnSelect}}
+      @onChange={{action 'setValue'}}
+      @ariaLabel={{this.ariaLabel}}
+      as |code|
+    >
+      {{#unless this.filter}}
+        <span class='md-select-option {{if code.tooltip "with-tip"}}'>
+          {{#if this.icon}}
+            {{#if code.icon}}
+              <span class='fa fa-{{code.icon}}'> </span>
             {{/if}}
-            <span class="select-value">{{code.codeName}}</span>
-            {{#if this.tooltip}}
-              {{#if code.tooltip}}
-              <span class="select-tip">
-                <span class="badge tooltip">?
-                  {{ember-tooltip
-                    text=code.tooltip
-                    side="right"
-                  }}
+          {{/if}}
+          <span class='select-value'>{{code.codeName}}</span>
+          {{#if this.tooltip}}
+            {{#if code.tooltip}}
+              <span class='select-tip'>
+                <span class='badge tooltip'>?
+                  {{ember-tooltip text=code.tooltip side='right'}}
                 </span>
               </span>
-              {{/if}}
             {{/if}}
-          </span>
-          {{/unless}}
-        {{/power-select}}
-      {{/if}}
-      <span class="md-input-error">
-        {{#if this.showErrorMessage}}
-          <span class="md-error">
-            {{fa-icon "exclamation-circle"}}
-            {{#ember-tooltip side="right" tooltipClass="ember-tooltip md-tooltip danger"}}
-                {{v-get this.model this.path "message"}}
-            {{/ember-tooltip}}
-          </span>
-        {{/if}}
-
-        {{#if this.showWarningMessage}}
-          <span class="md-warning">
-            {{fa-icon "exclamation-triangle"}}
-            {{#ember-tooltip side="right" tooltipClass="ember-tooltip md-tooltip warning"}}
-            {{v-get this.model this.path "warningMessage"}}
-            {{/ember-tooltip}}
-          </span>
-        {{/if}}
+          {{/if}}
+        </span>
+      {{/unless}}
+    </PowerSelect>
+  {{/if}}
+  <span class='md-input-error'>
+    {{#if this.showErrorMessage}}
+      <span class='md-error'>
+        {{fa-icon 'exclamation-circle'}}
+        <EmberTooltip
+          @side='right'
+          @tooltipClass='ember-tooltip md-tooltip danger'
+        >
+          {{v-get this.model this.path 'message'}}
+        </EmberTooltip>
       </span>
-    </div>
+    {{/if}}
+
+    {{#if this.showWarningMessage}}
+      <span class='md-warning'>
+        {{fa-icon 'exclamation-triangle'}}
+        <EmberTooltip
+          @side='right'
+          @tooltipClass='ember-tooltip md-tooltip warning'
+        >
+          {{v-get this.model this.path 'warningMessage'}}
+        </EmberTooltip>
+      </span>
+    {{/if}}
+  </span>
+</div>

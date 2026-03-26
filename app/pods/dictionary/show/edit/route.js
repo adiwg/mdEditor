@@ -34,15 +34,15 @@ export default class EditRoute extends Route {
   }
   doCancel() {
     let controller = this.controller;
-    let same = !controller.cancelScope || getOwner(this)
-      .lookup('controller:application')
-      .currentPath === get(controller, 'cancelScope.routeName');
+    let same =
+      !controller.cancelScope ||
+      getOwner(this).lookup('controller:application').currentPath ===
+        get(controller, 'cancelScope.routeName');
 
-    if(controller.onCancel) {
+    if (controller.onCancel) {
       once(() => {
-        if(same) {
-          controller.onCancel.call(controller.cancelScope ||
-            this);
+        if (same) {
+          controller.onCancel.call(controller.cancelScope || this);
         } else {
           controller.set('onCancel', null);
           controller.set('cancelScope', null);
@@ -51,43 +51,44 @@ export default class EditRoute extends Route {
       });
     }
   }
-    /**
-     * Update the dictionary profile
-     *
-     * @param  {String} profile The new profile.
-     */
-    @action
-    async saveDictionary() {
-      const model = this.currentRouteModel();
-      model.updateTimestamp();
-      await model.save();
-      this.flashMessages.success(`Saved Dictionary: ${model.get('title')}`);
-    }
+  /**
+   * Update the dictionary profile
+   *
+   * @param  {String} profile The new profile.
+   */
+  @action
+  async saveDictionary() {
+    const model = this.currentRouteModel();
+    model.updateTimestamp();
+    await model.save();
+    let json = JSON.parse(model.serialize().data.attributes.json);
 
-    @action
-    cancelDictionary() {
-      let model = this.currentRouteModel();
-      let message =
-        `Cancelled changes to Dictionary: ${model.get('title')}`;
+    model.setCurrentHash(json);
+    model.notifyPropertyChange('currentHash');
+    model.notifyPropertyChange('hasDirtyHash');
+    this.flashMessages.success(`Saved Dictionary: ${model.get('title')}`);
+  }
 
-      if(this.get('settings.data.autoSave')) {
-        let json = model.get('jsonRevert');
+  @action
+  cancelDictionary() {
+    let model = this.currentRouteModel();
+    let message = `Cancelled changes to Dictionary: ${model.get('title')}`;
 
-        if(json) {
-          model.revertChanges();
-          this.doCancel();
-          this.flashMessages.warning(message);
-        }
+    if (this.get('settings.data.autoSave')) {
+      let json = model.get('jsonRevert');
 
-        return;
+      if (json) {
+        model.revertChanges();
+        this.doCancel();
+        this.flashMessages.warning(message);
       }
 
-      model
-        .reload()
-        .then(() => {
-          this.doCancel();
-          this.flashMessages
-            .warning(message);
-        });
+      return;
     }
+
+    model.reload().then(() => {
+      this.doCancel();
+      this.flashMessages.warning(message);
+    });
+  }
 }

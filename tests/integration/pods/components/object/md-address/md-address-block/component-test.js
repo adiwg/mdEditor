@@ -32,9 +32,9 @@ module('Integration | Component | object/md address/md address block', function(
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-address/md-address-block item=address}}
+      <Object::MdAddress::MdAddressBlock @item={{address}}>
         template block text
-      {{/object/md-address/md-address-block}}
+      </Object::MdAddress::MdAddressBlock>
     `);
 
     assert.equal(find('address').textContent.replace(/[ \n]+/g, '|').trim(),

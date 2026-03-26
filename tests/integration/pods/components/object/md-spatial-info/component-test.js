@@ -106,9 +106,9 @@ module('Integration | Component | object/md spatial info', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-spatial-info profilePath="foobar" model=(hash)}}
+      <Object::MdSpatialInfo @profilePath="foobar" @model={{hash}}>
         template block text
-      {{/object/md-spatial-info}}
+      </Object::MdSpatialInfo>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),

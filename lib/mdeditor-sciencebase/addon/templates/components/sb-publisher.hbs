@@ -1,48 +1,48 @@
-<div class="row">
-  <div class="col-sm-9">
+<div class='row'>
+  <div class='col-sm-9'>
     {{sb-tree
-      labelComponent="sb-tree-label"
+      labelComponent='sb-tree-label'
       model=model
       selected=selected
-      select=(action "selectRecord")
+      select=(action 'selectRecord')
     }}
   </div>
-  <div class="col-sm-3">
-    <div class="md-control-sidebar">
-      {{#unless hasToken}}
-        {{input/md-input
-          value=this.rawToken
-          placeholder="Enter ScienceBase token"
-        }}
-        <button
-          type="button"
-          class="btn btn-lg btn-primary add-token-button"
-          disabled={{if rawToken false true}}
-          {{action "addToken"}}
-        >
-          Add token
-        </button>
-      {{else}}
+  <div class='col-sm-3'>
+    <div class='md-control-sidebar'>
+      {{#if hasToken}}
         {{#if tokenService.token}}
-        <div class="card">
-          <div class="card-block">
-            Token added for
-            {{tokenService.userName}}
-            Expires
-            {{moment-format tokenService.expiry 'LLL'}}
+          <div class='card'>
+            <div class='card-block'>
+              Token added for
+              {{tokenService.userName}}
+              Expires
+              {{moment-format tokenService.expiry 'LLL'}}
+            </div>
           </div>
-        </div>
-        <hr />
+          <hr />
         {{/if}}
         <button
-          type="button"
-          class="btn btn-lg btn-primary"
+          type='button'
+          class='btn btn-lg btn-primary'
           disabled={{if canPublish false true}}
-          {{action "publish"}}
+          {{action 'publish'}}
         >
           Publish
         </button>
-      {{/unless}}
+      {{else}}
+        {{input/md-input
+          value=this.rawToken
+          placeholder='Enter ScienceBase token'
+        }}
+        <button
+          type='button'
+          class='btn btn-lg btn-primary add-token-button'
+          disabled={{if rawToken false true}}
+          {{action 'addToken'}}
+        >
+          Add token
+        </button>
+      {{/if}}
     </div>
   </div>
 </div>

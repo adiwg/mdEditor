@@ -26,9 +26,9 @@ module('Integration | Component | md models table/components/check', function(ho
 
     // Template block usage:
     await render(hbs`
-      {{#md-models-table/components/check}}
+      <MdModelsTable::Components::Check>
         template block text
-      {{/md-models-table/components/check}}
+      </MdModelsTable::Components::Check>
     `);
 
     assert.equal(this.element.textContent.trim(), '');

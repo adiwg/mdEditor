@@ -1,6 +1,6 @@
-<ol class="breadcrumb">
+<ol class='breadcrumb'>
   {{#each this.routeHierarchy as |crumb|}}
-    <li class="breadcrumb-item {{if crumb.isTail 'active'}}">
+    <li class='breadcrumb-item {{if crumb.isTail "active"}}'>
       {{#if (and crumb.linkable (not crumb.isTail))}}
         {{#if crumb.model}}
           <LinkTo @route={{crumb.path}} @model={{crumb.model}}>

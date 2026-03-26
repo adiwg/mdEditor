@@ -24,17 +24,10 @@ module('Integration | Component | object/md objectroute table', function(hooks) 
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-objectroute-table
-       items=model
-       header="FooBar"
-       buttonText="Add FooBar"
-       ellipsis=true
-       profilePath="foobar"
-       attributes="biz,baz" as |foo|
-      }}
+      <Object::MdObjectrouteTable @items={{model}} @header="FooBar" @buttonText="Add FooBar" @ellipsis={{true}} @profilePath="foobar" @attributes="biz,baz" as |foo|>
         <span>Biz:{{foo.biz}}</span>
         <span>Baz:{{foo.baz}}</span>
-      {{/object/md-objectroute-table}}
+      </Object::MdObjectrouteTable>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),

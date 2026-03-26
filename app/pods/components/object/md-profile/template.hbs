@@ -5,9 +5,9 @@
   block=false
 }}
 {{yield}} --}}
-{{#if (v-get record "config" "isInvalid")}}
-  <div class="alert alert-danger" role="alert">{{fa-icon "exclamation"}}
-    {{v-get record "config" "message"}}
+{{#if (v-get record 'config' 'isInvalid')}}
+  <div class='alert alert-danger' role='alert'>{{fa-icon 'exclamation'}}
+    {{v-get record 'config' 'message'}}
   </div>
 {{/if}}
 

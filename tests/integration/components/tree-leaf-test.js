@@ -50,13 +50,9 @@ module('Integration | Component | tree leaf', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#tree-leaf model=model
-        inTree=false
-        select=select
-        selected=selected
-      }}
+      <TreeLeaf @model={{model}} @inTree={{false}} @select={{select}} @selected={{selected}}>
         template block text
-      {{/tree-leaf}}
+      </TreeLeaf>
     `);
 
     assert.equal(find('.tree-leaf').innerText.trim(), 'foo1label');

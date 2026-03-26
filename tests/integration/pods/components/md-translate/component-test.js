@@ -61,9 +61,9 @@ module('Integration | Component | md translate', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#md-translate}}
+      <MdTranslate>
         template block text
-      {{/md-translate}}
+      </MdTranslate>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),

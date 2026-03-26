@@ -44,10 +44,14 @@ export default class MdStatusComponent extends Component {
       evt.stopPropagation();
     }
     model.updateTimestamp();
-    model.save()
-      .then(() => {
-        this.flashMessages
-          .success(`Saved Record: ${model.get('title')}`);
-      });
+    model.save().then(() => {
+      let json = JSON.parse(model.serialize().data.attributes.json);
+
+      model.setCurrentHash(json);
+      model.notifyPropertyChange('currentHash');
+      model.notifyPropertyChange('hasDirtyHash');
+
+      this.flashMessages.success(`Saved Record: ${model.get('title')}`);
+    });
   }
 }

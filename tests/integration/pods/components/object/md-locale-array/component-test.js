@@ -25,9 +25,9 @@ module('Integration | Component | object/md locale array', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-locale-array}}
+      <Object::MdLocaleArray>
         template block text
-      {{/object/md-locale-array}}
+      </Object::MdLocaleArray>
     `);
 
     assert.equal(find('.panel').textContent.replace(/[\s\n]+/g, '|').trim(),

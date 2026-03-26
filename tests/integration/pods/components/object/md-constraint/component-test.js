@@ -18,9 +18,9 @@ module('Integration | Component | object/md constraint', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-constraint profilePath="foobar" model=model}}
+      <Object::MdConstraint @profilePath="foobar" @model={{model}}>
         template block text
-      {{/object/md-constraint}}
+      </Object::MdConstraint>
     `);
 
     assert.equal(find('form').textContent.replace(/[ \n]+/g, '|').trim(),

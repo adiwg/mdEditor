@@ -25,9 +25,9 @@ module('Integration | Component | input/md markdown area', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#input/md-markdown-area}}
+      <Input::MdMarkdownArea>
         template block text
-      {{/input/md-markdown-area}}
+      </Input::MdMarkdownArea>
     `);
 
     assert.equal(find('.md-markdown-editor').innerText.replace(/[ \n\s]+/g, '').trim(),

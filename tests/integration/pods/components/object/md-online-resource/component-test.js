@@ -27,9 +27,9 @@ module('Integration | Component | object/md online resource', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-online-resource profilePath="foobar" model=model}}
+      <Object::MdOnlineResource @profilePath="foobar" @model={{model}}>
         template block text
-      {{/object/md-online-resource}}
+      </Object::MdOnlineResource>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),

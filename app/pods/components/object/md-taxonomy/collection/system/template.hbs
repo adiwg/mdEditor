@@ -1,9 +1,9 @@
-{{#layout/md-card
-  title='Classification Authority'
-  collapsed=false
-  collapsible=true
-  profilePath=(concat this.profilePath '.citation')
-}}
+<Layout::MdCard
+  @title='Classification Authority'
+  @collapsed={{false}}
+  @collapsible={{true}}
+  @profilePath='{{this.profilePath}}.citation'
+>
   {{object/md-citation
     model=this.model.citation
     simpleIdentifier=true
@@ -11,7 +11,7 @@
     embedded=false
     data-spy=true
   }}
-{{/layout/md-card}}
+</Layout::MdCard>
 
 {{input/md-textarea
   value=this.model.modifications

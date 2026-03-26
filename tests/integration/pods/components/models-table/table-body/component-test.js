@@ -16,9 +16,9 @@ module('Integration | Component | models-table/table-body', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#models-table/table-body}}
+      <ModelsTable::TableBody>
         template block text
-      {{/models-table/table-body}}
+      </ModelsTable::TableBody>
     `);
 
     assert.equal(this.element.textContent.trim(), 'template block text');

@@ -31,9 +31,9 @@ module('Integration | Component | control/subbar importcsv', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#control/subbar-importcsv class="importcsv"}}
+      <Control::SubbarImportcsv @class="importcsv">
         template block text
-      {{/control/subbar-importcsv}}
+      </Control::SubbarImportcsv>
     `);
 
     assert.equal(find('.importcsv').textContent.replace(/[ \n]+/g, '|').trim(),

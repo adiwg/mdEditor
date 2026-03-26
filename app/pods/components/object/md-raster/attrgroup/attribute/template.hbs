@@ -1,91 +1,84 @@
-{{#layout/md-card
-  shadow=true
-}}
+<Layout::MdCard @shadow={{true}}>
   {{input/md-textarea
     value=this.model.attributeDescription
-    label="Attribute Description"
+    label='Attribute Description'
     infotip=false
-    data-spy="Attribute Description"
-    placeholder="Description of the attribute"
-    profilePath=(concat this.profilePath ".attributeDescription")
+    data-spy='Attribute Description'
+    placeholder='Description of the attribute'
+    profilePath=(concat this.profilePath '.attributeDescription')
   }}
 
   {{object/md-identifier-object-table
-    label="Attribute Identifier"
+    label='Attribute Identifier'
     shadow=false
     model=this.model.attributeIdentifier
-    valuePath="attrIdentifier"
-    data-spy="Attribute Identifier"
-    class=(if this.embedded "md-embedded")
+    valuePath='attrIdentifier'
+    data-spy='Attribute Identifier'
+    class=(if this.embedded 'md-embedded')
     visibility=true
-    profilePath=(concat this.profilePath ".attributeIdentifier")
+    profilePath=(concat this.profilePath '.attributeIdentifier')
   }}
-{{/layout/md-card}}
+</Layout::MdCard>
 
-{{#layout/md-card
-  shadow=true
-}}
+<Layout::MdCard @shadow={{true}}>
   {{input/md-codelist-multi
     value=this.model.bandBoundaryDefinition
     create=true
     icon=false
-    mdCodeName="bandDefinition"
+    mdCodeName='bandDefinition'
     closeOnSelect=false
-    placeholder="Designation of criterion for defining maxiumum and minimum wavelenghts for a spectral band"
-    data-spy="Band Boundary Definition"
-    label="Band Boundary Definition"
-    profilePath=(concat this.profilePath ".bandBoundaryDefinition")
+    placeholder='Designation of criterion for defining maxiumum and minimum wavelenghts for a spectral band'
+    data-spy='Band Boundary Definition'
+    label='Band Boundary Definition'
+    profilePath=(concat this.profilePath '.bandBoundaryDefinition')
   }}
   {{input/md-codelist-multi
     value=this.model.transferFunctionType
     create=true
     icon=false
-    mdCodeName="transferFunctionTypeCode"
+    mdCodeName='transferFunctionTypeCode'
     closeOnSelect=false
-    placeholder="Transform function to be used when scaling a physical value for a given element."
-    data-spy="Transfer Function Type"
-    label="Transfer Function Type"
-    profilePath=(concat this.profilePath ".transferFunctionType")
+    placeholder='Transform function to be used when scaling a physical value for a given element.'
+    data-spy='Transfer Function Type'
+    label='Transfer Function Type'
+    profilePath=(concat this.profilePath '.transferFunctionType')
   }}
   {{input/md-codelist-multi
     value=this.model.transmittedPolarization
     create=true
     icon=false
-    mdCodeName="polarisationOrientationCode"
+    mdCodeName='polarisationOrientationCode'
     closeOnSelect=false
-    label="Transmitted Polarization"
-    placeholder="Polarization of the radiation transmitted."
-    data-spy="Transmitted Polarization"
-    profilePath=(concat this.profilePath ".transmittedPolarization")
+    label='Transmitted Polarization'
+    placeholder='Polarization of the radiation transmitted.'
+    data-spy='Transmitted Polarization'
+    profilePath=(concat this.profilePath '.transmittedPolarization')
   }}
   {{input/md-codelist-multi
     value=this.model.detectedPolarization
     create=true
     icon=false
-    mdCodeName="polarisationOrientationCode"
+    mdCodeName='polarisationOrientationCode'
     closeOnSelect=false
-    label="Detected Polarization"
-    placeholder="Polarization of the radiation transmitted."
-    data-spy="Detected Polarization"
-    profilePath=(concat this.profilePath ".detectedPolarization")
+    label='Detected Polarization'
+    placeholder='Polarization of the radiation transmitted.'
+    data-spy='Detected Polarization'
+    profilePath=(concat this.profilePath '.detectedPolarization')
   }}
 
-  {{#layout/md-wrap
-    shadow=true
-    class="md-flex-col-475 mt-4"
-  }}
+  <Layout::MdWrap @shadow={{true}} @class='md-flex-col-475 mt-4'>
     {{#each this.params as |param|}}
       {{input/md-input
-          model=this.model
-          valuePath=param.property
-          label=param.label
-          infotip=true
-          data-spy=(if this.model param.label)
-          type=param.type
-          class="col-lg-6 col-xxxl-4"
-          placeholder=param.description
-          profilePath=(concat this.profilePath ".params." param.property)
-        }}
+        model=this.model
+        valuePath=param.property
+        label=param.label
+        infotip=true
+        data-spy=(if this.model param.label)
+        type=param.type
+        class='col-lg-6 col-xxxl-4'
+        placeholder=param.description
+        profilePath=(concat this.profilePath '.params.' param.property)
+      }}
     {{/each}}
-  {{/layout/md-wrap}}
-{{/layout/md-card}}
+  </Layout::MdWrap>
+</Layout::MdCard>

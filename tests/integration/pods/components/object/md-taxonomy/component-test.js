@@ -24,9 +24,9 @@ module('Integration | Component | object/md taxonomy', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-taxonomy}}
+      <Object::MdTaxonomy>
         template block text
-      {{/object/md-taxonomy}}
+      </Object::MdTaxonomy>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),

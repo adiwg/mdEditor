@@ -25,9 +25,9 @@ module('Integration | Component | object/md keyword citation', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-keyword-citation model=(hash thesaurus=(hash)) profilePath="foobar"}}
+      <Object::MdKeywordCitation @model={{hash thesaurus=(hash)}} @profilePath="foobar">
         template block text
-      {{/object/md-keyword-citation}}
+      </Object::MdKeywordCitation>
     `);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),

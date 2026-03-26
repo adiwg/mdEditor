@@ -58,9 +58,9 @@ module('Integration | Component | object/md transfer', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-transfer profilePath="foobar" model=(hash)}}
+      <Object::MdTransfer @profilePath="foobar" @model={{hash}}>
         template block text
-      {{/object/md-transfer}}
+      </Object::MdTransfer>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),

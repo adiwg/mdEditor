@@ -44,9 +44,9 @@ module('Integration | Component | object/md lineage', function(hooks) {
 
     // Template block usage:
     await render(hbs`<section>
-      {{#object/md-lineage profilePath="foobar" model=(hash)}}
+      <Object::MdLineage @profilePath="foobar" @model={{hash}}>
         template block text
-      {{/object/md-lineage}}</section>
+      </Object::MdLineage></section>
     `);
 
     assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),
