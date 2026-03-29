@@ -17,7 +17,7 @@
     <button
       type='button'
       class='btn btn-success'
-      {{action (route-action 'addCollection')}}
+      {{on 'click' this.addCollection}}
     >
       {{fa-icon 'plus'}}
       Add Collection</button>
@@ -31,7 +31,7 @@
     text='Add Collection'
     icon='plus'
     class='btn-success btn-lg'
-    click=(route-action 'addCollection')
+    click=this.addCollection
   )
 }}
 
@@ -40,7 +40,7 @@
   send=(component
     'control/md-scroll-spy'
     scrollInit=this.scrollTo
-    setScrollTo=(route-action 'setScrollTo')
+    setScrollTo=this.setScrollTo
     refresh=this.model.json.metadata.resourceInfo.taxonomy.length
   )
 }}

@@ -10,16 +10,16 @@
       extent=extent
       index=index
       profilePath='record.extent'
-      deleteExtent=(route-action 'deleteExtent')
-      editFeatures=(route-action 'editFeatures')
-      addExtent=(route-action 'addExtent')
+      deleteExtent=this.deleteExtent
+      editFeatures=this.editFeatures
+      addExtent=this.addExtent
     }}
   {{else}}
     <h3 class='alert alert-info'>No Extents found.
       <button
         type='button'
         class='btn btn-lg btn-success'
-        {{action (route-action 'addExtent')}}
+        {{on 'click' this.addExtent}}
       >
         {{fa-icon 'plus'}}
         Add Extent</button>
@@ -34,7 +34,7 @@
     text='Add Extent'
     icon='plus'
     class='btn-lg btn-success'
-    click=(route-action 'addExtent')
+    click=this.addExtent
   )
 }}
 
@@ -44,6 +44,6 @@
     'control/md-scroll-spy'
     refresh=this.refreshSpy
     scrollInit=this.scrollTo
-    setScrollTo=(route-action 'setScrollTo')
+    setScrollTo=this.setScrollTo
   )
 }}

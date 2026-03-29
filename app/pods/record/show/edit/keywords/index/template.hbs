@@ -27,13 +27,13 @@
           class='md-keywords-select'
           recordProfile=this.model.profile
           thesaurus=thesaurus
-          selectThesaurus=(route-action 'selectThesaurus')
+          selectThesaurus=this.selectThesaurus
           value=(get thesaurus.thesaurus.identifier '0.identifier')
           disabled=thesaurus.keyword.length
         }}
         <Control::MdButtonConfirm
           @class='btn btn-sm btn-danger'
-          @onConfirm={{route-action 'deleteThesaurus' index}}
+          @onConfirm={{fn this.deleteThesaurus index}}
         >
           {{fa-icon 'times'}}
           Delete
@@ -55,9 +55,9 @@
                 model=thesaurus
                 listId=index
                 profilePath='record.keywords'
-                addKeyword=(route-action 'addKeyword')
-                deleteKeyword=(route-action 'deleteKeyword')
-                editThesaurus=(route-action 'editThesaurus')
+                addKeyword=this.addKeyword
+                deleteKeyword=this.deleteKeyword
+                editThesaurus=this.editThesaurus
               }}
             </div>
           </div>
@@ -69,7 +69,7 @@
       <button
         type='button'
         class='btn btn-success'
-        {{action (route-action 'addThesaurus')}}
+        {{on 'click' this.addThesaurus}}
       >
         {{fa-icon 'plus'}}
         Add Thesaurus</button>
@@ -86,7 +86,7 @@
     text='Add Thesaurus'
     icon='plus'
     class='btn-lg btn-success'
-    click=(route-action 'addThesaurus')
+    click=this.addThesaurus
   )
 }}
 
@@ -96,6 +96,6 @@
     'control/md-scroll-spy'
     refresh=this.refresh
     scrollInit=this.scrollTo
-    setScrollTo=(route-action 'setScrollTo')
+    setScrollTo=this.setScrollTo
   )
 }}

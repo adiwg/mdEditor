@@ -8,15 +8,20 @@
     model=dist
     index=index
     profilePath='record.distribution'
-    addDistribution=(route-action 'addDistribution')
-    deleteDistribution=(route-action 'deleteDistribution')
-    editDistributor=(route-action 'editDistributor')
+    addDistribution=this.addDistribution
+    deleteDistribution=this.deleteDistribution
+    editDistributor=this.editDistributor
   }}
 {{else}}
   <h3 class='alert alert-info'>No distribution sections found.
-    <button type='button' class='btn btn-success' {{action 'addDistribution'}}>
+    <button
+      type='button'
+      class='btn btn-success'
+      {{on 'click' this.addDistribution}}
+    >
       {{fa-icon 'plus'}}
-      Add Distribution Section</button>
+      Add Distribution Section
+    </button>
   </h3>
 {{/each}}
 
@@ -27,7 +32,7 @@
     text='Add Distribution'
     icon='plus'
     class='btn-success btn-lg'
-    click=(route-action 'addDistribution')
+    click=this.addDistribution
   )
 }}
 
@@ -37,6 +42,6 @@
     'control/md-scroll-spy'
     refresh=this.refreshSpy
     scrollInit=this.scrollTo
-    setScrollTo=(route-action 'setScrollTo')
+    setScrollTo=this.setScrollTo
   )
 }}

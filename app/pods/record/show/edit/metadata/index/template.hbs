@@ -63,7 +63,7 @@
           @required={{false}}
           @btnText='Edit'
           @btnClass='success'
-          @btnAction={{route-action 'editIdentifier'}}
+          @btnAction={{this.editIdentifier}}
           @btnIcon='pencil'
         >
           <div class='row'>
@@ -89,7 +89,7 @@
         citation=metadata.parentMetadata
         title='Parent Metadata'
         muted=true
-        editCitation=(route-action 'editParent')
+        editCitation=this.editParent
       }}
 
       {{object/md-repository-array
@@ -134,7 +134,7 @@
         model=metadata.alternateMetadataReference
         profilePath='record.metadata.alternateMetadataReference'
         data-spy='Alternate Metadata'
-        editItem=(route-action 'editAlternate')
+        editItem=this.editAlternate
         label='Alternate Metadata Reference'
       }}
 
@@ -148,6 +148,6 @@
   send=(component
     'control/md-scroll-spy'
     scrollInit=this.scrollTo
-    setScrollTo=(route-action 'setScrollTo')
+    setScrollTo=this.setScrollTo
   )
 }}

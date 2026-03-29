@@ -7,7 +7,7 @@
   model=this.model
   recordId=this.parentModel.recordId
   profilePath='record.associated'
-  editLinked=(route-action 'editLinked')
+  editLinked=this.editLinked
 }}
 
 {{to-elsewhere
@@ -17,7 +17,7 @@
     text='Back to Resource List'
     icon='arrow-left'
     route='record.show.edit.associated'
-    selectResource=(route-action 'selectResource')
+    selectResource=this.selectResource
   )
 }}
 
@@ -27,9 +27,9 @@
     title=(concat 'Click row to select a resource: ' this.model.associationType)
     body=(component
       'control/md-select-table'
-      select=(route-action 'insertResource')
-      data=(compute (route-action 'sliderData'))
-      columns=(compute (route-action 'sliderColumns'))
+      select=this.insertResource
+      data=(compute this.sliderData)
+      columns=(compute this.getSliderColumns)
     )
   )
 }}
@@ -39,6 +39,6 @@
   send=(component
     'control/md-scroll-spy'
     scrollInit=this.scrollTo
-    setScrollTo=(route-action 'setScrollTo')
+    setScrollTo=this.setScrollTo
   )
 }}

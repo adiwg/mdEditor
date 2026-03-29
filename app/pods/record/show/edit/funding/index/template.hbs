@@ -7,8 +7,8 @@
   <Layout::MdObjectContainer
     @title='Funding Period'
     @index={{index}}
-    @editItem={{route-action 'editAllocation'}}
-    @deleteItem={{route-action 'deleteAllocation'}}
+    @editItem={{this.editAllocation}}
+    @deleteItem={{this.deleteAllocation}}
   >
     {{object/md-funding/preview item=allocation profilePath='record.funding'}}
   </Layout::MdObjectContainer>
@@ -17,7 +17,7 @@
     <button
       type='button'
       class='btn btn-lg btn-success'
-      {{action 'addAllocation'}}
+      {{on 'click' this.addAllocation}}
     >
       {{fa-icon 'plus'}}
       Add Funding Period</button>
@@ -31,7 +31,7 @@
     clickText='Add Funding Period'
     clickIcon='plus'
     clickType='success'
-    click=(route-action 'addAllocation')
+    click=this.addAllocation
   )
 }}
 
@@ -41,6 +41,6 @@
     'control/md-scroll-spy'
     refresh=this.refresh
     scrollInit=this.scrollTo
-    setScrollTo=(route-action 'setScrollTo')
+    setScrollTo=this.setScrollTo
   )
 }}

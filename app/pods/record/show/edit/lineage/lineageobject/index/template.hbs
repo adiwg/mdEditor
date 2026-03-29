@@ -7,9 +7,9 @@
   model=model
   profilePath='record.lineage'
   ellipsis=true
-  editCitation=(route-action 'editCitation')
-  editProcessStep=(route-action 'editProcessStep')
-  editSource=(route-action 'editSource')
+  editCitation=this.editCitation
+  editProcessStep=this.editProcessStep
+  editSource=this.editSource
 }}
 
 {{to-elsewhere
@@ -26,6 +26,6 @@
   send=(component
     'control/md-scroll-spy'
     scrollInit=scrollTo
-    setScrollTo=(route-action 'setScrollTo')
+    setScrollTo=this.setScrollTo
   )
 }}

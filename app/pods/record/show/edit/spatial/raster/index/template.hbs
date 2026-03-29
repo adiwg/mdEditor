@@ -5,9 +5,9 @@
 
 {{object/md-raster
   model=model
-  editAttribute=(route-action 'editAttribute')
-  deleteAttrGroup=(route-action 'deleteAttrGroup')
-  addAttrGroup=(route-action 'addAttrGroup')
+  editAttribute=this.editAttribute
+  deleteAttrGroup=this.deleteAttrGroup
+  addAttrGroup=this.addAttrGroup
   profilePath='record.spatial.coverageDescription'
 }}
 
@@ -26,7 +26,7 @@
   send=(component
     'control/md-scroll-spy'
     scrollInit=scrollTo
-    setScrollTo=(route-action 'setScrollTo')
+    setScrollTo=this.setScrollTo
     refresh=refresh
   )
 }}

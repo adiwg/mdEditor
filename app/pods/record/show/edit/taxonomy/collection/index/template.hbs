@@ -7,7 +7,7 @@
   model=this.model
   id=this.collectionId
   profilePath='record.taxonomy.collection'
-  editSystem=(route-action 'editSystem')
+  editSystem=this.editSystem
 }}
 
 {{to-elsewhere
@@ -17,7 +17,7 @@
     text='Add New Taxa'
     icon='plus'
     class='btn-info btn-lg'
-    click=(route-action 'addTaxa')
+    click=this.addTaxa
   )
 }}
 {{to-elsewhere
@@ -27,7 +27,7 @@
     text='Add Taxa from ITIS'
     icon='plus'
     class='btn-success btn-lg'
-    click=(route-action 'addITIS')
+    click=this.addITIS
   )
 }}
 {{to-elsewhere
@@ -37,7 +37,7 @@
     text='Back to List'
     icon='arrow-left'
     class='btn-primary btn-lg'
-    click=(route-action 'toList')
+    click=this.toList
   )
 }}
 
@@ -46,7 +46,7 @@
   send=(component
     'control/md-scroll-spy'
     scrollInit=this.scrollTo
-    setScrollTo=(route-action 'setScrollTo')
+    setScrollTo=this.setScrollTo
   )
 }}
 
@@ -55,8 +55,8 @@
   @showConfirm={{true}}
   @confirmLabel='Go to Settings'
   @showCancel={{true}}
-  @confirm={{route-action 'goToSettings'}}
-  @cancel={{action (mut this.showItisModal) false}}
+  @confirm={{this.goToSettings}}
+  @cancel={{this.hideItisModal}}
 >
   <div class='alert alert-info' role='alert'>{{fa-icon 'exclamation-triangle'}}
     ITIS Proxy URL is required.

@@ -55,7 +55,7 @@
                 <button
                   class='btn btn-warning'
                   type='button'
-                  {{action (route-action 'editId')}}
+                  {{on 'click' this.editId}}
                 >
                   {{fa-icon 'pencil'}}
                   Edit</button>
@@ -149,7 +149,7 @@
         citation=resource.citation
         muted=true
         required=true
-        editCitation=(route-action 'editCitation')
+        editCitation=this.editCitation
       }}
 
       <Layout::MdCard
@@ -258,7 +258,7 @@
   send=(component
     'control/md-scroll-spy'
     scrollInit=this.scrollTo
-    setScrollTo=(route-action 'setScrollTo')
+    setScrollTo=this.setScrollTo
     refresh=this.model.profile
   )
 }}
