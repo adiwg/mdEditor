@@ -1,5 +1,5 @@
 {{! template-lint-disable attribute-indentation }}
-{{#with
+{{#let
   (hash
     columns-hidden=(component
       this.themeInstance.columnsHiddenComponent
@@ -86,7 +86,7 @@
           this.groupedVisibleContentValuesOrder
           as |groupedValue groupedIndex|
         }}
-          {{#with
+          {{#let
             (filter-by
               this.currentGroupingPropertyName
               groupedValue
@@ -94,7 +94,7 @@
             )
             as |groupedItems|
           }}
-            {{#with
+            {{#let
               (hash
                 selectedGroupedItems=(intersect this.selectedItems groupedItems)
                 expandedGroupedItems=(intersect this.expandedItems groupedItems)
@@ -104,7 +104,7 @@
               )
               as |gi|
             }}
-              {{#with
+              {{#let
                 (component
                   tb.row-grouping
                   groupedValue=groupedValue
@@ -176,9 +176,9 @@
                     }}
                   {{/if}}
                 {{/if}}
-              {{/with}}
-            {{/with}}
-          {{/with}}
+              {{/let}}
+            {{/let}}
+          {{/let}}
         {{else}}
           {{component tb.no-data}}
         {{/each}}
@@ -206,4 +206,4 @@
       {{/if}}
     {{/if}}
   {{/if}}
-{{/with}}
+{{/let}}

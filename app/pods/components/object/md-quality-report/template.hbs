@@ -32,7 +32,7 @@
       @collapsible={{true}}
       @collapsed={{false}}
       @spotlightEnabled={{false}}
-      @deleteAction={{action 'deleteQualityMeasureIdentifier'}}
+      @deleteAction={{this.deleteQualityMeasureIdentifier}}
     >
       {{object/md-identifier
         model=this.model.qualityMeasure.identifier
@@ -47,7 +47,7 @@
           <button
             class='btn btn-success btn-md'
             type='button'
-            {{action 'addQualityMeasureIdentifier'}}
+            {{on 'click' this.addQualityMeasureIdentifier}}
           >
             <i class='fa fa-plus' />
             Add Identifier
@@ -139,7 +139,7 @@
       @collapsible={{true}}
       @collapsed={{false}}
       @spotlightEnabled={{false}}
-      @deleteAction={{action 'deleteEvaluationProcedure'}}
+      @deleteAction={{this.deleteEvaluationProcedure}}
     >
       {{object/md-citation
         model=this.model.evaluationMethod.evaluationProcedure
@@ -156,7 +156,7 @@
           <button
             class='btn btn-success btn-md'
             type='button'
-            {{action 'addEvaluationProcedure'}}
+            {{on 'click' this.addEvaluationProcedure}}
           >
             <i class='fa fa-plus' />
             Add Evaluation Procedure Reference

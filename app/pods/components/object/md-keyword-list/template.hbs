@@ -6,7 +6,7 @@
         <button
           class='btn btn-xs btn-danger pull-right'
           type='button'
-          {{action 'deleteKeyword' model.keyword keyword}}
+          {{on 'click' (fn this.onDeleteKeyword model.keyword keyword)}}
         >
           <span class='fa fa-times'></span>
           Delete
@@ -21,7 +21,7 @@
         <button
           type='button'
           class='btn btn-block btn-success'
-          {{action editThesaurus listId}}
+          {{on 'click' (fn this.editThesaurus this.listId)}}
         >
           {{fa-icon 'pencil'}}
           Edit keywords.
@@ -60,7 +60,7 @@
               <button
                 class='btn btn-xs btn-danger'
                 type='button'
-                {{action 'deleteKeyword' model.keyword keyword}}
+                {{on 'click' (fn this.onDeleteKeyword model.keyword keyword)}}
               >
                 <span class='fa fa-times'></span>
                 Delete
@@ -80,7 +80,7 @@
           <button
             type='button'
             class='btn btn-xs btn-success'
-            {{action 'addKeyword' model.keyword}}
+            {{on 'click' (fn this.onAddKeyword model.keyword)}}
           >
             {{fa-icon 'plus'}}
             Add Keyword
@@ -88,7 +88,7 @@
           <button
             type='button'
             class='btn btn-xs btn-info'
-            {{action 'hideThesaurus' this.element}}
+            {{on 'click' this.hideThesaurus}}
           >
             {{fa-icon 'eye'}}
             Toggle Thesaurus

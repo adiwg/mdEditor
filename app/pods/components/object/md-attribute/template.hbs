@@ -6,7 +6,7 @@
   @data-spy='Attribute Information'
   @required={{true}}
 >
-  {{#with (concat this.profilePath '.information') as |profilePath|}}
+  {{#let (concat this.profilePath '.information') as |profilePath|}}
     {{input/md-input
       model=this
       valuePath='codeName'
@@ -163,7 +163,7 @@
       label='Maximum Value'
       profilePath=(concat profilePath '.maxValue')
     }}
-  {{/with}}
+  {{/let}}
 </Layout::MdCard>
 
 <Object::MdArrayTable

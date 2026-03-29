@@ -60,7 +60,7 @@
                 <button
                   class='btn btn-primary'
                   type='button'
-                  {{action (route-action 'readFromUri')}}
+                  {{on 'click' (route-action 'readFromUri')}}
                 >
                   {{#if this.isLoading}}
                     {{fa-icon 'spinner' spin=true}}
@@ -138,23 +138,23 @@
         <button
           type='button'
           class='btn btn-lg btn-primary btn-block md-btn-responsive'
-          {{action 'closePreview'}}
+          {{on 'click' (route-action 'closePreview')}}
         >{{fa-icon 'arrow-left'}} Close Preview</button>
       {{else if this.model.files}}
         <button
           type='button'
           class='btn btn-lg btn-success btn-block md-btn-responsive'
-          {{action 'importData'}}
+          {{on 'click' (route-action 'importData')}}
         >{{fa-icon 'sign-in'}} Click to Import Data</button>
         <button
           type='button'
           class='btn btn-lg btn-danger btn-block md-btn-responsive'
-          {{action 'cancelImport'}}
+          {{on 'click' (route-action 'cancelImport')}}
         >{{fa-icon 'times'}} Cancel Import</button>
         <div class='btn-fake btn-block'>
           {{x-toggle
             value=this.model.merge
-            onToggle=(action (mut this.model.merge))
+            onToggle=(fn (mut this.model.merge))
             showLabels=true
             onLabel='Merge'
             offLabel='Replace'
@@ -181,7 +181,7 @@
   @confirmLabel='Go to Settings'
   @showCancel={{true}}
   @confirm={{route-action 'goToSettings'}}
-  @cancel={{action (mut this.showApiModal) false}}
+  @cancel={{fn (mut this.showApiModal) false}}
 >
   <div class='alert alert-info' role='alert'>{{fa-icon 'exclamation-triangle'}}
     mdTranslator API URL required.

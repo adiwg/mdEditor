@@ -40,7 +40,7 @@
       columnSets=columnSets
       rowBodyComponent='object/md-schema'
       pageSize=25
-      editRow=(action 'editSchema')
+      editRow=this.editSchema
       actionBadges=badges
     }}
   {{/liquid-if}}
@@ -60,7 +60,7 @@
       iconSpin=task.isRunning
       disabled=disableSave
       class='btn-success btn-lg'
-      click=(action 'saveSchema')
+      click=this.saveSchema
     )
   }}
   {{to-elsewhere
@@ -70,7 +70,7 @@
       text=(if schema.isNew 'Cancel' 'Back')
       icon=(if schema.isNew 'undo' 'arrow-left')
       class=(if schema.isNew 'btn-warning btn-lg' 'btn-primary btn-lg')
-      click=(action 'cancelEdit')
+      click=this.cancelEdit
     )
   }}
 {{else}}
@@ -81,7 +81,7 @@
       text='Add Schema'
       icon='plus'
       class='btn-success btn-lg'
-      click=(action 'addSchema')
+      click=this.addSchema
       disabled=(if schema true)
     )
   }}

@@ -28,7 +28,7 @@
     <button
       class='btn btn-primary pull-right'
       type='submit'
-      {{action 'search'}}
+      {{on 'click' this.search}}
       disabled={{if this.searchString false true}}
     >
       {{#if this.isLoading}}
@@ -109,7 +109,7 @@
                     <button
                       type='button'
                       class='btn btn-success btn-lg btn-block'
-                      {{action 'selectItem' result}}
+                      {{on 'click' (fn this.selectItem result)}}
                     >Add</button>
                   </div>
                 </div>
@@ -142,7 +142,7 @@
                   <button
                     type='button'
                     class='btn btn-primary btn-lg btn-block'
-                    {{action 'importTaxa' this.selected}}
+                    {{on 'click' (fn this.importTaxa this.selected)}}
                   >Import Taxa</button>
                 </p>
               </div>
@@ -189,7 +189,7 @@
                     <button
                       type='button'
                       class='btn btn-danger btn-lg btn-block'
-                      {{action 'deselectItem' result}}
+                      {{on 'click' (fn this.deselectItem result)}}
                     >Remove</button>
                   </div>
                 </div>

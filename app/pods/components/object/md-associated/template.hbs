@@ -67,7 +67,7 @@
               {{/each}}
             </Control::MdDefinition>
           </dl>
-          {{#with
+          {{#let
             this.linkedRecord.json.metadata.metadataInfo.metadataIdentifier
             as |meta|
           }}
@@ -77,7 +77,7 @@
                 {{if meta.namespace (concat '(' meta.namespace ')')}}
               </Control::MdDefinition>
             </dl>
-          {{/with}}
+          {{/let}}
         </Object::MdCitation::Preview::Body>
       {{else}}
         <div class='card card-inverse card-danger'>
@@ -131,13 +131,13 @@
     }}
   </div>
 
-  {{#with this.model.resourceCitation as |citation|}}
+  {{#let this.model.resourceCitation as |citation|}}
     {{object/md-citation
       model=citation
       profilePath=(concat this.profilePath '.resourceCitation')
       simpleIdentifier=true
     }}
-  {{/with}}
+  {{/let}}
 
   <Layout::MdCard
     @title='Metadata Citation'
@@ -146,14 +146,14 @@
     @collapsible={{true}}
     @collapsed={{true}}
   >
-    {{#with this.model.metadataCitation as |metdata|}}
+    {{#let this.model.metadataCitation as |metdata|}}
       {{object/md-citation
         model=metdata
         profilePath=(concat this.profilePath '.metadataCitation')
         embedded=true
         simpleIdentifier=true
       }}
-    {{/with}}
+    {{/let}}
   </Layout::MdCard>
 {{/if}}
 

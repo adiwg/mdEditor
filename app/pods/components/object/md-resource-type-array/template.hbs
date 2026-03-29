@@ -14,7 +14,7 @@
   as |type|
 >
   <td>
-    {{#with type.item as |item|}}
+    {{#let type.item as |item|}}
       {{input/md-codelist
         create=true
         tooltip=true
@@ -28,7 +28,7 @@
         path='type'
         placeholder='Choose type of resource'
       }}
-    {{/with}}
+    {{/let}}
   </td>
   <td>
     {{input/md-input

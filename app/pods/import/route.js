@@ -295,8 +295,6 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
 
     return this.mapRecords(json.data);
   }
-
-  //TODO: fix propertyName id for dataDictionary
   get columns() {
     let route = this;
 

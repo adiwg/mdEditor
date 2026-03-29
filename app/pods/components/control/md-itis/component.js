@@ -69,7 +69,8 @@ export default class MdItisComponent extends Component {
   }
 
   @action
-  search() {
+  search(event) {
+    event?.preventDefault?.();
     this.submit.call(this);
   }
 
@@ -113,10 +114,7 @@ export default class MdItisComponent extends Component {
 
     let system = systems.findBy('citation.title', itisCitation.title);
 
-    let allTaxa = taxa.reduce(
-      (acc, itm) => acc.pushObjects(itm.taxonomy),
-      []
-    );
+    let allTaxa = taxa.reduce((acc, itm) => acc.pushObjects(itm.taxonomy), []);
     let today = moment().format('YYYY-MM-DD');
     let dateObj = {
       date: today,

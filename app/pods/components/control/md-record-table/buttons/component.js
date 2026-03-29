@@ -1,9 +1,7 @@
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
+import Component from '@glimmer/component';
 import { action } from '@ember/object';
 
-@classic
 export default class ButtonsComponent extends Component {
   @service router;
 
@@ -11,7 +9,7 @@ export default class ButtonsComponent extends Component {
 
   @action
   deleteItem(item, index, isSelected, clickOnRow) {
-    if(isSelected) {
+    if (isSelected) {
       clickOnRow(index, item);
     }
 

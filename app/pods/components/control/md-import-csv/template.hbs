@@ -1,7 +1,7 @@
 {{#if this.isProcessing}}
   <h3>{{fa-icon 'spinner' spin=true}}
     Processing...
-    <button class='btn btn-info' type='button' {{action 'stopParsing'}}>
+    <button class='btn btn-info' type='button' {{on 'click' this.stopParsing}}>
       {{fa-icon 'cross' spin=true}}
       Stop</button>
   </h3>
@@ -31,27 +31,4 @@
       }}
       Click or Drop a CSV here.</button>
   </FilePicker>
-  {{!-- <hr>
-  <h3>Import from Online URL</h3>
-  <div class="row">
-    <div class="col-xxl-6">
-      <div class="input-group input-group-lg">
-        {{input
-          type="url"
-          value=importUri
-          placeholder="Enter online link to CSV"
-          class="form-control"
-        }}
-        <span class="input-group-btn">
-            <button class="btn btn-info" type="button" {{action "readFromUri"}}>
-              {{#if isLoading}}
-                {{fa-icon "spinner" spin=true}}
-              {{else}}
-                {{fa-icon "cloud-download"}}
-              {{/if}}
-              Import</button>
-        </span>
-      </div>
-    </div>
-  </div> --}}
 {{/if}}

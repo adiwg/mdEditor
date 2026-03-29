@@ -2,7 +2,7 @@
   {{control/md-alert-table
     title=this.header
     required=this.required
-    addItem=(action 'addItem')
+    addItem=this.addItem
     target=this.items
     tipMessage=this.alertTipMessage
   }}
@@ -38,7 +38,7 @@
           type='button'
           id='{{this.panelId}}-btn'
           class='btn btn-xs btn-info pull-right {{if this.editing "hidden"}}'
-          {{action 'addItem' this.items}}
+          {{on 'click' this.addItem}}
         >
           {{fa-icon 'plus'}}
           Add
@@ -47,7 +47,7 @@
           type='button'
           class='btn btn-xs btn-info pull-right
             {{unless this.editing "hidden"}}'
-          {{action 'cancelEdit'}}
+          {{on 'click' this.cancelEdit}}
         >
           <span class='fa fa-check'></span>
           OK
@@ -67,7 +67,7 @@
             <button
               type='button'
               class='btn btn-xs btn-info'
-              {{action 'cancelEdit'}}
+              {{on 'click' this.cancelEdit}}
             >
               <span class='fa fa-check'></span>
               OK
@@ -157,14 +157,17 @@
                         <button
                           type='button'
                           class='btn btn-{{this.btnSize}} btn-success'
-                          {{action
-                            'doEditItem'
-                            this.items
-                            index
-                            (if
-                              this.scrollToId
-                              (concat this.scrollToId '-' index)
-                              null
+                          {{on
+                            'click'
+                            (fn
+                              this.doEditItem
+                              this.items
+                              index
+                              (if
+                                this.scrollToId
+                                (concat this.scrollToId '-' index)
+                                null
+                              )
                             )
                           }}
                         >
@@ -176,7 +179,7 @@
                               </button> --}}
                         <Control::MdButtonConfirm
                           @class='btn btn-{{this.btnSize}} btn-danger'
-                          @onConfirm={{action 'deleteItem' this.items index}}
+                          @onConfirm={{fn this.deleteItem this.items index}}
                         >
                           <span class='fa fa-times'></span>
                           Delete
@@ -236,7 +239,7 @@
                       type='button'
                       id='{{this.panelId}}-btn'
                       class='btn btn-xs btn-info'
-                      {{action 'addItem' this.items}}
+                      {{on 'click' this.addItem}}
                     >
                       {{fa-icon 'plus'}}
                       {{this.buttonText}}
@@ -253,7 +256,7 @@
               type='button'
               id='{{this.panelId}}-btn'
               class='btn btn-sm btn-info {{if this.editing "hidden"}}'
-              {{action 'addItem' this.items}}
+              {{on 'click' this.addItem}}
             >
               {{fa-icon 'plus'}}
               Add
@@ -275,7 +278,7 @@
       clickText=this.buttonText
       clickIcon='plus'
       clickType='success'
-      click=(action 'addItem')
+      click=this.addItem
     )
   }}
 {{/if}}

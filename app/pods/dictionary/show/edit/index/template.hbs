@@ -1,4 +1,4 @@
-{{#with this.model.json.dataDictionary as |resource|}}
+{{#let this.model.json.dataDictionary as |resource|}}
   <form class='col-xxl-11 col-xxxl-10 col-xxl-offset-1'>
     <h4 class='section-header'>
       Editing
@@ -108,7 +108,7 @@
     }}
 
   </form>
-{{/with}}
+{{/let}}
 
 {{to-elsewhere
   named='md-scroll-spy-dict-edit'

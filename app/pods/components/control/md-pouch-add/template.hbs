@@ -10,14 +10,18 @@
       @objectArray={{this.options}}
     />
     <div class='pouch-action-buttons'>
-      <button class='btn btn-md btn-warning' type='button' {{action 'close'}}>
+      <button
+        class='btn btn-md btn-warning'
+        type='button'
+        {{on 'click' this.close}}
+      >
         {{fa-icon 'undo'}}
         Cancel
       </button>
       <button
         class='btn btn-md btn-success'
         type='button'
-        {{action 'saveNew' @section.meta.type}}
+        {{on 'click' (fn this.savenew @section.meta.type)}}
       >
         {{fa-icon 'floppy-o'}}
         Save
@@ -29,7 +33,7 @@
         <button
           class='btn btn-lg btn-primary'
           type='button'
-          {{action 'addNew' @section.meta.type}}
+          {{on 'click' (fn this.savenew @section.meta.type)}}
         >
           {{fa-icon 'plus'}}
           Add new

@@ -1,6 +1,6 @@
 {{#if this.modal}}
   <ModalDialog
-    @onClose={{action 'closeModal'}}
+    @onClose={{this.closeModal}}
     @translucentOverlay={{true}}
     @containerClass='md-jsmodal-container'
     @overlayClass='md-modal-overlay'
@@ -10,7 +10,7 @@
   >
     <button
       type='button'
-      {{action 'closeModal'}}
+      {{on 'click' this.closeModal}}
       class='md-modal-close'
       aria-label='Close'
     >
@@ -32,13 +32,13 @@
         <button
           type='button'
           class='btn btn-primary'
-          {{action 'expand'}}
+          {{on 'click' this.expand}}
           title='Expand All'
         >{{fa-icon 'plus'}}</button>
         <button
           type='button'
           class='btn btn-default'
-          {{action 'collapse'}}
+          {{on 'click' this.collapse}}
           title='Collapse All'
         >{{fa-icon 'minus'}}</button>
       </div>
@@ -50,13 +50,13 @@
         <button
           type='button'
           class='btn btn-primary'
-          {{action 'zoomin'}}
+          {{on 'click' this.zoomin}}
           title='Zoom in'
         >{{fa-icon 'search'}}</button>
         <button
           type='button'
           class='btn btn-default'
-          {{action 'zoomout'}}
+          {{on 'click' this.zoomout}}
           title='Zoom Out'
         >{{fa-icon 'search-minus'}}</button>
       </div>

@@ -22,7 +22,7 @@
             <button
               type='button'
               class='btn btn-primary'
-              {{action 'calculateBox'}}
+              {{on 'click' this.calculateBox}}
               disabled={{if (is-empty this.geographicElement) true}}
             >
               {{fa-icon 'calculator'}}
@@ -30,7 +30,7 @@
             </button>
             <Control::MdButtonConfirm
               @class='btn btn-danger'
-              @onConfirm={{action 'clearBox'}}
+              @onConfirm={{this.clearBox}}
               @disabled={{unless this.hasBbox true}}
             >
               {{fa-icon 'trash'}}
@@ -63,13 +63,13 @@
         <button
           type='button'
           class='btn btn-md btn-success'
-          {{action 'editFeatures' this.index}}
+          {{on 'click' (fn this.editFeaturesAction this.index)}}
         >
           {{fa-icon 'pencil'}}
           Edit Features</button>
         <Control::MdButtonConfirm
           @class='btn btn-danger'
-          @onConfirm={{action 'deleteFeatures'}}
+          @onConfirm={{this.deleteFeaturesAction}}
         >
           {{fa-icon 'trash'}}
           Clear Features
@@ -80,7 +80,7 @@
         @lng={{0}}
         @zoom={{2}}
         @maxZoom={{18}}
-        @onLoad={{action this.setupMap}}
+        @onLoad={{this.setupMap}}
       >
         {{! Specify child layer components here }}
         <LayerGroup @name='Terrain' @baselayer={{true}} @default={{true}}>
@@ -122,7 +122,7 @@
         <button
           type='button'
           class='btn btn-md btn-success md-btn-responsive'
-          {{action 'editFeatures' this.index}}
+          {{on 'click' (fn this.editFeaturesAction this.index)}}
         >
           {{fa-icon 'pencil'}}
           Add Features</button>

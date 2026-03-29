@@ -15,7 +15,7 @@
       <div class='col-sm-2'>
         {{x-toggle
           value=this.model.autoSave
-          onToggle=(action (mut this.model.autoSave))
+          onToggle=(fn (mut this.model.autoSave))
           showLabels=true
           onLabel='On'
           offLabel='Off'
@@ -29,7 +29,7 @@
       <div class='col-sm-2'>
         {{x-toggle
           value=this.model.showCopy
-          onToggle=(action (mut this.model.showCopy))
+          onToggle=(fn (mut this.model.showCopy))
           showLabels=true
           onLabel='On'
           offLabel='Off'
@@ -45,7 +45,7 @@
         <div class='col-sm-2'>
           {{x-toggle
             value=this.model.showDelete
-            onToggle=(action (mut this.model.showDelete))
+            onToggle=(fn (mut this.model.showDelete))
             showLabels=true
             onLabel='On'
             offLabel='Off'
@@ -62,7 +62,7 @@
             class='btn btn-sm btn-danger'
             icon='times'
             text='Clear Storage Cache'
-            click=(action (mut this.showStorageModal) true)
+            click=(fn (mut this.showStorageModal) true)
           }}
           {{control/md-modal
             message='<h4 class="text-danger"><span class="fa fa-exclamation-circle"></span> <strong>Are you
@@ -157,7 +157,7 @@
           <button
             class='btn btn-info'
             type='button'
-            {{action 'deriveItisProxyUrl'}}
+            {{on 'click' (route-action 'deriveItisProxyUrl')}}
           >Derive from API URL
             {{ember-tooltip
               tooltipClass='ember-tooltip md-tooltip info'

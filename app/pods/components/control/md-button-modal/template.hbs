@@ -1,7 +1,7 @@
 {{yield}}
 <Control::MdModal
   @isShowing={{this.isShowingModal}}
-  @closeModal={{action 'cancel'}}
+  @closeModal={{on 'click' this.cancel}}
   @target={{this.target}}
   @renderInPlace={{this.renderInPlace}}
 >
@@ -10,12 +10,12 @@
     <button
       type='button'
       class='btn btn-danger'
-      {{action 'confirm'}}
+      {{on 'click' this.confirm}}
     >Confirm</button>
     <button
       type='button'
       class='btn btn-primary'
-      {{action 'cancel'}}
+      {{on 'click' this.cancel}}
     >Cancel</button>
   </div>
 </Control::MdModal>

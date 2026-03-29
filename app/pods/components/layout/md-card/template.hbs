@@ -41,7 +41,7 @@
       {{/if}}
       {{#if this.maximizable}}
         <a role='button' class='pull-right md-card-maximize hidden-print'>
-          {{fa-icon this.windowIcon size=1 click=(action 'toggleFullScreen')}}
+          {{fa-icon this.windowIcon size=1 click=this.toggleFullScreen}}
         </a>
       {{/if}}
       <div class='btn-group hidden-print pull-right'>
@@ -50,7 +50,7 @@
             type='button'
             name='button'
             class='btn btn-{{if this.btnClass this.btnClass "primary"}} btn-xs'
-            {{action this.btnAction}}
+            {{on 'click' this.btnAction}}
           >
             {{fa-icon this.btnIcon}}
             {{this.btnText}}
@@ -59,7 +59,7 @@
         {{#if this.deleteAction}}
           <Control::MdButtonConfirm
             @class='btn btn-danger btn-xs'
-            @onConfirm={{action this.deleteAction}}
+            @onConfirm={{this.deleteAction}}
           >
             {{fa-icon 'times'}}
             Delete
@@ -70,7 +70,7 @@
             type='button'
             name='button'
             class='btn btn-info btn-xs md-btn-spotlight'
-            {{action 'setSpotlight' this.elementId}}
+            {{on 'click' (fn this.setSpotlight this.elementId)}}
           >
             {{fa-icon 'circle'}}
           </button>

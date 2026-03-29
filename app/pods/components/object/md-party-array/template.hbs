@@ -14,7 +14,7 @@
   @templateClass={{this.templateClass}}
   as |party|
 >
-  {{#with party.item as |item|}}
+  {{#let party.item as |item|}}
     <td>
       {{input/md-codelist
         path='role'
@@ -40,5 +40,5 @@
         profilePath=(concat this.profilePath '.contacts')
       }}
     </td>
-  {{/with}}
+  {{/let}}
 </Object::MdArrayTable>

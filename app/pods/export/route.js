@@ -102,8 +102,6 @@ export default class ExportRoute extends Route.extend(ScrollTo) {
       { propertyName: 'dictionaryId', title: 'ID' },
     ],
   });
-
-  // TODO: refactor this method to inclucde {attributes: {json: {}, dateUpdate:''}} in the modelTypes array
   processExportData(exportData) {
     let resultObject;
 

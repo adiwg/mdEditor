@@ -59,7 +59,7 @@
           columnSets=columnSets
           rowBodyComponent='object/md-profile/form'
           pageSize=25
-          editRow=(action 'editDefinition')
+          editRow=this.editDefinition
           actionBadges=badges
         }}
       {{/liquid-if}}
@@ -99,7 +99,7 @@
       iconSpin=task.isRunning
       disabled=disableSave
       class='btn-success btn-lg'
-      click=(action 'saveDefinition')
+      click=this.saveDefinition
     )
   }}
   {{to-elsewhere
@@ -109,7 +109,7 @@
       text=(if definition.isNew 'Cancel' 'Back')
       icon=(if definition.isNew 'undo' 'arrow-left')
       class=(if definition.isNew 'btn-warning btn-lg' 'btn-primary btn-lg')
-      click=(action 'cancelEdit')
+      click=this.cancelEdit
     )
   }}
 {{else}}
@@ -120,7 +120,7 @@
       text='Add Definition'
       icon='plus'
       class='btn-success btn-lg'
-      click=(action 'addDefinition')
+      click=this.addDefinition
       disabled=(if definition true)
     )
   }}
@@ -144,7 +144,7 @@
       text='Back to Profiles'
       icon='arrow-left'
       class='btn-primary btn-lg'
-      click=(action 'toProfile')
+      click=this.toProfile
     )
   }}
 {{/if}}

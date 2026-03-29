@@ -1,4 +1,4 @@
-{{#with this.item as |t|}}
+{{#let this.item as |t|}}
   {{#if this.isTable}}
     <td>{{t.transferSize}}</td>
     <td>{{if
@@ -19,4 +19,4 @@
   {{else}}
     {{yield t}}
   {{/if}}
-{{/with}}
+{{/let}}

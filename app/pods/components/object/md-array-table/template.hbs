@@ -2,7 +2,7 @@
   {{control/md-alert-table
     title=this.title
     required=this.required
-    addItem=(action 'addItem')
+    addItem=this.addItem
     target=this.arrayValues
     tipMessage=this.alertTipMessage
   }}
@@ -18,7 +18,7 @@
         type='button'
         id='{{this.panelId}}-btn'
         class='btn btn-xs btn-info pull-right'
-        {{action 'addItem' this.value}}
+        {{on 'click' this.addItem}}
       >
         {{fa-icon 'plus'}}
         Add
@@ -58,7 +58,7 @@
                   <Control::MdButtonConfirm
                     @class='btn btn-xs btn-danger'
                     @disabled={{if this.simple (if item.value null 'disabled')}}
-                    @onConfirm={{action 'deleteItem' this.value index}}
+                    @onConfirm={{fn this.deleteItem this.value index}}
                   >
                     <span class='fa fa-times'></span>
                     Delete
@@ -78,7 +78,7 @@
                   type='button'
                   id='{{this.panelId}}-btn'
                   class='btn btn-xs btn-info'
-                  {{action 'addItem' this.value}}
+                  {{on 'click' this.addItem}}
                 >
                   {{fa-icon 'plus'}}
                   Add
@@ -111,7 +111,7 @@
             type='button'
             id='{{this.panelId}}-btn'
             class='btn btn-xs btn-info pull-right'
-            {{action 'addItem'}}
+            {{on 'click' this.addItem}}
           >
             {{fa-icon 'plus'}}
             Add
@@ -161,7 +161,7 @@
                           this.simple
                           (if item.value null 'disabled')
                         }}
-                        @onConfirm={{action 'deleteItem' item index}}
+                        @onConfirm={{fn this.deleteItem item index}}
                       >
                         <span class='fa fa-times'></span>
                         Delete
@@ -181,7 +181,7 @@
                       type='button'
                       id='{{this.panelId}}-btn'
                       class='btn btn-xs btn-info'
-                      {{action 'addItem'}}
+                      {{on 'click' this.addItem}}
                     >
                       {{fa-icon 'plus'}}
                       Add

@@ -6,7 +6,7 @@
   {{#if this.doSave}}
     <button
       type='submit'
-      {{action 'save'}}
+      {{on 'click' this.save}}
       class='btn btn-lg btn-success'
       disabled={{if
         (or this.model.hasDirtyHash this.settings.data.autoSave)
@@ -19,7 +19,7 @@
     </button>
     <button
       type='button'
-      {{action 'cancel'}}
+      {{on 'click' this.cancel}}
       class='btn btn-lg btn-warning'
       disabled={{if this.model.canRevert false true}}
     >
@@ -28,7 +28,7 @@
     </button>
   {{/if}}
   {{#if this.showCopy}}
-    <button type='button' {{action 'copy'}} class='btn btn-lg btn-info'>
+    <button type='button' {{on 'click' this.copy}} class='btn btn-lg btn-info'>
       <i class='fa fa-clone'></i>
       Copy
     </button>
@@ -36,7 +36,7 @@
   {{#if this.showDelete}}
     <Control::MdButtonConfirm
       class='btn btn-lg btn-danger'
-      @onConfirm={{action 'delete'}}
+      @onConfirm={{this.delete}}
       @tooltip='Permanently delete this record?'
       @tipClass='danger'
     >

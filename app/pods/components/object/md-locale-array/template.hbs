@@ -9,7 +9,7 @@
   @templateClass={{this.templateClass}}
   as |locale|
 >
-  {{#with locale.item as |item|}}
+  {{#let locale.item as |item|}}
     <td>
       {{input/md-codelist
         path='language'
@@ -47,5 +47,5 @@
         placeholder='Select country code.'
       }}
     </td>
-  {{/with}}
+  {{/let}}
 </Object::MdArrayTable>

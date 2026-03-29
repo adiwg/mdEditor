@@ -14,11 +14,11 @@ export default class MdNavSidebarComponent extends Component {
   get prerelease() {
     let version = this.version;
 
-    if(version.substring(0, 3) === "0.0"){
+    if (version.substring(0, 3) === '0.0') {
       return 'alpha';
     }
 
-    if(version.substring(0, 1) === "0" && version.substring(0, 3) >0){
+    if (version.substring(0, 1) === '0' && version.substring(0, 3) > 0) {
       return 'beta';
     }
   }
@@ -30,12 +30,14 @@ export default class MdNavSidebarComponent extends Component {
   }
 
   @action
-  toggleHelp() {
+  toggleHelp(event) {
+    event?.preventDefault?.();
     this.showHelp = !this.showHelp;
   }
 
   @action
-  toggleSidebar() {
+  toggleSidebar(event) {
+    event?.preventDefault?.();
     const wrapper = document.getElementById('md-wrapper');
     if (wrapper) {
       wrapper.classList.toggle('toggled');

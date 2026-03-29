@@ -2,7 +2,7 @@
   Alternate Metadata Reference
   {{control/md-status model=(compute (route-action 'parentModel'))}}
 </h4>
-{{#with model as |citation|}}
+{{#let model as |citation|}}
   <div class='row'>
     {{object/md-citation
       class='col-xxl-11 col-xxxl-10 col-xxl-offset-1'
@@ -12,7 +12,7 @@
     }}
     {{outlet}}
   </div>
-{{/with}}
+{{/let}}
 {{to-elsewhere
   named='md-subbar-extra'
   send=(component

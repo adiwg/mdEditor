@@ -9,7 +9,7 @@
   <Control::MdJsonViewer
     @json={{this.json}}
     @modal={{true}}
-    @close={{action 'close'}}
+    @close={{on 'click' this.close}}
   />
 {{/if}}
 

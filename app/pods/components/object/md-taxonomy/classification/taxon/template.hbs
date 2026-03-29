@@ -5,7 +5,7 @@
       <div
         class='inline-block icon'
         role='button'
-        onClick={{action 'toggleCollapse'}}
+        {{on 'click' this.toggleCollapse}}
         style={{this.padding}}
       >
         {{fa-icon (if this.collapse 'folder' 'folder-open') fixedWidth=true}}
@@ -44,7 +44,7 @@
           <button
             class='btn btn-xs btn-success'
             type='button'
-            {{action 'toggleEditing' this.elementId}}
+            {{on 'click' this.toggleEditing}}
           >
             {{!-- <button class="btn btn-xs btn-success" {{action (toggle "isEditing" this)}}> --}}
             {{fa-icon 'pencil'}}
@@ -53,7 +53,7 @@
 
           <Control::MdButtonConfirm
             @class='btn btn-xs btn-danger'
-            @onConfirm={{action 'deleteTaxa' this.model}}
+            @onConfirm={{fn this.deleteTaxa this.model}}
           >
             {{fa-icon 'times'}}
             Delete
@@ -64,7 +64,7 @@
             icon='plus'
             text='Add Child'
             responsive=false
-            click=(action 'addChild')
+            click=this.addChild
           }}
         </div>
       {{/unless}}
@@ -74,7 +74,7 @@
 
     {{#if this.isEditing}}
       <div class='md-taxon-form'>
-        <form class='card form' {{action 'toggleEditing' on='submit'}}>
+        <form class='card form' {{on 'submit' this.toggleEditing}}>
           <div class='card-block row form-inline'>
             {{input/md-input
               class='col-lg-4'
@@ -124,7 +124,6 @@
             <button
               type='submit'
               class='btn btn-xs btn-info'
-              {{action 'toggleEditing' this.elementId}}
             >
               {{!-- <button class="btn btn-xs btn-info" {{action (toggle "isEditing" this)}}> --}}
               {{fa-icon 'check'}}
@@ -138,7 +137,7 @@
   </div>
 </div>
 
-{{#with this.collapsible}}
+{{#let this.collapsible}}
   {{#unless this.collapse}}
     {{object/md-taxonomy/classification
       model=this.model.subClassification
@@ -148,4 +147,4 @@
       profilePath=this.profilePath
     }}
   {{/unless}}
-{{/with}}
+{{/let}}

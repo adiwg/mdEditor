@@ -6,7 +6,7 @@
     @spotlightEnabled={{false}}
     @block={{false}}
   >
-    <form {{action 'translate' on='submit'}}>
+    <form {{on 'submit' this.translate}}>
       <div class='card-block'>
         {{input/md-select
           label='Choose Format'
@@ -18,7 +18,7 @@
           tooltip=true
           tooltipPath='tip'
           searchEnabled=false
-          change=(action 'clearResult')
+          change=this.clearResult
         }}
         <div class='form-group'>
           <label>Force Valid Ouput?</label>
@@ -26,7 +26,7 @@
             <div class='inline-block'>
               {{input/md-toggle
                 value=this.forceValid
-                onToggle=(action (mut this.forceValid))
+                onToggle=(fn (mut this.forceValid))
                 showLabels=true
                 onLabel='Yes'
                 offLabel='No'
@@ -42,7 +42,7 @@
             <div class='inline-block'>
               {{input/md-toggle
                 value=this.showAllTags
-                onToggle=(action (mut this.showAllTags))
+                onToggle=(fn (mut this.showAllTags))
                 showLabels=true
                 onLabel='Yes'
                 offLabel='No'
@@ -58,7 +58,7 @@
           <div class='alert alert-warning' role='alert'>
             <strong>Warning:</strong>
             mdTranslator API URL is not configured. Please configure it in
-            <a href='#' {{action 'goToSettings'}}>Settings</a>
+            <a href='#' {{on 'click' this.goToSettings}}>Settings</a>
             to enable translation.
           </div>
         {{/unless}}
@@ -94,8 +94,8 @@
       <h4 class='text-{{this.errorClass}}'>{{this.errorSubTitle}}</h4>
       <ul class='list-group'>
         {{#each this.messages as |message|}}
-          {{#with
-            (compute (action 'errorClassAction') (get message '0'))
+          {{#let
+            (compute this.errorClassAction (get message '0'))
             as |errorClass|
           }}
             <li class='list-group-item'>
@@ -113,10 +113,10 @@
                     message
                     '1'
                   }}</span>
-                {{compute (action 'formatMessage' (get message '3'))}}
+                {{compute (fn this.formatMessage (get message '3'))}}
               </div>
             </li>
-          {{/with}}
+          {{/let}}
         {{/each}}
       </ul>
     </Layout::MdCard>
@@ -184,7 +184,7 @@
           <button
             type='button'
             class='btn btn-lg btn-primary'
-            {{action 'prettifyJson'}}
+            {{on 'click' this.prettifyJson}}
             disabled={{if this.result false true}}
           >
             {{fa-icon 'align-left'}}
@@ -195,7 +195,7 @@
         <button
           type='button'
           class='btn btn-lg btn-success'
-          {{action 'saveResult'}}
+          {{on 'click' this.saveResult}}
           disabled={{if this.result false true}}
         >
           {{fa-icon 'floppy-o'}}

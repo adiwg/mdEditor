@@ -20,7 +20,7 @@
             <button
               type='button'
               class='btn btn-xs btn-danger'
-              {{action 'logout'}}
+              {{on 'click' this.logout}}
             >
               Log out
             </button>
@@ -30,11 +30,19 @@
     </div>
     <hr />
     <div class='couch-actions'>
-      <button type='button' class='btn btn-lg btn-primary' {{action 'push'}}>
+      <button
+        type='button'
+        class='btn btn-lg btn-primary'
+        {{on 'click' this.push}}
+      >
         <span class='fa fa-upload'></span>
         Push
       </button>
-      <button type='button' class='btn btn-lg btn-primary' {{action 'pull'}}>
+      <button
+        type='button'
+        class='btn btn-lg btn-primary'
+        {{on 'click' this.pull}}
+      >
         <span class='fa fa-download'></span>
         Pull
       </button>
@@ -81,7 +89,7 @@
         <button
           type='button'
           class='btn btn-lg btn-success'
-          {{action 'login'}}
+          {{on 'click' this.login}}
         >Login</button>
       </div>
     </div>

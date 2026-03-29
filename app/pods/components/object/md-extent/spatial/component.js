@@ -62,6 +62,7 @@ export default class MdExtentSpatialComponent extends Component {
     }
   });
 
+  @action
   setupMap(m) {
     let map = m.target;
     let geo = this.geographicElement || [];
@@ -128,5 +129,12 @@ export default class MdExtentSpatialComponent extends Component {
   @action
   deleteFeaturesAction() {
     this.deleteFeatures();
+  }
+
+  @action
+  editFeaturesAction(index) {
+    if (typeof this.editFeatures === 'function') {
+      this.editFeatures(index);
+    }
   }
 }

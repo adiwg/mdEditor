@@ -1,4 +1,4 @@
-{{#with this.model.json.metadata.metadataInfo as |metadata|}}
+{{#let this.model.json.metadata.metadataInfo as |metadata|}}
   <div class='row'>
     <form class='col-xxl-11 col-xxxl-10 col-xxl-offset-1'>
       <h4 class='section-header'>
@@ -51,7 +51,7 @@
         profilePath='record.metadata.metadataContacts'
       }}
 
-      {{#with
+      {{#let
         this.model.json.metadata.metadataInfo.metadataIdentifier
         as |identifier|
       }}
@@ -82,7 +82,7 @@
             </dl>
           </div>
         </Layout::MdCard>
-      {{/with}}
+      {{/let}}
 
       {{object/md-citation/preview
         profilePath='record.metadata.parentMetadata'
@@ -141,7 +141,7 @@
       {{outlet}}
     </form>
   </div>
-{{/with}}
+{{/let}}
 
 {{to-elsewhere
   named='md-scroll-spy-record-edit'

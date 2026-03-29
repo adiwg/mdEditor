@@ -1,13 +1,17 @@
 <ul class='sidebar-nav'>
   <li class='sidebar-brand'>
-    <a class='sidebar-brand-link' href='#' {{action 'toggleSidebar'}}>md<span
-        class='md-icon-mdeditor'
-      ></span>ditor</a><span
+    <a
+      class='sidebar-brand-link'
+      href='#'
+      {{on 'click' this.toggleSidebar}}
+    >md<span class='md-icon-mdeditor'></span>ditor</a><span
       class='md-app-version {{this.prerelease}}'
     >v{{this.version}}</span>
-    <a class='md-btn-help pull-right' href='#' {{action 'toggleHelp'}}>{{fa-icon
-        (if this.showHelp 'list' 'question-circle')
-      }}</a>
+    <a
+      class='md-btn-help pull-right'
+      href='#'
+      {{on 'click' this.toggleHelp}}
+    >{{fa-icon (if this.showHelp 'list' 'question-circle')}}</a>
   </li>
   {{#liquid-if predicate=this.showHelp class='help-selected'}}
     <MdHelp />
@@ -15,7 +19,7 @@
     <li id='md-sidebar-lists'>
       <div class='panel-group'>
         {{#each this.items as |class|}}
-          {{#with class.meta as |meta|}}
+          {{#let class.meta as |meta|}}
             <div class='panel'>
               <div class='panel-heading clearfix' id='{{meta.listId}}-heading'>
                 <div
@@ -95,7 +99,7 @@
                 </div>
               </div>
             </div>
-          {{/with}}
+          {{/let}}
         {{/each}}
       </div>
     </li>

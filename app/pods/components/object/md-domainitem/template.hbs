@@ -28,7 +28,7 @@
   showValidations=true
 }}
 
-{{#with model.reference as |citation|}}
+{{#let model.reference as |citation|}}
   <Layout::MdCard
     @title='Item Reference'
     @collapsible={{true}}
@@ -44,4 +44,4 @@
       embedded=true
     }}
   </Layout::MdCard>
-{{/with}}
+{{/let}}
