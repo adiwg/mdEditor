@@ -457,6 +457,11 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
   }
 
   @action
+  setImportUri(event) {
+    this.controller.set('importUri', event.target.value);
+  }
+
+  @action
   readFromUri() {
     let uri = this.controller.get('importUri');
     let controller = this.controller;

@@ -1,5 +1,5 @@
 {{#if this.label}}
-  <label>
+  <label for={{concat this.elementId '-input'}}>
     {{this.label}}
     {{!<div class="pull-right"></div> }}
   </label>
@@ -8,10 +8,10 @@
   {{/if}}
 {{/if}}
 <div class='md-input-input'>
-  <Input
-    label='md input'
-    @value={{this.value}}
-    @type={{this.type}}
+  <input
+    id={{concat this.elementId '-input'}}
+    type={{this.type}}
+    value={{this.value}}
     placeholder={{this.placeholder}}
     required={{this.required}}
     step={{this.step}}
@@ -19,6 +19,7 @@
     class={{this.inputClass}}
     disabled={{this.disabled}}
     readonly={{this.readonly}}
+    {{on 'input' this.updateValue}}
   />
 
   <span class='md-input-error'>

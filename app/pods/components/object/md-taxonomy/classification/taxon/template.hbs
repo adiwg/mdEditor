@@ -2,15 +2,15 @@
   <div class='md-taxon-text'>
     {{#if this.collapsible}}
       {{! template-lint-disable no-inline-styles }}
-      <div
+      <button
+        type='button'
         class='inline-block icon'
-        role='button'
         {{on 'click' this.toggleCollapse}}
         style={{this.padding}}
       >
         {{fa-icon (if this.collapse 'folder' 'folder-open') fixedWidth=true}}
         <strong class='text-success'>{{this.taxonomicLevel}}</strong>
-      </div>
+      </button>
     {{else}}
       {{! template-lint-disable no-inline-styles }}
       <div class='inline-block' style={{this.padding}}>
@@ -121,10 +121,7 @@
           </div>
 
           <footer class='card-footer text-right'>
-            <button
-              type='submit'
-              class='btn btn-xs btn-info'
-            >
+            <button type='submit' class='btn btn-xs btn-info'>
               {{!-- <button class="btn btn-xs btn-info" {{action (toggle "isEditing" this)}}> --}}
               {{fa-icon 'check'}}
               OK

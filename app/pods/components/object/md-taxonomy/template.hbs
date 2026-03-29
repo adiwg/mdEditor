@@ -13,7 +13,7 @@
         <button
           type='button'
           class='btn btn-md btn-success btn-block md-btn-responsive'
-          {{action 'editCollection' this.index}}
+          {{on 'click' (fn this.editCollection this.index)}}
         >
           {{fa-icon 'pencil'}}
           Edit Collection</button>
@@ -22,7 +22,7 @@
         <button
           type='button'
           class='btn btn-md btn-danger btn-block md-btn-responsive'
-          {{action 'deleteCollection' this.index}}
+          {{on 'click' (fn this.deleteCollection this.index)}}
         >
           {{fa-icon 'times'}}
           Delete Collection</button>
@@ -30,19 +30,18 @@
     </div>
   </div>
 
-  <Layout::MdCard
-    @collapsible={{true}}
-    @collapsed={{false}}
-    @shadow={{false}}
-    @maximizable={{false}}
-    @spotlightEnabled={{false}}
-    @block={{false}}
-    @profilePath='record.taxonomy.classificationPreview'
-  >
+  {{#layout/md-card
+    collapsible=true
+    collapsed=false
+    shadow=false
+    maximizable=false
+    spotlightEnabled=false
+    profilePath='record.taxonomy.classificationPreview'
+  }}
     {{object/md-taxonomy/classification
       model=this.model.taxonomicClassification
       preview=true
       profilePath='record.taxonomy.classificationPreview'
     }}
-  </Layout::MdCard>
+  {{/layout/md-card}}
 </Layout::MdCard>

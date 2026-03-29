@@ -1,11 +1,11 @@
 <div class='col-md-4'>
 
-  <Layout::MdCard
-    @title='Options'
-    @class='md-translator-options'
-    @spotlightEnabled={{false}}
-    @block={{false}}
-  >
+  {{#layout/md-card
+    title='Options'
+    class='md-translator-options'
+    spotlightEnabled=false
+    block=false
+  }}
     <form {{on 'submit' this.translate}}>
       <div class='card-block'>
         {{input/md-select
@@ -73,7 +73,7 @@
         </button>
       </div>
     </form>
-  </Layout::MdCard>
+  {{/layout/md-card}}
 
 </div>
 <div class='col-md-7'>
@@ -158,6 +158,7 @@
     >
       {{#if this.isHtml}}
         <iframe
+          title='Translation Result Preview'
           srcdoc={{this.result}}
           sandbox='allow-scripts'
           width='100%'

@@ -52,13 +52,24 @@
           <tbody>
             {{#each-in columns as |col row|}}
               <tr>
-                <td>{{input
+                <td>
+                  <label
+                    class='sr-only'
+                    for={{concat 'import-column-' col}}
+                  >Import column {{col}}</label>
+                  {{input
+                    id=(concat 'import-column-' col)
                     type='checkbox'
                     name='import'
                     checked=row.import
-                  }}</td>
+                  }}
+                </td>
                 <td class='text-nowrap'>
+                  <label class='sr-only' for={{concat 'name-column-' col}}>
+                    {{concat 'Name for column ' col}}
+                  </label>
                   {{input
+                    id=(concat 'name-column-' col)
                     type='text'
                     value=row.importName
                     class='form-control'
@@ -82,7 +93,11 @@
                   }}
                 </td>
                 <td>
+                  <label class='sr-only' for={{concat 'domain-column-' col}}>
+                    {{concat 'Has domain for column ' col}}
+                  </label>
                   {{input
+                    id=(concat 'domain-column-' col)
                     type='checkbox'
                     name='hasDomain'
                     checked=row.hasDomain
@@ -92,14 +107,24 @@
                   >({{row.domain.length}})</span>
                 </td>
                 <td>
+                  <label
+                    class='sr-only'
+                    for={{concat 'allow-null-column-' col}}
+                  >Allow null for column {{col}}</label>
                   {{input
+                    id=(concat 'allow-null-column-' col)
                     type='checkbox'
                     name='allowNull'
                     checked=row.allowNull
                   }}
                 </td>
                 <td class='text-nowrap'>
+                  <label
+                    class='sr-only'
+                    for={{concat 'range-column-' col}}
+                  >Enable range for column {{col}}</label>
                   {{input
+                    id=(concat 'range-column-' col)
                     type='checkbox'
                     name='range'
                     checked=row.range

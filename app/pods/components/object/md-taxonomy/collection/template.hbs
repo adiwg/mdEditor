@@ -28,23 +28,23 @@
   data-spy='System'
 }}
 
-<Layout::MdCard
-  @title='Classification'
-  @collapsible={{true}}
-  @collapsed={{false}}
-  @profilePath='{{this.profilePath}}.classification'
-  @data-spy='Classification'
-  @required={{true}}
-  @shadow={{true}}
-  @maximizable={{true}}
-  @spotlightEnabled={{false}}
-  @block={{if this.model.taxonomicClassification.length false true}}
->
+{{#layout/md-card
+  title='Classification'
+  collapsible=true
+  collapsed=false
+  profilePath='{{this.profilePath}}.classification'
+  data-spy='Classification'
+  required=true
+  shadow=true
+  maximizable=true
+  spotlightEnabled=false
+  block=(if this.model.taxonomicClassification.length false true)
+}}
   {{object/md-taxonomy/classification
     model=this.model.taxonomicClassification
     profilePath=(concat this.profilePath '.classification')
   }}
-</Layout::MdCard>
+{{/layout/md-card}}
 
 {{object/md-party-array
   title='Observer'

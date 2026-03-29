@@ -1,4 +1,4 @@
-<Layout::MdCard @spotlightEnabled={{false}} @block={{false}} as |card|>
+{{#layout/md-card spotlightEnabled=false block=false}}
   <div class='card-block row'>
     <div class='form-group col-lg-9'>
       <label class='control-label'>Search Value</label>
@@ -44,7 +44,7 @@
       Search
     </button>
   </div>
-</Layout::MdCard>
+{{/layout/md-card}}
 
 {{#if this.notFound}}
   <div class='alert alert-warning'>

@@ -1,7 +1,9 @@
-<span
+<button
+  type='button'
   {{on 'click' (fn this.doClickOnRow this.index this.record)}}
-  role='checkbox'
   class='md-checkbox-cell'
+  aria-label='Toggle row selection'
+  aria-pressed={{if this.isSelected 'true' 'false'}}
 >
   <i
     class={{if
@@ -10,4 +12,4 @@
       this.themeInstance.deselectRowIcon
     }}
   ></i>
-</span>
+</button>

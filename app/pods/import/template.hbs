@@ -50,11 +50,14 @@
         <div class='row'>
           <div class='col-xxl-6'>
             <div class='input-group input-group-lg'>
-              <Input
-                @type='url'
-                @value={{this.importUri}}
+              <label class='sr-only' for='import-uri'>Import mdJSON URL</label>
+              <input
+                id='import-uri'
+                type='url'
+                value={{this.importUri}}
                 placeholder='Enter online link to mdJSON'
                 class='form-control'
+                {{on 'input' (route-action 'setImportUri')}}
               />
               <span class='input-group-btn'>
                 <button

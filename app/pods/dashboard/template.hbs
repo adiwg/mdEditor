@@ -1,10 +1,9 @@
 <div class='dashboard'>
   <div class='row'>
     <div class='col-xs-12 col-sm-4'>
-      <Layout::MdCard
-        @class='card-inverse card-primary text-center'
-        @block={{false}}
-      >
+      {{#layout/md-card
+        class='card-inverse card-primary text-center' block=false
+      }}
         <div class='card-block'>
           <div class='card-title row'>
             <div class='col-xs-3'>
@@ -16,7 +15,7 @@
             </div>
           </div>
         </div>
-        {{#link-to 'records'}}
+        {{#link-to route='records'}}
           <div class='card-footer'>
             <div class='pull-left'>
               View Records
@@ -24,16 +23,14 @@
             <div class='pull-right'>
               {{fa-icon 'arrow-right' size=1}}
             </div>
-
           </div>
         {{/link-to}}
-      </Layout::MdCard>
+      {{/layout/md-card}}
     </div>
     <div class='col-xs-12 col-sm-4'>
-      <Layout::MdCard
-        @class='card-inverse card-success text-center'
-        @block={{false}}
-      >
+      {{#layout/md-card
+        class='card-inverse card-success text-center' block=false
+      }}
         <div class='card-block'>
           <div class='card-title row'>
             <div class='col-xs-3'>
@@ -45,7 +42,7 @@
             </div>
           </div>
         </div>
-        {{#link-to 'contacts'}}
+        {{#link-to route='contacts'}}
           <div class='card-footer'>
             <div class='pull-left'>
               View Contacts
@@ -53,16 +50,12 @@
             <div class='pull-right'>
               {{fa-icon 'arrow-right' size=1}}
             </div>
-
           </div>
         {{/link-to}}
-      </Layout::MdCard>
+      {{/layout/md-card}}
     </div>
     <div class='col-xs-12 col-sm-4'>
-      <Layout::MdCard
-        @class='card-inverse card-info text-center'
-        @block={{false}}
-      >
+      {{#layout/md-card class='card-inverse card-info text-center' block=false}}
         <div class='card-block'>
           <div class='card-title row'>
             <div class='col-xs-3'>
@@ -74,7 +67,7 @@
             </div>
           </div>
         </div>
-        {{#link-to 'dictionaries'}}
+        {{#link-to route='dictionaries'}}
           <div class='card-footer'>
             <div class='pull-left'>
               View Dictionaries
@@ -82,10 +75,9 @@
             <div class='pull-right'>
               {{fa-icon 'arrow-right' size=1}}
             </div>
-
           </div>
         {{/link-to}}
-      </Layout::MdCard>
+      {{/layout/md-card}}
     </div>
   </div>
   <hr />

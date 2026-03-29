@@ -1,7 +1,8 @@
-<span
+<button
+  type='button'
   {{on 'click' this.doToggleAllSelection}}
-  role='button'
   class='center-block md-checkbox-all'
+  aria-label='Toggle all rows'
 >
   <i
     class={{if
@@ -10,4 +11,4 @@
       this.themeInstance.deselectAllRowsIcon
     }}
   ></i>
-</span>
+</button>

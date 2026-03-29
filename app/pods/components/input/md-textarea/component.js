@@ -5,7 +5,7 @@
 
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import { computed, defineProperty } from '@ember/object';
+import { action, computed, defineProperty } from '@ember/object';
 import { alias, not, notEmpty, and, or } from '@ember/object/computed';
 import { isBlank } from '@ember/utils';
 import { assert, debug } from '@ember/debug';
@@ -165,6 +165,16 @@ export default class MdTextareaComponent extends Component {
    * @requires placeholder,infotip
    */
   @and('placeholder', 'infotip') showInfotip;
+
+  @action
+  updateValue(event) {
+    this.value = event.target.value;
+  }
+
+  @action
+  toggleExpanded() {
+    this.isExpanded = !this.isExpanded;
+  }
 
   init() {
     super.init(...arguments);

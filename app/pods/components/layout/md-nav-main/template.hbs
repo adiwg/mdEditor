@@ -21,7 +21,7 @@
     <div class='collapse navbar-collapse' id='md-navbar-main-collapse'>
       <ul class='nav navbar-nav'>
         <li>
-          {{#link-to 'dashboard'}}
+          {{#link-to route='dashboard'}}
             <span class='fa fa-dashboard'></span>
             <span class='md-nav-text'>Dashboard</span>
             {{ember-tooltip
@@ -32,7 +32,7 @@
           {{/link-to}}
         </li>
         <li>
-          {{#link-to 'export'}}
+          {{#link-to route='export'}}
             <span class='fa fa-sign-out'></span>
             <span class='md-nav-text'>Export</span>
             {{ember-tooltip
@@ -43,7 +43,7 @@
           {{/link-to}}
         </li>
         <li>
-          {{#link-to 'import'}}
+          {{#link-to route='import'}}
             <span class='fa fa-sign-in'></span>
             <span class='md-nav-text'>Import</span>
             {{ember-tooltip
@@ -54,7 +54,7 @@
           {{/link-to}}
         </li>
         <li>
-          {{#link-to 'publish'}}
+          {{#link-to route='publish'}}
             <span class='fa fa-share-square-o'></span>
             <span class='md-nav-text'>Publish</span>
             {{ember-tooltip
@@ -65,7 +65,7 @@
           {{/link-to}}
         </li>
         <li>
-          {{#link-to 'sync'}}
+          {{#link-to route='sync'}}
             <span class='fa fa-retweet'></span>
             <span class='md-nav-text'>Sync</span>
             {{ember-tooltip
@@ -79,7 +79,7 @@
       </ul>
       <ul class='nav navbar-nav navbar-right'>
         <li>
-          {{#link-to 'settings'}}
+          {{#link-to route='settings'}}
             <span class='fa fa-gear'></span>
             <span class='md-nav-text nav-settings'>Settings</span>
             {{ember-tooltip
