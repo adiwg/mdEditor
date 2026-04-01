@@ -78,11 +78,17 @@ export default class MdSelectThesaurusComponent extends Component {
   }
 
   @action
-  update(id, thesaurus) {
+  update(id) {
     let selectedId = id ?? this.value;
-    let selectedThesaurus = thesaurus ?? this.thesaurus;
-    let selected = this.keyword.findById(selectedId);
+    let selectedThesaurus = this.thesaurus;
 
-    this.selectThesaurus(selected, selectedThesaurus);
+    if (selectedId === 'custom') {
+      this.selectThesaurus(null, selectedThesaurus);
+      return;
+    }
+
+    let resolved = selectedId ? this.keyword.findById(selectedId) : null;
+
+    this.selectThesaurus(resolved, selectedThesaurus);
   }
 }

@@ -2,7 +2,7 @@
   <div class='form-group-sm'>
     <label class='navbar-text control-label'>Profile</label>
     {{input/md-codelist
-      change=(fn this.updateProfile this.value)
+      change=this.updateProfileAction
       class='select-profile'
       create=false
       tooltip=true

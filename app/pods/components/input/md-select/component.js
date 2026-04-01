@@ -358,7 +358,7 @@ export default class MdSelectComponent extends Component {
       set(this, 'localValue', val);
     }
 
-    this.change();
+    this.change(val, selected);
   }
 
   @action
