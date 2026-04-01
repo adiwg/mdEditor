@@ -91,7 +91,8 @@
     >
       <td>
         {{input/md-textarea
-          value=val.item.value
+          model=val.item
+          valuePath='value'
           placeholder='Enter a description of how the dictionary should be used.'
         }}
       </td>

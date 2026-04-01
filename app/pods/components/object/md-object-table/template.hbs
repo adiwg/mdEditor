@@ -3,7 +3,7 @@
     title=this.header
     required=this.required
     addItem=this.addItem
-    target=this.items
+    target=this.displayItems
     tipMessage=this.alertTipMessage
   }}
 {{else}}
@@ -24,19 +24,19 @@
             <span class='fa'></span>
             {{this.header}}
             <div class='label label-pill {{this.pillColor}}'>
-              {{this.items.length}}
+              {{this.displayItems.length}}
             </div>
           </a>
         {{else}}
           {{this.header}}
           <label class='label label-pill {{this.pillColor}}'>
-            {{this.items.length}}
+            {{this.displayItems.length}}
           </label>
         {{/if}}
 
         <button
           type='button'
-          id='{{this.panelId}}-btn'
+          id='{{this.panelId}}-add-header-btn'
           class='btn btn-xs btn-info pull-right {{if this.editing "hidden"}}'
           {{on 'click' this.addItem}}
         >
@@ -99,7 +99,7 @@
               </thead>
             {{/unless}}
             <tbody>
-              {{#each this.items as |item index|}}
+              {{#each this.displayItems as |item index|}}
                 <tr
                   id={{if
                     this.scrollToId
@@ -161,7 +161,7 @@
                             'click'
                             (fn
                               this.doEditItem
-                              this.items
+                              this.displayItems
                               index
                               (if
                                 this.scrollToId
@@ -179,7 +179,7 @@
                               </button> --}}
                         <Control::MdButtonConfirm
                           @class='btn btn-{{this.btnSize}} btn-danger'
-                          @onConfirm={{fn this.deleteItem this.items index}}
+                          @onConfirm={{fn this.deleteItem this.displayItems index}}
                         >
                           <span class='fa fa-times'></span>
                           Delete
@@ -237,7 +237,7 @@
                   >
                     <button
                       type='button'
-                      id='{{this.panelId}}-btn'
+                      id='{{this.panelId}}-add-empty-btn'
                       class='btn btn-xs btn-info'
                       {{on 'click' this.addItem}}
                     >
@@ -254,7 +254,7 @@
           <div class='panel-footer text-right'>
             <button
               type='button'
-              id='{{this.panelId}}-btn'
+              id='{{this.panelId}}-add-footer-btn'
               class='btn btn-sm btn-info {{if this.editing "hidden"}}'
               {{on 'click' this.addItem}}
             >

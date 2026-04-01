@@ -95,7 +95,8 @@
     >
       <td>
         {{input/md-input
-          value=val.item.value
+          model=val.item
+          valuePath='value'
           placeholder='Alternate names used to identify this attribute.'
         }}
       </td>

@@ -2,7 +2,7 @@
   {{control/md-alert-table
     title=this.title
     required=this.required
-    addItem=(action 'addItem')
+    addItem=this.addItem
     target=this.arrayValues
     tipMessage=this.alertTipMessage
   }}
@@ -26,7 +26,7 @@
           type='button'
           id='{{this.panelId}}-btn'
           class='btn btn-xs btn-info pull-right'
-          {{action 'addItem'}}
+          {{on 'click' this.addItem}}
         >
           {{fa-icon 'plus'}}
           Add
@@ -114,9 +114,9 @@
                 >
                   <button
                     type='button'
-                    id='{{this.panelId}}-btn'
+                    id='{{this.panelId}}-empty-btn'
                     class='btn btn-xs btn-info'
-                    {{action 'addItem'}}
+                    {{on 'click' this.addItem}}
                   >
                     {{fa-icon 'plus'}}
                     Add

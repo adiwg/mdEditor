@@ -6,7 +6,7 @@
 
 <div class='row'>
   <form
-    {{action 'saveContact' on='submit'}}
+    {{on 'submit' (route-action 'saveContact')}}
     class='form-horizontal col-md-6 col-md-offset-3'
   >
     <div class='form-group'>
@@ -14,7 +14,7 @@
       <div class='col-sm-9 col-sm-offset-'>
         {{input/md-toggle
           value=model.json.isOrganization
-          onToggle=(action (mut model.json.isOrganization))
+          onToggle=(route-action 'setIsOrganization')
           showLabels=true
           onLabel='Organization'
           offLabel='Individual'
@@ -84,7 +84,7 @@
           >Save</button>
           <button
             type='button'
-            {{action 'cancelContact'}}
+            {{on 'click' (route-action 'cancelContact')}}
             class='btn btn-warning'
           >Cancel</button>
         </span>

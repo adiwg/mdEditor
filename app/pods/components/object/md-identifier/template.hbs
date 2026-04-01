@@ -25,7 +25,8 @@
   allowClear=true
   mdCodeName='namespace'
   valuePath='code'
-  value=this.model.namespace
+  model=this.model
+  path='namespace'
   profilePath=(concat this.profilePath '.namespace')
 }}
 
@@ -65,15 +66,14 @@
 
 {{#if this.collapsible}}
   <p class='text-right'>
-    <a
+    <button
       type='button'
-      role='button'
       class='plain-link'
-      {{action (toggle 'collapse' this)}}
+      {{on 'toggle' (fn this.collapse this)}}
     >
       {{fa-icon (if this.isCollapsed 'caret-down' 'caret-up')}}
       {{if this.isCollapsed 'More' 'Less'}}
-    </a>
+    </button>
   </p>
 {{/if}}
 {{yield}}

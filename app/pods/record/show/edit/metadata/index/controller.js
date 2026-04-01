@@ -8,28 +8,17 @@ export default class MetadataIndexController extends Controller {
   @action
   editIdentifier() {
     this.router
-      .transitionToRoute('record.show.edit.metadata.identifier')
+      .transitionTo('record.show.edit.metadata.identifier')
       .then(() => {
         this.setScrollTo('metadata-identifier');
       });
   }
 
   @action
-  editAlternate(index) {
-    this.router
-      .transitionToRoute('record.show.edit.metadata.alternate.index', index)
-      .then(() => {
-        this.setScrollTo('alternate-metadata');
-      });
-  }
-
-  @action
   editParent() {
-    this.router
-      .transitionToRoute('record.show.edit.metadata.parent')
-      .then(() => {
-        this.setScrollTo('parent-metadata');
-      });
+    this.router.transitionTo('record.show.edit.metadata.parent').then(() => {
+      this.setScrollTo('parent-metadata');
+    });
   }
 
   @action

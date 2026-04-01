@@ -7,6 +7,7 @@ import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { isNone } from '@ember/utils';
 import { once } from '@ember/runloop';
+import { action } from '@ember/object';
 
 @classic
 export default class MdMarkdownAreaComponent extends Component {
@@ -75,17 +76,20 @@ export default class MdMarkdownAreaComponent extends Component {
   get options() {
     return {
       placeholder: this.placeholder,
-      status: [{
-        className: 'length',
-        defaultValue: (el) => {
-          el.innerHTML =
-            `<span class="length md-${this.errorClass}">length: ${this.length}</span>`;
+      status: [
+        {
+          className: 'length',
+          defaultValue: (el) => {
+            el.innerHTML = `<span class="length md-${this.errorClass}">length: ${this.length}</span>`;
+          },
+          onUpdate: (el) => {
+            el.innerHTML = `<span class="length md-${this.errorClass}">length: ${this.length}</span>`;
+          },
         },
-        onUpdate: (el) => {
-          el.innerHTML =
-            `<span class="length md-${this.errorClass}">length: ${this.length}</span>`;
-        }
-      }, 'lines', 'words', 'cursor']
+        'lines',
+        'words',
+        'cursor',
+      ],
     };
   }
 
@@ -117,20 +121,19 @@ export default class MdMarkdownAreaComponent extends Component {
     let length = this.length;
     let max = this.maxlength;
 
-    if(this.required && length < 1) {
+    if (this.required && length < 1) {
       return 'error';
     }
 
-    if(!max || length <= max - 25) {
+    if (!max || length <= max - 25) {
       return '';
     }
 
-    if(length > max) {
+    if (length > max) {
       return 'error';
-    } else if(length + 25 > max) {
+    } else if (length + 25 > max) {
       return 'warning';
     }
-
   }
 
   /**
@@ -147,10 +150,10 @@ export default class MdMarkdownAreaComponent extends Component {
 
     const oldEditorSetOption = editor.codemirror.setOption;
 
-    editor.codemirror.setOption = function(option, value) {
+    editor.codemirror.setOption = function (option, value) {
       oldEditorSetOption.apply(this, arguments);
 
-      if(option === 'fullScreen') {
+      if (option === 'fullScreen') {
         // Find all parent elements matching the selectors
         let node = element.parentElement;
         while (node) {
@@ -177,9 +180,14 @@ export default class MdMarkdownAreaComponent extends Component {
     super.didReceiveAttrs(...arguments);
 
     once(this, () => {
-      if(isNone(this.value)) {
+      if (isNone(this.value)) {
         this.value = '';
       }
     });
+  }
+
+  @action
+  updateValue(value) {
+    this.value = value;
   }
 }

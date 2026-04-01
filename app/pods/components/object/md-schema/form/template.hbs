@@ -49,7 +49,7 @@
       <div class='inline-block'>
         {{input/md-toggle
           value=this.record.isGlobal
-          onToggle=(action (mut this.record.isGlobal))
+          onToggle=this.setIsGlobal
           showLabels=true
           onLabel='Yes'
           offLabel='No'

@@ -10,7 +10,7 @@ export default class TaxonomyCollectionIndexController extends Controller {
 
   @action
   toList() {
-    this.router.transitionToRoute('record.show.edit.taxonomy');
+    this.router.transitionTo('record.show.edit.taxonomy');
   }
 
   @action
@@ -27,13 +27,13 @@ export default class TaxonomyCollectionIndexController extends Controller {
       return;
     }
 
-    this.router.transitionToRoute('record.show.edit.taxonomy.collection.itis');
+    this.router.transitionTo('record.show.edit.taxonomy.collection.itis');
   }
 
   @action
   goToSettings() {
     this.set('showItisModal', false);
-    this.router.transitionToRoute('settings.main');
+    this.router.transitionTo('settings.main');
   }
 
   @action
@@ -44,7 +44,7 @@ export default class TaxonomyCollectionIndexController extends Controller {
   @action
   editSystem(index) {
     this.router
-      .transitionToRoute('record.show.edit.taxonomy.collection.system', index)
+      .transitionTo('record.show.edit.taxonomy.collection.system', index)
       .then(() => {
         this.setScrollTo('system');
       });

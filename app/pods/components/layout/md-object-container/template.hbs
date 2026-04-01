@@ -20,7 +20,7 @@
       <button
         type='button'
         class='btn btn-success'
-        {{action this.editItem this.index}}
+        {{on 'click' (fn this.editItem this.index)}}
       >
         {{fa-icon 'pencil'}}
         Edit</button>
@@ -29,7 +29,7 @@
     {{#if this.deleteItem}}
       <Control::MdButtonConfirm
         @class='btn btn-danger'
-        @onConfirm={{action this.deleteItem this.index}}
+        @onConfirm={{fn this.deleteItem this.index}}
       >
         {{fa-icon 'times'}}
         Delete

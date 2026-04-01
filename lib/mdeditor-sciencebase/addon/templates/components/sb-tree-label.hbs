@@ -15,7 +15,7 @@
         href='{{model.config.rootItemURL}}{{model.sbId}}'
         target='_blank'
         class='md-fa-link'
-        onclick={{action 'clicked' preventDefault=false}}
+        {{on 'click' (fn this.send 'clicked')}}
         rel='noopener noreferrer'
       >
         {{model.sbId}}<sup>{{fa-icon 'external-link'}}</sup>
@@ -33,7 +33,7 @@
           href='{{model.config.rootItemURL}}{{model.sbParentId}}'
           target='_blank'
           class='md-fa-link'
-          onclick={{action 'clicked' preventDefault=false}}
+          {{on 'click' (fn this.send 'clicked')}}
           rel='noopener noreferrer'
         >
           {{model.sbParentId}}<sup>{{fa-icon 'external-link'}}</sup>

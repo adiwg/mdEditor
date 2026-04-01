@@ -243,7 +243,8 @@
         >
           <td>
             {{input/md-input
-              value=credit.item.value
+              model=credit.item
+              valuePath='value'
               placeholder='Additional credits for the resource.'
             }}
           </td>

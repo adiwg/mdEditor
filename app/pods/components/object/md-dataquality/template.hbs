@@ -50,7 +50,7 @@
 {{#if this.model.standaloneQualityReport}}
   {{object/md-standalone-quality-report
     model=this.model.standaloneQualityReport
-    deleteStandaloneQualityReport=(action 'deleteStandaloneQualityReport')
+    deleteStandaloneQualityReport=(this.deleteStandaloneQualityReport)
   }}
 {{else}}
   <div class='md-object-table box-shadow--4dp'>
@@ -59,7 +59,7 @@
         <button
           class='btn btn-success btn-md'
           type='button'
-          {{action 'addStandaloneQualityReport'}}
+          {{on 'click' this.addStandaloneQualityReport}}
         >
           <i class='fa fa-plus' />
           Add Standalone Report

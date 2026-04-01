@@ -1,40 +1,53 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { alias } from '@ember/object/computed';
+import { set } from '@ember/object';
 import { once } from '@ember/runloop';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'refType': [
+  refType: [
     validator('presence', {
       presence: true,
       ignoreBlank: true,
-      disabled: alias('model.model.referenceSystemIdentifier.identifier').readOnly()
-    })
+      disabled: alias(
+        'model.model.referenceSystemIdentifier.identifier'
+      ).readOnly(),
+    }),
   ],
-  'refSystem': [
+  refSystem: [
     validator('presence', {
       presence: true,
       ignoreBlank: true,
-      disabled: alias('model.model.referenceSystemType').readOnly()
-    })
-  ]
+      disabled: alias('model.model.referenceSystemType').readOnly(),
+    }),
+  ],
 });
 
 @classic
 export default class MdSrsComponent extends Component.extend(Validations) {
+  classNames = ['form'];
+
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
-    if(model){
-      once(this, function() {
-        model.referenceSystemIdentifier = model.referenceSystemIdentifier ?? {};
+    if (model) {
+      once(this, function () {
+        if (!model.referenceSystemIdentifier) {
+          set(model, 'referenceSystemIdentifier', {});
+        }
       });
+    }
+  }
+
+  init() {
+    super.init(...arguments);
+
+    let model = this.model;
+    if (model && !model.referenceSystemIdentifier) {
+      set(model, 'referenceSystemIdentifier', {});
     }
   }
 
@@ -54,8 +67,6 @@ export default class MdSrsComponent extends Component.extend(Validations) {
    * @type {Object}
    * @required
    */
-
-  classNames = ['form'];
 
   @alias('model.referenceSystemIdentifier.identifier') refSystem;
   @alias('model.referenceSystemType') refType;

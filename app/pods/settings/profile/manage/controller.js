@@ -115,6 +115,6 @@ export default class ProfileManageController extends Controller {
 
   @action
   toProfile() {
-    this.router.transitionToRoute('settings.profile');
+    this.router.transitionTo('settings.profile');
   }
 }

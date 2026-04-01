@@ -38,7 +38,7 @@ export default class KeywordsIndexController extends Controller {
 
   @action
   editThesaurus(id) {
-    this.transitionToRoute('record.show.edit.keywords.thesaurus', id);
+    this.router.transitionTo('record.show.edit.keywords.thesaurus', id);
   }
 
   @action

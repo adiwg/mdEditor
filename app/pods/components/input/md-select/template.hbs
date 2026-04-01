@@ -15,8 +15,8 @@
       @calculatePosition={{this.calculatePosition}}
       @allowClear={{this.allowClear}}
       @closeOnSelect={{this.closeOnSelect}}
-      @onChange={{action 'setValue'}}
-      @onCreate={{action 'create'}}
+      @onChange={{this.setValue}}
+      @onCreate={{this.handleCreate}}
       @ariaLabel={{this.ariaLabel}}
       as |code|
     >
@@ -53,7 +53,7 @@
       @calculatePosition={{this.calculatePosition}}
       @allowClear={{this.allowClear}}
       @closeOnSelect={{this.closeOnSelect}}
-      @onChange={{action 'setValue'}}
+      @onChange={{this.setValue}}
       @ariaLabel={{this.ariaLabel}}
       as |code|
     >

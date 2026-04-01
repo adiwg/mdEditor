@@ -18,7 +18,7 @@
       closeOnSelect=true
       placeholder='Select or enter a repository.'
       profilePath=(concat this.profilePath '.repository')
-      change=(action 'lookupTitle' meta.item)
+      change=(fn this.lookupTitle meta.item)
     }}
   </td>
   <td>

@@ -53,7 +53,7 @@ export default class AssociatedResourceIndexController extends Controller {
 
   @action
   editLinked(rec) {
-    this.router.transitionToRoute('record.show.edit', rec.get('id'));
+    this.router.transitionTo('record.show.edit', rec.get('id'));
   }
 
   @action

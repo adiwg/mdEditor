@@ -1,7 +1,7 @@
 {{#if this.isShowing}}
   <div>
     <ModalDialog
-      @onClose={{action 'closeModal'}}
+      @onClose={{this.closeModal}}
       @targetAttachment='middle center'
       @attachment='middle center'
       @translucentOverlay={{true}}
@@ -12,7 +12,7 @@
     >
       <button
         type='button'
-        {{action 'closeModal'}}
+        {{on 'click' this.closeModal}}
         class='md-modal-close'
         aria-label='Close'
       >

@@ -24,7 +24,8 @@
 >
   <td>
     {{input/md-textarea
-      value=val.item.value
+      model=val.item
+      valuePath='value'
       placeholder='Describe Limitation affecting the fitness for use of the resource or metadata. For example, "not to be used for navigation".'
     }}
   </td>
@@ -75,7 +76,8 @@
     >
       <td>
         {{input/md-textarea
-          value=val.item.value
+          model=val.item
+          valuePath='value'
           rows=3
           placeholder='Other restrictions and legal prerequisites for accessing and using the resource.'
         }}

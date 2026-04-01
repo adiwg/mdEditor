@@ -1,10 +1,13 @@
 import EmberObject from '@ember/object';
+import { action } from '@ember/object';
 import { getOwner } from '@ember/application';
 import { isBlank, typeOf } from '@ember/utils';
 import { assert } from '@ember/debug';
+import classic from 'ember-classic-decorator';
 import Table from '../md-object-table/component';
 
-export default Table.extend({
+@classic
+export default class MdObjectrouteTableComponent extends Table {
   /**
    * The route used to edit items
    *
@@ -28,8 +31,7 @@ export default Table.extend({
    * @type {Boolean}
    * @default "true"
    */
-
-  alertIfEmpty: true,
+  alertIfEmpty = true;
 
   /**
    * Indicates whether to immediately navigate to the edit route on add
@@ -38,39 +40,48 @@ export default Table.extend({
    * @type {Boolean}
    * @default "true"
    */
-  editOnAdd: true,
+  editOnAdd = true;
 
-  editBtnText: 'More...',
-  layoutName: 'components/object/md-object-table',
+  editBtnText = 'More...';
+  layoutName = 'components/object/md-object-table';
 
-  actions: {
-    addItem: function () {
-      const Template = this.templateClass;
-      const owner = getOwner(this);
+  @action
+  addItem() {
+    const Template = this.templateClass;
+    const owner = getOwner(this);
 
-      let editItem = this.editItem;
-      let items = this.items;
-      let itm = typeOf(Template) === 'class' ? Template.create(owner.ownerInjection()) :
-        EmberObject.create({});
+    let editItem = this.editItem;
+    let items = this.displayItems;
+    let itm =
+      typeOf(Template) === 'class'
+        ? Template.create(owner.ownerInjection())
+        : EmberObject.create({});
 
-      if(isBlank(editItem)) {
-        assert(
-          `You must supply an editItem method to ${this.toString()}.`
-        );
-      }
+    if (isBlank(editItem)) {
+      assert(`You must supply an editItem method to ${this.toString()}.`);
+    }
 
-      items.pushObject(itm);
+    items.pushObject(itm);
+    this.addSourceItem(itm);
+    this.displayItems = items;
 
-      if(this.editOnAdd) {
-        editItem(items.indexOf(itm), this.routeParams,
-          `${this.scrollToId}-${this.items.length - 1}`);
-      }
-    },
-
-    doEditItem: function (items, index, scrollTo) {
-      if (this.editItem && typeof this.editItem === 'function') {
-        this.editItem(index, this.routeParams, scrollTo);
-      }
+    if (this.editOnAdd) {
+      editItem(
+        items.indexOf(itm),
+        this.routeParams,
+        `${this.scrollToId}-${this.displayItems.length - 1}`
+      );
     }
   }
-});
+
+  @action
+  doEditItem(items, index, scrollTo) {
+    if (this.editItem && typeof this.editItem === 'function') {
+      this.editItem(index, this.routeParams, scrollTo);
+      return;
+    }
+
+    // Fallback to the base table behavior if no route callback is supplied.
+    super.doEditItem(items, index, scrollTo);
+  }
+}

@@ -14,10 +14,10 @@
     @lat={{lat}}
     @lng={{lng}}
     @zoom={{zoom}}
-    @onLoad={{action 'setup'}}
+    @onLoad={{fn this.send 'setup'}}
     @editLayers={{layers}}
-    @closeForm={{action 'closeForm'}}
-    @showForm={{action 'showForm'}}
+    @closeForm={{fn this.send 'closeForm'}}
+    @showForm={{fn this.send 'showForm'}}
   >
     {{! Specify child layer components here }}
     <LayerGroup @name='Terrain' @baselayer={{true}} @default={{true}}>
@@ -57,7 +57,7 @@
     <h4 class='table-title'>Edit Feature Properties
       <button
         class='btn btn-xs btn-info pull-right'
-        {{action 'closeForm'}}
+        {{on 'click' (fn this.send 'closeForm')}}
         title='Close Form'
         type='button'
       >
@@ -73,9 +73,9 @@
       @columnComponents={{hash
         leaflet-table-row-actions=(component
           'leaflet-table-row-actions'
-          showForm=(action 'showForm')
-          zoomTo=(action 'zoomTo')
-          deleteFeature=(action 'deleteFeature')
+          showForm=(fn this.send 'showForm')
+          zoomTo=(fn this.send 'zoomTo')
+          deleteFeature=(fn this.send 'deleteFeature')
         )
       }}
       @showGlobalFilter={{false}}
@@ -94,9 +94,9 @@
                 {{body.row
                   record=record
                   index=index
-                  showForm=(action 'showForm')
-                  zoomTo=(action 'zoomTo')
-                  deleteFeature=(action 'deleteFeature')
+                  showForm=(fn this.send 'showForm')
+                  zoomTo=(fn this.send 'zoomTo')
+                  deleteFeature=(fn this.send 'deleteFeature')
                 }}
                 {{#if (exists-in body.expandedItems record)}}
                   {{body.row-expand

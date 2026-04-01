@@ -18,6 +18,14 @@ const {
   APP: { defaultProfileId },
 } = config;
 
+const EMPTY_PROFILE = {
+  definition: {
+    components: {},
+    nav: {},
+  },
+  schemas: [],
+};
+
 /**
  * Custom Profile service
  *
@@ -127,8 +135,9 @@ export default Service.extend({
    * @required active
    */
   activeComponents: computed('active', function () {
-    let comp = get(this.getActiveProfile(), 'definition.components');
-    return comp || this.defaultProfile.definition.components;
+    const profile = this.getActiveProfile(false);
+    let comp = profile ? get(profile, 'definition.components') : null;
+    return comp || get(this.defaultProfile, 'definition.components') || {};
   }),
 
   /**
@@ -140,7 +149,8 @@ export default Service.extend({
    * @required active
    */
   activeSchemas: computed('active', function () {
-    return this.getActiveProfile().schemas;
+    const profile = this.getActiveProfile(false);
+    return (profile && get(profile, 'schemas')) || [];
   }),
 
   /**
@@ -149,31 +159,41 @@ export default Service.extend({
    * @method getActiveProfile
    * @return {Object} The profile definition
    */
-  getActiveProfile() {
+  getActiveProfile(notify = true) {
     const active = this.active;
     const profile =
       active && typeof active === 'string' ? active : defaultProfileId;
-    const selected = this.mapById[profile];
+    const mapById = this.mapById || {};
+    const mapByAltId = this.mapByAltId || {};
+    const selected = mapById[profile];
     if (selected) {
       return selected;
     }
-    const alternate = this.mapById[this.mapByAltId[profile]];
+    const alternate = mapById[mapByAltId[profile]];
     if (alternate) {
-      this.flashMessages.info(
-        `"${active}" identified as an alternate profile. Using "${alternate.title}" profile. To make this permanent, select "${alternate.title}" from the Profile list.`,
+      if (notify) {
+        this.flashMessages.info(
+          `"${active}" identified as an alternate profile. Using "${alternate.title}" profile. To make this permanent, select "${alternate.title}" from the Profile list.`,
+          {
+            sticky: true,
+          }
+        );
+      }
+      return alternate;
+    }
+
+    const fallback = this.defaultProfile || EMPTY_PROFILE;
+
+    if (notify && !isEmpty(active) && active !== defaultProfileId) {
+      this.flashMessages.warning(
+        `Profile "${active}" not found. Using default profile.`,
         {
           sticky: true,
         }
       );
-      return alternate;
     }
-    this.flashMessages.warning(
-      `Profile "${active}" not found. Using default profile.`,
-      {
-        sticky: true,
-      }
-    );
-    return this.defaultProfile;
+
+    return fallback;
   },
 
   async createNewProfileDefinition(profileConfig, uri) {

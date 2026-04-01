@@ -58,7 +58,8 @@
   >
     <td>
       {{input/md-input
-        value=val.item.value
+        model=val.item
+        valuePath='value'
         placeholder='Alternate names used to identify this entity.'
       }}
     </td>
@@ -90,7 +91,7 @@
       )
     )
   )
-  editItem=(action 'editAttribute')
+  editItem=this.editAttribute
   verticalButtons=false
   profilePath=this.profilePath
   hideIndex=false
@@ -198,7 +199,7 @@
         model=fk.item
         path='referencedAttributeCodeName'
         mapped=(compute
-          (action 'getEntityAttributes') fk.item.referencedEntityCodeName
+          this.getEntityAttributes fk.item.referencedEntityCodeName
         )
         create=true
         tooltip=true
@@ -256,6 +257,6 @@
   model=this.model.entityReference
   profilePath=(concat this.profilePath '.entityReference')
   data-spy='Entity Reference'
-  editItem=(action 'editCitation')
+  editItem=this.editCitation
   label='Entity Reference'
 }}

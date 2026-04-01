@@ -7,14 +7,14 @@ export default class MainIndexController extends Controller {
 
   @action
   editCitation(scrollTo) {
-    this.router.transitionToRoute('record.show.edit.main.citation').then(() => {
+    this.router.transitionTo('record.show.edit.main.citation').then(() => {
       this.setScrollTo(scrollTo);
     });
   }
 
   @action
   editId() {
-    this.router.transitionToRoute('record.show.edit.metadata.identifier', {
+    this.router.transitionTo('record.show.edit.metadata.identifier', {
       queryParams: {
         scrollTo: 'identifier',
       },

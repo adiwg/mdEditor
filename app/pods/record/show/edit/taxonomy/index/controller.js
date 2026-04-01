@@ -8,10 +8,7 @@ export default class TaxonomyIndexController extends Controller {
   @action
   editCollection(id) {
     this.setScrollTo(`collection-${id}`);
-    this.router.transitionToRoute(
-      'record.show.edit.taxonomy.collection.index',
-      id
-    );
+    this.router.transitionTo('record.show.edit.taxonomy.collection.index', id);
   }
 
   @action
@@ -27,7 +24,7 @@ export default class TaxonomyIndexController extends Controller {
 
     taxa.pushObject(collection);
     this.setScrollTo(`collection-${taxa.length - 1}`);
-    this.router.transitionToRoute(
+    this.router.transitionTo(
       'record.show.edit.taxonomy.collection.index',
       taxa.length - 1
     );

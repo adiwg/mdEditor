@@ -7,7 +7,7 @@ export default class FundingIndexController extends Controller {
   @service router;
   @action
   editAllocation(id) {
-    this.router.transitionToRoute('record.show.edit.funding.allocation', id);
+    this.router.transitionTo('record.show.edit.funding.allocation', id);
   }
 
   @action
@@ -17,7 +17,7 @@ export default class FundingIndexController extends Controller {
 
     funding.pushObject(allocation);
     this.setScrollTo(`funding-period-${funding.length - 1}`);
-    this.router.transitionToRoute(
+    this.router.transitionTo(
       'record.show.edit.funding.allocation',
       funding.length - 1
     );

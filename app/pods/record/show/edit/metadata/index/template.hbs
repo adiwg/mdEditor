@@ -129,12 +129,11 @@
           profilePath='record.metadata.defaultLocale'
         }}
       </Layout::MdCard>
-
       {{object/md-citation-array
         model=metadata.alternateMetadataReference
         profilePath='record.metadata.alternateMetadataReference'
         data-spy='Alternate Metadata'
-        editItem=this.editAlternate
+        itemRoute='record.show.edit.metadata.alternate'
         label='Alternate Metadata Reference'
       }}
 

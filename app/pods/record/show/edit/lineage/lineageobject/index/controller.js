@@ -7,10 +7,7 @@ export default class LineageObjectIndexController extends Controller {
   @action
   editCitation(index) {
     this.router
-      .transitionToRoute(
-        'record.show.edit.lineage.lineageobject.citation',
-        index
-      )
+      .transitionTo('record.show.edit.lineage.lineageobject.citation', index)
       .then(() => {
         this.setScrollTo('citation');
       });
@@ -19,7 +16,7 @@ export default class LineageObjectIndexController extends Controller {
   @action
   editSource(index) {
     this.router
-      .transitionToRoute('record.show.edit.lineage.lineageobject.source', index)
+      .transitionTo('record.show.edit.lineage.lineageobject.source', index)
       .then(() => {
         this.setScrollTo('source');
       });
@@ -28,7 +25,7 @@ export default class LineageObjectIndexController extends Controller {
   @action
   editProcessStep(index) {
     this.router
-      .transitionToRoute('record.show.edit.lineage.lineageobject.step', index)
+      .transitionTo('record.show.edit.lineage.lineageobject.step', index)
       .then(() => {
         this.setScrollTo('process-step');
       });

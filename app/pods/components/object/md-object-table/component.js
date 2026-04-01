@@ -13,7 +13,6 @@ import { tracked } from '@glimmer/tracking';
 
 @classic
 export default class MdObjectTableComponent extends Component {
-
   /**
    * mdEditor class for managing a table of similar mdJSON objects
    * for selection for edit or deletion.
@@ -45,8 +44,11 @@ export default class MdObjectTableComponent extends Component {
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
 
-    let items = applyTemplateArray(this, this.items, this.templateClass);
-    this.items = items;
+    let sourceItems = this.items ?? A();
+    let items = applyTemplateArray(this, sourceItems, this.templateClass);
+
+    this.sourceItems = sourceItems;
+    this.displayItems = items;
   }
 
   attributeBindings = ['data-spy'];
@@ -57,7 +59,7 @@ export default class MdObjectTableComponent extends Component {
   didUpdateAttrs() {
     super.didUpdateAttrs(...arguments);
 
-    if(this.editing !== 'adding') this.editing = false;
+    if (this.editing !== 'adding') this.editing = false;
   }
 
   /**
@@ -69,7 +71,7 @@ export default class MdObjectTableComponent extends Component {
    * @default Ember.A()
    * @required
    */
-  @tracked items = A();
+  @tracked displayItems = A();
 
   /**
    * List of items object attributes to display in
@@ -151,7 +153,7 @@ export default class MdObjectTableComponent extends Component {
    * @type String
    * @default Add
    */
-  buttonText = "Add";
+  buttonText = 'Add';
 
   /**
    * Render the row actions vertically.
@@ -242,11 +244,11 @@ export default class MdObjectTableComponent extends Component {
    */
   get collapsed() {
     let isCollapsed = this.isCollapsed;
-    let value = this.items;
+    let value = this.displayItems;
 
-    if(isCollapsed !== undefined) {
+    if (isCollapsed !== undefined) {
       return isCollapsed;
-    } else if(value && value.length > 0) {
+    } else if (value && value.length > 0) {
       return false;
     } else {
       return true;
@@ -264,7 +266,7 @@ export default class MdObjectTableComponent extends Component {
    * @requires items.length,alertIfEmpty
    */
   get showAlert() {
-    return this.items?.length === 0 && this.alertIfEmpty;
+    return this.displayItems?.length === 0 && this.alertIfEmpty;
   }
 
   get panelId() {
@@ -285,39 +287,35 @@ export default class MdObjectTableComponent extends Component {
    * @requires items.length
    */
   get showFooter() {
-    return this.items?.length > 5;
+    return this.displayItems?.length > 5;
   }
 
   get attrArray() {
     let attr = this.attributes;
 
-    return attr
-      ? attr.split(',').map(itm => itm.split(':')[0])
-      : null;
+    return attr ? attr.split(',').map((itm) => itm.split(':')[0]) : null;
   }
 
   get attrTitleArray() {
-    return this.attributes.split(',')
-      .map(function (item) {
-        let title = item.trim().split('.').get('lastObject').split(
-          ':');
-        return title.length === 1 ? ucWords(
-          [dasherize(title[0])
-            .replace(/-/g,' ')
-          ], { force: false }) : title[1];
-      });
+    return this.attributes.split(',').map(function (item) {
+      let title = item.trim().split('.').get('lastObject').split(':');
+      return title.length === 1
+        ? ucWords([dasherize(title[0]).replace(/-/g, ' ')], { force: false })
+        : title[1];
+    });
   }
 
   @tracked editing = false;
   @tracked saveItem = null;
+  sourceItems = null;
 
   // Can be overridden by passed-in action
   editItem = null;
 
   get pillColor() {
-    let count = this.items?.length || 0;
+    let count = this.displayItems?.length || 0;
 
-    return (count > 0) ? 'label-info' : 'label-warning';
+    return count > 0 ? 'label-info' : 'label-warning';
   }
 
   get alertTipMessage() {
@@ -330,19 +328,58 @@ export default class MdObjectTableComponent extends Component {
       : null;
   }
 
+  addSourceItem(item) {
+    let sourceItems = this.sourceItems;
+
+    if (!sourceItems || sourceItems === this.displayItems) {
+      return;
+    }
+
+    if (typeof sourceItems.pushObject === 'function') {
+      sourceItems.pushObject(item);
+      return;
+    }
+
+    if (Array.isArray(sourceItems)) {
+      sourceItems.push(item);
+    }
+  }
+
+  removeSourceItemAt(index) {
+    let sourceItems = this.sourceItems;
+
+    if (!sourceItems || sourceItems === this.displayItems) {
+      return;
+    }
+
+    if (typeof sourceItems.removeAt === 'function') {
+      sourceItems.removeAt(index);
+      return;
+    }
+
+    if (Array.isArray(sourceItems)) {
+      sourceItems.splice(index, 1);
+    }
+  }
+
   @action
   deleteItem(items, index) {
-    let last = Object.keys(items.get('lastObject'));
+    let lastObject =
+      typeof items.get === 'function'
+        ? items.get('lastObject')
+        : items[items.length - 1];
+    let last = lastObject ? Object.keys(lastObject) : [];
 
-    if(isEmpty(last)) {
+    if (isEmpty(last)) {
       items.replace();
     }
 
-    if(items.length === 0) return;
+    if (items.length === 0) return;
 
     items.removeAt(index);
+    this.removeSourceItemAt(index);
     // Trigger reactivity for tracked items property
-    this.items = items;
+    this.displayItems = items;
   }
 
   @action
@@ -351,17 +388,19 @@ export default class MdObjectTableComponent extends Component {
     const owner = getOwner(this);
     const spotlight = this.spotlight;
 
-    let itm = typeOf(Template) === 'class'
-      ? Template.create(owner.ownerInjection())
-      :EmberObject.create({});
+    let itm =
+      typeOf(Template) === 'class'
+        ? Template.create(owner.ownerInjection())
+        : EmberObject.create({});
 
-    let items = this.items;
+    let items = this.displayItems;
 
     this.saveItem = itm;
     this.editing = 'adding';
     items.pushObject(itm);
+    this.addSourceItem(itm);
     // Trigger reactivity for tracked items property
-    this.items = items;
+    this.displayItems = items;
     spotlight.setTarget(this.elementId);
     //this.scrollTo(this.elementId);
   }

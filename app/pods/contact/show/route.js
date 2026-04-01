@@ -1,5 +1,4 @@
 import Route from '@ember/routing/route';
-import { copy } from 'ember-copy';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import EmberObject from '@ember/object';
@@ -69,9 +68,11 @@ export default class ContactShowRoute extends Route {
 
   @action
   copyContact() {
+    const copiedContact = this.currentRouteModel().copy();
+
     this.flashMessages.success(
       `Copied Contact: ${this.currentRouteModel().get('title')}`
     );
-    this.router.transitionTo('contact.new.id', copy(this.currentRouteModel()));
+    this.router.transitionTo('contact.new.id', copiedContact);
   }
 }

@@ -1,14 +1,14 @@
 <button
   type='button'
   class='btn btn-lg btn-info btn-block md-btn-responsive'
-  {{action 'doImport' target=this.actionContext}}
+  {{on 'click' (fn this.actionContext.send 'doImport')}}
 >
   {{fa-icon 'sign-in'}}
   Do Import</button>
 <button
   type='button'
   class='btn btn-lg btn-danger btn-block md-btn-responsive'
-  {{action 'cancelImport' target=this.actionContext}}
+  {{on 'click' (fn this.actionContext.send 'cancelImport')}}
 >
   {{fa-icon 'times'}}
   Cancel Import</button>

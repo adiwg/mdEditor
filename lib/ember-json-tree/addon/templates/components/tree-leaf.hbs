@@ -10,7 +10,7 @@
   <span
     class='tree-cell tree-icon'
     role='button'
-    {{action 'toggleCheck' bubbles=false}}
+    {{on 'click' this.toggleCheck}}
   >
     {{#if model.draggable}}
       {{fa-icon 'ellipsis-v' fixedWidth=false}}
@@ -22,7 +22,7 @@
       <span
         class='tree-cell tree-icon'
         role='button'
-        {{action 'toggleCheck' bubbles=false}}
+        {{on 'click' this.toggleCheck}}
       >
         {{#if model.checkable}}
           {{fa-icon
@@ -38,11 +38,7 @@
 
   {{#unless model.hideToggle}}
     <span class='tree-cell tree-icon'>
-      <span
-        class='toggle-icon'
-        role='button'
-        {{action 'toggleExpand' bubbles=false}}
-      >
+      <span class='toggle-icon' role='button' {{on 'click' this.toggleExpand}}>
         {{#if model.children.length}}
           {{fa-icon
             (if model.isExpanded 'minus' 'plus')

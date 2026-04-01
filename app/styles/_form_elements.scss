@@ -165,3 +165,16 @@ form {
     margin-right: 1em;
   }
 }
+
+.md-date-range-row {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  width: 100%;
+}
+
+.md-date-range-precision {
+  margin-right: 25px;
+  padding-bottom: 10px;
+  width: 100px;
+}

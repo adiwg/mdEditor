@@ -1,18 +1,18 @@
 <button
   type='button'
   class='btn btn-xs btn-success'
-  {{action 'zoomTo' record}}
+  {{on 'click' (fn zoomTo record)}}
   title='Zoom to Feature'
 >{{fa-icon 'search'}}</button>
 <button
   type='button'
   class='btn btn-xs btn-info'
-  {{action showForm record}}
+  {{on 'click' (fn showForm record)}}
   title='Edit Properties'
 >{{fa-icon 'pencil'}}</button>
 <button
   type='button'
   class='btn btn-xs btn-danger'
-  {{action 'deleteFeature' record}}
+  {{on 'click' (fn deleteFeature record)}}
   title='Delete Feature'
 >{{fa-icon 'times'}}</button>

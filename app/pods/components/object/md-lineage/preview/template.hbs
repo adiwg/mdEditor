@@ -24,21 +24,19 @@
   {{#if this.item.processStep.length}}
     {{#if this.showMore}}
       <p class='text-right'>
-        <a
+        <button
           type='button'
-          role='button'
           class='plain-link'
-          {{action (toggle 'showMore' this)}}
-        > {{fa-icon 'caret-up'}} Less</a>
+          {{on 'click' this.toggleShowMore}}
+        > {{fa-icon 'caret-up'}} Less</button>
       </p>
     {{else}}
       <p class='text-right'>
-        <a
+        <button
           type='button'
-          role='button'
           class='plain-link'
-          {{action (toggle 'showMore' this)}}
-        >{{fa-icon 'caret-down'}} More</a>
+          {{on 'click' this.toggleShowMore}}
+        >{{fa-icon 'caret-down'}} More</button>
       </p>
     {{/if}}
   {{/if}}

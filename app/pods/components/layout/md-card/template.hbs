@@ -40,9 +40,13 @@
         {{this.title}}
       {{/if}}
       {{#if this.maximizable}}
-        <a role='button' class='pull-right md-card-maximize hidden-print'>
-          {{fa-icon this.windowIcon size=1 click=this.toggleFullScreen}}
-        </a>
+        <button
+          type='button'
+          class='pull-right md-card-maximize hidden-print btn btn-link btn-xs'
+          {{on 'click' this.toggleFullScreen}}
+        >
+          {{fa-icon this.windowIcon size=1}}
+        </button>
       {{/if}}
       <div class='btn-group hidden-print pull-right'>
         {{#if this.btnText}}

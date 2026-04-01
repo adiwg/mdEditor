@@ -51,7 +51,8 @@
   >
     <td>
       {{input/md-textarea
-        value=val.item.value
+        model=val.item
+        valuePath='value'
         placeholder='Enter notes regarding the maintenance of the resource.'
       }}
     </td>

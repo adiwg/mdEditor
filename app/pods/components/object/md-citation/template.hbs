@@ -32,7 +32,8 @@
     >
       <td>
         {{input/md-input
-          value=alt.item.value
+          model=alt.item
+          valuePath='value'
           placeholder='Additional titles for the resource.'
         }}
       </td>
@@ -162,7 +163,8 @@
   >
     <td>
       {{input/md-textarea
-        value=val.item.value
+        model=val.item
+        valuePath='value'
         placeholder='Enter additional detail about the citation.'
       }}
     </td>

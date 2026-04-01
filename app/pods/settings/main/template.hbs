@@ -77,8 +77,12 @@
             isShowing=this.showStorageModal
           }}
           <div class='form-group-inline'>
-            <span>Keep Settings?</span>
-            {{input type='checkbox' checked=this.model.keepSettings}}
+            <label for='keep-settings-checkbox'>Keep Settings?</label>
+            {{input
+              id='keep-settings-checkbox'
+              type='checkbox'
+              checked=this.model.keepSettings
+            }}
           </div>
         </div>
       </div>

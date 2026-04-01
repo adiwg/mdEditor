@@ -8,7 +8,7 @@
 
 <div class='row'>
   <form
-    {{action 'saveRecord' on='submit'}}
+    {{on 'submit' (route-action 'saveRecord')}}
     class='col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 col-xxl-6 col-xxl-offset-3'
   >
     <div class='form-group'>
@@ -66,7 +66,7 @@
           >Save</button>
           <button
             type='button'
-            {{action 'cancelRecord'}}
+            {{on 'click' (route-action 'cancelRecord')}}
             class='btn btn-warning'
           >Cancel</button>
         </span>

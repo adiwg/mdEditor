@@ -4,7 +4,7 @@
       labelComponent='sb-tree-label'
       model=model
       selected=selected
-      select=(action 'selectRecord')
+      select=(fn this.send 'selectRecord')
     }}
   </div>
   <div class='col-sm-3'>
@@ -25,7 +25,7 @@
           type='button'
           class='btn btn-lg btn-primary'
           disabled={{if canPublish false true}}
-          {{action 'publish'}}
+          {{on 'click' (fn this.send 'publish')}}
         >
           Publish
         </button>
@@ -38,7 +38,7 @@
           type='button'
           class='btn btn-lg btn-primary add-token-button'
           disabled={{if rawToken false true}}
-          {{action 'addToken'}}
+          {{on 'click' (fn this.send 'addToken')}}
         >
           Add token
         </button>

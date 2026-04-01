@@ -27,7 +27,7 @@
     maxlength=this.maxlength
     spellcheck=true
     disabled=this.disabled
-    change=(if this.change this.change (action (mut this.value)))
+    change=(if this.change this.change this.updateValue)
     currentEditor=this.editor
   }}
 </div>

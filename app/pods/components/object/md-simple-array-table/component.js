@@ -1,5 +1,11 @@
-import { observer, computed, action, notifyPropertyChange } from '@ember/object';
+import {
+  observer,
+  computed,
+  action,
+  notifyPropertyChange,
+} from '@ember/object';
 import { A } from '@ember/array';
+import { schedule } from '@ember/runloop';
 import ArrayTable from '../md-array-table/component';
 
 export default ArrayTable.extend({
@@ -42,26 +48,24 @@ export default ArrayTable.extend({
     get() {
       let items = this.value;
 
-      if(items === undefined) {
+      if (items === undefined) {
         items = [];
         //items[0] = '';
       }
 
       return items.reduce(function (acc, value) {
         acc.pushObject({
-          value: value
+          value: value,
         });
         return acc;
       }, []);
     },
 
     set(key, value) {
-      let newValue = value
-        .filterBy('value')
-        .mapBy('value');
+      let newValue = value.filterBy('value').mapBy('value');
       this.set('value', newValue);
       return value;
-    }
+    },
   }),
 
   /**
@@ -73,17 +77,23 @@ export default ArrayTable.extend({
    * @requires arrayValues.@each.value
    */
   valuesObserver: observer('arrayValues.@each.value', function () {
+    if (this._suppressObserver) {
+      return;
+    }
     this.set('arrayValues', this.arrayValues);
   }),
 
   /**
    * Override addItem to push to primitive value array
    */
-  addItem: action(function() {
+  addItem: action(function () {
     // Initialize value if it's not set
     if (!this.value) {
       this.set('value', A());
     }
+
+    // Suppress observer so the empty string isn't immediately filtered out
+    this._suppressObserver = true;
 
     // Push empty string to primitive array
     this.value.pushObject('');
@@ -92,12 +102,17 @@ export default ArrayTable.extend({
     notifyPropertyChange(this, 'value');
     notifyPropertyChange(this, 'arrayValues');
     this.valueChanged();
+
+    // Re-enable observer after render so user edits sync normally
+    schedule('afterRender', this, () => {
+      this._suppressObserver = false;
+    });
   }),
 
   /**
    * Override deleteItem to remove from primitive value array
    */
-  deleteItem: action(function(item, idx) {
+  deleteItem: action(function (item, idx) {
     if (this.value && this.value.length > idx) {
       this.value.removeAt(idx);
     }
@@ -105,5 +120,5 @@ export default ArrayTable.extend({
     notifyPropertyChange(this, 'value');
     notifyPropertyChange(this, 'arrayValues');
     this.valueChanged();
-  })
+  }),
 });

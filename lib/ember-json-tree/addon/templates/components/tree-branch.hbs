@@ -1,7 +1,7 @@
 <NestableDraggableObject
   @content={{this}}
   @isDraggable={{model.draggable}}
-  @dragStartAction={{action 'dragStart'}}
+  @dragStartAction={{this.dragStart}}
 >
   <DraggableObjectTarget
     @action={{handleDrop}}

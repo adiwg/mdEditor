@@ -81,6 +81,7 @@ export default class MdSelectComponent extends Component {
    * @required
    */
   value = null;
+  localValue = null;
 
   /**
    * Path in the model to be used for the select list's option value. Both
@@ -269,7 +270,7 @@ export default class MdSelectComponent extends Component {
    * @return PromiseObject
    */
   get selectedItem() {
-    let value = this.value;
+    let value = this.model && this.path ? this.value : this.localValue;
 
     return DS.PromiseObject.create({
       promise: this.codelist.then(function (arr) {
@@ -350,12 +351,27 @@ export default class MdSelectComponent extends Component {
    */
   setValue(selected) {
     let val = selected ? selected.codeId : null;
-    set(this, 'value', val);
+
+    if (this.model && this.path) {
+      set(this, 'value', val);
+    } else {
+      set(this, 'localValue', val);
+    }
+
     this.change();
+  }
+
+  @action
+  handleCreate(selected) {
+    let code = this.createCode(selected);
+
+    this.codelist.pushObject(code);
+    this.setValue(code);
   }
 
   init() {
     super.init(...arguments);
+    this.setValue = this.setValue.bind(this);
 
     let model = this.model;
     let path = this.path;
@@ -444,6 +460,8 @@ export default class MdSelectComponent extends Component {
         'showWarningMessage',
         and('shouldDisplayValidations', 'hasWarnings', 'isValid').readOnly()
       );
+    } else {
+      set(this, 'localValue', this.value);
     }
   }
 

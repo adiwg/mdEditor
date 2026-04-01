@@ -29,7 +29,7 @@
       @collapsible={{true}}
       @collapsed={{false}}
       @spotlightEnabled={{false}}
-      @deleteAction={{action 'deleteReportReference'}}
+      @deleteAction={{this.deleteReportReference}}
     >
       {{object/md-citation
         model=this.model.reportReference
@@ -39,17 +39,14 @@
     </Layout::MdCard>
   {{else}}
     <div class='md-object-table box-shadow--4dp'>
-      <div
-        class='alert md-alert-table alert-info'
-        style='background: #f2dede; color: #a94442'
-      >
+      <div class='alert md-alert-table alert-danger'>
         <h4>No
           <span class='required'>Report Reference</span>
           found.
           <button
             class='btn btn-success btn-md'
             type='button'
-            {{action 'addReportReference'}}
+            {{on 'click' this.addReportReference}}
           >
             <i class='fa fa-plus' />
             Add Report Reference

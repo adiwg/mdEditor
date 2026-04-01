@@ -2,7 +2,9 @@
   <ul class='nav nav-pills nav-stacked'>
     {{#each this.links as |link|}}
       <li class={{if link.embedded 'md-embedded'}}>
-        <a href='#{{link.id}}' onclick={{action 'clickLink'}}>{{link.text}}</a>
+        <a href='#{{link.id}}' {{on 'click' this.clickLink}}>
+          {{link.text}}
+        </a>
       </li>
     {{/each}}
     {{yield}}

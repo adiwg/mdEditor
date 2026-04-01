@@ -45,10 +45,14 @@ export default class EditRoute extends Route {
   }
   doCancel() {
     let controller = this.controller;
+    let owner = getOwner(this);
     let same =
       !controller.cancelScope ||
-      getOwner(this).lookup('controller:application').currentPath ===
-        get(controller, 'cancelScope.routeName');
+      (owner &&
+        !owner.isDestroying &&
+        !owner.isDestroyed &&
+        owner.lookup('controller:application').currentPath ===
+          get(controller, 'cancelScope.routeName'));
 
     if (controller.onCancel) {
       once(() => {

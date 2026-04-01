@@ -65,8 +65,8 @@
                         aria-label='Navigation Buttons'
                       >
                         {{#link-to
-                        route=(concat meta.type '.show.edit')
-                        model=record
+                          route=(concat meta.type '.show.edit')
+                          model=record
                           class=(concat 'btn btn-' record.status)
                           disabledWhen=record.isNew
                           draggable='false'

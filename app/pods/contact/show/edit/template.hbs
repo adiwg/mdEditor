@@ -76,7 +76,8 @@
       >
         <td>
           {{input/md-input
-            value=email.item.value
+            model=email.item
+            valuePath='value'
             placeholder='Enter valid e-mail address'
           }}
         </td>
@@ -106,7 +107,8 @@
       >
         <td>
           {{input/md-input
-            value=hour.item.value
+            model=hour.item
+            valuePath='value'
             placeholder='Describe time when contact is avaiable'
           }}
         </td>

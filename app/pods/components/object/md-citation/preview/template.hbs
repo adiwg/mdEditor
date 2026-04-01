@@ -8,7 +8,7 @@
   @spotlightEnabled={{this.spotlightEnabled}}
   @btnText='Edit'
   @btnClass='success'
-  @btnAction={{action this.handleEditCitation (dasherize this.title)}}
+  @btnAction={{fn this.handleEditCitation (dasherize this.title)}}
   @btnIcon='pencil'
 >
 
@@ -23,7 +23,7 @@
       type='button'
       name='button'
       class='btn btn-success pull-right'
-      {{action (action this.handleEditCitation (dasherize this.title))}}
+      {{on 'click' (fn this.handleEditCitation (dasherize this.title))}}
     >
       {{fa-icon 'pencil'}}
       Edit Citation

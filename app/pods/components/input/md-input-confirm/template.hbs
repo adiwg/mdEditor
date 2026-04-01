@@ -1,22 +1,40 @@
-{{#if this.label}}<label>{{this.label}}</label>{{/if}}
+{{#if this.label}}
+  <label for={{concat this.elementId '-input'}}>{{this.label}}</label>
+{{/if}}
 <div class={{if this.disabled 'input-group'}}>
 
-  {{input
-    label='input confirm'
-    value=this.value
-    placeholder=this.placeholder
-    required=this.required
-    type=this.type
-    maxlength=this.maxlength
-    class=this.inputClass
-    disabled=this.isDisabled
-    blur=(action 'inputBlur')
-  }}
+  {{#if this.label}}
+    <input
+      id={{concat this.elementId '-input'}}
+      type={{this.type}}
+      value={{this.value}}
+      placeholder={{this.placeholder}}
+      required={{this.required}}
+      maxlength={{this.maxlength}}
+      class={{this.inputClass}}
+      disabled={{this.isDisabled}}
+      {{on 'input' this.updateValue}}
+      {{on 'blur' this.inputBlur}}
+    />
+  {{else}}
+    <input
+      type={{this.type}}
+      value={{this.value}}
+      placeholder={{this.placeholder}}
+      required={{this.required}}
+      maxlength={{this.maxlength}}
+      class={{this.inputClass}}
+      disabled={{this.isDisabled}}
+      aria-label={{this.placeholder}}
+      {{on 'input' this.updateValue}}
+      {{on 'blur' this.inputBlur}}
+    />
+  {{/if}}
   {{#if this.disabled}}
     <span class='input-group-btn'>
       <Control::MdButtonConfirm
         @class='btn btn-warning'
-        @onConfirm={{action 'allowEdit'}}
+        @onConfirm={{this.allowEdit}}
       >
         {{fa-icon 'pencil'}}
         Edit

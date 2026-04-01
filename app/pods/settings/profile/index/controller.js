@@ -55,7 +55,7 @@ export default class ProfileIndexController extends Controller {
 
   @action
   manageDefinitions() {
-    this.router.transitionToRoute('settings.profile.manage');
+    this.router.transitionTo('settings.profile.manage');
   }
 
   @action

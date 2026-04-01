@@ -2,38 +2,20 @@ import EmberObject from '@ember/object';
 import { A } from '@ember/array';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 @classic
 export default class MdCitationArrayComponent extends Component {
+  @service router;
 
   init() {
     super.init(...arguments);
 
-    if(!this.model) {
+    if (!this.model) {
       this.model = A();
     }
   }
-
-  /**
-   * mdEditor class for input and edit of mdJSON 'citation' object
-   * arrays.
-   * The class manages the maintenance of an array of citation
-   * objects using the md-object-table class.
-   *
-   * @module mdeditor
-   * @submodule components-object
-   * @class md-citation-array
-   * @constructor
-   */
-
-  attributeBindings = ['data-spy'];
-
-  /**
-   * Action to edit an item
-   * @property editItem
-   * @type Function
-   */
-  editItem = null;
 
   /**
    * mdJSON object containing the 'citation' array.
@@ -76,6 +58,18 @@ export default class MdCitationArrayComponent extends Component {
     init() {
       this._super(...arguments);
       //this.set('authority', {});
-    }
+    },
   });
+
+  @action
+  handleEditItem(index) {
+    if (this.itemRoute) {
+      this.router.transitionTo(this.itemRoute, index);
+      return;
+    }
+
+    if (this.editItem && typeof this.editItem === 'function') {
+      this.editItem(index);
+    }
+  }
 }
