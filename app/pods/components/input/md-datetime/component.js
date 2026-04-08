@@ -100,7 +100,18 @@ export default class MdDatetimeComponent extends Component {
   }
 
   picker() {
-    return this.$('.input-group.date').data('DateTimePicker');
+    const pickerElement = this.element?.querySelector('.input-group.date');
+
+    if (!pickerElement) {
+      return null;
+    }
+
+    const jq = globalThis?.jQuery;
+    if (typeof jq === 'function') {
+      return jq(pickerElement).data('DateTimePicker');
+    }
+
+    return pickerElement.DateTimePicker ?? null;
   }
 
   @action

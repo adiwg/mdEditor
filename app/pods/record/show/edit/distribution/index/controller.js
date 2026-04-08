@@ -18,6 +18,9 @@ export default class DistributionIndexController extends Controller {
     if (!dists) {
       dists = A([]);
       model.set('json.metadata.resourceDistribution', dists);
+    } else if (typeof dists.pushObject !== 'function') {
+      dists = A(dists);
+      model.set('json.metadata.resourceDistribution', dists);
     }
 
     return dists;
@@ -32,6 +35,10 @@ export default class DistributionIndexController extends Controller {
     }
 
     dists.pushObject({});
+
+    // Notify Glimmer that model.json changed so the #each re-renders
+    // (metadata is a plain POJO, so Glimmer doesn't auto-track deeper than json)
+    (this.model || this.parentModel).notifyPropertyChange('json');
 
     window.scrollTo({
       top: document.documentElement.scrollHeight,
@@ -58,6 +65,7 @@ export default class DistributionIndexController extends Controller {
     }
 
     dists.removeAt(id);
+    (this.model || this.parentModel).notifyPropertyChange('json');
   }
 
   @action

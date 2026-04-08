@@ -2,6 +2,7 @@ import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { isArray } from '@ember/array';
+import { set } from '@ember/object';
 
 export default class AlternateRoute extends Route {
   @service flashMessages;
@@ -51,6 +52,15 @@ export default class AlternateRoute extends Route {
       this.router.replaceWith('record.show.edit.metadata');
 
       return;
+    }
+
+    // Ensure identifier actions mutate the citation source array, not a local fallback.
+    if (!citation.identifier) {
+      if (typeof citation.set === 'function') {
+        citation.set('identifier', []);
+      } else {
+        set(citation, 'identifier', []);
+      }
     }
 
     return citation;

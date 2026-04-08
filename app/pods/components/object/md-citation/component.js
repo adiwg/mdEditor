@@ -1,8 +1,7 @@
 import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
-import { once } from '@ember/runloop';
 
-const formatCitation = function(model) {
+const formatCitation = function (model) {
   model.responsibleParty = model.responsibleParty ?? [];
   model.date = model.date ?? [];
   model.alternateTitle = model.alternateTitle ?? [];
@@ -88,14 +87,12 @@ class MdCitationComponent extends Component {
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
 
-    once(this, function() {
-      this.model = this.model ?? {};
-      formatCitation(this.model);
-    });
-  }
-};
+    if (!this.model) {
+      return;
+    }
 
-export {
-  formatCitation,
-  MdCitationComponent as default
-};
+    formatCitation(this.model);
+  }
+}
+
+export { formatCitation, MdCitationComponent as default };

@@ -4,7 +4,6 @@ import Component from '@ember/component';
 import { or, alias } from '@ember/object/computed';
 import { setProperties, observer } from '@ember/object';
 import { isNone } from '@ember/utils';
-import { once } from '@ember/runloop';
 import { action } from '@ember/object';
 
 const { isNaN: isNan } = Number;
@@ -89,9 +88,9 @@ export default class MdExtentSpatialComponent extends Component {
 
     let geo = this.extent?.geographicExtent?.[0];
 
-    once(function () {
-      geo.boundingBox = geo.boundingBox ?? {};
-    });
+    if (geo && !geo.boundingBox) {
+      set(geo, 'boundingBox', {});
+    }
   }
 
   @action

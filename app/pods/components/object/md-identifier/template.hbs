@@ -25,21 +25,21 @@
   allowClear=true
   mdCodeName='namespace'
   valuePath='code'
-  model=this.model
+  model=this
   path='namespace'
   profilePath=(concat this.profilePath '.namespace')
 }}
 
 {{#liquid-unless this.isCollapsed}}
   {{input/md-input
-    value=this.model.version
+    value=this.effectiveModel.version
     placeholder='Enter the version for the identifier.'
     label='Version'
     profilePath=(concat this.profilePath '.version')
   }}
 
   {{input/md-textarea
-    value=this.model.description
+    value=this.effectiveModel.description
     profilePath=(concat this.profilePath '.description')
     label='Description'
     placeholder='Enter a description of the identifier.'
@@ -51,10 +51,10 @@
       @shadow={{true}}
       @collapsible={{true}}
       @data-spy={{if this.data-spy 'Authority'}}
-      @content={{this.model.authority}}
+      @content={{this.effectiveModel.authority}}
     >
       {{object/md-citation
-        model=this.model.authority
+        model=this.effectiveModel.authority
         profilePath=(concat this.profilePath '.authority')
         embedded=true
         data-spy=this.data-spy

@@ -1,8 +1,8 @@
 import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import EmberObject from '@ember/object';
-import { once } from '@ember/runloop';
+import EmberObject, { set } from '@ember/object';
+import { A } from '@ember/array';
 
 // const Validations = buildValidations({
 //   // 'intervalAmount': [
@@ -108,15 +108,9 @@ export default class MdTransferComponent extends Component {
 
     let model = this.model;
 
-    once(function () {
-      model.onlineOption = model.onlineOption ?? [];
-      model.offlineOption = model.offlineOption ?? [];
-      model.transferFrequency = model.transferFrequency ?? {};
-      model.distributionFormat = model.distributionFormat ?? [];
-      // model.presentationForm = model.presentationForm ?? [];
-      // model.onlineResource = model.onlineResource ?? [];
-      // model.identifier = model.identifier ?? [];
-      // model.graphic = model.graphic ?? [];
-    });
+    if (!model.onlineOption) set(model, 'onlineOption', A([]));
+    if (!model.offlineOption) set(model, 'offlineOption', A([]));
+    if (!model.transferFrequency) set(model, 'transferFrequency', {});
+    if (!model.distributionFormat) set(model, 'distributionFormat', A([]));
   }
 }

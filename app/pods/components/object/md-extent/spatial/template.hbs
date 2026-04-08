@@ -63,7 +63,7 @@
         <button
           type='button'
           class='btn btn-md btn-success'
-          {{on 'click' (fn this.editFeaturesAction this.index)}}
+          {{on 'click' (action 'editFeaturesAction' this.index)}}
         >
           {{fa-icon 'pencil'}}
           Edit Features</button>
@@ -122,7 +122,7 @@
         <button
           type='button'
           class='btn btn-md btn-success md-btn-responsive'
-          {{on 'click' (fn this.editFeaturesAction this.index)}}
+          {{on 'click' (action 'editFeaturesAction' this.index)}}
         >
           {{fa-icon 'pencil'}}
           Add Features</button>

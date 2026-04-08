@@ -1,7 +1,8 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import { once } from '@ember/runloop';
+import { set } from '@ember/object';
 import { alias, notEmpty, not } from '@ember/object/computed';
+import { A } from '@ember/array';
 import {
   validator,
   buildValidations
@@ -82,8 +83,8 @@ export default class MdDistributionComponent extends Component.extend(Validation
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
 
-    once(this, function() {
-      this.model.distributor = this.model.distributor ?? [];
-    });
+    if (!this.model.distributor) {
+      set(this.model, 'distributor', A([]));
+    }
   }
 }
