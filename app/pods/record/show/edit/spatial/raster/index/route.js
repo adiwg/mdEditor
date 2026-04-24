@@ -1,13 +1,8 @@
 import Route from '@ember/routing/route';
-import { action } from '@ember/object';
-import ScrollTo from 'mdeditor/mixins/scroll-to';
 import { get, defineProperty } from '@ember/object';
 import { alias } from '@ember/object/computed';
-import { inject as service } from '@ember/service';
 
-export default class IndexRoute extends Route.extend(ScrollTo) {
-  @service router;
-
+export default class IndexRoute extends Route {
   setupController() {
     // Call _super for default behavior
     this._super(...arguments);
@@ -23,30 +18,5 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
       'refreshSpy',
       alias('model.json.metadata.resourceInfo.coverageDescription.length')
     );
-  }
-
-  @action
-  editAttribute(id, routeParams, scrollToId) {
-    this.setScrollTo(scrollToId);
-    this.router.transitionTo(
-      'record.show.edit.spatial.raster.attribute',
-      this.controller.rasterId,
-      routeParams,
-      id
-    );
-  }
-
-  @action
-  deleteAttrGroup(id) {
-    let group = this.currentRouteModel()['attributeGroup'];
-
-    group.removeAt(id);
-  }
-
-  @action
-  addAttrGroup() {
-    let group = this.currentRouteModel()['attributeGroup'];
-
-    group.pushObject([]);
   }
 }

@@ -25,9 +25,9 @@ module('Integration | Component | object/md documentation', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-documentation profilePath="foobar" model=doc}}
+      <Object::MdDocumentation @profilePath="foobar" @model={{doc}}>
         template block text
-      {{/object/md-documentation}}
+      </Object::MdDocumentation>
     `);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),

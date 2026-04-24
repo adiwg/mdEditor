@@ -154,7 +154,9 @@ export default class MdTranslateComponent extends Component {
   }
 
   @action
-  translate() {
+  translate(event) {
+    event?.preventDefault?.();
+
     // Check if API is configured before proceeding
     if (!this.apiValidator.isApiConfigured()) {
       this.flashMessages.danger(
@@ -278,7 +280,9 @@ export default class MdTranslateComponent extends Component {
   }
 
   @action
-  goToSettings() {
+  goToSettings(event) {
+    event?.preventDefault?.();
+
     // Invoke the closure action passed from the parent route
     if (this.onGoToSettings && typeof this.onGoToSettings === 'function') {
       this.onGoToSettings();

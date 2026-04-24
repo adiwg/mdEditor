@@ -33,6 +33,10 @@ module.exports = function (defaults) {
       only: ['round'],
     },
 
+    'ember-composable-helpers': {
+      except: ['array'],
+    },
+
     fingerprint: {
       exclude: [
         'images/layers-2x.png',

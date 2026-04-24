@@ -32,7 +32,7 @@
   title='Classification'
   collapsible=true
   collapsed=false
-  profilePath=(concat this.profilePath '.classification')
+  profilePath='{{this.profilePath}}.classification'
   data-spy='Classification'
   required=true
   shadow=true
@@ -88,39 +88,39 @@
   profilePath=(concat this.profilePath '.identificationCompleteness')
 }}
 
-{{#object/md-object-table
-  items=this.model.identificationReference
-  required=false
-  header='Identification Reference'
-  data-spy='Identification Reference'
-  profilePath=(concat this.profilePath '.identificationReference')
-  buttonText='Add Reference'
-  ellipsis=true
-  attributes='title'
-  collapsible=true
+<Object::MdObjectTable
+  @items={{this.model.identificationReference}}
+  @required={{false}}
+  @header='Identification Reference'
+  @data-spy='Identification Reference'
+  @profilePath='{{this.profilePath}}.identificationReference'
+  @buttonText='Add Reference'
+  @ellipsis={{true}}
+  @attributes='title'
+  @collapsible={{true}}
   as |editing|
-}}
+>
   {{object/md-citation
     model=editing
     profilePath=(concat this.profilePath '.identificationReference')
     simpleIdentifier=true
   }}
-{{/object/md-object-table}}
+</Object::MdObjectTable>
 
-{{#object/md-object-table
-  items=this.model.voucher
-  header='Voucher'
-  data-spy='Voucher'
-  profilePath=(concat this.profilePath '.voucher')
-  buttonText='Add Voucher'
-  ellipsis=true
-  attributes='specimen'
-  collapsible=true
-  templateClass=this.voucherTemplate
+<Object::MdObjectTable
+  @items={{this.model.voucher}}
+  @header='Voucher'
+  @data-spy='Voucher'
+  @profilePath='{{this.profilePath}}.voucher'
+  @buttonText='Add Voucher'
+  @ellipsis={{true}}
+  @attributes='specimen'
+  @collapsible={{true}}
+  @templateClass={{this.voucherTemplate}}
   as |editing|
-}}
+>
   {{object/md-taxonomy/collection/voucher
     model=editing
     profilePath=(concat this.profilePath '.voucher')
   }}
-{{/object/md-object-table}}
+</Object::MdObjectTable>

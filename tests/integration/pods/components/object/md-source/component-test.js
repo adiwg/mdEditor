@@ -50,9 +50,9 @@ module('Integration | Component | object/md source', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-source profilePath="foobar" model=(hash)}}
+      <Object::MdSource @profilePath="foobar" @model={{hash}}>
         template block text
-      {{/object/md-source}}
+      </Object::MdSource>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),

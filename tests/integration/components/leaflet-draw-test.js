@@ -15,14 +15,14 @@ module('Integration | Component | leaflet draw', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#leaflet-draw lat=0 lng=0 zoom=2}}
+      <LeafletDraw @lat={{0}} @lng={{0}} @zoom={{2}}>
         {{!-- Specify child layer components here --}}
-        {{#layer-group name="Terrain" baselayer=true default=true}}
+        <LayerGroup @name="Terrain" @baselayer={{true}} @default={{true}}>
           {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}
-        {{/layer-group}}
+        </LayerGroup>
 
         {{layer-control}}
-      {{/leaflet-draw}}
+      </LeafletDraw>
     `);
 
     assert.equal(find('.leaflet-container').innerText.trim().replace(/\n/g,'|'),

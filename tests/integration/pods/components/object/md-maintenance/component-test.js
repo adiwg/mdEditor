@@ -67,9 +67,9 @@ module('Integration | Component | object/md maintenance', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-maintenance profilePath="foobar"}}
+      <Object::MdMaintenance @profilePath="foobar">
         template block text
-      {{/object/md-maintenance}}
+      </Object::MdMaintenance>
     `);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),

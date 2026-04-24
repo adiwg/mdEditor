@@ -6,7 +6,7 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { isBlank } from '@ember/utils';
-import { set, computed, defineProperty } from '@ember/object';
+import { set, computed, defineProperty, action } from '@ember/object';
 import { once } from '@ember/runloop';
 import { assert, debug } from '@ember/debug';
 import moment from 'moment';
@@ -95,6 +95,36 @@ export default class MdDatetimeComponent extends Component {
     };
   }
 
+  get closesOnSelection() {
+    return !/[HhmsaAZz]/.test(this.format || '');
+  }
+
+  picker() {
+    const pickerElement = this.element?.querySelector('.input-group.date');
+
+    if (!pickerElement) {
+      return null;
+    }
+
+    const jq = globalThis?.jQuery;
+    if (typeof jq === 'function') {
+      return jq(pickerElement).data('DateTimePicker');
+    }
+
+    return pickerElement.DateTimePicker ?? null;
+  }
+
+  @action
+  handleChange(value) {
+    if (this.closesOnSelection && value) {
+      once(this, 'hidePicker');
+    }
+  }
+
+  hidePicker() {
+    this.picker()?.hide();
+  }
+
   formatValue(value, target) {
     if (isBlank(value)) {
       once(this, 'setTargetToNull', target);
@@ -109,9 +139,9 @@ export default class MdDatetimeComponent extends Component {
     }
 
     // Use bracket notation for dynamic property access
-    let currentValue = target.includes('.') ?
-      target.split('.').reduce((obj, key) => obj?.[key], this) :
-      this[target];
+    let currentValue = target.includes('.')
+      ? target.split('.').reduce((obj, key) => obj?.[key], this)
+      : this[target];
 
     if (formattedDate !== currentValue) {
       once(this, 'updateFormattedDate', formattedDate, target);

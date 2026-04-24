@@ -30,6 +30,16 @@
   }
 }
 
+.construction {
+  width: 50vh;
+  min-width: 240px;
+  font-size: 5vh;
+  border: 2vh solid #333333;
+  margin: 10vh auto;
+  padding: 3vh;
+  border-radius: 5vh;
+}
+
 .md-translator-error {
   background-color: $body-bg;
 

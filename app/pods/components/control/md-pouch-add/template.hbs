@@ -1,42 +1,53 @@
-<div class="sync-add-pouch-container">
-  {{#unless this.adding }}
-    {{#if this.options.length}}
-      <div class="sync-add-buttons-container">
-        <button
-          class="btn btn-lg btn-primary"
-          {{action "addNew" @section.meta.type }}
-        >
-          {{fa-icon "plus"}} Add new {{@section.meta.type}}
-        </button>
-        <LinkTo @route="sync.import" @model={{@section.meta.type}} class="btn btn-lg btn-primary">
-          <span class="fa fa-sign-in"></span>
-          <span>Bulk import new {{@section.meta.list}}</span>
-        </LinkTo>
-      </div>
-    {{/if}}
-  {{else}}
+<div class='sync-add-pouch-container'>
+  {{#if this.adding}}
     <Input::MdSelect
       @label={{@section.meta.title}}
       @placeholder={{@section.meta.title}}
       @showValidations={{true}}
       @value={{this.value}}
-      @valuePath="id"
-      @namePath="title"
+      @valuePath='id'
+      @namePath='title'
       @objectArray={{this.options}}
     />
-    <div class="pouch-action-buttons">
+    <div class='pouch-action-buttons'>
       <button
-        class="btn btn-md btn-warning"
-        {{action "close" }}
+        class='btn btn-md btn-warning'
+        type='button'
+        {{on 'click' this.close}}
       >
-        {{fa-icon "undo"}} Cancel
+        {{fa-icon 'undo'}}
+        Cancel
       </button>
       <button
-        class="btn btn-md btn-success"
-        {{action "saveNew" @section.meta.type }}
+        class='btn btn-md btn-success'
+        type='button'
+        {{on 'click' (fn this.savenew @section.meta.type)}}
       >
-        {{fa-icon "floppy-o"}} Save
+        {{fa-icon 'floppy-o'}}
+        Save
       </button>
     </div>
-  {{/unless}}
+  {{else}}
+    {{#if this.options.length}}
+      <div class='sync-add-buttons-container'>
+        <button
+          class='btn btn-lg btn-primary'
+          type='button'
+          {{on 'click' (fn this.savenew @section.meta.type)}}
+        >
+          {{fa-icon 'plus'}}
+          Add new
+          {{@section.meta.type}}
+        </button>
+        <LinkTo
+          @route='sync.import'
+          @model={{@section.meta.type}}
+          class='btn btn-lg btn-primary'
+        >
+          <span class='fa fa-sign-in'></span>
+          <span>Bulk import new {{@section.meta.list}}</span>
+        </LinkTo>
+      </div>
+    {{/if}}
+  {{/if}}
 </div>

@@ -26,9 +26,9 @@ module('Integration | Component | object/md funding/preview', function(hooks) {
 
     // Template block usage:
     await render(hbs`<section>
-      {{#object/md-funding/preview item=(hash)}}
+      <Object::MdFunding::Preview @item={{hash}}>
         template block text
-      {{/object/md-funding/preview}}</section>
+      </Object::MdFunding::Preview></section>
     `);
 
     assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),

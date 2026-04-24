@@ -1,4 +1,4 @@
-{{#layout/md-card}}
+<Layout::MdCard>
   <div class='row'>
     <div class='col-md-8'>
       {{input/md-input
@@ -29,28 +29,28 @@
       }}
     </div>
   </div>
-{{/layout/md-card}}
+</Layout::MdCard>
 
-{{#object/md-object-table
-  items=this.model.report
-  header='Standard Reports'
-  buttonText='Add Report'
-  ellipsis=true
-  required=true
-  profilePath=(concat this.profilePath '.report')
-  attributes='type'
+<Object::MdObjectTable
+  @items={{this.model.report}}
+  @header='Standard Reports'
+  @buttonText='Add Report'
+  @ellipsis={{true}}
+  @required={{true}}
+  @profilePath='{{this.profilePath}}.report'
+  @attributes='type'
   as |editing|
-}}
+>
   {{object/md-quality-report
     model=editing
     profilePath=(concat this.profilePath '.report')
   }}
-{{/object/md-object-table}}
+</Object::MdObjectTable>
 
 {{#if this.model.standaloneQualityReport}}
   {{object/md-standalone-quality-report
     model=this.model.standaloneQualityReport
-    deleteStandaloneQualityReport=(action 'deleteStandaloneQualityReport')
+    deleteStandaloneQualityReport=(this.deleteStandaloneQualityReport)
   }}
 {{else}}
   <div class='md-object-table box-shadow--4dp'>
@@ -58,7 +58,8 @@
       <h4>No Standalone Report Found
         <button
           class='btn btn-success btn-md'
-          {{action 'addStandaloneQualityReport'}}
+          type='button'
+          {{on 'click' this.addStandaloneQualityReport}}
         >
           <i class='fa fa-plus' />
           Add Standalone Report

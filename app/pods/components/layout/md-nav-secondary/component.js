@@ -6,7 +6,9 @@ import { inject as service } from '@ember/service';
 import ResizeAware from 'ember-resize/mixins/resize-aware';
 
 @classic
-export default class MdNavSecondaryComponent extends Component.extend(ResizeAware) {
+export default class MdNavSecondaryComponent extends Component.extend(
+  ResizeAware
+) {
   @service('custom-profile') customProfile;
   @service('resize') resizeService;
 
@@ -17,14 +19,14 @@ export default class MdNavSecondaryComponent extends Component.extend(ResizeAwar
   navWidth = 0;
 
   /**
-  * Array of nav links. If not supplied, the links will be pulled from the
-  * active profile.
-  *
-  * @property navLinks
-  * @type {Array}
-  * @default "undefined"
-  * @optional
-  */
+   * Array of nav links. If not supplied, the links will be pulled from the
+   * active profile.
+   *
+   * @property navLinks
+   * @type {Array}
+   * @default "undefined"
+   * @optional
+   */
 
   /**
    * translated "more" text
@@ -35,33 +37,51 @@ export default class MdNavSecondaryComponent extends Component.extend(ResizeAwar
   more = 'More';
 
   get links() {
-    const active = this.customProfile.getActiveProfile();
+    const profileService = this.customProfile;
+    const activeProfileId = profileService.active;
+    const mapById = profileService.mapById || {};
+    const mapByAltId = profileService.mapByAltId || {};
+    const defaultProfile = profileService.defaultProfile;
+    const active =
+      mapById[activeProfileId] ||
+      mapById[mapByAltId[activeProfileId]] ||
+      defaultProfile;
     const modelName = this.model?.constructor?.modelName;
     const nav = this;
 
-    let links = this.navLinks || get(active, 'definition.nav.' +
-        modelName) || this
-      .customProfile.defaultProfile.definition.nav[modelName];
+    let links = this.navLinks;
+
+    if (!links && active && modelName) {
+      links = get(active, `definition.nav.${modelName}`);
+    }
+
+    if (!links && defaultProfile && modelName) {
+      links = get(defaultProfile, `definition.nav.${modelName}`);
+    }
+
+    if (!Array.isArray(links)) {
+      return [];
+    }
 
     return links.map((lnk, index) => {
       let link = EmberObject.create(lnk);
 
       link.setProperties({ nav: nav, index: index });
       defineProperty(link, 'navWidth', alias('nav.navWidth'));
-      defineProperty(link, 'isOverflow', computed('navWidth',
-        'width',
-        function () {
-          return this.navWidth < this.linkWidth + this.nav
-            .offset;
-        }));
+      defineProperty(
+        link,
+        'isOverflow',
+        computed('navWidth', 'width', function () {
+          return this.navWidth < this.linkWidth + this.nav.offset;
+        })
+      );
 
-      return link
+      return link;
     });
   }
 
   get sortedLinks() {
-    let sorted = this.links.sortBy('index');
-    return sorted;
+    return [...this.links].sort((a, b) => a.index - b.index);
   }
 
   get hasOverflow() {
@@ -85,7 +105,7 @@ export default class MdNavSecondaryComponent extends Component.extend(ResizeAwar
 
   didInsertElement() {
     super.didInsertElement(...arguments);
-    this._handleDebouncedResizeEvent()
+    this._handleDebouncedResizeEvent();
   }
 
   debouncedDidResize(width) {

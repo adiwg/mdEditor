@@ -10,22 +10,24 @@ import { once } from '@ember/runloop';
 import scrollIntoView from 'scroll-into-view-if-needed';
 
 const Validations = buildValidations({
-  'taxonomicName': [
+  taxonomicName: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'taxonomicLevel': [
+  taxonomicLevel: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 @classic
-export default class MdTaxonomyClassificationTaxonComponent extends Component.extend(Validations) {
+export default class MdTaxonomyClassificationTaxonComponent extends Component.extend(
+  Validations
+) {
   @service spotlight;
 
   tagName = 'li';
@@ -49,7 +51,7 @@ export default class MdTaxonomyClassificationTaxonComponent extends Component.ex
 
     return htmlSafe('padding-left: ' + pad + 'rem;');
   }
-  
+
   @computed('model.subClassification.length')
   get collapsible() {
     return this.model?.subClassification?.length;
@@ -58,7 +60,7 @@ export default class MdTaxonomyClassificationTaxonComponent extends Component.ex
   constructor() {
     super(...arguments);
 
-    this.collapse = (this.preview && !this.parentItem);
+    this.collapse = this.preview && !this.parentItem;
   }
 
   didReceiveAttrs() {
@@ -73,7 +75,7 @@ export default class MdTaxonomyClassificationTaxonComponent extends Component.ex
   didInsertElement() {
     super.didInsertElement(...arguments);
 
-    if(this.model._edit) {
+    if (this.model._edit) {
       this.startEditing();
       this.model._edit = false;
     }
@@ -113,7 +115,7 @@ export default class MdTaxonomyClassificationTaxonComponent extends Component.ex
     let child = {
       commonName: [],
       subClassification: [],
-      _edit: true
+      _edit: true,
     };
 
     let next = [...children, child];
@@ -127,8 +129,10 @@ export default class MdTaxonomyClassificationTaxonComponent extends Component.ex
   }
 
   @action
-  toggleEditing() {
-    if(this.isEditing) {
+  toggleEditing(event) {
+    event?.preventDefault?.();
+
+    if (this.isEditing) {
       this.spotlight.close();
       this.isEditing = false;
       return;

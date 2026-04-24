@@ -45,9 +45,9 @@ module('Integration | Component | object/md lineage/preview', function(hooks) {
 
     // Template block usage:
     await render(hbs`<section>
-      {{#object/md-lineage/preview}}
+      <Object::MdLineage::Preview>
         template block text
-      {{/object/md-lineage/preview}}</section>
+      </Object::MdLineage::Preview></section>
     `);
 
     assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),

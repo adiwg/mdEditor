@@ -19,34 +19,35 @@
   profilePath=(concat this.profilePath '.standaloneQualityReportDetails')
 }}
 
-{{#layout/md-card
-  collapsible=true
-  title='Quality Measure'
-  profilePath=(concat this.profilePath '.qualityMeasure')
-  data-spy=(if this.data-spy 'Quality Measure')
-  content=this.model.qualityMeasure
-}}
+<Layout::MdCard
+  @collapsible={{true}}
+  @title='Quality Measure'
+  @profilePath='{{this.profilePath}}.qualityMeasure'
+  @data-spy={{if this.data-spy 'Quality Measure'}}
+  @content={{this.model.qualityMeasure}}
+>
   {{#if this.model.qualityMeasure.identifier}}
-    {{#layout/md-card
-      title='Identifier'
-      collapsible=true
-      collapsed=false
-      spotlightEnabled=false
-      deleteAction=(action 'deleteQualityMeasureIdentifier')
-    }}
+    <Layout::MdCard
+      @title='Identifier'
+      @collapsible={{true}}
+      @collapsed={{false}}
+      @spotlightEnabled={{false}}
+      @deleteAction={{this.deleteQualityMeasureIdentifier}}
+    >
       {{object/md-identifier
         model=this.model.qualityMeasure.identifier
         profilePath=(concat this.profilePath '.qualityMeasure.identifier')
         short=true
       }}
-    {{/layout/md-card}}
+    </Layout::MdCard>
   {{else}}
     <div class='md-object-table box-shadow--4dp'>
       <div class='alert md-alert-table alert-info'>
         <h4>No Identifier Found
           <button
             class='btn btn-success btn-md'
-            {{action 'addQualityMeasureIdentifier'}}
+            type='button'
+            {{on 'click' this.addQualityMeasureIdentifier}}
           >
             <i class='fa fa-plus' />
             Add Identifier
@@ -69,15 +70,15 @@
     required=true
     profilePath=(concat this.profilePath '.qualityMeasure.description')
   }}
-{{/layout/md-card}}
+</Layout::MdCard>
 
-{{#layout/md-card
-  collapsible=true
-  title='Evaluation Method'
-  profilePath=(concat this.profilePath '.evaluationMethod')
-  data-spy=(if this.data-spy 'Evaluation Method')
-  content=this.model.evaluationMethod
-}}
+<Layout::MdCard
+  @collapsible={{true}}
+  @title='Evaluation Method'
+  @profilePath='{{this.profilePath}}.evaluationMethod'
+  @data-spy={{if this.data-spy 'Evaluation Method'}}
+  @content={{this.model.evaluationMethod}}
+>
   {{input/md-codelist
     create=true
     label='Evaluation Type'
@@ -105,7 +106,9 @@
     path='methodType'
     model=this
     placeholder='Select Method Type'
-    profilePath=(concat this.profilePath '.evaluationMethod.evaluationMethodType')
+    profilePath=(concat
+      this.profilePath '.evaluationMethod.evaluationMethodType'
+    )
     class=(if (v-get this 'isInvalid') 'required')
   }}
   <div class='row'>
@@ -130,27 +133,30 @@
     profilePath=(concat this.profilePath '.evaluationMethod.methodDescription')
   }}
   {{#if this.model.evaluationMethod.evaluationProcedure}}
-    {{#layout/md-card
-      title='Evaluation Procedure Reference'
-      required=true
-      collapsible=true
-      collapsed=false
-      spotlightEnabled=false
-      deleteAction=(action 'deleteEvaluationProcedure')
-    }}
+    <Layout::MdCard
+      @title='Evaluation Procedure Reference'
+      @required={{true}}
+      @collapsible={{true}}
+      @collapsed={{false}}
+      @spotlightEnabled={{false}}
+      @deleteAction={{this.deleteEvaluationProcedure}}
+    >
       {{object/md-citation
         model=this.model.evaluationMethod.evaluationProcedure
-        profilePath=(concat this.profilePath '.evaluationMethod.evaluationProcedure')
+        profilePath=(concat
+          this.profilePath '.evaluationMethod.evaluationProcedure'
+        )
         simpleIdentifier=true
       }}
-    {{/layout/md-card}}
+    </Layout::MdCard>
   {{else}}
     <div class='md-object-table box-shadow--4dp'>
       <div class='alert md-alert-table alert-info'>
         <h4>No Evaluation Procedure Reference Found
           <button
             class='btn btn-success btn-md'
-            {{action 'addEvaluationProcedure'}}
+            type='button'
+            {{on 'click' this.addEvaluationProcedure}}
           >
             <i class='fa fa-plus' />
             Add Evaluation Procedure Reference
@@ -159,24 +165,28 @@
       </div>
     </div>
   {{/if}}
-  {{#object/md-object-table
-    items=this.model.evaluationMethod.referenceDocument
-    header='Reference Document'
-    buttonText='Add Reference Document'
-    ellipsis=true
-    profilePath=(concat this.profilePath '.evaluationMethod.referenceDocument')
-    attributes='title,identifier,identifierCode'
+  <Object::MdObjectTable
+    @items={{this.model.evaluationMethod.referenceDocument}}
+    @header='Reference Document'
+    @buttonText='Add Reference Document'
+    @ellipsis={{true}}
+    @profilePath='{{this.profilePath}}.evaluationMethod.referenceDocument'
+    @attributes='title,identifier,identifierCode'
     as |editing|
-  }}
+  >
     {{object/md-citation
       model=editing
-      profilePath=(concat this.profilePath '.evaluationMethod.referenceDocument')
+      profilePath=(concat
+        this.profilePath '.evaluationMethod.referenceDocument'
+      )
       simpleIdentifier=true
     }}
-  {{/object/md-object-table}}
-  {{#layout/md-card
-    collapsible=true collapsed=true title='Indirect Evaluation'
-  }}
+  </Object::MdObjectTable>
+  <Layout::MdCard
+    @collapsible={{true}}
+    @collapsed={{true}}
+    @title='Indirect Evaluation'
+  >
     {{input/md-textarea
       value=this.model.evaluationMethod.deductiveSource
       placeholder='Information on which data are used as sources in deductive evaluation method.'
@@ -191,10 +201,12 @@
         other methods
       </p>
     </div>
-  {{/layout/md-card}}
-  {{#layout/md-card
-    collapsible=true collapsed=true title='Sample Based Inspection'
-  }}
+  </Layout::MdCard>
+  <Layout::MdCard
+    @collapsible={{true}}
+    @collapsed={{true}}
+    @title='Sample Based Inspection'
+  >
     {{input/md-textarea
       value=this.model.evaluationMethod.samplingScheme
       placeholder='Information of the type of sampling scheme and description of the sampling procedure.'
@@ -223,54 +235,54 @@
         used by other methods.
       </p>
     </div>
-  {{/layout/md-card}}
-{{/layout/md-card}}
+  </Layout::MdCard>
+</Layout::MdCard>
 
-{{#layout/md-card collapsible=true title='Results' required=true}}
-  {{#object/md-object-table
-    items=this.model.quantitativeResult
-    header='Quantitative Result'
-    buttonText='Add Quantitative Result'
-    ellipsis=true
-    profilePath=(concat this.profilePath '.quantitativeResult')
-    attributes='scope.scopeCode,value,valueUnits'
+<Layout::MdCard @collapsible={{true}} @title='Results' @required={{true}}>
+  <Object::MdObjectTable
+    @items={{this.model.quantitativeResult}}
+    @header='Quantitative Result'
+    @buttonText='Add Quantitative Result'
+    @ellipsis={{true}}
+    @profilePath='{{this.profilePath}}.quantitativeResult'
+    @attributes='scope.scopeCode,value,valueUnits'
     as |editing|
-  }}
+  >
     {{object/md-quality-report/quantitative-result
       model=editing
       profilePath=(concat this.profilePath '.quantitativeResult')
     }}
-  {{/object/md-object-table}}
+  </Object::MdObjectTable>
 
-  {{#object/md-object-table
-    items=this.model.descriptiveResult
-    header='Descriptive Result'
-    buttonText='Add Descriptive Result'
-    ellipsis=true
-    profilePath=(concat this.profilePath '.descriptiveResult')
-    attributes='scope.scopeCode'
+  <Object::MdObjectTable
+    @items={{this.model.descriptiveResult}}
+    @header='Descriptive Result'
+    @buttonText='Add Descriptive Result'
+    @ellipsis={{true}}
+    @profilePath='{{this.profilePath}}.descriptiveResult'
+    @attributes='scope.scopeCode'
     as |editing|
-  }}
+  >
     {{object/md-quality-report/descriptive-result
       model=editing
       profilePath=(concat this.profilePath '.descriptiveResult')
     }}
-  {{/object/md-object-table}}
+  </Object::MdObjectTable>
 
-  {{#object/md-object-table
-    items=this.model.conformanceResult
-    header='Conformance Result'
-    buttonText='Add Conformance Result'
-    ellipsis=true
-    profilePath=(concat this.profilePath '.conformanceResult')
-    attributes='scope.scopeCode'
+  <Object::MdObjectTable
+    @items={{this.model.conformanceResult}}
+    @header='Conformance Result'
+    @buttonText='Add Conformance Result'
+    @ellipsis={{true}}
+    @profilePath='{{this.profilePath}}.conformanceResult'
+    @attributes='scope.scopeCode'
     as |editing|
-  }}
+  >
     {{object/md-quality-report/conformance-result
       model=editing
       profilePath=(concat this.profilePath '.conformanceResult')
     }}
-  {{/object/md-object-table}}
+  </Object::MdObjectTable>
 
   {{!
   The code below is ready to go for adding the coverage result array.
@@ -292,4 +304,4 @@
       profilePath=(concat this.profilePath ".coverageResult")
     }}
   {{/object/md-object-table}} --}}
-{{/layout/md-card}}
+</Layout::MdCard>

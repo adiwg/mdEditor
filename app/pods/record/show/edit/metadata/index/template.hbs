@@ -1,120 +1,152 @@
-{{#with this.model.json.metadata.metadataInfo as |metadata|}}
-<div class="row">
-  <form class="col-xxl-11 col-xxxl-10 col-xxl-offset-1">
-    <h4 class="section-header">
-      Editing Metadata Information
-      {{control/md-status model=this.model}}
-    </h4>
-    {{#layout/md-card title="Basic Information" collapsible=true collapsed=false
-      profilePath="record.metadata.basicInformation" data-spy="Basic Information"
-    }}
+{{#let this.model.json.metadata.metadataInfo as |metadata|}}
+  <div class='row'>
+    <form class='col-xxl-11 col-xxxl-10 col-xxl-offset-1'>
+      <h4 class='section-header'>
+        Editing Metadata Information
+        {{control/md-status model=this.model}}
+      </h4>
+      <Layout::MdCard
+        @title='Basic Information'
+        @collapsible={{true}}
+        @collapsed={{false}}
+        @profilePath='record.metadata.basicInformation'
+        @data-spy='Basic Information'
+      >
 
-      {{input/md-codelist
-        value=metadata.metadataStatus label="Metadata Status"
-        create=true tooltip=true icon=false mdCodeName="progress"
-        placeholder="Select the current status"
-        profilePath="record.metadata.basicInformation.metadataStatus"
-        data-spy=false
-        class="md-embedded"
-      }}
-
-      {{#layout/md-card profilePath="record.metadata.basicInformation.metadataDates"
-        data-spy=false
-        shadow=false
-        class="md-embedded"
-      }}
-        {{object/md-date-array
-          value=metadata.metadataDate
-          plain=true
+        {{input/md-codelist
+          value=metadata.metadataStatus
+          label='Metadata Status'
+          create=true
+          tooltip=true
+          icon=false
+          mdCodeName='progress'
+          placeholder='Select the current status'
+          profilePath='record.metadata.basicInformation.metadataStatus'
           data-spy=false
-          profilePath="record.metadata.basicInformation.metadataDates"
+          class='md-embedded'
         }}
-      {{/layout/md-card}}
-    {{/layout/md-card}}
 
-    {{object/md-party-array
-      title="Metadata Contact"
-      data-spy="Metadata Contacts"
-      collapsible=true collapsed=false
-      required=true
-      value=metadata.metadataContact
-      profilePath="record.metadata.metadataContacts"
-    }}
+        <Layout::MdCard
+          @profilePath='record.metadata.basicInformation.metadataDates'
+          @data-spy={{false}}
+          @shadow={{false}}
+          @class='md-embedded'
+        >
+          {{object/md-date-array
+            value=metadata.metadataDate
+            plain=true
+            data-spy=false
+            profilePath='record.metadata.basicInformation.metadataDates'
+          }}
+        </Layout::MdCard>
+      </Layout::MdCard>
 
-    {{#with this.model.json.metadata.metadataInfo.metadataIdentifier as |identifier|}}
-      {{#layout/md-card title="Metadata Identifier" collapsible=true collapsed=false
-        profilePath="record.metadata.metadataIdentifier" required=false
-        btnText="Edit" btnClass="success" btnAction=(route-action "editIdentifier") btnIcon="pencil"
+      {{object/md-party-array
+        title='Metadata Contact'
+        data-spy='Metadata Contacts'
+        collapsible=true
+        collapsed=false
+        required=true
+        value=metadata.metadataContact
+        profilePath='record.metadata.metadataContacts'
       }}
-      <div class="row">
-        <dl class="dl-horizontal">
-          {{control/md-definition title="Identifier" text=identifier.identifier}}
-          {{!-- {{#control/md-definition title="Identifier"}}
+
+      {{#let
+        this.model.json.metadata.metadataInfo.metadataIdentifier
+        as |identifier|
+      }}
+        <Layout::MdCard
+          @title='Metadata Identifier'
+          @collapsible={{true}}
+          @collapsed={{false}}
+          @profilePath='record.metadata.metadataIdentifier'
+          @required={{false}}
+          @btnText='Edit'
+          @btnClass='success'
+          @btnAction={{this.editIdentifier}}
+          @btnIcon='pencil'
+        >
+          <div class='row'>
+            <dl class='dl-horizontal'>
+              {{control/md-definition
+                title='Identifier'
+                text=identifier.identifier
+              }}
+              {{!-- {{#control/md-definition title="Identifier"}}
           {{input/md-input value=identifier.identifier}}
           {{/control/md-definition}} --}}
-          {{control/md-definition title="Namespace" text=identifier.namespace}}
-        </dl>
-      </div>
-      {{/layout/md-card}}
-    {{/with}}
+              {{control/md-definition
+                title='Namespace'
+                text=identifier.namespace
+              }}
+            </dl>
+          </div>
+        </Layout::MdCard>
+      {{/let}}
 
-    {{object/md-citation/preview
-      profilePath="record.metadata.parentMetadata"
-      citation=metadata.parentMetadata
-      title="Parent Metadata"
-      muted=true
-      editCitation=(route-action "editParent")
-    }}
-
-    {{object/md-repository-array
-      value=this.model.json.metadataRepository
-      data-spy="Metadata Repository"
-      profilePath="record.metadata.repositories"
-    }}
-
-    {{object/md-online-resource-array
-      model=metadata.metadataOnlineResource
-      profilePath="record.metadata.onlineResource"
-      data-spy="Online Resources"
-    }}
-
-    {{#layout/md-card
-      title="Metadata Maintenance"
-      collapsible=true
-      content=metadata.metadataMaintenance
-      profilePath="record.metadata.maintenance"
-    }}
-      {{object/md-maintenance model=metadata.metadataMaintenance
-        profilePath="record.metadata.maintenance"
+      {{object/md-citation/preview
+        profilePath='record.metadata.parentMetadata'
+        citation=metadata.parentMetadata
+        title='Parent Metadata'
+        muted=true
+        editCitation=this.editParent
       }}
-    {{/layout/md-card}}
 
-    {{#layout/md-card
-      title="Default Metadata Locale"
-      shadow=true
-      data-spy="Default Locale"
-      profilePath="record.metadata.defaultLocale"
-      collapsible=true
-      content=metadata.defaultMetadataLocale
-    }}
-      {{object/md-locale
-        model=metadata.defaultMetadataLocale
-        profilePath="record.metadata.defaultLocale"
+      {{object/md-repository-array
+        value=this.model.json.metadataRepository
+        data-spy='Metadata Repository'
+        profilePath='record.metadata.repositories'
       }}
-    {{/layout/md-card}}
 
-    {{object/md-citation-array
-      model=metadata.alternateMetadataReference
-      profilePath="record.metadata.alternateMetadataReference"
-      data-spy="Alternate Metadata"
-      editItem=(route-action "editAlternate")
-      label="Alternate Metadata Reference"
-    }}
+      {{object/md-online-resource-array
+        model=metadata.metadataOnlineResource
+        profilePath='record.metadata.onlineResource'
+        data-spy='Online Resources'
+      }}
 
-    {{outlet}}
-  </form>
-</div>
-{{/with}}
+      <Layout::MdCard
+        @title='Metadata Maintenance'
+        @collapsible={{true}}
+        @content={{metadata.metadataMaintenance}}
+        @profilePath='record.metadata.maintenance'
+      >
+        {{object/md-maintenance
+          model=metadata.metadataMaintenance
+          profilePath='record.metadata.maintenance'
+        }}
+      </Layout::MdCard>
 
-{{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"  scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo"))}}
+      <Layout::MdCard
+        @title='Default Metadata Locale'
+        @shadow={{true}}
+        @data-spy='Default Locale'
+        @profilePath='record.metadata.defaultLocale'
+        @collapsible={{true}}
+        @content={{metadata.defaultMetadataLocale}}
+      >
+        {{object/md-locale
+          model=metadata.defaultMetadataLocale
+          profilePath='record.metadata.defaultLocale'
+        }}
+      </Layout::MdCard>
+      {{object/md-citation-array
+        model=metadata.alternateMetadataReference
+        profilePath='record.metadata.alternateMetadataReference'
+        data-spy='Alternate Metadata'
+        itemRoute='record.show.edit.metadata.alternate'
+        label='Alternate Metadata Reference'
+      }}
+
+      {{outlet}}
+    </form>
+  </div>
+{{/let}}
+
+{{to-elsewhere
+  named='md-scroll-spy-record-edit'
+  send=(component
+    'control/md-scroll-spy'
+    scrollInit=this.scrollTo
+    setScrollTo=this.setScrollTo
+  )
+}}

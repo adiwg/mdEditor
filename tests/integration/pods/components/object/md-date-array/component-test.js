@@ -28,9 +28,9 @@ module('Integration | Component | object/md date array', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-date-array value=model profilePath="foobar"}}
+      <Object::MdDateArray @value={{model}} @profilePath="foobar">
         template block text
-      {{/object/md-date-array}}
+      </Object::MdDateArray>
     `);
 
     assert.equal(find('.panel').textContent.replace(/[ \n]+/g, '|').trim(),

@@ -26,9 +26,9 @@ module('Integration | Component | control/md contact link', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#control/md-contact-link contacts=contacts contactId=0 block=true}}
+      <Control::MdContactLink @contacts={{contacts}} @contactId={{0}} @block={{true}}>
         template block text
-      {{/control/md-contact-link}}
+      </Control::MdContactLink>
     `);
 
     assert.equal(find('a').textContent.trim(), 'template block text', 'renders as block');

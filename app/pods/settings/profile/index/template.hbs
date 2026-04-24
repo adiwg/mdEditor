@@ -39,7 +39,7 @@
       columnSets=columnSets
       rowBodyComponent='object/md-profile/form'
       pageSize=25
-      editRow=(action 'editProfile')
+      editRow=this.editProfile
       actionBadges=badges
     }}
     <div class='card-block'>
@@ -53,7 +53,11 @@
           placeholder='Enter URL'
         }}
       </div>
-      <button class='btn btn-primary' {{action 'loadProfilesFromUrl'}}>
+      <button
+        class='btn btn-primary'
+        type='button'
+        {{on 'click' this.loadProfilesFromUrl}}
+      >
         Load Profile[s]
       </button>
     </div>
@@ -70,7 +74,7 @@
         icon='floppy-o'
         disabled=disableSave
         class='btn-success btn-lg'
-        click=(action 'saveProfile')
+        click=this.saveProfile
       )
     }}
   {{/if}}
@@ -81,7 +85,7 @@
       text=(if profile.isNew 'Cancel' 'Back to List')
       icon=(if profile.isNew 'undo' 'arrow-left')
       class=(if profile.isNew 'btn-warning btn-lg' 'btn-primary btn-lg')
-      click=(action 'cancelEdit')
+      click=this.cancelEdit
     )
   }}
 {{else}}
@@ -92,7 +96,7 @@
       text='Add Profile'
       icon='plus'
       class='btn-success btn-lg'
-      click=(action 'addProfile')
+      click=this.addProfile
       disabled=(if profile true)
     )
   }}
@@ -103,7 +107,7 @@
       text='Manage Definitions'
       icon='gear'
       class='btn-primary btn-lg'
-      click=(action 'manageDefinitions')
+      click=this.manageDefinitions
     )
   }}
 {{/if}}

@@ -61,7 +61,7 @@ module('Integration | Component | object/md time period', function(hooks) {
       }
     ];
 
-    await render(hbs`{{object/md-time-period profilePath="foobar" model=model.firstObject}}`);
+    await render(hbs`{{object/md-time-period profilePath="foobar" model=(get model "0")}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Time|Period|Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|Time|Period|Names|2|Add|Time|Period|Name|0|Delete|1|Delete|Interval|Interval|Amount|Time|Unit|year|×|Duration|Years|Months|Days|Hours|Minutes|Seconds|');
@@ -82,9 +82,9 @@ module('Integration | Component | object/md time period', function(hooks) {
       'geologic age');
     // Template block usage:
     await render(hbs`
-      {{#object/md-time-period profilePath="foobar" model=(hash)}}
+      <Object::MdTimePeriod @profilePath="foobar" @model={{hash}}>
         template block text
-      {{/object/md-time-period}}
+      </Object::MdTimePeriod>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),

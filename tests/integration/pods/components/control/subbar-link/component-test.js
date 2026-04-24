@@ -22,9 +22,9 @@ module('Integration | Component | control/subbar link', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#control/subbar-link text="foo" click=test}}
+      <Control::SubbarLink @text="foo" @click={{test}}>
         <section>template block text</section>
-      {{/control/subbar-link}}
+      </Control::SubbarLink>
     `);
 
     assert.equal(find('section').textContent.trim(), 'template block text');

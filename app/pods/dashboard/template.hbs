@@ -10,12 +10,12 @@
               {{fa-icon 'file-text' size=5}}
             </div>
             <div class='col-xs-9 text-right'>
-              <div class='huge-text'>{{@model.0.length}}</div>
+              <div class='huge-text'>{{get @model '0.length'}}</div>
               <div>Records</div>
             </div>
           </div>
         </div>
-        {{#link-to 'records'}}
+        {{#link-to route='records'}}
           <div class='card-footer'>
             <div class='pull-left'>
               View Records
@@ -23,7 +23,6 @@
             <div class='pull-right'>
               {{fa-icon 'arrow-right' size=1}}
             </div>
-
           </div>
         {{/link-to}}
       {{/layout/md-card}}
@@ -38,12 +37,12 @@
               {{fa-icon 'users' size=5}}
             </div>
             <div class='col-xs-9 text-right'>
-              <div class='huge-text'>{{@model.1.length}}</div>
+              <div class='huge-text'>{{get @model '1.length'}}</div>
               <div>Contacts</div>
             </div>
           </div>
         </div>
-        {{#link-to 'contacts'}}
+        {{#link-to route='contacts'}}
           <div class='card-footer'>
             <div class='pull-left'>
               View Contacts
@@ -51,7 +50,6 @@
             <div class='pull-right'>
               {{fa-icon 'arrow-right' size=1}}
             </div>
-
           </div>
         {{/link-to}}
       {{/layout/md-card}}
@@ -64,12 +62,12 @@
               {{fa-icon 'book' size=5}}
             </div>
             <div class='col-xs-9 text-right'>
-              <div class='huge-text'>{{@model.2.length}}</div>
+              <div class='huge-text'>{{get @model '2.length'}}</div>
               <div>Dictionaries</div>
             </div>
           </div>
         </div>
-        {{#link-to 'dictionaries'}}
+        {{#link-to route='dictionaries'}}
           <div class='card-footer'>
             <div class='pull-left'>
               View Dictionaries
@@ -77,7 +75,6 @@
             <div class='pull-right'>
               {{fa-icon 'arrow-right' size=1}}
             </div>
-
           </div>
         {{/link-to}}
       {{/layout/md-card}}

@@ -33,9 +33,9 @@ module('Integration | Component | object/md medium', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-medium profilePath="foobar" model=(hash)}}
+      <Object::MdMedium @profilePath="foobar" @model={{hash}}>
         template block text
-      {{/object/md-medium}}
+      </Object::MdMedium>
     `);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),

@@ -4,54 +4,54 @@
     valuePath='value'
     namePath='name'
     model=this
-    path="selectedPrecision"
+    path='selectedPrecision'
     objectArray=this.precisionOptions
     searchEnabled=false
     placeholder='Date Precision'
   }}
 </td>
 <td>
-  {{#if (eq this.selectedPrecision "Time")}}
+  {{#if (eq this.selectedPrecision 'Time')}}
     {{input/md-datetime
-      valuePath="date"
+      valuePath='date'
       model=this
       showValidations=true
       required=true
       forceDateOutput=true
-      profilePath=(concat this.profilePath ".date")
+      profilePath=(concat this.profilePath '.date')
     }}
-  {{else if (eq this.selectedPrecision "Day")}}
+  {{else if (eq this.selectedPrecision 'Day')}}
     {{input/md-datetime
-      valuePath="date"
+      valuePath='date'
       model=this
       showValidations=true
       required=true
       forceDateOutput=true
-      format="YYYY-MM-DD"
-      placeholder="Enter date"
-      profilePath=(concat this.profilePath ".date")
+      format='YYYY-MM-DD'
+      placeholder='Enter date'
+      profilePath=(concat this.profilePath '.date')
     }}
-  {{else if (eq this.selectedPrecision "Month")}}
+  {{else if (eq this.selectedPrecision 'Month')}}
     {{input/md-datetime
-      valuePath="date"
+      valuePath='date'
       model=this
       showValidations=true
       required=true
       forceDateOutput=true
-      format="YYYY-MM"
-      placeholder="Enter Year/Month"
-      profilePath=(concat this.profilePath ".date")
+      format='YYYY-MM'
+      placeholder='Enter Year/Month'
+      profilePath=(concat this.profilePath '.date')
     }}
-  {{else if (eq this.selectedPrecision "Year")}}
+  {{else if (eq this.selectedPrecision 'Year')}}
     {{input/md-datetime
-      valuePath="date"
+      valuePath='date'
       model=this
       showValidations=true
       required=true
       forceDateOutput=true
-      format="YYYY"
-      placeholder="Enter Year"
-      profilePath=(concat this.profilePath ".date")
+      format='YYYY'
+      placeholder='Enter Year'
+      profilePath=(concat this.profilePath '.date')
     }}
   {{/if}}
 </td>
@@ -64,9 +64,9 @@
     disabled=this.disabled
     allowClear=true
     showValidations=true
-    mdCodeName="dateType"
-    profilePath=(concat this.profilePath ".dateType")
-    path="dateType"
+    mdCodeName='dateType'
+    profilePath=(concat this.profilePath '.dateType')
+    path='dateType'
     model=this
     placeholder='Choose date type'
   }}
@@ -74,8 +74,8 @@
 <td>
   {{input/md-input
     value=this.model.description
-    profilePath=(concat this.profilePath ".description")
-    placeholder="Describe the date."
+    profilePath=(concat this.profilePath '.description')
+    placeholder='Describe the date.'
   }}
 </td>
 {{yield}}

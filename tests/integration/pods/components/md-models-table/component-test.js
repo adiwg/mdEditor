@@ -32,9 +32,9 @@ module('Integration | Component | md models table', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#md-models-table}}
+      <MdModelsTable>
         template block text
-      {{/md-models-table}}
+      </MdModelsTable>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|template|block|text|');

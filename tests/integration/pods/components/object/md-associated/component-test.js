@@ -61,9 +61,9 @@ module('Integration | Component | object/md associated', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-associated profilePath="foobar" model=model}}
+      <Object::MdAssociated @profilePath="foobar" @model={{model}}>
         template block text
-      {{/object/md-associated}}
+      </Object::MdAssociated>
     `);
 
     assert.equal(find('form').textContent.replace(/[ \n]+/g, '|').trim(),

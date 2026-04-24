@@ -29,7 +29,7 @@ export default function () {
   );
   this.transition(
     this.toRoute('record.show.edit.metadata.alternate.identifier'),
-    this.fromRoute('record.show.edit.metadata.alternate.index'),
+    this.fromRoute('record.show.edit.metadata.alternate'),
     this.use('toLeft'),
     this.reverse('toRight')
     //,this.debug()

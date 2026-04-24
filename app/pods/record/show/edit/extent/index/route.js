@@ -5,7 +5,7 @@ import { alias } from '@ember/object/computed';
 
 export default class IndexRoute extends Route.extend(ScrollTo) {
   setupController(controller, model) {
-    this._super(controller, model);
+    super.setupController(controller, model);
 
     defineProperty(
       this.controller,

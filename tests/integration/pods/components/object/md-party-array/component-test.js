@@ -42,9 +42,9 @@ module('Integration | Component | object/md party array', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-party-array model=(hash) profilePath="foobar"}}
+      <Object::MdPartyArray @model={{hash}} @profilePath="foobar">
         template block text
-      {{/object/md-party-array}}
+      </Object::MdPartyArray>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),

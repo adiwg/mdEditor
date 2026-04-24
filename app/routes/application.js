@@ -137,10 +137,10 @@ export default class ApplicationRoute extends Route {
     console.error(error);
 
     if (error.status === 404) {
-      return this.transitionTo('not-found');
+      return this.router.transitionTo('not-found');
     }
 
-    return this.replaceWith('error').then(function (route) {
+    return this.router.replaceWith('error').then(function (route) {
       route.controller.set('lastError', error);
     });
   }

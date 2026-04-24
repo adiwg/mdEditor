@@ -16,10 +16,12 @@ export default class IdRoute extends Route {
       return record;
     }
 
-    return this.store.findRecord('dictionary', params.dictionary_id).then((record) => {
-      record.set('dictionaryId', record.get('uuid'));
-      return record;
-    });
+    return this.store
+      .findRecord('dictionary', params.dictionary_id)
+      .then((record) => {
+        record.set('dictionaryId', record.get('uuid'));
+        return record;
+      });
   }
 
   breadCrumb = null;
@@ -29,9 +31,13 @@ export default class IdRoute extends Route {
     let model = this.currentRouteModel();
 
     // If we are leaving the Route we verify if the model is in
-    // 'isDeleted' state, which means it wasn't saved to the metadata.
-    if(model && model.isDeleted) {
-      // We call DS#unloadRecord() which removes it from the store
+    // 'isDeleted' or 'isNew' state, which means it wasn't saved.
+    if (
+      model &&
+      (model.isDeleted || model.isNew) &&
+      !this.store.isDestroyed &&
+      !this.store.isDestroying
+    ) {
       this.store.unloadRecord(model);
     }
   }
@@ -42,17 +48,20 @@ export default class IdRoute extends Route {
 
     // setup tests for required attributes
     controller.noName = computed(
-      'model.json.dataDictionary.citation.title', function() {
+      'model.json.dataDictionary.citation.title',
+      function () {
         return model.get('json.dataDictionary.citation.title') ? false : true;
-      });
+      }
+    );
     controller.noType = computed(
-      'model.json.dataDictionary.resourceType', function() {
+      'model.json.dataDictionary.resourceType',
+      function () {
         return model.get('json.dataDictionary.resourceType') ? false : true;
-      });
+      }
+    );
     controller.allowSave = computed('noType', 'noName', function () {
       return this.noName || this.noType;
     });
-
   }
   // serialize(model) {
   //   // If we got here without an ID (and therefore without a model)
@@ -69,24 +78,13 @@ export default class IdRoute extends Route {
 
   @action
   willTransition(transition) {
-    if (transition.targetName === 'dictionary.new.index') {
-      transition.abort();
-      return true;
-    }
-
-    // We grab the model loaded in this route
-    var model = this.currentRouteModel();
-    // If we are leaving the Route we verify if the model is in
-    // 'isNew' state, which means it wasn't saved to the backend.
-    if (model && model.get('isNew')) {
-      // We call DS#destroyRecord() which removes it from the store
-      model.destroyRecord().then(() => transition.retry());
-      return true;
-    }
+    return true;
   }
 
   @action
-  saveDictionary() {
+  saveDictionary(event) {
+    event?.preventDefault();
+
     this.currentRouteModel()
       .save()
       .then((model) => {
@@ -102,9 +100,10 @@ export default class IdRoute extends Route {
 
   @action
   error(error) {
-    if(error instanceof NotFoundError) {
-      this.flashMessages
-        .warning('No dictionary found! Re-directing to new record...');
+    if (error instanceof NotFoundError) {
+      this.flashMessages.warning(
+        'No dictionary found! Re-directing to new record...'
+      );
       // redirect to new
       this.router.replaceWith('dictionary.new');
     } else {

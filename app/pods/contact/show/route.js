@@ -1,5 +1,4 @@
 import Route from '@ember/routing/route';
-import { copy } from 'ember-copy';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import EmberObject from '@ember/object';
@@ -11,7 +10,7 @@ export default class ContactShowRoute extends Route {
   @service router;
 
   queryParams = {
-    scrollTo: true
+    scrollTo: true,
   };
 
   model(params) {
@@ -28,6 +27,11 @@ export default class ContactShowRoute extends Route {
     const model = this.currentRouteModel();
     model.updateTimestamp();
     await model.save();
+    let json = JSON.parse(model.serialize().data.attributes.json);
+
+    model.setCurrentHash(json);
+    model.notifyPropertyChange('currentHash');
+    model.notifyPropertyChange('hasDirtyHash');
     await this.pouch.updatePouchRecord(model);
     this.flashMessages.success(`Saved Contact: ${model.get('title')}`);
   }
@@ -35,13 +39,10 @@ export default class ContactShowRoute extends Route {
   @action
   destroyContact() {
     let model = this.currentRouteModel();
-    model
-      .destroyRecord()
-      .then(() => {
-        this.flashMessages
-          .success(`Deleted Contact: ${model.get('title')}`);
-        this.router.replaceWith('contacts');
-      });
+    model.destroyRecord().then(() => {
+      this.flashMessages.success(`Deleted Contact: ${model.get('title')}`);
+      this.router.replaceWith('contacts');
+    });
   }
 
   @action
@@ -60,17 +61,18 @@ export default class ContactShowRoute extends Route {
       return;
     }
 
-    model
-      .reload()
-      .then(() => {
-        this.flashMessages.warning(message);
-      });
+    model.reload().then(() => {
+      this.flashMessages.warning(message);
+    });
   }
 
   @action
   copyContact() {
-    this.flashMessages
-      .success(`Copied Contact: ${this.currentRouteModel().get('title')}`);
-    this.router.transitionTo('contact.new.id', copy(this.currentRouteModel()));
+    const copiedContact = this.currentRouteModel().copy();
+
+    this.flashMessages.success(
+      `Copied Contact: ${this.currentRouteModel().get('title')}`
+    );
+    this.router.transitionTo('contact.new.id', copiedContact);
   }
 }

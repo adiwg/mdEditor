@@ -7,37 +7,46 @@ import { task } from 'ember-concurrency';
 export default class ProfileManageController extends Controller {
   @service profile;
   @service flashMessages;
+  @service router;
   @service store;
 
   @tracked definition = null;
   @tracked fetchTask;
 
   /* eslint-disable ember/avoid-leaking-state-in-ember-objects */
-  columns = [{
-    propertyName: 'title',
-    title: 'Title'
-  }, {
-    propertyName: 'uri',
-    title: 'URL',
-    break: true
-  }, {
-    propertyName: 'description',
-    title: 'Description',
-    truncate: true,
-    isHidden: true
-  }];
+  columns = [
+    {
+      propertyName: 'title',
+      title: 'Title',
+    },
+    {
+      propertyName: 'uri',
+      title: 'URL',
+      break: true,
+    },
+    {
+      propertyName: 'description',
+      title: 'Description',
+      truncate: true,
+      isHidden: true,
+    },
+  ];
 
-  columnSets = [{
-    label: 'URL',
-    showColumns: ['title', 'uri']
-  }];
+  columnSets = [
+    {
+      label: 'URL',
+      showColumns: ['title', 'uri'],
+    },
+  ];
 
-  badges = [{
-    type: 'info',
-    icon: 'info-circle',
-    tip: 'Update available.',
-    isVisible: 'hasUpdate'
-  }];
+  badges = [
+    {
+      type: 'info',
+      icon: 'info-circle',
+      tip: 'Update available.',
+      isVisible: 'hasUpdate',
+    },
+  ];
 
   /**
    * Indicates whether the save button should be disabled
@@ -49,7 +58,10 @@ export default class ProfileManageController extends Controller {
    * @requires definition.validations.isInvalid,fetchTask.isRunning
    */
   get disableSave() {
-    return this.definition?.validations?.attrs?.uri?.isInvalid || this.fetchTask?.isRunning;
+    return (
+      this.definition?.validations?.attrs?.uri?.isInvalid ||
+      this.fetchTask?.isRunning
+    );
   }
 
   checkForUpdates = task(async () => {
@@ -70,24 +82,27 @@ export default class ProfileManageController extends Controller {
   saveDefinition() {
     let definition = this.definition;
 
-    return definition.save().then(rec => {
-      let fetched = this.profile.fetchDefinition.perform(rec.uri);
+    return definition
+      .save()
+      .then((rec) => {
+        let fetched = this.profile.fetchDefinition.perform(rec.uri);
 
-      this.fetchTask = fetched;
+        this.fetchTask = fetched;
 
-      fetched.then(val => {
-        if(val) {
-          definition.set('config', val);
-          definition.set('remoteVersion', val.version);
+        fetched.then((val) => {
+          if (val) {
+            definition.set('config', val);
+            definition.set('remoteVersion', val.version);
 
-          this.flashMessages.success(
-            `Downloaded profile definition: ${val.title}.`);
-        }
+            this.flashMessages.success(
+              `Downloaded profile definition: ${val.title}.`
+            );
+          }
+        });
+      })
+      .catch((e) => {
+        this.flashMessages.warning(e.message);
       });
-    }).catch(e => {
-      this.flashMessages.warning(e.message);
-    });
-
   }
 
   @action
@@ -100,6 +115,6 @@ export default class ProfileManageController extends Controller {
 
   @action
   toProfile() {
-    this.transitionToRoute('settings.profile');
+    this.router.transitionTo('settings.profile');
   }
 }

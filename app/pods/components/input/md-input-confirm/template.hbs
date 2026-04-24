@@ -1,29 +1,49 @@
-{{#if this.label}}<label>{{this.label}}</label>{{/if}}
-<div class={{if this.disabled "input-group"}}>
+{{#if this.label}}
+  <label for={{concat this.elementId '-input'}}>{{this.label}}</label>
+{{/if}}
+<div class={{if this.disabled 'input-group'}}>
 
-{{input
-  value=this.value
-  placeholder=this.placeholder
-  required=this.required
-  type=this.type
-  maxlength=this.maxlength
-  class=this.inputClass
-  disabled=this.isDisabled
-  blur=(action "inputBlur")
-}}
+  {{#if this.label}}
+    <input
+      id={{concat this.elementId '-input'}}
+      type={{this.type}}
+      value={{this.value}}
+      placeholder={{this.placeholder}}
+      required={{this.required}}
+      maxlength={{this.maxlength}}
+      class={{this.inputClass}}
+      disabled={{this.isDisabled}}
+      {{on 'input' this.updateValue}}
+      {{on 'blur' this.inputBlur}}
+    />
+  {{else}}
+    <input
+      type={{this.type}}
+      value={{this.value}}
+      placeholder={{this.placeholder}}
+      required={{this.required}}
+      maxlength={{this.maxlength}}
+      class={{this.inputClass}}
+      disabled={{this.isDisabled}}
+      aria-label={{this.placeholder}}
+      {{on 'input' this.updateValue}}
+      {{on 'blur' this.inputBlur}}
+    />
+  {{/if}}
   {{#if this.disabled}}
-    <span class="input-group-btn">
-        {{#control/md-button-confirm
-          class="btn btn-warning"
-          onConfirm=(action "allowEdit")
-        }}
-            {{fa-icon "pencil"}} Edit
-            {{#if this.confirmTip}}
-              {{#ember-tooltip}}
-                {{this.confirmTip}}
-              {{/ember-tooltip}}
-            {{/if}}
-        {{/control/md-button-confirm}}
+    <span class='input-group-btn'>
+      <Control::MdButtonConfirm
+        @class='btn btn-warning'
+        @onConfirm={{this.allowEdit}}
+      >
+        {{fa-icon 'pencil'}}
+        Edit
+        {{#if this.confirmTip}}
+          <EmberTooltip>
+            {{this.confirmTip}}
+          </EmberTooltip>
+        {{/if}}
+      </Control::MdButtonConfirm>
     </span>
   {{/if}}
 </div>

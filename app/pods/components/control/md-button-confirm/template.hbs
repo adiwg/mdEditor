@@ -5,15 +5,18 @@
 {{/if}} --}}
 
 {{#liquid-if predicate=this.isShowingConfirm class='button-confirm'}}
-<i class="fa fa-question"></i> Confirm
+  <i class='fa fa-question'></i>
+  Confirm
 {{else}}
   {{yield}}
 {{/liquid-if}}
 
 {{#if this.isShowingConfirm}}
   {{#if this.tooltip}}
-    {{ember-tooltip tooltipClass=(concat "ember-tooltip md-tooltip " this.tipClass) text=this.tooltip side=this.tipSide}}
+    {{ember-tooltip
+      tooltipClass=(concat 'ember-tooltip md-tooltip ' this.tipClass)
+      text=this.tooltip
+      side=this.tipSide
+    }}
   {{/if}}
 {{/if}}
-
-

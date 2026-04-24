@@ -22,9 +22,9 @@ module('Integration | Component | object/md taxonomy/collection/voucher', functi
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-taxonomy/collection/voucher profilePath="foobar" model=(hash repository=(hash))}}
+      <Object::MdTaxonomy::Collection::Voucher @profilePath="foobar" @model={{hash repository=(hash)}}>
         template block text
-      {{/object/md-taxonomy/collection/voucher}}
+      </Object::MdTaxonomy::Collection::Voucher>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),

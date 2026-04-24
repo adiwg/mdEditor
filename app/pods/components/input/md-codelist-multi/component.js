@@ -5,11 +5,12 @@
 
 import { isArray } from '@ember/array';
 
-import { computed } from '@ember/object';
+import { computed, set } from '@ember/object';
 import MdCodelist from '../md-codelist/component';
 
 export default MdCodelist.extend({
   classNames: ['md-codelist-multi'],
+  localValue: null,
   /**
    * Specialized select list control for displaying and selecting options in
    * mdCodes codelists. Extends md-codelist. Allows selection of multiple
@@ -61,9 +62,10 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return String
    */
-  theComponent: computed('create', function() {
-    return this.create ? 'power-select-multiple-with-create' :
-      'power-select-multiple';
+  theComponent: computed('create', function () {
+    return this.create
+      ? 'power-select-multiple-with-create'
+      : 'power-select-multiple';
   }),
 
   /**
@@ -91,8 +93,12 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return PromiseObject
    */
-  selectedItem: computed('value', function() {
-    let value = this.value;
+  effectiveValue: computed('value', 'localValue', 'model', 'path', function () {
+    return this.model && this.path ? this.value : this.localValue;
+  }),
+
+  selectedItem: computed('effectiveValue', 'codelist.[]', function () {
+    let value = this.effectiveValue;
     let codelist = this.codelist;
 
     if (value) {
@@ -111,9 +117,9 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return Array
    */
-  codelist: computed('value', 'filterId', 'mapped', function() {
+  codelist: computed('effectiveValue', 'filterId', 'mapped', function () {
     let codelist = this.mapped;
-    let value = this.value;
+    let value = this.effectiveValue;
     let create = this.create;
     let filter = this.filterId;
 
@@ -145,14 +151,28 @@ export default MdCodelist.extend({
     //power-select-with-create always sends a single object onCreate
     //we need to add that object to the selectedItem array
     if (this.create && !isArray(selected)) {
-      sel = this.selectedItem
-        .compact();
+      sel = this.selectedItem.compact();
       sel.pushObject(selected);
     } else {
       sel = selected;
     }
 
-    this.set('value', sel.mapBy('codeId'));
+    let nextValue = (sel || []).mapBy('codeId');
+
+    if (this.model && this.path) {
+      set(this, 'value', nextValue);
+    } else {
+      set(this, 'localValue', nextValue);
+    }
+
     this.change();
-  }
+  },
+
+  init() {
+    this._super(...arguments);
+    this.setValue = this.setValue.bind(this);
+    if (!(this.model && this.path)) {
+      set(this, 'localValue', this.value || []);
+    }
+  },
 });

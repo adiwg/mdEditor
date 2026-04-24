@@ -61,9 +61,9 @@ module('Integration | Component | object/md associated/preview', function(hooks)
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-associated/preview item=model class="testme"}}
+      <Object::MdAssociated::Preview @item={{model}} @class="testme">
         template block text
-      {{/object/md-associated/preview}}
+      </Object::MdAssociated::Preview>
     `);
 
     assert.equal(find('.testme').textContent.replace(/[ \n]+/g, '|').trim(),

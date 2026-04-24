@@ -3,8 +3,8 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { get } from '@ember/object';
 import { isEmpty } from '@ember/utils';
-import { isArray } from '@ember/array';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
+import getArrayItem from 'mdeditor/utils/get-array-item';
 
 export default class IdentifierRoute extends Route.extend(ScrollTo) {
   @service flashMessages;
@@ -19,22 +19,22 @@ export default class IdentifierRoute extends Route.extend(ScrollTo) {
     this._super(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
-    this.controllerFor('record.show.edit')
-      .setProperties({
-        onCancel: this.setupModel,
-        cancelScope: this
-      });
+    this.controllerFor('record.show.edit').setProperties({
+      onCancel: this.setupModel,
+      cancelScope: this,
+    });
   }
   setupModel() {
     let identifierId = this.identifierId;
     let model = this.modelFor('record.show.edit.metadata.alternate');
     let identifiers = get(model, 'identifier');
-    let identifier = identifierId && isArray(identifiers) ? identifiers.get(identifierId) : undefined;
+    let identifier = getArrayItem(identifiers, identifierId);
 
     //make sure the identifier exists
     if (isEmpty(identifier)) {
-      this.flashMessages
-        .warning('No identifier found! Re-directing to Alternate Metadata...');
+      this.flashMessages.warning(
+        'No identifier found! Re-directing to Alternate Metadata...'
+      );
       this.router.replaceWith('record.show.edit.metadata.alternate');
 
       return;

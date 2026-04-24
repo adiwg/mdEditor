@@ -41,12 +41,11 @@ export default class ThesaurusRoute extends Route {
       model: model,
       path: `json.metadata.resourceInfo.keyword.${thesaurusId}`,
       thesaurus: this.keyword
-        .findById(thesaurus.thesaurus.identifier[0].identifier)
+        .findById(thesaurus?.thesaurus?.identifier?.[0]?.identifier)
     });
   }
   setupController() {
-    // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controllerFor('record.show.edit')
       .setProperties({

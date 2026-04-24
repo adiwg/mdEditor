@@ -24,9 +24,9 @@ module('Integration | Component | object/md citation array', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-citation-array}}
+      <Object::MdCitationArray>
         template block text
-      {{/object/md-citation-array}}
+      </Object::MdCitationArray>
     `);
 
     assert.equal(find('.md-object-table').textContent.replace(/[ \n]+/g, '|').trim(), '|No|Citation|found.|Add|Citation|');

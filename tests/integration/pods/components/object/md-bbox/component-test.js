@@ -28,9 +28,9 @@ module('Integration | Component | object/md bbox', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-bbox profilePath="foobar" model=model}}
+      <Object::MdBbox @profilePath="foobar" @model={{model}}>
         template block text
-      {{/object/md-bbox}}
+      </Object::MdBbox>
     `);
 
     assert.equal(find('.form').textContent.replace(/[ \n]+/g, '|').trim(),

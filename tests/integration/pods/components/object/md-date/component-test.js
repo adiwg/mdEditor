@@ -24,9 +24,9 @@ module('Integration | Component | object/md date', function(hooks) {
 
     // Template block usage:
     await render(hbs`<table><tr>
-      {{#object/md-date profilePath="foobar"}}
+      <Object::MdDate @profilePath="foobar">
         template block text
-      {{/object/md-date}}
+      </Object::MdDate>
     </tr></table>`);
 
     assert.equal(find('table').textContent.replace(/[ \n]+/g, '|').trim(),

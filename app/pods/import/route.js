@@ -295,8 +295,6 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
 
     return this.mapRecords(json.data);
   }
-
-  //TODO: fix propertyName id for dataDictionary
   get columns() {
     let route = this;
 
@@ -456,6 +454,11 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
           fileInput.value = '';
         }
       });
+  }
+
+  @action
+  setImportUri(event) {
+    this.controller.set('importUri', event.target.value);
   }
 
   @action

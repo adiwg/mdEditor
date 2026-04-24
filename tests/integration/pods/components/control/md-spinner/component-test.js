@@ -18,9 +18,9 @@ module('Integration | Component | control/md spinner', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#control/md-spinner}}
+      <Control::MdSpinner>
         template block text
-      {{/control/md-spinner}}
+      </Control::MdSpinner>
     `);
 
     assert.equal(find('.md-spinner').textContent.trim(), 'template block text', 'block ok');

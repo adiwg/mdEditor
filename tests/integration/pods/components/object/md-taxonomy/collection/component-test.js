@@ -24,9 +24,9 @@ module('Integration | Component | object/md taxonomy/collection', function(hooks
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-taxonomy/collection profilePath="foobar" model=(hash)}}
+      <Object::MdTaxonomy::Collection @profilePath="foobar" @model={{hash}}>
         template block text
-      {{/object/md-taxonomy/collection}}
+      </Object::MdTaxonomy::Collection>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),

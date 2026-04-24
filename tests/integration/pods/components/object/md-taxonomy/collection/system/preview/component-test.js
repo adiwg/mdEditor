@@ -20,9 +20,9 @@ module('Integration | Component | object/md taxonomy/collection/system/preview',
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-taxonomy/collection/system/preview model=(hash) profilePath="foobar"}}
+      <Object::MdTaxonomy::Collection::System::Preview @model={{hash}} @profilePath="foobar">
         template block text
-      {{/object/md-taxonomy/collection/system/preview}}
+      </Object::MdTaxonomy::Collection::System::Preview>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), "|");

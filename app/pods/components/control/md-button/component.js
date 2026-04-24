@@ -64,18 +64,26 @@ export default class MdButtonComponent extends Component {
    */
   tipClass = '';
 
+  onClick = null;
+
   /**
-  * Render with wrapped text. Defaults to true if text.length is > 12 or
-  * contains spaces.
-  *
-  * @property responsive
-  * @type {Boolean}
-  * @default "false"
-  * @category computed
-  * @requires text
-  */
+   * Render with wrapped text. Defaults to true if text.length is > 12 or
+   * contains spaces.
+   *
+   * @property responsive
+   * @type {Boolean}
+   * @default "false"
+   * @category computed
+   * @requires text
+   */
   @computed('text')
   get responsive() {
     return this.text.length > 12 || this.text.indexOf(' ') > 0;
+  }
+
+  click(event) {
+    if (typeof this.onClick === 'function') {
+      this.onClick(event);
+    }
   }
 }

@@ -19,9 +19,9 @@ module('Integration | Component | object/md domain', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-domain profilePath="foobar" model=domain}}
+      <Object::MdDomain @profilePath="foobar" @model={{domain}}>
         template block text
-      {{/object/md-domain}}
+      </Object::MdDomain>
     `);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),

@@ -14,18 +14,22 @@ export default class MdKeywordListComponent extends Component {
   }
 
   @action
-  addKeyword(model) {
-    this.addKeyword(model);
+  onAddKeyword(model) {
+    if (typeof this.addKeyword === 'function') {
+      this.addKeyword(model);
+    }
   }
 
   @action
-  deleteKeyword(model, object) {
-    this.deleteKeyword(model, object);
+  onDeleteKeyword(model, object) {
+    if (typeof this.deleteKeyword === 'function') {
+      this.deleteKeyword(model, object);
+    }
   }
 
   @action
-  hideThesaurus(el) {
-    const container = el.closest('.md-keywords-container');
+  hideThesaurus() {
+    const container = this.element?.closest('.md-keywords-container');
     if (container) {
       container.classList.toggle('hide-thesaurus');
     }

@@ -26,9 +26,9 @@ module('Integration | Component | object/md citation/preview', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-citation/preview editCitation=editCitation}}
+      <Object::MdCitation::Preview @editCitation={{editCitation}}>
         template block text
-      {{/object/md-citation/preview}}
+      </Object::MdCitation::Preview>
     `);
 
     assert.equal(find('.md-card').textContent.replace(/[ \n]+/g, '|').trim(),

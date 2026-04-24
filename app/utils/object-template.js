@@ -24,6 +24,9 @@ export function applyTemplate(context, object, templateClass, defaults) {
 
   if (Template) {
     let owner = getOwner(context);
+    if (!owner || owner.isDestroyed || owner.isDestroying) {
+      return value;
+    }
 
     return assign(
       {},
@@ -52,6 +55,10 @@ export function applyTemplateArray(context, property, templateClass, defaults) {
 
   if (templateClass) {
     let owner = getOwner(context);
+    if (!owner || owner.isDestroyed || owner.isDestroying) {
+      return property;
+    }
+
     return A(
       property.map((item) => {
         return templateClass.create(owner.ownerInjection(), {
@@ -89,6 +96,10 @@ export function applyObjectTemplateArray(
       let owner = getOwner(context);
 
       once(context, () => {
+        if (!owner || owner.isDestroyed || owner.isDestroying) {
+          return;
+        }
+
         property.forEach((item, idx, items) => {
           let newItem = assign(
             templateClass.create(owner.ownerInjection(), defaults || {}),

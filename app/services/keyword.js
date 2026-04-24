@@ -52,7 +52,7 @@ export default Service.extend({
 
   findById(id) {
     return this.thesaurus.find((t) => {
-      return t.citation.identifier[0].identifier === id;
+      return t?.citation?.identifier?.[0]?.identifier === id;
     });
   },
 

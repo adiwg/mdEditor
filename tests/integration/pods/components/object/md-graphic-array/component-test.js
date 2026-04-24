@@ -33,9 +33,9 @@ module('Integration | Component | object/md graphic array', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-graphic-array model=graphic}}
+      <Object::MdGraphicArray @model={{graphic}}>
         template block text
-      {{/object/md-graphic-array}}
+      </Object::MdGraphicArray>
     `);
 
     assert.equal(find('.md-object-table').textContent.replace(/[\s\n]+/g, '|').trim(),

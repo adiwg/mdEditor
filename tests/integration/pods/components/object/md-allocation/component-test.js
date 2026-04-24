@@ -26,9 +26,9 @@ module('Integration | Component | object/md allocation', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-allocation profilePath="test" model=allocation class="testme"}}
+      <Object::MdAllocation @profilePath="test" @model={{allocation}} @class="testme">
         template block text
-      {{/object/md-allocation}}
+      </Object::MdAllocation>
     `);
 
     assert.equal(find('.testme').textContent.replace(/[ \n]+/g, '|').trim(),

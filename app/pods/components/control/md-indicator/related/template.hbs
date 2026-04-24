@@ -15,11 +15,18 @@
   <h4>
     {{#if this.route}}
       {{#if this.models.length}}
-        <LinkTo @route={{this.route}} @models={{this.models}} class={{concat "btn btn-sm btn-" this.type}}>
+        <LinkTo
+          @route={{this.route}}
+          @models={{this.models}}
+          class={{concat 'btn btn-sm btn-' this.type}}
+        >
           {{this.linkText}}
         </LinkTo>
       {{else}}
-        <LinkTo @route={{this.route}} class={{concat "btn btn-sm btn-" this.type}}>
+        <LinkTo
+          @route={{this.route}}
+          class={{concat 'btn btn-sm btn-' this.type}}
+        >
           {{this.linkText}}
         </LinkTo>
       {{/if}}

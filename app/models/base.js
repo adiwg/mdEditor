@@ -111,18 +111,17 @@ const Base = Model.extend({
     //let record = model.record || this;
     let json = JSON.parse(this.serialize().data.attributes.json);
 
-    this.setCurrentHash(json);
-    this.set('jsonSnapshot', json);
-
     // Clear any lingering dirty attributes state
     if (this.hasDirtyAttributes) {
       this.rollbackAttributes();
-      // Re-apply the saved json to ensure consistency
-      this.set('json', EmberObject.create(json));
     }
+
+    this.setCurrentHash(json);
+    this.set('jsonSnapshot', json);
 
     // Notify property change to force hasDirtyHash recomputation
     this.notifyPropertyChange('currentHash');
+    this.notifyPropertyChange('hasDirtyHash');
 
     // Pouch handling
     this.pouch.updatePouchRecord(this);
@@ -130,7 +129,20 @@ const Base = Model.extend({
 
   updateTimestamp() {
     // Update dateUpdated to current timestamp when record is manually saved
-    this.set('dateUpdated', new Date());
+    let current = this.get('dateUpdated');
+    let next = new Date();
+
+    // Ensure monotonic timestamp progression so manual saves stay dirty even in fast successive edits.
+    if (current instanceof Date) {
+      let currentSecond = Math.floor(current.getTime() / 1000);
+      let nextSecond = Math.floor(next.getTime() / 1000);
+
+      if (nextSecond <= currentSecond) {
+        next = new Date((currentSecond + 1) * 1000);
+      }
+    }
+
+    this.set('dateUpdated', next);
   },
 
   // TODO: Clean this up when we move to upgraded Ember
@@ -219,7 +231,7 @@ const Base = Model.extend({
     //   this.set('currentHash', newHash);
     // }
 
-    if (this.currentHash !== newHash || this.hasDirtyAttributes) {
+    if (this.currentHash !== newHash) {
       return true;
     }
 

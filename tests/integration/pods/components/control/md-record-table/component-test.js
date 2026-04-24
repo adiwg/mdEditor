@@ -34,9 +34,9 @@ module('Integration | Component | control/md record table', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#control/md-record-table dataColumns=columns data=data}}
+      <Control::MdRecordTable @dataColumns={{columns}} @data={{data}}>
         template block text
-      {{/control/md-record-table}}
+      </Control::MdRecordTable>
     `);
 
     assert.equal(find('.md-record-table').textContent.trim(), 'template block text');

@@ -24,9 +24,9 @@ module('Integration | Component | object/md resource type array', function(hooks
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-resource-type-array profilePath="foobar"}}
+      <Object::MdResourceTypeArray @profilePath="foobar">
         template block text
-      {{/object/md-resource-type-array}}
+      </Object::MdResourceTypeArray>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),

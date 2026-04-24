@@ -5,6 +5,7 @@ import { tracked } from '@glimmer/tracking';
 
 export default class ProfileIndexController extends Controller {
   @service customProfile;
+  @service router;
   @service store;
 
   @tracked profile = null;
@@ -54,7 +55,7 @@ export default class ProfileIndexController extends Controller {
 
   @action
   manageDefinitions() {
-    this.transitionToRoute('settings.profile.manage');
+    this.router.transitionTo('settings.profile.manage');
   }
 
   @action

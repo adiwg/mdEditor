@@ -1,7 +1,6 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
-import { copy } from 'ember-copy';
 
 export default class ShowRoute extends Route {
   @service store;
@@ -15,7 +14,7 @@ export default class ShowRoute extends Route {
     const name = model.get('title');
 
     const crumb = {
-      title: name
+      title: name,
     };
 
     this.set('breadCrumb', crumb);
@@ -24,19 +23,19 @@ export default class ShowRoute extends Route {
   @action
   destroyDictionary() {
     let model = this.currentRouteModel();
-    model
-      .destroyRecord()
-      .then(() => {
-        this.flashMessages
-          .success(`Deleted Dictionary: ${model.get('title')}`);
-        this.router.replaceWith('dictionaries');
-      });
+    model.destroyRecord().then(() => {
+      this.flashMessages.success(`Deleted Dictionary: ${model.get('title')}`);
+      this.router.replaceWith('dictionaries');
+    });
   }
 
   @action
   copyDictionary() {
-    this.flashMessages
-      .success(`Copied Dictionary: ${this.currentRouteModel().get('title')}`);
-    this.router.transitionTo('dictionary.new.id', copy(this.currentRouteModel()));
+    const copiedDictionary = this.currentRouteModel().copy();
+
+    this.flashMessages.success(
+      `Copied Dictionary: ${this.currentRouteModel().get('title')}`
+    );
+    this.router.transitionTo('dictionary.new.id', copiedDictionary);
   }
 }

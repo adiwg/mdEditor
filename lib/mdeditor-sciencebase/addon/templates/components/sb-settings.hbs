@@ -1,14 +1,14 @@
-<div class="form">
+<div class='form'>
   {{input/md-input
-    label="Default Parent Identifier"
+    label='Default Parent Identifier'
     value=model.sb-defaultParent
-    placeholder="Enter the identifier for the default Parent item."
+    placeholder='Enter the identifier for the default Parent item.'
     change=save
   }}
   {{input/md-input
-    label="Publisher Endpoint"
+    label='Publisher Endpoint'
     value=@model.publisherEndpoint
-    placeholder="Enter the main endpoint URL for the ScienceBase publisher."
+    placeholder='Enter the main endpoint URL for the ScienceBase publisher.'
     change=@save
   }}
   {{!-- {{input/md-input

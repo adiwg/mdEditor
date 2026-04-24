@@ -24,9 +24,9 @@ module('Integration | Component | object/md locale', function(hooks) {
 
     // Template block usage:
     await render(hbs`<section>
-      {{#object/md-locale settings=settings model=(hash) profilePath="foobar"}}
+      <Object::MdLocale @settings={{settings}} @model={{hash}} @profilePath="foobar">
         template block text
-      {{/object/md-locale}}</section>
+      </Object::MdLocale></section>
     `);
 
     assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),

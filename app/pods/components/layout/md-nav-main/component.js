@@ -15,7 +15,8 @@ export default class MdNavMainComponent extends Component {
   }*/
 
   @action
-  toggleSidebar() {
+  toggleSidebar(event) {
+    event?.preventDefault?.();
     const wrapper = document.getElementById('md-wrapper');
     if (wrapper) {
       wrapper.classList.toggle('toggled');

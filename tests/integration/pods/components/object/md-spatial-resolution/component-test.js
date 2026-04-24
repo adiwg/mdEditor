@@ -89,9 +89,9 @@ module('Integration | Component | object/md spatial resolution', function(hooks)
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-spatial-resolution model=(hash) profilePath="foobar"}}
+      <Object::MdSpatialResolution @model={{hash}} @profilePath="foobar">
         template block text
-      {{/object/md-spatial-resolution}}
+      </Object::MdSpatialResolution>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Scale|Factor|Level|Of|Detail|Measure|Measure|Type|The|type|of|measurement.|Value|Units|' + 'template|block|text|', 'block');

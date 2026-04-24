@@ -23,10 +23,12 @@ export default class IdRoute extends Route {
       return record;
     }
 
-    return this.store.findRecord('contact', params.contact_id).then((record) => {
-      record.set('contactId', record.get('uuid'));
-      return record;
-    });
+    return this.store
+      .findRecord('contact', params.contact_id)
+      .then((record) => {
+        record.set('contactId', record.get('uuid'));
+        return record;
+      });
   }
 
   /**
@@ -49,83 +51,44 @@ export default class IdRoute extends Route {
     let model = this.currentRouteModel();
 
     // If we are leaving the Route we verify if the model is in
-    // 'isDeleted' state, which means it wasn't saved to the metadata.
-    if(model && model.isDeleted) {
+    // 'isDeleted' or 'isNew' state, which means it wasn't saved.
+    if (
+      model &&
+      (model.isDeleted || model.isNew) &&
+      !this.store.isDestroyed &&
+      !this.store.isDestroying
+    ) {
       // We call DS#unloadRecord() which removes it from the store
       this.store.unloadRecord(model);
     }
   }
 
   setupController(controller, model) {
-    // Call super for default behavior
     super.setupController(controller, model);
-
-    // // setup tests for required attributes
-    // controller.noId = Ember.computed('model.json.contactId', function () {
-    //   return model.get('json.contactId') ? false : true;
-    // });
-    // controller.noName = Ember.computed('model.json.individualName',
-    //   'model.json.organizationName',
-    //   function () {
-    //     let haveIndividual = model.get('json.individualName') ? true :
-    //       false;
-    //     let haveOrganization = model.get('json.organizationName') ?
-    //       true : false;
-    //     return !(haveIndividual || haveOrganization);
-    //   });
-    // controller.allowSave = Ember.computed('noId', 'noName', function () {
-    //   return(this.get('noName') || this.get('noId'));
-    // });
   }
-  // serialize(model) {
-  //   // If we got here without an ID (and therefore without a model)
-  //   // Ensure that we leave the route param in the URL blank (not 'undefined')
-  //   if(!model) {
-  //     return {
-  //       contact_id: ''
-  //     };
-  //   }
-  //
-  //   // Otherwise, let Ember handle it as usual
-  //   // return super.serialize.apply(this, arguments);
-  // }
 
   @action
   willTransition(transition) {
-    if (transition.targetName === 'contact.new.index') {
-      transition.abort();
-      return true;
-    }
-
-    // We grab the model loaded in this route
-    var model = this.currentRouteModel();
-    // If we are leaving the Route we verify if the model is in
-    // 'isNew' state, which means it wasn't saved to the backend.
-    if (model && model.get('isNew')) {
-        //let contexts = transition.intent.contexts;
-        // We call DS#destroyRecord() which removes it from the store
-        model.destroyRecord().then(() => transition.retry());
-        //transition.abort();
-
-        // if (contexts && contexts.length > 0) {
-        //   //grab any models ids and apply them to transition
-        //   let ids = contexts.mapBy('id');
-        //   this.replaceWith(transition.targetName, ...ids);
-        //   return true;
-        // }
-        //
-        // this.replaceWith(transition.targetName);
-      return true;
-    }
+    return true;
   }
 
   @action
-  saveContact() {
-      this.currentRouteModel()
-        .save()
-        .then((model) => {
-          this.router.replaceWith('contact.show.edit', model);
-        });
+  saveContact(event) {
+    event?.preventDefault();
+
+    this.currentRouteModel()
+      .save()
+      .then((model) => {
+        this.router.replaceWith('contact.show.edit', model);
+      });
+  }
+
+  @action
+  setIsOrganization(isOrganization) {
+    let model = this.currentRouteModel();
+    let json = model?.json || {};
+
+    model.set('json', { ...json, isOrganization });
   }
 
   @action
@@ -138,10 +101,11 @@ export default class IdRoute extends Route {
   @action
   error(error) {
     if (error instanceof NotFoundError) {
-        this.flashMessages
-          .warning('No contact found! Re-directing to new contact...');
-        // redirect to new
-        this.router.replaceWith('contact.new');
+      this.flashMessages.warning(
+        'No contact found! Re-directing to new contact...'
+      );
+      // redirect to new
+      this.router.replaceWith('contact.new');
     } else {
       // otherwise let the error bubble
       return true;

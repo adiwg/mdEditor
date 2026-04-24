@@ -1,16 +1,32 @@
-{{#layout/md-card title=this.title collapsible=true collapsed=false
-  profilePath=this.profilePath required=this.required muted=this.muted
-  spotlightEnabled=this.spotlightEnabled
-  btnText="Edit" btnClass="success" btnAction=(action this.handleEditCitation (dasherize this.title)) btnIcon="pencil"
-}}
+<Layout::MdCard
+  @title={{this.title}}
+  @collapsible={{true}}
+  @collapsed={{false}}
+  @profilePath={{this.profilePath}}
+  @required={{this.required}}
+  @muted={{this.muted}}
+  @spotlightEnabled={{this.spotlightEnabled}}
+  @btnText='Edit'
+  @btnClass='success'
+  @btnAction={{fn this.handleEditCitation (dasherize this.title)}}
+  @btnIcon='pencil'
+>
 
-{{object/md-citation/preview/body citation=this.citation profilePath=this.profilePath}}
+  {{object/md-citation/preview/body
+    citation=this.citation
+    profilePath=this.profilePath
+  }}
 
-{{yield}}
-<div class="card-footer">
-  <button type="button" name="button" class="btn btn-success pull-right"
-    {{action (action this.handleEditCitation (dasherize this.title))}}>
-    {{fa-icon "pencil"}} Edit Citation
-  </button>
-</div>
-{{/layout/md-card}}
+  {{yield}}
+  <div class='card-footer'>
+    <button
+      type='button'
+      name='button'
+      class='btn btn-success pull-right'
+      {{on 'click' (fn this.handleEditCitation (dasherize this.title))}}
+    >
+      {{fa-icon 'pencil'}}
+      Edit Citation
+    </button>
+  </div>
+</Layout::MdCard>

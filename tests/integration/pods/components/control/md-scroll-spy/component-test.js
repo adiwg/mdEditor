@@ -26,9 +26,9 @@ module('Integration | Component | control/md scroll spy', function(hooks) {
     await click('ul a');
     // Template block usage:
     await render(hbs`
-      {{#control/md-scroll-spy setScrollTo=setScrollTo}}
+      <Control::MdScrollSpy @setScrollTo={{setScrollTo}}>
         template block text
-      {{/control/md-scroll-spy}}
+      </Control::MdScrollSpy>
     `);
 
     assert.equal(find('ul').textContent.trim(), 'template block text');

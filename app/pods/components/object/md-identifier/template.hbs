@@ -1,72 +1,79 @@
-{{component (if this.confirmIdentifier "input/md-input-confirm" "input/md-input")
-  valuePath="identifier"
+{{component
+  (if this.confirmIdentifier 'input/md-input-confirm' 'input/md-input')
+  valuePath='identifier'
   model=this
-  confirmTip="Note! Editing the identifier may break links. Be aware."
-  placeholder="Enter the identifier for the resource"
-  label="Identifier"
+  confirmTip='Note! Editing the identifier may break links. Be aware.'
+  placeholder='Enter the identifier for the resource'
+  label='Identifier'
   required=true
   showValidations=true
-  profilePath=(concat this.profilePath ".identifier")
-  data-spy=(if this.data-spy "Identifier")
-  class="md-embedded"
+  profilePath=(concat this.profilePath '.identifier')
+  data-spy=(if this.data-spy 'Identifier')
+  class='md-embedded'
 }}
 
 {{input/md-codelist
-  label="Namespace"
-  data-spy=(if this.data-spy "Namespace")
-  class="md-embedded"
-  placeholder="Select or type a namespace for the identifier."
+  label='Namespace'
+  data-spy=(if this.data-spy 'Namespace')
+  class='md-embedded'
+  placeholder='Select or type a namespace for the identifier.'
   create=true
   required=false
   tooltip=true
   icon=false
   disabled=this.disabled
   allowClear=true
-  mdCodeName="namespace"
-  valuePath="code"
-  value=this.model.namespace
-  profilePath=(concat this.profilePath ".namespace")
+  mdCodeName='namespace'
+  valuePath='code'
+  model=this
+  path='namespace'
+  profilePath=(concat this.profilePath '.namespace')
 }}
 
 {{#liquid-unless this.isCollapsed}}
   {{input/md-input
-    value=this.model.version
-    placeholder="Enter the version for the identifier."
-    label="Version"
-    profilePath=(concat this.profilePath ".version")
+    value=this.effectiveModel.version
+    placeholder='Enter the version for the identifier.'
+    label='Version'
+    profilePath=(concat this.profilePath '.version')
   }}
 
   {{input/md-textarea
-    value=this.model.description
-    profilePath=(concat this.profilePath ".description")
-    label="Description"
-    placeholder="Enter a description of the identifier."
+    value=this.effectiveModel.description
+    profilePath=(concat this.profilePath '.description')
+    label='Description'
+    placeholder='Enter a description of the identifier.'
   }}
 
   {{#unless this.short}}
-    {{#layout/md-card
-      title="Authority"
-      shadow=true
-      collapsible=true
-      data-spy=(if this.data-spy "Authority")
-      content=this.model.authority
-    }}
+    <Layout::MdCard
+      @title='Authority'
+      @shadow={{true}}
+      @collapsible={{true}}
+      @data-spy={{if this.data-spy 'Authority'}}
+      @content={{this.effectiveModel.authority}}
+    >
       {{object/md-citation
-        model=this.model.authority
-        profilePath=(concat this.profilePath ".authority")
+        model=this.effectiveModel.authority
+        profilePath=(concat this.profilePath '.authority')
         embedded=true
         data-spy=this.data-spy
         simpleIdentifier=true
       }}
-    {{/layout/md-card}}
+    </Layout::MdCard>
   {{/unless}}
 {{/liquid-unless}}
 
 {{#if this.collapsible}}
-  <p class="text-right">
-    <a type="button" role="button" class="plain-link" {{action (toggle "collapse" this)}}>
-      {{fa-icon (if this.isCollapsed "caret-down" "caret-up")}} {{if this.isCollapsed "More" "Less"}}
-    </a>
+  <p class='text-right'>
+    <button
+      type='button'
+      class='plain-link'
+      {{on 'toggle' (fn this.collapse this)}}
+    >
+      {{fa-icon (if this.isCollapsed 'caret-down' 'caret-up')}}
+      {{if this.isCollapsed 'More' 'Less'}}
+    </button>
   </p>
 {{/if}}
 {{yield}}

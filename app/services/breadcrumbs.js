@@ -21,12 +21,29 @@ export default class BreadcrumbsService extends Service {
    */
   @tracked _routeChangeCounter = 0;
 
+  _routeDidChangeHandler = null;
+
   constructor() {
     super(...arguments);
-    // Listen to route changes
-    this.router.on('routeDidChange', () => {
-      this._routeChangeCounter++;
-    });
+    // Keep a named reference so we can remove it during willDestroy.
+    this._routeDidChangeHandler = () => {
+      if (!this.isDestroying && !this.isDestroyed) {
+        this._routeChangeCounter++;
+      }
+    };
+    this.router.on('routeDidChange', this._routeDidChangeHandler);
+  }
+
+  willDestroy() {
+    super.willDestroy(...arguments);
+    if (this._routeDidChangeHandler) {
+      try {
+        this.router.off('routeDidChange', this._routeDidChangeHandler);
+      } catch {
+        // router may already be destroyed
+      }
+      this._routeDidChangeHandler = null;
+    }
   }
 
   /**
@@ -37,6 +54,10 @@ export default class BreadcrumbsService extends Service {
    * @type {Array}
    */
   get routeHierarchy() {
+    if (this.isDestroying || this.isDestroyed) {
+      return [];
+    }
+
     // Access tracked property to trigger recomputation on route changes
     this._routeChangeCounter;
 
@@ -73,7 +94,10 @@ export default class BreadcrumbsService extends Service {
   _splitRouteName(routeName) {
     return routeName
       .split('.')
-      .filter((segment) => segment !== 'index' && segment !== 'loading' && segment !== 'error');
+      .filter(
+        (segment) =>
+          segment !== 'index' && segment !== 'loading' && segment !== 'error'
+      );
   }
 
   /**
@@ -81,8 +105,14 @@ export default class BreadcrumbsService extends Service {
    * @private
    */
   _lookupBreadcrumb(routeName) {
-    const owner = getOwner(this);
-    const route = owner.lookup(`route:${routeName}`);
+    let route;
+
+    try {
+      const owner = getOwner(this);
+      route = owner?.lookup(`route:${routeName}`);
+    } catch {
+      return null;
+    }
 
     if (!route) {
       return null;
@@ -138,7 +168,7 @@ export default class BreadcrumbsService extends Service {
       'contact.show',
       'dictionary.show',
     ];
-    return routesWithDynamicSegments.some(r => routeName.startsWith(r));
+    return routesWithDynamicSegments.some((r) => routeName.startsWith(r));
   }
 
   /**

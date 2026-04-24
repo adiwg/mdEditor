@@ -24,9 +24,9 @@ module('Integration | Component | control/md status', function(hooks) {
     assert.dom('.md-status-icon .md-error').isNotVisible();
     // Template block usage:
     await render(hbs`
-      {{#control/md-status model=model}}
+      <Control::MdStatus @model={{model}}>
         template block text
-      {{/control/md-status}}
+      </Control::MdStatus>
     `);
 
     assert.dom('.md-status-icon .md-warning').isVisible();
