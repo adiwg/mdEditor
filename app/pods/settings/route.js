@@ -91,7 +91,7 @@ export default class SettingsRoute extends Route {
       // Extract the base URL by removing the API path
       // This will convert https://api.sciencebase.gov/mdTranslator/api/v3/translator
       // to https://api.sciencebase.gov/mdTranslator
-      const baseUrl = mdTranslatorAPI.replace(/\/api\/v\d+\/translator$/, '');
+      const baseUrl = mdTranslatorAPI.replace(/\/api\/v\d+(\/translator)?$/, '');
 
       model.set('itisProxyUrl', baseUrl);
     }

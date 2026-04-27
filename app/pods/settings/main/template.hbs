@@ -144,7 +144,8 @@
       {{input/md-input
         label='mdTranslator API URL'
         type='url'
-        value=this.model.mdTranslatorAPI
+        model=this.model
+        valuePath='mdTranslatorAPI'
         placeholder='URL for the ADIwg Metadata Translator.'
       }}
     </div>
@@ -154,14 +155,15 @@
       <div class='input-group'>
         {{input/md-input
           type='url'
-          value=this.model.itisProxyUrl
+          model=this.model
+          valuePath='itisProxyUrl'
           placeholder='URL for the ITIS Proxy.'
         }}
         <span class='input-group-btn'>
           <button
             class='btn btn-info'
             type='button'
-            {{on 'click' (route-action 'deriveItisProxyUrl')}}
+            {{on 'click' this.deriveItisProxyUrl}}
           >Derive from API URL
             {{ember-tooltip
               tooltipClass='ember-tooltip md-tooltip info'
