@@ -69,7 +69,8 @@
         </Layout::MdWrap>
 
         {{input/md-input
-          value=this.model.title
+          valuePath='json.metadata.resourceInfo.citation.title'
+          model=this.model
           placeholder='Enter the title for the resource.'
           label='Title'
           required=true

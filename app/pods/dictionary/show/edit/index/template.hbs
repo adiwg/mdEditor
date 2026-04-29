@@ -14,7 +14,8 @@
       @required={{true}}
     >
       {{input/md-input
-        value=this.model.title
+        valuePath='json.dataDictionary.citation.title'
+        model=this.model
         placeholder='Enter the title for the dictionary.'
         label='Title'
         required=true
