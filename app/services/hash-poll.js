@@ -45,6 +45,9 @@ export default class HashPollService extends Service {
 
     if (model) {
       model.notifyPropertyChange('currentHash');
+      // Some templates/components bind directly to hasDirtyHash, so notify it
+      // explicitly during polling to keep status badges in sync.
+      model.notifyPropertyChange('hasDirtyHash');
     }
 
     return Promise.resolve(true);

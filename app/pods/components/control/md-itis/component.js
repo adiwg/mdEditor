@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
-import { action } from '@ember/object';
+import { action, computed } from '@ember/object';
 import { or } from '@ember/object/computed';
 import { isArray, A } from '@ember/array';
 import { later } from '@ember/runloop';
@@ -22,9 +22,11 @@ export default class MdItisComponent extends Component {
   total = null;
   isLoading = false;
   limit = 25;
+  searchResult = null;
 
   @or('selected.length', 'searchResult.length') found;
 
+  @computed('total', 'searchResult.length', 'limit')
   get resultTitle() {
     let total = this.total;
     let result = this.searchResult?.length;
@@ -33,6 +35,7 @@ export default class MdItisComponent extends Component {
     return total <= limit ? result : `${result} of ${total}`;
   }
 
+  @computed('searchResult.length')
   get notFound() {
     let result = this.searchResult;
 
@@ -49,22 +52,43 @@ export default class MdItisComponent extends Component {
   submit() {
     let itis = this.itis;
 
-    this.isLoading = true;
-    this.searchResult = null;
+    this.set('isLoading', true);
+    this.set('searchResult', null);
 
     itis
       .sendQuery(this.searchString, this.kingdom, this.limit)
       .then((response) => {
         if (!response) {
+          this.set('isLoading', false);
           return;
         }
 
-        let docs = response.response.docs;
-        let data = docs.map((doc) => itis.parseDoc(doc));
+        let docs = response.response?.docs;
 
-        this.searchResult = data;
-        this.total = response.response.numFound;
-        this.isLoading = false;
+        if (!docs) {
+          this.flashMessages.danger('Received an unexpected response from ITIS.');
+          this.set('isLoading', false);
+          return;
+        }
+
+        let data;
+        try {
+          data = docs.map((doc) => itis.parseDoc(doc));
+        } catch (parseError) {
+          console.error('[md-itis] parseDoc failed:', parseError);
+          this.flashMessages.danger('Failed to parse ITIS results.');
+          this.set('isLoading', false);
+          return;
+        }
+
+        this.set('searchResult', data);
+        this.set('total', response.response.numFound);
+        this.set('isLoading', false);
+      })
+      .catch((error) => {
+        console.error('[md-itis] search error:', error);
+        this.flashMessages.danger('An error occurred loading ITIS results.');
+        this.set('isLoading', false);
       });
   }
 
