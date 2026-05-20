@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+      - master
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install Dependencies
+        run: yarn install --immutable
+
+      - name: Lint JS
+        run: yarn lint:js
+
+      - name: Lint Templates
+        run: yarn lint:hbs
+
+      - name: Lint Sass
+        run: yarn lint:sass
+
+  test:
+    name: Test Suite
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install Dependencies
+        run: yarn install --immutable
+
+      - name: Run Tests
+        run: ember exam --test-port 0 --split=4 --parallel=1 --random
+        env:
+          CI: true
