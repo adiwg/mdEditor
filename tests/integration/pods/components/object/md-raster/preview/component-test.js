@@ -16,10 +16,10 @@ module('Integration | Component | object/md-raster/preview', function(hooks) {
 
     let input = Object.values(this.model).join('|')
 
-    await render(hbs`{{object/md-raster/preview profilePath="foobar" model=model}}`);
+    await render(hbs`{{object/md-raster/preview profilePath="foobar" item=this.model}}`);
 
     assert.equal(formatContent(this.element).trim(),
-      '|Raster|Name|Raster|Description|', 'md-raster-preview component renders'
+      '|Raster|Name|Raster|Description|coverageDescription|', 'md-raster-preview component renders'
     );
 
     assert.equal(parseInput(this.element), input, 'md-raster-preview inputs renders');

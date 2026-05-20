@@ -24,7 +24,7 @@ module('Integration | Component | control/md errors', function (hooks) {
 
     assert.equal(find('.md-error-list').textContent.replace(/[ \n]+/g,
         '|').trim(),
-      '|Test|0|message1|/foo/biz|1|message2|Test2|');
+      '|Test|1|Validation|Error|in|foo|>|biz|message1|Schema|Path:|/foo/biz|Go|To|Error|2|Validation|Error|in|the|record|message2|Go|To|Error|Test2|');
 
     assert.ok(findAll('.md-error-list .label')[1].classList.contains(
         'label-danger'),
@@ -39,7 +39,7 @@ module('Integration | Component | control/md errors', function (hooks) {
 
     assert.equal(find('.md-error-list').textContent.replace(/[ \n]+/g,
         '|').trim(),
-      '|Test|0|message1|/foo/biz|1|message2|Test2|template|block|text|',
+      '|Test|1|Validation|Error|in|foo|>|biz|message1|Schema|Path:|/foo/biz|Go|To|Error|2|Validation|Error|in|the|record|message2|Go|To|Error|Test2|template|block|text|',
       'block');
 
   });

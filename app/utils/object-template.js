@@ -61,10 +61,16 @@ export function applyTemplateArray(context, property, templateClass, defaults) {
 
     return A(
       property.map((item) => {
-        return templateClass.create(owner.ownerInjection(), {
-          ...defaults,
-          ...item,
-        });
+        let instance = templateClass.create(owner.ownerInjection(), defaults || {});
+        if (item) {
+          let keys = Object.keys(item);
+          let hash = {};
+          keys.forEach((key) => {
+            hash[key] = item[key];
+          });
+          instance.setProperties(hash);
+        }
+        return instance;
       })
     );
   }

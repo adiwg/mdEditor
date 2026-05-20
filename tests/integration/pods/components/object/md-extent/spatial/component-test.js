@@ -69,7 +69,7 @@ module('Integration | Component | object/md extent/spatial', function (hooks) {
     }}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Geographic|Extent|Bounding|Box|North|East|South|West|Calculate|Clear|Description|Contains|Data|The|geographic|extent|contains|some|or|all|of|the|data|Edit|Features|Clear|Features|+−|Terrain|FeaturesLeaflet|'
+      '|Geographic|Extent|Bounding|Box|North|East|South|West|Minimum|Altitude|Maximum|Altitude|Units|of|Altitude|Calculate|Clear|Description|Description|Contains|Data|The|geographic|extent|contains|some|or|all|of|the|data|Edit|Features|Clear|Features|+-|Terrain|FeaturesLeaflet|'
     );
 
     await click('.btn-primary');
@@ -89,7 +89,10 @@ module('Integration | Component | object/md extent/spatial', function (hooks) {
         "northLatitude": null,
         "southLatitude": null,
         "eastLongitude": null,
-        "westLongitude": null
+        "westLongitude": null,
+        "minimumAltitude": null,
+        "maximumAltitude": null,
+        "unitsOfAltitude": null
       }), 'clearBox');
 
     await click('.btn-toolbar .btn-success');
@@ -105,7 +108,7 @@ module('Integration | Component | object/md extent/spatial', function (hooks) {
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Geographic|Extent|Bounding|Box|North|East|South|West|Calculate|Clear|Description|Contains|Data|The|geographic|extent|contains|some|or|all|of|the|data|No|Features|to|display.|Add|Features|',
+      '|Geographic|Extent|Bounding|Box|North|East|South|West|Minimum|Altitude|Maximum|Altitude|Units|of|Altitude|Calculate|Clear|Description|Description|Contains|Data|The|geographic|extent|contains|some|or|all|of|the|data|No|Features|to|display.|Add|Features|',
       'block');
   });
 });

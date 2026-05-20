@@ -12,7 +12,7 @@ module('Integration | Component | object/md date', function(hooks) {
 
     await render(hbs`<table><tr>{{object/md-date model=model profilePath="foobar"}}</tr></table>`);
 
-    assert.equal(find('table').textContent.replace(/[ \n]+/g, '|').trim(), "|Choose|date|type|");
+    assert.equal(find('table').textContent.replace(/[ \n]+/g, '|').trim(), "|Year|Choose|date|type|");
 
     this.set('model', {
       "date": "2016-10-12",
@@ -20,7 +20,7 @@ module('Integration | Component | object/md date', function(hooks) {
       description: 'description'
     })
 
-    assert.equal(find('table').textContent.replace(/[ \n]+/g, '|').trim(), "|dateType|×|");
+    assert.equal(find('table').textContent.replace(/[ \n]+/g, '|').trim(), "|Year|dateType|×|");
 
     // Template block usage:
     await render(hbs`<table><tr>
@@ -30,6 +30,6 @@ module('Integration | Component | object/md date', function(hooks) {
     </tr></table>`);
 
     assert.equal(find('table').textContent.replace(/[ \n]+/g, '|').trim(),
-      "|Choose|date|type|template|block|text|");
+      "|Year|Choose|date|type|template|block|text|");
   });
 });

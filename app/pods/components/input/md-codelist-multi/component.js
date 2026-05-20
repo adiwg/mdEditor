@@ -3,7 +3,7 @@
  * @submodule components-input
  */
 
-import { isArray } from '@ember/array';
+import { isArray, A } from '@ember/array';
 
 import { computed, set } from '@ember/object';
 import MdCodelist from '../md-codelist/component';
@@ -118,24 +118,22 @@ export default MdCodelist.extend({
    * @return Array
    */
   codelist: computed('effectiveValue', 'filterId', 'mapped', function () {
-    let codelist = this.mapped;
+    let existing = this.mapped || A([]);
     let value = this.effectiveValue;
     let create = this.create;
     let filter = this.filterId;
+    let extra = [];
 
-    if (value) {
-      if (create) {
-        value.forEach((val) => {
-          let found = codelist.findBy('codeId', val);
-          if (found === undefined) {
-            let newObject = this.createCode(val);
-            codelist.pushObject(newObject);
-          }
-        });
-      }
+    if (value && create) {
+      value.forEach((val) => {
+        let found = existing.findBy('codeId', val);
+        if (found === undefined) {
+          extra.push(this.createCode(val));
+        }
+      });
     }
 
-    return codelist.rejectBy('codeId', filter);
+    return A([...existing, ...extra]).rejectBy('codeId', filter);
   }),
 
   /**

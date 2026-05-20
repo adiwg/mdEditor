@@ -82,6 +82,12 @@ const theComp = Component.extend(Validations, {
   collapsible: false,
   collapse: true,
   isCollapsed: and('collapsible', 'collapse'),
+
+  actions: {
+    toggleCollapse() {
+      this.toggleProperty('collapse');
+    }
+  }
 });
 
 export { Validations, theComp as default };

@@ -177,8 +177,8 @@ export default class MdDateRangeComponent extends Component.extend(
     });
   }
 
-  constructor() {
-    super(...arguments);
+  init() {
+    super.init(...arguments);
 
     this.precisionOptions = [
       { value: 'Year', name: 'Year' },

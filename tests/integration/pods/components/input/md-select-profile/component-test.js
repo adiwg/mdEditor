@@ -4,14 +4,31 @@ import {
   render,
   triggerEvent
 } from '@ember/test-helpers';
+import Service from '@ember/service';
+import { A } from '@ember/array';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { clickTrigger } from 'ember-power-select/test-support/helpers';
 import config from 'mdeditor/config/environment';
 
+const MockCustomProfile = Service.extend({
+  init() {
+    this._super(...arguments);
+    this.profiles = A([{
+      id: config.APP.defaultProfileId,
+      title: 'Full',
+      description: 'Full profile description'
+    }]);
+  }
+});
+
 module('Integration | Component | input/md select profile', function (hooks) {
   setupRenderingTest(hooks);
+
+  hooks.beforeEach(function () {
+    this.owner.register('service:custom-profile', MockCustomProfile);
+  });
 
   test('it renders', async function (assert) {
 

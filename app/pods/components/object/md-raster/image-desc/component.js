@@ -1,6 +1,7 @@
 import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
+import { set } from '@ember/object';
 import { once } from '@ember/runloop';
 // import { decamelize } from '@ember/string';
 // import { ucWords } from 'mdeditor/helpers/uc-words';
@@ -72,7 +73,7 @@ export default class MdRasterImageDescComponent extends Component.extend(Validat
 
     if (model) {
       once(this, function () {
-        model.imageQualityCode = model.imageQualityCode ?? {};
+        set(model, 'imageQualityCode', model.imageQualityCode ?? {});
       });
     }
   }

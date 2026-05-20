@@ -30,7 +30,7 @@
   profilePath=(concat this.profilePath '.namespace')
 }}
 
-{{#liquid-unless this.isCollapsed}}
+{{#liquid-unless predicate=this.isCollapsed}}
   {{input/md-input
     value=this.effectiveModel.version
     placeholder='Enter the version for the identifier.'
@@ -69,7 +69,7 @@
     <button
       type='button'
       class='plain-link'
-      {{on 'toggle' (fn this.collapse this)}}
+      {{on 'click' (action 'toggleCollapse')}}
     >
       {{fa-icon (if this.isCollapsed 'caret-down' 'caret-up')}}
       {{if this.isCollapsed 'More' 'Less'}}

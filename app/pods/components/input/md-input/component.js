@@ -7,7 +7,7 @@ import { alias, not, notEmpty, and, or } from '@ember/object/computed';
 
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import { action, computed, defineProperty } from '@ember/object';
+import { action, computed, defineProperty, get, set } from '@ember/object';
 import { isBlank } from '@ember/utils';
 import { assert, debug } from '@ember/debug';
 
@@ -169,7 +169,7 @@ export default class MdInputComponent extends Component {
     }
 
     if (!isBlank(model)) {
-      if (this.model?.[valuePath] === undefined) {
+      if (get(this.model, valuePath) === undefined) {
         debug(`model.${valuePath} is undefined in ${this.toString()}.`);
 
         //Ember.run.once(()=>model.set(valuePath, ""));
@@ -183,7 +183,7 @@ export default class MdInputComponent extends Component {
           'value',
           computed(attribute, {
             get() {
-              let val = this.model?.[valuePath];
+              let val = get(this.model, valuePath);
 
               return val ? val.toString() : '';
             },
@@ -191,7 +191,7 @@ export default class MdInputComponent extends Component {
             set(key, value) {
               let parse = this.step ? parseFloat : parseInt;
 
-              this.model[valuePath] = parse(value, 10);
+              set(this.model, valuePath, parse(value, 10));
 
               return value;
             },

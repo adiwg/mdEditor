@@ -1,7 +1,8 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
+import { set } from '@ember/object';
 import { scheduleOnce } from '@ember/runloop';
-import { measure } from "liquid-fire/components/liquid-measured";
+import { measure } from "liquid-fire/utils/animate";
 
 @classic
 export default class LinkComponent extends Component {
@@ -24,7 +25,7 @@ export default class LinkComponent extends Component {
         let sliced = this.nav?.links?.slice(0, this.index + 1);
         if (!sliced) return;
 
-        this.link.width = width;
+        set(this.link, 'width', width);
 
         this.link.set('linkWidth', sliced.reduce((a, b) => {
           return a + (b.width || 0);

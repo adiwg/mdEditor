@@ -10,7 +10,7 @@
 <section>
   <div class='section-header'>
     <h4 class='md-table-title'>
-      {{#liquid-if schema use='fade' growDuration=100 class='inline-block'}}
+      {{#liquid-if predicate=schema use='fade' growDuration=100 class='inline-block'}}
         {{#if schema.isNew}}
           Add Schema
         {{else if schema}}
@@ -27,7 +27,7 @@
     <hr />
   </div>
 
-  {{#liquid-if schema use='fade'}}
+  {{#liquid-if predicate=schema use='fade'}}
     {{#if schema.isNew}}
       {{object/md-schema/form record=schema}}
     {{else if schema}}

@@ -5,6 +5,7 @@
 
 import { computed, defineProperty } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { A } from '@ember/array';
 import classic from 'ember-classic-decorator';
 import Select from '../md-select/component';
 
@@ -37,7 +38,6 @@ import Select from '../md-select/component';
  */
 @classic
 export default class MdCodelistComponent extends Select {
-  classNames = ['md-codelist'];
   layoutName = 'components/input/md-select';
 
   /**
@@ -172,6 +172,7 @@ export default class MdCodelistComponent extends Select {
    */
   @computed('mdCodelist.[]')
   get mapped() {
+    if (!this.mdCodelist) return A([]);
     let codeId = this.valuePath;
     let codeName = this.namePath;
     let tooltip = this.tooltipPath;
@@ -206,25 +207,21 @@ export default class MdCodelistComponent extends Select {
    */
   @computed('value', 'filterId', 'mapped.[]')
   get codelist() {
-    let codelist = this.mapped;
+    let existing = this.mapped || A([]);
     let value = this.value;
     let create = this.create;
     let filter = this.filterId;
+    let extra = [];
 
-    if (value) {
-      if (create) {
-        let found = codelist.findBy('codeId', value);
-        if (found === undefined) {
-          let newObject = this.createCode(value);
-          codelist.pushObject(newObject);
-        }
+    if (value && create) {
+      let found = existing.findBy('codeId', value);
+      if (found === undefined) {
+        extra.push(this.createCode(value));
       }
     }
 
-    const result = codelist.rejectBy('codeId', filter);
-    // Convert to plain array for power-select compatibility
-    const plainArray = result ? result.toArray() : [];
-    return plainArray;
+    const result = A([...existing, ...extra]).rejectBy('codeId', filter);
+    return result ? result.toArray() : [];
   }
 
   /**
@@ -255,3 +252,5 @@ export default class MdCodelistComponent extends Select {
     },
   };
 }
+
+MdCodelistComponent.prototype.classNames = ['md-select', 'md-codelist'];

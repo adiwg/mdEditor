@@ -1,7 +1,7 @@
 {{yield}}
 <Control::MdModal
   @isShowing={{this.isShowingModal}}
-  @closeModal={{on 'click' this.cancel}}
+  @onClose={{this.cancel}}
   @target={{this.target}}
   @renderInPlace={{this.renderInPlace}}
 >

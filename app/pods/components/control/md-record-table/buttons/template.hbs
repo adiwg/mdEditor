@@ -1,31 +1,30 @@
-<Control::MdRecordTable::Buttons::Show @record={{this.record}} />
-<button
-  type='button'
-  class='btn btn-sm btn-success'
-  onclick={{on 'click' (fn this.editItem this.record)}}
->
-  {{fa-icon 'pencil'}}
-  Edit
-</button>
-<Control::MdButtonConfirm
-  class='btn btn-sm btn-danger'
-  @onConfirm={{on
-    'click'
-    (fn this.deleteItem this.record this.index this.isSelected this.clickOnRow)
-  }}
->
-  <span class='fa fa-times'></span>
-  Delete
-</Control::MdButtonConfirm>
-<Control::MdJsonButton
-  class='btn-sm btn-primary'
-  @json={{this.record.cleanJson}}
-  @title={{this.record.title}}
-/>
-<Control::MdStatus
-  @model={{this.record}}
-  @isBtn={{true}}
-  @hideSlider={{true}}
-  @showSlider={{on 'click' (fn this.showSlider this.record)}}
-/>
-{{yield}}
+<span class='md-dashboard-buttons'>
+  <Control::MdRecordTable::Buttons::Show @record={{this.record}} />
+  <button
+    type='button'
+    class='btn btn-sm btn-success'
+    {{on 'click' (fn this.editItem this.record)}}
+  >
+    {{fa-icon 'pencil'}}
+    Edit
+  </button>
+  <Control::MdButtonConfirm
+    class='btn btn-sm btn-danger'
+    @onConfirm={{fn this.deleteItem this.record this.index this.isSelected this.clickOnRow}}
+  >
+    <span class='fa fa-times'></span>
+    Delete
+  </Control::MdButtonConfirm>
+  <Control::MdJsonButton
+    class='btn-sm btn-primary'
+    @json={{this.record.cleanJson}}
+    @title={{this.record.title}}
+  />
+  <Control::MdStatus
+    @model={{this.record}}
+    @isBtn={{true}}
+    @hideSlider={{true}}
+    @showSlider={{fn this.showSlider this.record}}
+  />
+  {{yield}}
+</span>

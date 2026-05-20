@@ -17,7 +17,7 @@ module('Integration | Component | object/md attribute', function (hooks) {
 
     assert.equal(find('.md-card').textContent.replace(/[ \n]+/g, '|')
       .trim(),
-      '|Attribute|Information|Code|Name|Definition|Data|Type|dataType0|×|Allow|Null?|Allow|null|values|Common|Name|Domain|Select|or|enter|the|domain|for|this|attribute.|Aliases|1|Add|Alias|0|Delete|Units|Units|Resolution|Case|Sensitive?|Is|the|attribute|content|case|sensitive?|Field|Width|Missing|Value|Minimum|Value|Maximum|Value|'
+      '|Attribute|Information|Code|Name|Definition|Definition|definition0|Data|Type|dataType0|×|Allow|Null?|Allow|null|values|Common|Name|Domain|Select|or|enter|the|domain|for|this|attribute.|Aliases|1|Add|Alias|0|Delete|Units|Units|Resolution|Case|Sensitive?|Is|the|attribute|content|case|sensitive?|Field|Width|Missing|Value|Minimum|Value|Maximum|Value|'
       );
 
     // Template block usage:
@@ -29,7 +29,7 @@ module('Integration | Component | object/md attribute', function (hooks) {
 
     assert.equal(find('.md-card').textContent.replace(/[ \n]+/g, '|')
       .trim(),
-      '|Attribute|Information|Code|Name|Definition|Data|Type|dataType0|×|Allow|Null?|Allow|null|values|Common|Name|Domain|Select|or|enter|the|domain|for|this|attribute.|Aliases|1|Add|Alias|0|Delete|Units|Units|Resolution|Case|Sensitive?|Is|the|attribute|content|case|sensitive?|Field|Width|Missing|Value|Minimum|Value|Maximum|Value|',
+      '|Attribute|Information|Code|Name|Definition|Definition|definition0|Data|Type|dataType0|×|Allow|Null?|Allow|null|values|Common|Name|Domain|Select|or|enter|the|domain|for|this|attribute.|Aliases|1|Add|Alias|0|Delete|Units|Units|Resolution|Case|Sensitive?|Is|the|attribute|content|case|sensitive?|Field|Width|Missing|Value|Minimum|Value|Maximum|Value|',
       'block'
     );
   });

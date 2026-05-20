@@ -20,7 +20,7 @@ module('Integration | Component | object/md taxonomy', function(hooks) {
     await click('li .icon');
 
     assert.equal(find('li').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Kingdom|Fungi|(555705)|Kingdom|Subkingdom|Dikarya|(936287)|Division|Basidiomycota|(623881)|');
+      '|Kingdom|Fungi|(555705)|Kingdom|Subkingdom|Dikarya|(936287)|Division|Basidiomycota|(623881)|No|Classification|found.|');
 
     // Template block usage:
     await render(hbs`

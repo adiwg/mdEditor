@@ -16,7 +16,7 @@ module('Integration | Component | input/md date range', function(hooks) {
     await render(hbs`{{input/md-date-range class="testme" startDateTime=start endDateTime=end profilePath="foobar"}}`);
 
     assert.equal(find('.testme').textContent.replace(/[ \n]+/g, '|').trim(),
-      'Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|');
+      'Dates|Precision|Year|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|');
 
     assert.equal(new Date(findAll('.date input')[0].value).toISOString(), this.start.toISOString(), 'set start');
     assert.equal(new Date(findAll('.date input')[1].value).toISOString(), this.end.toISOString(), 'set end');
@@ -28,6 +28,6 @@ module('Integration | Component | input/md date range', function(hooks) {
     `);
 
     assert.equal(find('.testme').textContent.replace(/[ \n]+/g, '|').trim(),
-      'Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|template|block|text|', 'block');
+      'Dates|Precision|Year|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|template|block|text|', 'block');
   });
 });

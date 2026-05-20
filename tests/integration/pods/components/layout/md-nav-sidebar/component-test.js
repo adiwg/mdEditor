@@ -13,6 +13,7 @@ module('Integration | Component | md nav sidebar', function(hooks) {
     assert.expect(1);
 
     const contacts = createContact(2);
+    contacts.forEach(c => c.set('isNew', true));
     contacts.meta = {
       type: 'contact',
       list: 'contacts',
@@ -20,6 +21,7 @@ module('Integration | Component | md nav sidebar', function(hooks) {
     };
 
     const records = createRecord(2);
+    records.forEach(r => r.set('isNew', true));
     records.meta = {
       type: 'record',
       list: 'records',
@@ -27,14 +29,12 @@ module('Integration | Component | md nav sidebar', function(hooks) {
     };
 
     const dicts = createDictionary(2);
+    dicts.forEach(d => d.set('isNew', true));
     dicts.meta = {
       type: 'dictionary',
       list: 'dictionaries',
       title: 'Dictionaries'
     };
-
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
 
     this.set('model', [records, contacts, dicts]);
 

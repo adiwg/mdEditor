@@ -1,4 +1,4 @@
-{{#if this.hasBlock}}
+{{#if (has-block)}}
   {{yield}}
 {{else}}
   <span class='fa fa-{{this.icon}}'></span>
@@ -9,7 +9,7 @@
   <Control::MdJsonViewer
     @json={{this.json}}
     @modal={{true}}
-    @close={{on 'click' this.close}}
+    @close={{this.close}}
   />
 {{/if}}
 

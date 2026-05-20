@@ -17,11 +17,11 @@ export default class MdSelectProfileComponent extends Component {
   @service('custom-profile') profile;
 
   /**
-   * Update the record profile
+   * Update the record profile. Can be overridden by passing updateProfile=action
+   * as a component argument.
    *
    * @param  {String} profile The new profile.
    */
-  @action
   updateProfile(profile){
     this.profile.set('active', profile);
     this.record.updateTimestamp();

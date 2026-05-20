@@ -6,7 +6,7 @@ import { tracked } from '@glimmer/tracking';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { validator, buildValidations } from 'ember-cp-validations';
-import { once } from '@ember/runloop';
+import { once, scheduleOnce } from '@ember/runloop';
 import scrollIntoView from 'scroll-into-view-if-needed';
 
 const Validations = buildValidations({
@@ -57,12 +57,6 @@ export default class MdTaxonomyClassificationTaxonComponent extends Component.ex
     return this.model?.subClassification?.length;
   }
 
-  constructor() {
-    super(...arguments);
-
-    this.collapse = this.preview && !this.parentItem;
-  }
-
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
 
@@ -89,14 +83,23 @@ export default class MdTaxonomyClassificationTaxonComponent extends Component.ex
 
     this.spotlight.setTarget(id, null, null);
 
-    scrollIntoView(document.getElementById(editor), {
-      behavior: 'smooth',
-      //scrollMode: 'if-needed',
+    scheduleOnce('afterRender', this, () => {
+      const el = document.getElementById(editor);
+      if (el) scrollIntoView(el, { behavior: 'smooth' });
     });
   }
 
-  @action
-  deleteTaxa(taxa) {
+  init() {
+    super.init(...arguments);
+
+    this.collapse = this.preview && !this.parentItem;
+
+    if (!this.deleteTaxa) {
+      this.deleteTaxa = this._deleteTaxa.bind(this);
+    }
+  }
+
+  _deleteTaxa(taxa) {
     let parent = this.top || this.parentItem?.model?.subClassification;
     if (!parent) return;
 

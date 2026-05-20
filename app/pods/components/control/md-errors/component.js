@@ -15,6 +15,7 @@ export default class MdErrorsComponent extends Component {
   // Extract the record ID from the current URL
   get recordId() {
     const url = this.router.currentURL;
+    if (!url) return null;
     const match = url.match(/\/record\/([^/]+)(?:\/|$)/);
     return match ? match[1] : null;
   }
@@ -352,6 +353,7 @@ export default class MdErrorsComponent extends Component {
 
   // Map data paths to endpoints for the 'Go To Error' button
   mapDataPathToEndpoint(dataPath) {
+    if (!dataPath) return null;
     const recordId = this.recordId;
 
     // Remove leading '/' and split the data path

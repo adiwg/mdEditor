@@ -1,3 +1,4 @@
+import { observer } from '@ember/object';
 import Table from 'mdeditor/pods/components/md-models-table/component';
 
 export default Table.extend({
@@ -66,13 +67,13 @@ export default Table.extend({
     return selected;
   },
 
+  _onSelectedItemsChanged: observer('selectedItems.[]', function() {
+    this.select(this.selectedItems);
+  }),
+
   actions: {
     clickOnRow() {
       this._super(...arguments);
-
-      let sel = this.selectedItems;
-
-      this.select(sel);
     }
   }
 });

@@ -20,7 +20,7 @@ module('Integration | Component | object/md documentation/preview', function(hoo
     await render(hbs`{{object/md-documentation/preview item=doc}}`);
 
     assert.equal(find('.text-muted').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Document|#|Resource|Type(s)|foo:|bar|Title|title0|Alternate|Titles|alternateTitle0|alternateTitle1|Dates|October|13th|2016|(dateType)|October|22nd|2016|(dateType)|Identifier|identifier0|identifier-0|Responsible|Party|role|(|)|role|(|)|');
+      '|Document|#|Resource|Type(s)|foo:|bar|Title|title0|Alternate|Titles|alternateTitle0|alternateTitle1|Dates|2016-10-13|(dateType)|2016-10-22|(dateType)|Identifier|identifier0|identifier-0|Responsible|Party|role|(|individualId0|)|role|(|individualId0|)|');
 
     // Template block usage:
     await render(hbs`
@@ -30,7 +30,7 @@ module('Integration | Component | object/md documentation/preview', function(hoo
     `);
 
     assert.equal(find('.testme').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Document|#|Resource|Type(s)|foo:|bar|Title|title0|Alternate|Titles|alternateTitle0|alternateTitle1|Dates|October|13th|2016|(dateType)|October|22nd|2016|(dateType)|Identifier|identifier0|identifier-0|Responsible|Party|role|(|)|role|(|)|',
+      '|Document|#|Resource|Type(s)|foo:|bar|Title|title0|Alternate|Titles|alternateTitle0|alternateTitle1|Dates|2016-10-13|(dateType)|2016-10-22|(dateType)|Identifier|identifier0|identifier-0|Responsible|Party|role|(|individualId0|)|role|(|individualId0|)|',
       'block');
   });
 });

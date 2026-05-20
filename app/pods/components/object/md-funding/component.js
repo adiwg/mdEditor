@@ -1,9 +1,9 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import { computed } from '@ember/object';
+import { computed, set } from '@ember/object';
 import { alias, notEmpty } from '@ember/object/computed';
 import { isPresent } from '@ember/utils';
-import { once } from '@ember/runloop';
+import { scheduleOnce } from '@ember/runloop';
 import {
   validator,
   buildValidations
@@ -69,12 +69,13 @@ export default class MdFundingComponent extends Component.extend(Validations) {
 
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
+    scheduleOnce('afterRender', this, '_initModelDefaults');
+  }
 
+  _initModelDefaults() {
     let model = this.model;
-
-    once(this, function () {
-      model.allocation = model.allocation ?? [];
-      model.timePeriod = model.timePeriod ?? {};
-    });
+    if (!model) { return; }
+    if (model.allocation == null) { set(model, 'allocation', []); }
+    if (model.timePeriod == null) { set(model, 'timePeriod', {}); }
   }
 }
