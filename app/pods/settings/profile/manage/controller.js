@@ -74,7 +74,7 @@ export default class ProfileManageController extends Controller {
   }
 
   @action
-  editDefinition(index, record) {
+  editDefinition(col, index, record) {
     this.definition = record;
   }
 
