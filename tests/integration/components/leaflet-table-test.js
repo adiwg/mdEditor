@@ -12,7 +12,7 @@ module('Integration | Component | leaflet table', function(hooks) {
     // Handle any actions with this.on('myAction', function(val) { ... });
     this.set('layers', createMapLayer(2));
 
-    await render(hbs `{{leaflet-table layers=layers.features
+    await render(hbs `{{leaflet-table layers=this.layers.features
       resizeDebouncedEventsEnabled=true}}`);
 
       assert.equal(find('.feature-table')
@@ -20,7 +20,7 @@ module('Integration | Component | leaflet table', function(hooks) {
         .replace(/[\s\t]/g, '\n')
         .trim()
         .replace(/[ \n]+/g, '|'),
-        'ID|Name|Description|ID|Name|Description|1|Feature|1|2|Feature|2|Show|1|-|2|of|2|Clear|all|filters|Rows:|10|25|50|500|Page:|1'
+        'ID|Name|Description|Actions|ID|Name|Description|1|Feature|1|2|Feature|2|Show|1|-|2|of|2|Clear|all|filters|Rows:|10|25|50|Page:|1'
     );
   });
 });

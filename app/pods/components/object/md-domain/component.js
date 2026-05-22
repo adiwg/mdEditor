@@ -6,7 +6,7 @@ import {
 import {
   once
 } from '@ember/runloop';
-import { action } from '@ember/object';
+import { set } from '@ember/object';
 
 import {
   validator,
@@ -82,19 +82,9 @@ export default class MdDomainComponent extends Component.extend(Validations) {
     let model = this.model;
 
     once(this, function () {
-      model.domainId = model.domainId ?? uuidV4();
-      model.domainItem = model.domainItem ?? [];
-      model.domainReference = model.domainReference ?? {};
+      set(model, 'domainId', model.domainId ?? uuidV4());
+      set(model, 'domainItem', model.domainItem ?? []);
+      set(model, 'domainReference', model.domainReference ?? {});
     });
-  }
-
-  @action
-  editDomainItem(id){
-    this.editDomainItem(id);
-  }
-
-  @action
-  editCitation(scrollTo){
-    this.editCitation(scrollTo);
   }
 }

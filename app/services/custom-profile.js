@@ -227,21 +227,51 @@ export default Service.extend({
       existingCustomProfiles.map((p) => p.profileId)
     );
     const response = await axios.get(url);
-    const profilesList = response.data;
-    if (!profilesList) {
+    const responseData = response.data;
+
+    // Normalize to a list of { url, data } items.
+    // Supported formats:
+    //   1. Manifest array:  [{name, url}, ...]  — fetch each url for its definition
+    //   2. Single profile:  {identifier, title, ...} — treat the given url as the definition
+    //   3. Wrapped object:  {profiles: [...]}
+    let resolvedItems; // [{ url: string, data: object }]
+
+    if (Array.isArray(responseData)) {
+      // Manifest — fetch each profile definition
+      resolvedItems = await Promise.all(
+        responseData.map(async (item) => {
+          const res = await axios.get(item.url);
+          return { url: item.url, data: res.data };
+        })
+      );
+    } else if (responseData?.identifier) {
+      // Direct single-profile definition
+      resolvedItems = [{ url, data: responseData }];
+    } else if (Array.isArray(responseData?.profiles)) {
+      // Wrapped manifest
+      resolvedItems = await Promise.all(
+        responseData.profiles.map(async (item) => {
+          const res = await axios.get(item.url);
+          return { url: item.url, data: res.data };
+        })
+      );
+    } else {
+      this.flashMessages.warning(
+        'No profiles found at the provided URL. Check that the URL points to a valid profile manifest or definition.'
+      );
       return;
     }
+
     const thesauri = [];
-    for (const profileItem of profilesList) {
-      const definitionResponse = await axios.get(profileItem.url);
-      const { data } = definitionResponse;
+    for (const profileItem of resolvedItems) {
+      const { url: itemUrl, data } = profileItem;
       if (data?.thesauri?.length > 0) {
         thesauri.push(...data.thesauri);
       }
       const profileDefinitionExists = existingIdentifiers.has(data.identifier);
       const customProfileExists = customIdentifiers.has(data.identifier);
       if (!profileDefinitionExists) {
-        await this.createNewProfileDefinition(data, profileItem.url);
+        await this.createNewProfileDefinition(data, itemUrl);
         existingIdentifiers.add(data.identifier);
       }
       if (!customProfileExists) {

@@ -1,10 +1,7 @@
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import { action } from '@ember/object';
-import { getOwner } from '@ember/application';
-import EmObject, { get, set } from '@ember/object';
-import { once } from '@ember/runloop';
+import { action, set } from '@ember/object';
 import { validator, buildValidations } from 'ember-cp-validations';
 
 const regex = new RegExp(
@@ -27,29 +24,6 @@ const Validations = buildValidations({
 
 @classic
 class MdOnlineResourceComponent extends Component {
-  didReceiveAttrs() {
-    super.didReceiveAttrs(...arguments);
-
-    once(this, () => {
-      if (this.isDestroying || this.isDestroyed) {
-        return;
-      }
-
-      let plain = this.model;
-
-      if (plain && !get(plain, 'validations')) {
-        const Model = EmObject.extend(Validations, plain);
-        const owner = getOwner(this);
-        if (!owner || owner.isDestroying || owner.isDestroyed) {
-          return;
-        }
-
-        let model = Model.create(owner.ownerInjection(), plain);
-        this.model = model;
-      }
-    });
-  }
-
   @service flashMessages;
   classNames = ['md-online-resource'];
   attributeBindings = ['data-spy'];

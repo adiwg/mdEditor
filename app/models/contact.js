@@ -36,10 +36,12 @@ const Validations = buildValidations({
       disabled: computed(
         'model.json.isOrganization',
         'model.json.positionName',
+        'model.json.name',
         function () {
           return (
             this.get('model.json.isOrganization') ||
-            !isEmpty(this.get('model.json.positionName'))
+            !isEmpty(this.get('model.json.positionName')) ||
+            !isEmpty(this.get('model.json.name'))
           );
         }
       ),

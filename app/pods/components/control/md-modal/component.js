@@ -78,7 +78,11 @@ export default class MdModalComponent extends Component {
    */
   @action
   closeModal() {
-    this.toggleProperty('isShowing');
+    if (typeof this.onClose === 'function') {
+      this.onClose();
+    } else {
+      this.toggleProperty('isShowing');
+    }
   }
 
   /**

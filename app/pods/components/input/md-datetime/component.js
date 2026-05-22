@@ -56,7 +56,7 @@ export default class MdDatetimeComponent extends Component {
         computed(`model.${valuePath}`, {
           get() {
             let val = this.model?.[valuePath];
-            return val ? moment(val, this.altFormat || null) : null;
+            return val ? (val instanceof Date ? moment.utc(val) : moment(val, this.altFormat || null)) : null;
           },
           set(key, value) {
             let formatted = this.formatValue(value, `model.${valuePath}`);
@@ -71,7 +71,7 @@ export default class MdDatetimeComponent extends Component {
         computed('date', {
           get() {
             let val = this.date;
-            return val ? moment(val, this.altFormat || null) : null;
+            return val ? (val instanceof Date ? moment.utc(val) : moment(val, this.altFormat || null)) : null;
           },
           set(key, value) {
             let formatted = this.formatValue(value, 'date');

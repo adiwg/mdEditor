@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
+import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/string';
 import { interpolate, parseArgs } from 'mdeditor/utils/md-interpolate';
 
@@ -119,6 +120,7 @@ export default class MdIndicatorComponent extends Component {
    * @category computed
    * @requires note,values
    */
+  @computed('note', 'values')
   get interpolated() {
     return htmlSafe(interpolate(this.note, this.values));
   }
@@ -131,6 +133,7 @@ export default class MdIndicatorComponent extends Component {
    * @category computed
    * @requires note
    */
+  @computed('note')
   get values() {
     let args = parseArgs(this.note);
 

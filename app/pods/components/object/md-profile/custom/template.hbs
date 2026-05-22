@@ -40,7 +40,7 @@
         <div class='list-group no-margin md-itis-taxalist'>
           {{#each notSelected as |schema|}}
             {{#liquid-unless
-              (contains schema selected)
+              predicate=(contains schema selected)
               class=(concat 'list-group-item ' (if schema 'md-itis-unselected'))
               enableGrowth=true
               shrinkDelay=500
@@ -98,7 +98,7 @@
           {{/liquid-if}} --}}
           {{#each selected as |schema|}}
             {{#liquid-if
-              (contains schema selected)
+              predicate=(contains schema selected)
               class='list-group-item md-itis-selected'
               enableGrowth=true
               shrinkDelay=500

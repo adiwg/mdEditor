@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
+import { set } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 import {
@@ -25,15 +26,15 @@ export default class MdSourceComponent extends Component.extend(Validations) {
     let model = this.model;
 
     once(this, function () {
-      model.sourceId = model.sourceId ?? uuidV4();
-      model.sourceCitation = model.sourceCitation ?? {};
-      model.metadataCitation = model.metadataCitation ?? [];
-      model.spatialResolution = model.spatialResolution ?? {};
-      model.referenceSystem = model.referenceSystem ?? {};
-      model.referenceSystem.referenceSystemIdentifier =
-        model.referenceSystem.referenceSystemIdentifier ?? {};
-      model.sourceProcessStep = model.sourceProcessStep ?? [];
-      model.scope = model.scope ?? {};
+      set(model, 'sourceId', model.sourceId ?? uuidV4());
+      set(model, 'sourceCitation', model.sourceCitation ?? {});
+      set(model, 'metadataCitation', model.metadataCitation ?? []);
+      set(model, 'spatialResolution', model.spatialResolution ?? {});
+      set(model, 'referenceSystem', model.referenceSystem ?? {});
+      set(model.referenceSystem, 'referenceSystemIdentifier',
+        model.referenceSystem.referenceSystemIdentifier ?? {});
+      set(model, 'sourceProcessStep', model.sourceProcessStep ?? []);
+      set(model, 'scope', model.scope ?? {});
     });
   }
 

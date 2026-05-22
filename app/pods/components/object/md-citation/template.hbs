@@ -11,7 +11,7 @@
 
   {{input/md-input
     model=this.model
-    valuePath='title'
+    valuePath=(if this.model 'title')
     placeholder='Enter the title for the resource.'
     label='Title'
     required=true

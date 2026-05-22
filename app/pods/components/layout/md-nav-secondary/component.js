@@ -1,9 +1,10 @@
 import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
-import EmberObject, { get, defineProperty, computed } from '@ember/object';
+import EmberObject, { get, set, defineProperty, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import ResizeAware from 'ember-resize/mixins/resize-aware';
+import { A } from '@ember/array';
 
 @classic
 export default class MdNavSecondaryComponent extends Component.extend(
@@ -36,6 +37,14 @@ export default class MdNavSecondaryComponent extends Component.extend(
    */
   more = 'More';
 
+  @computed(
+    'customProfile.active',
+    'customProfile.mapById',
+    'customProfile.defaultProfile',
+    'navLinks',
+    'navLinks.[]',
+    'model'
+  )
   get links() {
     const profileService = this.customProfile;
     const activeProfileId = profileService.active;
@@ -60,10 +69,10 @@ export default class MdNavSecondaryComponent extends Component.extend(
     }
 
     if (!Array.isArray(links)) {
-      return [];
+      return A([]);
     }
 
-    return links.map((lnk, index) => {
+    return A(links.map((lnk, index) => {
       let link = EmberObject.create(lnk);
 
       link.setProperties({ nav: nav, index: index });
@@ -77,17 +86,19 @@ export default class MdNavSecondaryComponent extends Component.extend(
       );
 
       return link;
-    });
+    }));
   }
 
   get sortedLinks() {
     return [...this.links].sort((a, b) => a.index - b.index);
   }
 
+  @computed('navWidth', 'links.@each.width')
   get hasOverflow() {
     return this.navWidth < this.linkWidth;
   }
 
+  @computed('links.@each.width', 'navPadding')
   get linkWidth() {
     return this.links.reduce((a, b) => a + b.width, this.navPadding);
   }
@@ -109,6 +120,6 @@ export default class MdNavSecondaryComponent extends Component.extend(
   }
 
   debouncedDidResize(width) {
-    this.navWidth = width || this.navWidth;
+    set(this, 'navWidth', width || this.navWidth);
   }
 }

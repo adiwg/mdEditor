@@ -26,8 +26,21 @@ module('Acceptance | pods/contacts', function (hooks) {
 
     var store = this.owner.lookup('service:store');
 
-    //make sure there's at least one record visible
-    store.createRecord('contact');
+    //make sure there's at least one record visible as a loaded record
+    store.push({
+      data: {
+        id: 'test-contact-1',
+        type: 'contact',
+        attributes: {
+          json: {
+            contactId: 'test-contact-1',
+            name: 'Test Contact',
+            isOrganization: false
+          },
+          dateUpdated: new Date().toISOString()
+        }
+      }
+    });
     await visit('/contacts');
     await click('button.md-button-confirm.btn-danger');
     assert.equal(find('button.md-button-confirm.btn-danger').innerText

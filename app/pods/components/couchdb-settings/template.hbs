@@ -1,19 +1,22 @@
 <div class='form'>
   {{input/md-input
     label='Publisher Endpoint'
-    value=@model.publisherEndpoint
+    model=@model
+    valuePath='publisherEndpoint'
     placeholder='Enter the CouchDB server URL (e.g., https://mycouch.example.com)'
     change=@save
   }}
   {{input/md-input
     label='CouchDB Database Name'
-    value=(get @model 'couchdb-database')
+    model=@model
+    valuePath='couchdb-database'
     placeholder='Enter the default database name'
     change=@save
   }}
   {{input/md-input
     label='Default Username'
-    value=(get @model 'couchdb-username')
+    model=@model
+    valuePath='couchdb-username'
     placeholder='Enter the default username (password will not be saved)'
     change=@save
   }}

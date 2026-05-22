@@ -51,6 +51,8 @@ export default class SpotlightService extends Service {
 
     await timeout(250);
 
+    if (this.isDestroying || this.isDestroyed) return;
+
     if (isPresent(id)) {
       document.body.classList.remove('md-no-liquid');
       const element = document.getElementById(id);

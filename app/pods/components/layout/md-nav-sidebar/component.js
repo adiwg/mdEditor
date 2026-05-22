@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import { action } from '@ember/object';
+import { action, computed } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import config from 'mdeditor/config/environment';
 
@@ -11,8 +11,19 @@ export default class MdNavSidebarComponent extends Component {
 
   @tracked showHelp = false;
 
+  init() {
+    super.init(...arguments);
+    if (this.version === undefined || this.version === null) {
+      let v = config.APP.version || '';
+      let idx = v.indexOf('+');
+      this.set('version', idx === -1 ? v : v.substring(0, idx));
+    }
+  }
+
+  @computed('version')
   get prerelease() {
     let version = this.version;
+    if (!version) return;
 
     if (version.substring(0, 3) === '0.0') {
       return 'alpha';
@@ -21,12 +32,6 @@ export default class MdNavSidebarComponent extends Component {
     if (version.substring(0, 1) === '0' && version.substring(0, 3) > 0) {
       return 'beta';
     }
-  }
-
-  get version() {
-    let version = config.APP.version;
-
-    return version.substring(0, version.indexOf('+'));
   }
 
   @action

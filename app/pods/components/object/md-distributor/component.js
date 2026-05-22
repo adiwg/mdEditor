@@ -2,6 +2,7 @@ import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { once } from '@ember/runloop';
+import { set } from '@ember/object';
 import {
   validator,
   buildValidations
@@ -68,12 +69,9 @@ export default class MdDistributorComponent extends Component.extend(Validations
     let model = this.model;
 
     once(this, function() {
-      model.contact = model.contact ?? {
-        role: null,
-        party: []
-      };
-      model.orderProcess = A(model.orderProcess ?? [{}]);
-      model.transferOption = A(model.transferOption ?? [{}]);
+      set(model, 'contact', model.contact ?? { role: null, party: [] });
+      set(model, 'orderProcess', A(model.orderProcess ?? [{}]));
+      set(model, 'transferOption', A(model.transferOption ?? [{}]));
     });
   }
 }

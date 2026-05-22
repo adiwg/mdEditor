@@ -142,19 +142,19 @@ export default class MdEntityComponent extends Component.extend(Validations) {
   get attributeList() {
     let attr = this.model?.attribute;
     if(attr) {
-      return attr.map((attr) => {
+      return A(attr.map((attr) => {
         return {
           codeId: get(attr, 'codeName'),
           codeName: get(attr, 'codeName'),
           tooltip: get(attr, 'definition')
         };
-      });
+      }));
     }
-    return [];
+    return A([]);
   }
 
   get entityList() {
-    return this.entities
+    return A((this.entities || [])
       .map((attr) => {
         if(get(attr, 'entityId')) {
           return {
@@ -163,7 +163,7 @@ export default class MdEntityComponent extends Component.extend(Validations) {
             tooltip: get(attr, 'definition')
           };
         }
-      });
+      }).filter(Boolean));
   }
 
    /**
@@ -193,13 +193,13 @@ export default class MdEntityComponent extends Component.extend(Validations) {
     let model = this.model;
 
     once(this, function () {
-      model.entityId = model.entityId ?? uuidV4();
-      model.alias = model.alias ?? [];
-      model.primaryKeyAttributeCodeName = model.primaryKeyAttributeCodeName ?? [];
-      model.index = model.index ?? [];
-      model.attribute = model.attribute ?? [];
-      model.foreignKey = model.foreignKey ?? [];
-      model.entityReference = model.entityReference ?? [];
+      set(model, 'entityId', model.entityId ?? uuidV4());
+      set(model, 'alias', model.alias ?? []);
+      set(model, 'primaryKeyAttributeCodeName', model.primaryKeyAttributeCodeName ?? []);
+      set(model, 'index', model.index ?? []);
+      set(model, 'attribute', model.attribute ?? []);
+      set(model, 'foreignKey', model.foreignKey ?? []);
+      set(model, 'entityReference', model.entityReference ?? []);
     });
   }
 

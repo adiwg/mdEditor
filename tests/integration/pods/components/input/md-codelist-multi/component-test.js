@@ -83,7 +83,7 @@ module('Integration | Component | input/md codelist multi', function(hooks) {
 
       assert.equal(getRootElement()
         .textContent
-        .replace(/[ \n]+/g, '|'), '|×|bar|×|foo|bar|foo|',
+        .replace(/[ \n]+/g, '|'), '|×|bar|×|foo|',
         'value updated');
   });
 
@@ -109,7 +109,7 @@ module('Integration | Component | input/md codelist multi', function(hooks) {
 
       assert.equal(getRootElement()
         .textContent
-        .replace(/[ \n]+/g, '|'), '|×|foo|×|biz|bar|foo|biz|',
+        .replace(/[ \n]+/g, '|'), '|×|foo|×|biz|',
         'value updated');
   });
 });

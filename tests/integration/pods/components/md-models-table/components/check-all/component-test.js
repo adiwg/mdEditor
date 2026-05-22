@@ -1,4 +1,5 @@
 import { find, click, render } from '@ember/test-helpers';
+import EmberObject from '@ember/object';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -12,12 +13,10 @@ module('Integration | Component | md models table/components/check all', functio
     // Handle any actions with this.on('myAction', function(val) { ... });
     this.data = {
       themeInstance: {
-        'select-all-rows': 'select',
-        'deselect-all-rows': 'deselect'
+        selectAllRowsIcon: 'select',
+        deselectAllRowsIcon: 'deselect'
       },
-      selectedItems: {
-        length: 0
-      },
+      selectedItems: EmberObject.create({ length: 0 }),
       length: 1
     };
 
@@ -29,13 +28,13 @@ module('Integration | Component | md models table/components/check all', functio
 
     await render(hbs`{{md-models-table/components/check-all data=data selectedItems=data.selectedItems themeInstance=data.themeInstance toggleAllSelection=toggleAllSelection}}`);
 
-    assert.ok(find('span').classList.contains('deselect'), 'add class');
+    assert.ok(find('i').classList.contains('deselect'), 'add class');
 
-    await click('span');
+    await click('button');
 
     // await render(hbs`{{md-models-table/components/check-all data=data themeInstance=data.themeInstance toggleAllSelection=toggleAllSelection}}`);
 
-    assert.ok(find('span').classList.contains('select'), 'deselect');
+    assert.ok(find('i').classList.contains('select'), 'deselect');
 
     // Template block usage:
     await render(hbs`

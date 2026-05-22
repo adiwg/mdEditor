@@ -14,6 +14,8 @@ export default class PreviewComponent extends Component {
    */
   title = "Citation";
 
+  profilePath = 'citation';
+
   /**
    * Indicates if object is required.
    *

@@ -42,7 +42,7 @@
   showValidations=true
 }}
 
-{{#liquid-unless this.record.isNew use='toDown'}}
+{{#liquid-unless predicate=this.record.isNew use='toDown'}}
   <div class='form-group from-group-inlne'>
     <label>Apply Globally?</label>
     <div class='form-control'>

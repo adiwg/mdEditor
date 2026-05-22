@@ -44,6 +44,15 @@ export default class FilePickerComponent extends Component {
     return this.args.preview !== false;
   }
 
+  /**
+   * Whether clicking anywhere in the component opens the file dialog.
+   * When false, only programmatic .click() or drag-and-drop triggers the picker.
+   * @type {Boolean}
+   */
+  get selectOnClick() {
+    return this.args.selectOnClick !== false;
+  }
+
   @action
   handleClick(event) {
     // Find the hidden file input and trigger a click

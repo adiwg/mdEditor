@@ -84,12 +84,12 @@ export default class MdEditTableComponent extends MdRecordTableComponent {
   }
 
   editRowMethod(index, record){
-    this.send('expandRow',index, record);
+    this.expandRow(index, record);
   }
 
   @action
   handleEditRow(col, index, record, evt){
-    evt.stopPropagation();
+    if (evt) evt.stopPropagation();
     if (typeof this.editRow === 'function') {
       this.editRow(col, index, record, evt);
     } else {

@@ -20,6 +20,7 @@
     disabled={{this.disabled}}
     readonly={{this.readonly}}
     {{on 'input' this.updateValue}}
+    {{on 'change' this.handleChange}}
   />
 
   <span class='md-input-error'>

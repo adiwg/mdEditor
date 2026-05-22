@@ -2,7 +2,7 @@ import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { get, set } from '@ember/object';
-import { once } from '@ember/runloop';
+import { scheduleOnce } from '@ember/runloop';
 import { validator, buildValidations } from 'ember-cp-validations';
 
 const timeUnit = [{
@@ -113,17 +113,15 @@ export default class MdTimePeriodComponent extends Component.extend(Validations)
 
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
+    scheduleOnce('afterRender', this, '_initModelDefaults');
+  }
 
+  _initModelDefaults() {
     let model = this.model;
-
-    once(this, function () {
-      model.periodName = model.periodName ?? [];
-      model.timeInterval = model.timeInterval ?? {};
-      model.duration = model.duration ?? {};
-      // model.presentationForm = model.presentationForm ?? [];
-      // model.onlineResource = model.onlineResource ?? [];
-      model.identifier = model.identifier ?? {};
-      // model.graphic = model.graphic ?? [];
-    });
+    if (!model) { return; }
+    if (model.periodName == null) { set(model, 'periodName', []); }
+    if (model.timeInterval == null) { set(model, 'timeInterval', {}); }
+    if (model.duration == null) { set(model, 'duration', {}); }
+    if (model.identifier == null) { set(model, 'identifier', {}); }
   }
 }

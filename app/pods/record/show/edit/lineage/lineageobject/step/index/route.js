@@ -8,8 +8,8 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
   @service router;
 
   setupController() {
-    // Call _super for default behavior
-    this._super(...arguments);
+
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
     this.controller.set(

@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
+import { computed } from '@ember/object';
 
 @classic
 export default class MdObjectContainerComponent extends Component {
@@ -34,6 +35,7 @@ export default class MdObjectContainerComponent extends Component {
   */
   collapseProperty = true;
 
+  @computed('collapsible', 'collapseProperty')
   get isCollapsible() {
     return this.collapsible && this.collapseProperty;
   }

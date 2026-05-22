@@ -35,7 +35,7 @@ export default class ProfileIndexController extends Controller {
   }
 
   @action
-  editProfile(index, record) {
+  editProfile(col, index, record) {
     this.profile = record;
   }
 

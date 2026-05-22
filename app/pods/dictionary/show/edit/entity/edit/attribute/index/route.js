@@ -18,8 +18,8 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
     );
   }
   setupController() {
-    // Call _super for default behavior
-    this._super(...arguments);
+
+    super.setupController(...arguments);
 
     let parent = this.controllerFor(
       'dictionary.show.edit.entity.edit.attribute'
@@ -33,9 +33,12 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
       cancelScope: this,
     });
   }
+  @action
   backToEntity() {
     this.router.transitionTo('dictionary.show.edit.entity.edit', this.entityId);
   }
+
+  @action
   editCitation(scrollTo) {
     this.router.transitionTo('dictionary.show.edit.domain.edit.citation').then(
       function () {

@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { alias } from '@ember/object/computed';
+import { set } from '@ember/object';
 import { once } from '@ember/runloop';
 import {
   validator,
@@ -54,9 +55,9 @@ export default class MdAllocationComponent extends Component.extend(Validations)
     let model = this.model;
 
     once(this, function() {
-      model.currency = model.currency ?? 'USD';
-      model.onlineResource = model.onlineResource ?? [];
-      model.responsibleParty = model.responsibleParty ?? [];
+      set(model, 'currency', model.currency ?? 'USD');
+      set(model, 'onlineResource', model.onlineResource ?? []);
+      set(model, 'responsibleParty', model.responsibleParty ?? []);
     });
   }
 }

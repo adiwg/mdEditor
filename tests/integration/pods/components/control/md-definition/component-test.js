@@ -13,12 +13,12 @@ module('Integration | Component | control/md definition', function(hooks) {
 
     await render(hbs`{{control/md-definition title="foobar" text="bizbaz"}}`);
 
-    assert.equal(find('.ember-view').textContent.replace(/[ \n]+/g, '|').trim(),
+    assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(),
       'foobar|bizbaz|');
 
     await render(hbs`{{control/md-definition title="foobar"}}`);
 
-    assert.equal(find('.ember-view').textContent.replace(/[ \n]+/g, '|').trim(),
+    assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(),
      'foobar|Not|Defined|', 'no text');
 
     // Template block usage:
@@ -28,7 +28,7 @@ module('Integration | Component | control/md definition', function(hooks) {
       </Control::MdDefinition>
     `);
 
-    assert.equal(find('.ember-view').textContent.replace(/[ \n]+/g, '|').trim(),
+    assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(),
      '|foobar|template|block|text|');
   });
 });

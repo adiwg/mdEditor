@@ -37,7 +37,7 @@ module('Integration | Component | feature table', function (hooks) {
       .replace(/[\s, \t]/g, '\n')
       .trim()
       .replace(/[ +\n]+/g, '|'),
-      'Search:|Columns|Show|All|Hide|All|Restore|Defaults|ID|Name|Description|ID|Name|Description|ID|Name|Description|1|Feature|1|2|Feature|2|Show|1|-|2|of|2|Clear|all|filters|Rows:|10|25|50|500|Page:|1'
+      'Search:|Columns|Show|All|Hide|All|Restore|Defaults|ID|Name|Description|Actions|ID|Name|Description|Actions|ID|Name|Description|1|Feature|1|2|Feature|2|Show|1|-|2|of|2|Clear|all|filters|Rows:|10|25|50|Page:|1'
     );
 
     await click(find('td .btn-success'));

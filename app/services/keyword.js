@@ -5,12 +5,12 @@ import ISO from 'mdcodes/resources/js/iso_topicCategory';
 import ENV from 'mdeditor/config/environment';
 
 export default Service.extend({
-  thesaurus: A([]),
-  manifest: null,
   profiles: service('custom-profile'),
 
   init() {
     this._super(...arguments);
+    this.thesaurus = A([]);
+    this.manifest = A([]);
     this.thesaurus.pushObject(this.generateIsoTopicCategory());
   },
 

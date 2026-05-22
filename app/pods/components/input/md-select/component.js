@@ -43,8 +43,6 @@ export default class MdSelectComponent extends Component {
    * @constructor
    */
 
-  classNames = ['md-select'];
-  classNameBindings = ['formGroup', 'required'];
   attributeBindings = ['dataSpy:data-spy'];
 
   @notEmpty('label') formGroup;
@@ -269,6 +267,7 @@ export default class MdSelectComponent extends Component {
    * @type Ember.computed
    * @return PromiseObject
    */
+  @computed('value', 'localValue')
   get selectedItem() {
     let value = this.model && this.path ? this.value : this.localValue;
 
@@ -290,6 +289,7 @@ export default class MdSelectComponent extends Component {
    * @type Ember.computed
    * @return PromiseArray
    */
+  @computed('objectArray.[]')
   get codelist() {
     const objArray = this.objectArray;
     let inList = new Promise(function (resolve, reject) {
@@ -356,6 +356,7 @@ export default class MdSelectComponent extends Component {
       set(this, 'value', val);
     } else {
       set(this, 'localValue', val);
+      set(this, 'value', val);
     }
 
     this.change(val, selected);
@@ -478,3 +479,6 @@ export default class MdSelectComponent extends Component {
     },
   };
 }
+
+MdSelectComponent.prototype.classNames = ['md-select'];
+MdSelectComponent.prototype.classNameBindings = ['formGroup', 'required'];

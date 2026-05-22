@@ -70,7 +70,7 @@ export default class ValidationController extends Controller {
   }
 
   @action
-  editSchema(index, record) {
+  editSchema(col, index, record) {
     this.schema = record;
   }
 

@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { isEmpty } from '@ember/utils';
 import { alias } from '@ember/object/computed';
+import { set } from '@ember/object';
 import { once } from '@ember/runloop';
 import {
   validator,
@@ -65,7 +66,7 @@ export default class MdSpatialResolutionComponent extends Component.extend(Valid
 
     if(model) {
       once(this, function () {
-        model.measure = model.measure ?? {};
+        set(model, 'measure', model.measure ?? {});
       });
     }
   }

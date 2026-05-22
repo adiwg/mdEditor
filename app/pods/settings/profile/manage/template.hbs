@@ -30,7 +30,7 @@
       {{#if definition}}
         <h4 class='tab-header'>
           {{#liquid-if
-            definition use='fade' growDuration=100 class='inline-block'
+            predicate=definition use='fade' growDuration=100 class='inline-block'
           }}
             {{#if definition.isNew}}
               Add Profile Definition
@@ -46,7 +46,7 @@
         </h4>
       {{/if}}
 
-      {{#liquid-if definition use='fade'}}
+      {{#liquid-if predicate=definition use='fade'}}
         {{#if definition.isNew}}
           {{object/md-profile/form record=definition}}
         {{else if definition}}

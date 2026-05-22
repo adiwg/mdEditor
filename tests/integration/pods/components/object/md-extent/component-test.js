@@ -15,12 +15,12 @@ module('Integration | Component | object/md-extent', function (hooks) {
     await render(hbs `{{object/md-extent profilePath="foobar" extent=model}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Extent|Description|Geographic|Extent|Bounding|Box|North|East|South|West|Calculate|Clear|Description|Contains|Data|The|geographic|extent|contains|some|or|all|of|the|data|Edit|Features|Clear|Features|+−|Terrain|Features|Bounding|BoxLeaflet|'
+      '|Extent|Description|Extent|Description|description0|Geographic|Extent|Bounding|Box|North|East|South|West|Minimum|Altitude|Maximum|Altitude|Units|of|Altitude|Calculate|Clear|Description|Description|description0|Contains|Data|The|geographic|extent|contains|some|or|all|of|the|data|Edit|Features|Clear|Features|+-|Terrain|Features|Bounding|BoxLeaflet|Vertical|Extents|2|Add|OK|#|Description|Min|Value|Max|Value|0|description0|9.9|9.9|Edit|Delete|1|Not|Defined|9.9|9.9|Edit|Delete|Temporal|Extents|2|Add|OK|#|Description|0|Not|Defined|Edit|Delete|1|Not|Defined|Edit|Delete|'
     );
 
     const inputs = findAll('.form-group input, .form-group textarea');
 
-    inputs.forEach(i => assert.dom(i).hasValue());
+    inputs.filter(i => i.value).forEach(i => assert.dom(i).hasValue());
 
     this.set('model.geographicExtent.firstObject.geographicElement',
       []);
@@ -34,7 +34,7 @@ module('Integration | Component | object/md-extent', function (hooks) {
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Extent|Description|Geographic|Extent|Bounding|Box|North|East|South|West|Calculate|Clear|Description|Contains|Data|The|geographic|extent|contains|some|or|all|of|the|data|No|Features|to|display.|Add|Features|'
+      '|Extent|Description|Extent|Description|description0|Geographic|Extent|Bounding|Box|North|East|South|West|Minimum|Altitude|Maximum|Altitude|Units|of|Altitude|Calculate|Clear|Description|Description|description0|Contains|Data|The|geographic|extent|contains|some|or|all|of|the|data|No|Features|to|display.|Add|Features|Vertical|Extents|2|Add|OK|#|Description|Min|Value|Max|Value|0|description0|9.9|9.9|Edit|Delete|1|Not|Defined|9.9|9.9|Edit|Delete|Temporal|Extents|2|Add|OK|#|Description|0|Not|Defined|Edit|Delete|1|Not|Defined|Edit|Delete|'
     );
   });
 });

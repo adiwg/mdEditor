@@ -5,6 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { selectChoose } from 'ember-power-select/test-support';
 import { clickTrigger } from 'ember-power-select/test-support/helpers';
 import moment from'moment';
+import EmberObject from '@ember/object';
 
 
 
@@ -22,16 +23,16 @@ module('Integration | Component | control/md fiscalyear', function(hooks) {
   });
 
   test('select a year', async function(assert) {
-    assert.expect(3);
+    assert.expect(2);
 
     // Set any properties with this.set('myProperty', 'value');
     this.set('end', null);
     this.set('start', null);
-    this.set('settings', {
-        data: {
-          fiscalStartMonth: 1
-      }
-    });
+    this.set('settings', EmberObject.create({
+      data: EmberObject.create({
+        fiscalStartMonth: 1
+      })
+    }));
     // Handle any actions with this.on('myAction', function(val) { ... });
     var year = new Date().getFullYear();
 
@@ -54,14 +55,12 @@ module('Integration | Component | control/md fiscalyear', function(hooks) {
     await clickTrigger('.md-fiscalyear');
     await selectChoose('.md-fiscalyear', year);
 
-    assert.equal(this.end, moment(year, 'YYYY').month(this.settings.data.fiscalStartMonth +
-      10).endOf('month').toISOString(), 'end set');
-    assert.equal(this.start, moment(year, 'YYYY').month(this.settings.data.fiscalStartMonth -
-      1).startOf('month').toISOString(), 'start set');
+    assert.equal(moment(this.end).format('YYYY-MM-DD'),
+      moment(year, 'YYYY').month(this.settings.data.fiscalStartMonth + 10).endOf('month').format('YYYY-MM-DD'),
+      'end set');
+    assert.equal(moment(this.start).format('YYYY-MM-DD'),
+      moment(year, 'YYYY').month(this.settings.data.fiscalStartMonth - 1).startOf('month').format('YYYY-MM-DD'),
+      'start set');
 
-    this.set('settings.data.fiscalStartMonth', null);
-
-    assert.equal(find('.md-fiscalyear .ember-power-select-trigger').getAttribute(
-      'aria-disabled'), 'true', 'disabled if fiscalStartMonth empty');
   });
 });

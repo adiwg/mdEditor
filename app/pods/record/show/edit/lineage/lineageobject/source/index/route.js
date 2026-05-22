@@ -7,8 +7,8 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
   @service router;
 
   setupController(controller) {
-    // Call _super for default behavior
-    this._super(...arguments);
+
+    super.setupController(...arguments);
 
     let sourceId = this.paramsFor(
       'record.show.edit.lineage.lineageobject.source'

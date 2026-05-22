@@ -3,7 +3,7 @@
  * @submodule components-input
  */
 
-import { action } from '@ember/object';
+import { action, computed, set } from '@ember/object';
 import Input from '../md-input/component';
 import classic from 'ember-classic-decorator';
 
@@ -20,18 +20,19 @@ export default class MdInputConfirmComponent extends Input {
 
   disabled = true;
 
+  @computed('disabled')
   get isDisabled() {
     return this.disabled;
   }
 
   @action
   allowEdit() {
-    this.disabled = false;
+    set(this, 'disabled', false);
     this.element.querySelector('input').focus();
   }
 
   @action
   inputBlur() {
-    this.disabled = true;
+    set(this, 'disabled', true);
   }
 }

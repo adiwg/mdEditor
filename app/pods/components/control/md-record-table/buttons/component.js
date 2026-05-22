@@ -7,6 +7,11 @@ export default class ButtonsComponent extends Component {
 
   classNames = ['md-dashboard-buttons'];
 
+  get record() { return this.args.record; }
+  get index() { return this.args.index; }
+  get isSelected() { return this.args.isSelected; }
+  get clickOnRow() { return this.args.clickOnRow; }
+
   @action
   deleteItem(item, index, isSelected, clickOnRow) {
     if (isSelected) {

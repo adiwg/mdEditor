@@ -15,20 +15,11 @@ module(
 
       await render(hbs`{{object/md-identifier-object-table model=id}}`);
 
-      let text = find('.md-object-table')
-        .textContent.replace(/[\s\n]+/g, '|')
-        .trim();
-
-      assert.true(
-        text.includes(
-          '|Identifier|2|Add|OK|#|Identifier|Namespace|Description|'
-        )
-      );
-      assert.true(
-        text.includes('|0|identifier0|namespace0|description0|Edit|Delete|')
-      );
-      assert.true(
-        text.includes('|1|identifier1|namespace1|description1|Edit|Delete|')
+      assert.equal(
+        find('.md-object-table')
+          .textContent.replace(/[\s\n]+/g, '|')
+          .trim(),
+        '|Identifier|2|Add|OK|#|Identifier|Namespace|Description|0|identifier0|namespace0|description0|Edit|Delete|1|identifier1|namespace1|description1|Edit|Delete|'
       );
 
       // Template block usage:

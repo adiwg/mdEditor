@@ -213,7 +213,7 @@ export default class MdScrollSpyComponent extends Component {
     this.scroll(targetId);
 
     if((typeof setScrollTo === 'function')) {
-      setScrollTo(dasherize(target.textContent));
+      setScrollTo(dasherize(target.textContent.trim()));
     }
   }
 }

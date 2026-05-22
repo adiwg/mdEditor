@@ -17,7 +17,7 @@ module('Integration | Component | object/md-profile/custom', function (hooks) {
     await render(hbs `{{object/md-profile/custom record=model}}`);
 
     assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Title|Description|Profile|Definition|Select|the|profile|definition.|Select|Schemas|No|schemas|avialable.|Schemas|Selected|Select|schemas|from|the|list.|'
+      '|Title|Description|Description|testing|description|Profile|Definition|Select|the|profile|definition.|Select|Schemas|No|schemas|avialable.|Schemas|Selected|Select|schemas|from|the|list.|'
     );
 
     // Template block usage:
@@ -28,7 +28,7 @@ module('Integration | Component | object/md-profile/custom', function (hooks) {
     `);
 
     assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Title|Description|Profile|Definition|Select|the|profile|definition.|Select|Schemas|No|schemas|avialable.|Schemas|Selected|Select|schemas|from|the|list.|template|block|text|'
+      '|Title|Description|Description|testing|description|Profile|Definition|Select|the|profile|definition.|Select|Schemas|No|schemas|avialable.|Schemas|Selected|Select|schemas|from|the|list.|template|block|text|'
     );
   });
 });

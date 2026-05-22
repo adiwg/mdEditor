@@ -8,7 +8,7 @@ export default class MdTaxonomyComponent extends Component {
   @service router;
 
   get title() {
-    let title = this.model.taxonomicSystem?.[0]?.citation?.title;
+    let title = this.model?.taxonomicSystem?.[0]?.citation?.title;
     let index = this.index;
 
     return `Collection #${index}` + (title ? `: ${title}`: '');

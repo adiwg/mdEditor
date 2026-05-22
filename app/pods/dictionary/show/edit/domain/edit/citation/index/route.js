@@ -9,7 +9,7 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
   @service router;
 
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.breadCrumb = {
       title: 'Reference',
@@ -25,14 +25,17 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
     this.set('domainId', domainId);
   }
   setupController() {
-    // Call _super for default behavior
-    this._super(...arguments);
+
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor('dictionary.show.edit'));
   }
+  @action
   backToDomain() {
     this.router.transitionTo('dictionary.show.edit.domain.edit', this.domainId);
   }
+
+  @action
   editIdentifier(index) {
     this.router
       .transitionTo(

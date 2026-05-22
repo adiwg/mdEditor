@@ -14,8 +14,8 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
     );
   }
   setupController() {
-    // Call _super for default behavior
-    this._super(...arguments);
+
+    super.setupController(...arguments);
 
     let parent = this.controllerFor('dictionary.show.edit.domain.edit');
 
@@ -27,6 +27,7 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
       cancelScope: this,
     });
   }
+  @action
   editCitation(scrollTo) {
     this.router.transitionTo('dictionary.show.edit.domain.edit.citation').then(
       function () {
@@ -34,6 +35,8 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
       }.bind(this)
     );
   }
+
+  @action
   editDomainItem(id) {
     this.router.transitionTo('dictionary.show.edit.domain.edit.item', id).then(
       function () {

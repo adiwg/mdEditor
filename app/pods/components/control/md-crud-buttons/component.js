@@ -30,11 +30,11 @@ export default class MdCrudButtonsComponent extends Component {
    */
 
   get showDelete() {
-    return isEmpty(this.allowDelete) ? this.settings.data.showDelete : this.allowDelete;
+    return isEmpty(this.allowDelete) ? this.settings?.data?.showDelete : this.allowDelete;
   }
 
   get showCopy() {
-    return isEmpty(this.allowCopy) ? this.settings.data.showCopy : this.allowCopy;
+    return isEmpty(this.allowCopy) ? this.settings?.data?.showCopy : this.allowCopy;
   }
 
   @action

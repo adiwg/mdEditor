@@ -10,23 +10,20 @@ module('Unit | Service | mdjson - Dictionary Export/Import', function (hooks) {
 
     // Create a mock record with mdDictionary array
     let mockRecord = {
-      get: function (path) {
-        if (path === 'json') {
-          return {
-            metadata: {
-              metadataInfo: {
-                metadataIdentifier: {
-                  identifier: 'test-123',
-                  namespace: 'urn:uuid',
-                },
-              },
+      json: {
+        metadata: {
+          metadataInfo: {
+            metadataIdentifier: {
+              identifier: 'test-123',
+              namespace: 'urn:uuid',
             },
-            mdDictionary: ['dict-id-1', 'dict-id-2'],
-          };
-        }
-        if (path === 'json.mdDictionary') {
-          return ['dict-id-1', 'dict-id-2'];
-        }
+          },
+        },
+        mdDictionary: ['dict-id-1', 'dict-id-2'],
+      },
+      get: function (path) {
+        if (path === 'json') { return this.json; }
+        if (path === 'json.mdDictionary') { return this.json.mdDictionary; }
         return null;
       },
     };
@@ -49,6 +46,9 @@ module('Unit | Service | mdjson - Dictionary Export/Import', function (hooks) {
     service.store = {
       peekAll: function () {
         return {
+          filterBy: function () {
+            return { findBy: function () { return null; } };
+          },
           mapBy: function () {
             return [];
           },
@@ -84,22 +84,19 @@ module('Unit | Service | mdjson - Dictionary Export/Import', function (hooks) {
 
     // Create a mock record
     let mockRecord = {
-      get: function (path) {
-        if (path === 'json') {
-          return {
-            metadata: {
-              metadataInfo: {
-                metadataIdentifier: {
-                  identifier: 'test-123',
-                  namespace: 'urn:uuid',
-                },
-              },
+      json: {
+        metadata: {
+          metadataInfo: {
+            metadataIdentifier: {
+              identifier: 'test-123',
+              namespace: 'urn:uuid',
             },
-          };
-        }
-        if (path === 'json.mdDictionary') {
-          return [];
-        }
+          },
+        },
+      },
+      get: function (path) {
+        if (path === 'json') { return this.json; }
+        if (path === 'json.mdDictionary') { return []; }
         return null;
       },
     };
@@ -122,6 +119,9 @@ module('Unit | Service | mdjson - Dictionary Export/Import', function (hooks) {
     service.store = {
       peekAll: function () {
         return {
+          filterBy: function () {
+            return { findBy: function () { return null; } };
+          },
           mapBy: function () {
             return [];
           },

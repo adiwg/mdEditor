@@ -3,14 +3,14 @@ import classic from 'ember-classic-decorator';
 import EmObject from '@ember/object';
 import { validator, buildValidations } from 'ember-cp-validations';
 
-// const Validations = buildValidations({
-//   'type': [
-//     validator('presence', {
-//       presence: true,
-//       ignoreBlank: true
-//     })
-//   ]
-// });
+const Validations = buildValidations({
+  'type': [
+    validator('presence', {
+      presence: true,
+      ignoreBlank: true
+    })
+  ]
+});
 
 /**
  * mdEditor class for input and edit of mdJSON 'phone' object.
@@ -31,7 +31,7 @@ export default class MdResourceTypeArrayComponent extends Component {
    * @property templateClass
    * @type Ember.Object
    */
-  templateClass = EmObject.extend({
+  templateClass = EmObject.extend(Validations, {
     init() {
       this._super(...arguments);
     },

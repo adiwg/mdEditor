@@ -51,7 +51,35 @@ export default Table.extend({
     );
 
     this._super(...arguments);
+
+    // Populate selectedItems from pre-existing selectProperty values so
+    // checkboxes display the correct initial checked state.
+    this.initFromSelectProperty();
   },
+
+  /**
+   * Seed selectedItems from the selectProperty flag on each data item.
+   * Called on init and whenever the data reference changes.
+   */
+  initFromSelectProperty() {
+    let prop = this.selectProperty;
+    let data = this.data;
+
+    if (!prop || !data) {
+      return;
+    }
+
+    let selected = A(data.filter((item) => get(item, prop)));
+    this.set('selectedItems', selected);
+  },
+
+  /**
+   * Re-initialize selectedItems when the data array itself is replaced
+   * (e.g. a new import is loaded into the same component instance).
+   */
+  dataObserver: observer('data', function () {
+    this.initFromSelectProperty();
+  }),
   classNames: ['md-record-table'],
 
   /**

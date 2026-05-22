@@ -12,7 +12,7 @@ export default class CitationRoute extends Route {
   @service flashMessages;
   @service router;
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.breadCrumb = {
       title: 'Reference'
@@ -28,8 +28,8 @@ export default class CitationRoute extends Route {
     return this.setupModel();
   }
   setupController() {
-    // Call _super for default behavior
-    this._super(...arguments);
+
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor(
       'dictionary.show.edit'));
@@ -57,8 +57,9 @@ export default class CitationRoute extends Route {
 
     return citation;
   }
-    backToEntity() {
-      this.router.transitionTo('dictionary.show.edit.entity.edit',
-        this.entityId);
-    }
+  @action
+  backToEntity() {
+    this.router.transitionTo('dictionary.show.edit.entity.edit',
+      this.entityId);
+  }
 }

@@ -1,7 +1,7 @@
 import { alias, equal, or } from '@ember/object/computed';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import { action } from '@ember/object';
+import { action, computed } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import { Promise } from 'rsvp';
@@ -126,13 +126,14 @@ export default class MdTranslateComponent extends Component {
     return null;
   }
 
+  @computed('writer', 'writerOptions')
   get writeObj() {
     return this.writerOptions.findBy('value', this.writer);
   }
 
   get writerType() {
     let obj = this.writeObj;
-    return obj ? obj.type.split('/')[1] : null;
+    return obj ? obj.type.split('/').pop() : null;
   }
 
   get isApiConfigured() {

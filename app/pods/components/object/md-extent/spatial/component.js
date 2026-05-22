@@ -2,7 +2,7 @@
 import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import { or, alias } from '@ember/object/computed';
-import { setProperties, observer } from '@ember/object';
+import { setProperties, observer, set } from '@ember/object';
 import { isNone } from '@ember/utils';
 import { action } from '@ember/object';
 

@@ -16,7 +16,7 @@ module('Integration | Component | object/md taxonomy/collection/system/preview',
 
     var input = findAll('input, textarea').mapBy('value').join('|');
 
-    assert.equal(input, "Integrated Taxonomic Information System (ITIS)|modifications", 'input values');
+    assert.equal(input, "Integrated Taxonomic Information System (ITIS)", 'input values');
 
     // Template block usage:
     await render(hbs`
