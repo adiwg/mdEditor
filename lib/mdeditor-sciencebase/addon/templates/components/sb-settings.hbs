@@ -1,15 +1,17 @@
 <div class='form'>
   {{input/md-input
     label='Default Parent Identifier'
-    value=model.sb-defaultParent
+    model=this.model
+    valuePath='sb-defaultParent'
     placeholder='Enter the identifier for the default Parent item.'
-    change=save
+    change=this.save
   }}
   {{input/md-input
     label='Publisher Endpoint'
-    value=@model.publisherEndpoint
+    model=this.model
+    valuePath='publisherEndpoint'
     placeholder='Enter the main endpoint URL for the ScienceBase publisher.'
-    change=@save
+    change=this.save
   }}
   {{!-- {{input/md-input
     label="Default Community"

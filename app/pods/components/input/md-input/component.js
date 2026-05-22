@@ -153,7 +153,14 @@ export default class MdInputComponent extends Component {
 
   @action
   updateValue(event) {
-    this.value = event.target.value;
+    this.set('value', event.target.value);
+  }
+
+  @action
+  handleChange(event) {
+    if (typeof this.change === 'function') {
+      this.change(event);
+    }
   }
 
   init() {
