@@ -7,6 +7,10 @@
   position: absolute;
   width: 100%;
   z-index: 2;
+
+  &--no-click {
+    pointer-events: none;
+  }
 }
 
 .file-picker {
