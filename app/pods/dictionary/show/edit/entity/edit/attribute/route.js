@@ -57,18 +57,21 @@ export default class AttributeRoute extends Route {
 
     return resource;
   }
-    backToEntity() {
-      this.router.transitionTo('dictionary.show.edit.entity.edit',
-        this.entityId);
-    }
-    editIdentifier(index) {
-      let model = this.currentRouteModel();
+  @action
+  backToEntity() {
+    this.router.transitionTo('dictionary.show.edit.entity.edit',
+      this.entityId);
+  }
 
-      this.router.transitionTo(
-          'dictionary.show.edit.entity.edit.attribute.identifier',
-          get(model, 'attributeReference.identifier.' + index))
-        .then(function () {
-          this.setScrollTo('identifier');
-        }.bind(this));
-    }
+  @action
+  editIdentifier(index) {
+    let model = this.currentRouteModel();
+
+    this.router.transitionTo(
+        'dictionary.show.edit.entity.edit.attribute.identifier',
+        get(model, 'attributeReference.identifier.' + index))
+      .then(function () {
+        this.setScrollTo('identifier');
+      }.bind(this));
+  }
 }

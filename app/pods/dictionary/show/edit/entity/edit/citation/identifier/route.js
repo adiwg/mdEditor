@@ -24,8 +24,8 @@ export default class IdentifierRoute extends Route.extend(ScrollTo) {
     return this.setupModel();
   }
   setupController() {
-    // Call _super for default behavior
-    this._super(...arguments);
+
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor(
       'dictionary.show.edit'));
@@ -55,8 +55,9 @@ export default class IdentifierRoute extends Route.extend(ScrollTo) {
 
     return identifier;
   }
-    backToReference() {
-      this.router.transitionTo('dictionary.show.edit.entity.edit.citation',
-        this.entityId, this.citationId);
-    }
+  @action
+  backToReference() {
+    this.router.transitionTo('dictionary.show.edit.entity.edit.citation',
+      this.entityId, this.citationId);
+  }
 }

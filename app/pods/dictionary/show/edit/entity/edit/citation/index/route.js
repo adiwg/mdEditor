@@ -6,6 +6,7 @@ import { inject as service } from '@ember/service';
 export default class IndexRoute extends Route.extend(ScrollTo) {
   @service router;
 
+  @action
   editIdentifier(index) {
     this.router
       .transitionTo(
@@ -18,6 +19,8 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
         }.bind(this)
       );
   }
+
+  @action
   backToEntity() {
     this.router.transitionTo('dictionary.show.edit.entity.edit', this.entityId);
   }

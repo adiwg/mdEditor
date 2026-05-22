@@ -6,6 +6,7 @@ import { inject as service } from '@ember/service';
 export default class IndexRoute extends Route.extend(ScrollTo) {
   @service router;
 
+  @action
   editIdentifier(index) {
     this.router
       .transitionTo('dictionary.show.edit.citation.identifier', index)
