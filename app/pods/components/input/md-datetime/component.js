@@ -56,7 +56,10 @@ export default class MdDatetimeComponent extends Component {
         computed(`model.${valuePath}`, {
           get() {
             let val = this.model?.[valuePath];
-            return val ? (val instanceof Date ? moment.utc(val) : moment(val, this.altFormat || null)) : null;
+            if (!val) return null;
+            if (val instanceof Date) return moment.utc(val);
+            let formats = [this.altFormat, this.format].filter(Boolean);
+            return moment(val, formats.length ? formats : null);
           },
           set(key, value) {
             let formatted = this.formatValue(value, `model.${valuePath}`);
@@ -71,7 +74,10 @@ export default class MdDatetimeComponent extends Component {
         computed('date', {
           get() {
             let val = this.date;
-            return val ? (val instanceof Date ? moment.utc(val) : moment(val, this.altFormat || null)) : null;
+            if (!val) return null;
+            if (val instanceof Date) return moment.utc(val);
+            let formats = [this.altFormat, this.format].filter(Boolean);
+            return moment(val, formats.length ? formats : null);
           },
           set(key, value) {
             let formatted = this.formatValue(value, 'date');
@@ -135,7 +141,7 @@ export default class MdDatetimeComponent extends Component {
     if (this.precision === 'Time') {
       formattedDate = dayjs(value).format('YYYY-MM-DDTHH:mm:ss[Z]');
     } else {
-      formattedDate = dayjs(value).format(this.format);
+      formattedDate = dayjs(value).format(this.altFormat || this.format);
     }
 
     // Use bracket notation for dynamic property access
