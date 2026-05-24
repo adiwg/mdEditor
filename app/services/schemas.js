@@ -36,9 +36,23 @@ export default class SchemasService extends Service {
   fetchSchemas = task({ drop: true }, async (url) => {
     await timeout(1000);
 
-    const parser = new $RefParser(); // Use $RefParser directly here
+    const parser = new $RefParser();
 
-    return await parser.resolve(url).then($refs => {
+    // Override the default HTTP resolver to use fetch() and return text.
+    // The default resolver uses Buffer.from() which is a Node.js global not
+    // available in the browser. Returning a string bypasses all Buffer usage.
+    const browserHttpResolver = {
+      read(file) {
+        return fetch(file.url).then(res => {
+          if (!res.ok) {
+            throw new Error(`HTTP ${res.status}: ${file.url}`);
+          }
+          return res.text();
+        });
+      }
+    };
+
+    return await parser.resolve(url, { resolve: { http: browserHttpResolver } }).then($refs => {
       let paths = $refs.paths();
       let values = parser.$refs.values();
 

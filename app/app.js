@@ -5,6 +5,12 @@
  * @category docs
  */
 
+// @apidevtools/json-schema-ref-parser references Buffer as a global in browser builds.
+// Provide a minimal stub so isBuffer() checks pass without error.
+if (typeof Buffer === 'undefined') {
+  window.Buffer = { isBuffer: () => false };
+}
+
 import Route from '@ember/routing/route';
 import Component from '@ember/component';
 import Application from '@ember/application';
