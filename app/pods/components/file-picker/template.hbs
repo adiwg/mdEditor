@@ -8,7 +8,8 @@
   <input
     aria-label='File picker'
     type='file'
-    class='file-picker__input {{unless this.selectOnClick "file-picker__input--no-click"}}'
+    class='file-picker__input
+      {{unless this.selectOnClick "file-picker__input--no-click"}}'
     accept={{this.accept}}
     {{on 'change' this.handleFileChange}}
   />

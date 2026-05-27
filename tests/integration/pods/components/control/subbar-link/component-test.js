@@ -3,26 +3,26 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | control/subbar link', function(hooks) {
+module('Integration | Component | control/subbar link', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
+  test('it renders', async function (assert) {
     assert.expect(3);
-    // Set any properties with this.set('myProperty', 'value');
-    this.set('test', function(){
+
+    this.set('handleClick', () => {
       assert.ok(true, 'called action');
     });
-    // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs`{{control/subbar-link  text="foo" click=test}}`);
+    await render(hbs`
+      <Control::SubbarLink @text="foo" @click={{this.handleClick}} />
+    `);
 
     assert.equal(find('button').textContent.trim(), 'foo');
 
     await click('button');
 
-    // Template block usage:
     await render(hbs`
-      <Control::SubbarLink @text="foo" @click={{test}}>
+      <Control::SubbarLink @text="foo" @click={{this.handleClick}}>
         <section>template block text</section>
       </Control::SubbarLink>
     `);

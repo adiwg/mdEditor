@@ -62,6 +62,12 @@
     background-color: $gray-lighter;
   }
 
+  &.tree-drag-target {
+    background-color: color.adjust($orange, $lightness: 12%);
+    outline: 2px dashed $orange;
+    outline-offset: -2px;
+  }
+
   .tree-cell {
     display: table-cell;
     vertical-align: middle;
@@ -96,7 +102,48 @@
     background-color: $gray-base;
   }
 
+  .tree-drop-indicator {
+    background: #f47c3c;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    border-radius: 10px;
+    padding: 2px 8px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
   .tree-label-text {
     margin-right: 25px;
   }
+}
+
+.tree-drag-preview {
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+  background: #fff;
+  opacity: 0.95;
+}
+
+.tree-drag-floating {
+  border: 1px solid rgba(41, 171, 224, 0.35);
+  border-radius: 4px;
+  background: #fff;
+  opacity: 0.95;
+  transform: scale(0.99);
+}
+
+// Global fallback: ensure drag source is visibly active regardless of addon scope.
+.js-draggableObject.is-dragging-object .tree-leaf {
+  opacity: 0.7;
+  outline: 2px solid rgba(41, 171, 224, 0.55);
+  outline-offset: -2px;
+}
+
+// Global fallback: ensure valid drop targets are clearly highlighted.
+.draggable-object-target.accepts-drag .tree-leaf,
+.accepts-drag .tree-leaf {
+  background-color: rgba(244, 124, 60, 0.4) !important;
+  outline: 2px dashed #f47c3c;
+  outline-offset: -2px;
 }

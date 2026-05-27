@@ -30,7 +30,10 @@
       {{#if definition}}
         <h4 class='tab-header'>
           {{#liquid-if
-            predicate=definition use='fade' growDuration=100 class='inline-block'
+            predicate=definition
+            use='fade'
+            growDuration=100
+            class='inline-block'
           }}
             {{#if definition.isNew}}
               Add Profile Definition

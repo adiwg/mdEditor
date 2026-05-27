@@ -13,8 +13,6 @@ module.exports = {
     'no-curly-component-invocation': {
       allow: ['head-layout', 'to-elsewhere'],
     },
-    // TODO(mdEditor-template-lint): re-enable and fix implicit-this violations during template cleanup
-    'no-implicit-this': false,
     // TODO(mdEditor-template-lint): re-enable and fix no-curly-component-invocation violations during template clean up
     'no-curly-component-invocation': false,
   },

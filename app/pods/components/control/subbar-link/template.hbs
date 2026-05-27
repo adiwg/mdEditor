@@ -10,7 +10,7 @@
       class='btn btn-lg
         {{concat "btn-" this.clickButtonType}}
         btn-block md-btn-responsive'
-      click={{this.click}}
+      {{on 'click' this.handleButtonClick bubbles=false}}
       disabled={{this.disabled}}
     >{{fa-icon this.clickButtonIcon}} {{this.clickTxt}}</button>
   {{/if}}
