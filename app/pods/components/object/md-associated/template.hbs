@@ -31,18 +31,18 @@
 
 {{#if this.model.mdRecordId}}
 
-  {{#layout/md-card
-    title='Linked Record'
-    shadow=false
-    block=false
-    muted=false
-    collapsible=false
-    collapsed=false
-    btnText='Edit'
-    btnClass='success{{unless this.linkedRecord "disabled"}}'
-    btnAction=(fn this.editLinked this.linkedRecord)
-    btnIcon='pencil'
-  }}
+  <Layout::MdCard
+    @title='Linked Record'
+    @shadow={{false}}
+    @cardBlock={{false}}
+    @muted={{false}}
+    @collapsible={{false}}
+    @collapsed={{false}}
+    @btnText='Edit'
+    @btnClass='success{{unless this.linkedRecord "disabled"}}'
+    @btnAction={{fn this.editLinked this.linkedRecord}}
+    @btnIcon='pencil'
+  >
     <div class='card-block'>
       {{#if this.linkedRecord}}
         <Object::MdCitation::Preview::Body
@@ -118,7 +118,7 @@
       </div>
     {{/if}}
 
-  {{/layout/md-card}}
+  </Layout::MdCard>
 
 {{else}}
   <div class='form-group'>

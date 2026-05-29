@@ -10,11 +10,9 @@ module.exports = {
     'no-bare-strings': false,
     // TODO(mdEditor-template-lint): move actions to controller level and re-enable
     'no-route-action': false,
-    'no-curly-component-invocation': {
-      allow: ['head-layout', 'to-elsewhere'],
-    },
-    // TODO(mdEditor-template-lint): re-enable and fix no-curly-component-invocation violations during template clean up
     'no-curly-component-invocation': false,
+    // TODO(mdEditor-template-lint): re-enable and fix no-curly-component-invocation violations during template clean up
+    'no-implicit-this': { allow: ['liquid-outlet'] },
   },
   overrides: [
     {

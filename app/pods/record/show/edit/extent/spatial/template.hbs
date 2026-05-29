@@ -1,10 +1,10 @@
 <section>
   {{leaflet-table
     layers=(get
-      model
+      this.model
       (concat
         'json.metadata.resourceInfo.extent.'
-        extentId
+        this.extentId
         '.geographicExtent.0.geographicElement'
       )
     )

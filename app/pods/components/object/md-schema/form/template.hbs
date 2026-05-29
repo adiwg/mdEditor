@@ -42,7 +42,7 @@
   showValidations=true
 }}
 
-{{#liquid-unless predicate=this.record.isNew use='toDown'}}
+<LiquidUnless @predicate={{this.record.isNew}} @use='toDown'>
   <div class='form-group from-group-inlne'>
     <label>Apply Globally?</label>
     <div class='form-control'>
@@ -59,6 +59,6 @@
       </div>
     </div>
   </div>
-{{/liquid-unless}}
+</LiquidUnless>
 
 {{yield}}

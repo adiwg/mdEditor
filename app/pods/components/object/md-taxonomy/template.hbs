@@ -30,18 +30,18 @@
     </div>
   </div>
 
-  {{#layout/md-card
-    collapsible=true
-    collapsed=false
-    shadow=false
-    maximizable=false
-    spotlightEnabled=false
-    profilePath='record.taxonomy.classificationPreview'
-  }}
+  <Layout::MdCard
+    @collapsible={{true}}
+    @collapsed={{false}}
+    @shadow={{false}}
+    @maximizable={{false}}
+    @spotlightEnabled={{false}}
+    @profilePath='record.taxonomy.classificationPreview'
+  >
     {{object/md-taxonomy/classification
       model=this.model.taxonomicClassification
       preview=true
       profilePath='record.taxonomy.classificationPreview'
     }}
-  {{/layout/md-card}}
+  </Layout::MdCard>
 </Layout::MdCard>

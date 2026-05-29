@@ -1,5 +1,5 @@
 {{input/md-input
-  model=record
+  model=this.record
   valuePath='title'
   label='Title'
   placeholder='Enter a short title for the profile.'
@@ -7,7 +7,7 @@
 }}
 
 {{input/md-textarea
-  model=record
+  model=this.record
   valuePath='description'
   label='Description'
   placeholder='Enter a description of the profile.'
@@ -15,13 +15,13 @@
 }}
 
 {{input/md-select
-  model=record
+  model=this.record
   path='profileId'
   label='Profile Definition'
   valuePath='identifier'
   namePath='title'
   placeholder='Select the profile definition.'
-  objectArray=definitions.profiles
+  objectArray=this.definitions.profiles
   searchEnabled=true
   showValidations=true
   allowClear=true
@@ -38,13 +38,13 @@
       </div>
       <div class='card-block no-padding'>
         <div class='list-group no-margin md-itis-taxalist'>
-          {{#each notSelected as |schema|}}
-            {{#liquid-unless
-              predicate=(contains schema selected)
-              class=(concat 'list-group-item ' (if schema 'md-itis-unselected'))
-              enableGrowth=true
-              shrinkDelay=500
-            }}
+          {{#each this.notSelected as |schema|}}
+            <LiquidUnless
+              @predicate={{contains this.schema this.selected}}
+              @class='list-group-item {{if schema "md-itis-unselected"}}'
+              @enableGrowth={{true}}
+              @shrinkDelay={{500}}
+            >
               <div class='media list-group-item'>
                 <div class='media-body'>
                   <h4 class='media-heading'>
@@ -62,11 +62,11 @@
                   <button
                     type='button'
                     class='btn btn-success btn-lg btn-block'
-                    {{on 'click' (fn this.selectItem schema)}}
+                    {{on 'click' (fn this.selectItem this.schema)}}
                   >Add</button>
                 </div>
               </div>
-            {{/liquid-unless}}
+            </LiquidUnless>
           {{else}}
             <div class='list-group-item'>
               <p class='list-group-item-text'>
@@ -96,13 +96,13 @@
             </p>
           </div>
           {{/liquid-if}} --}}
-          {{#each selected as |schema|}}
-            {{#liquid-if
-              predicate=(contains schema selected)
-              class='list-group-item md-itis-selected'
-              enableGrowth=true
-              shrinkDelay=500
-            }}
+          {{#each this.selected as |schema|}}
+            <LiquidIf
+              @predicate={{contains this.schema this.selected}}
+              @class='list-group-item md-itis-selected'
+              @enableGrowth={{true}}
+              @shrinkDelay={{500}}
+            >
               <div class='media'>
                 <div class='media-body'>
                   <h4 class='media-heading'>
@@ -120,11 +120,11 @@
                   <button
                     type='button'
                     class='btn btn-danger btn-lg btn-block'
-                    {{on 'click' (fn this.deselectItem schema)}}
+                    {{on 'click' (fn this.deselectItem this.schema)}}
                   >Remove</button>
                 </div>
               </div>
-            {{/liquid-if}}
+            </LiquidIf>
           {{else}}
             <div class='list-group-item'>
               <p class='list-group-item-text'>

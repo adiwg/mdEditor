@@ -1,5 +1,5 @@
-<div class='lead'>Editing Thesaurus #{{model.id}}
-  <small class='text-muted'>{{model.thesaurus.citation.title}}</small>
+<div class='lead'>Editing Thesaurus #{{this.model.id}}
+  <small class='text-muted'>{{this.model.thesaurus.citation.title}}</small>
 </div>
 <div class='row'>
   <div class='col-md-6'>
@@ -28,16 +28,16 @@
         id='md-keyword-tree'
       >
         {{tree-view
-          model=model.thesaurus.keywords
-          selected=(get model.model (concat model.path '.keyword'))
+          model=this.model.thesaurus.keywords
+          selected=(get this.model.model (concat this.model.path '.keyword'))
           select=(route-action 'selectKeyword')
           disableCheck=true
         }}
       </div>
       <div role='tabpanel' class='tab-pane fade' id='md-keyword-search'>
         {{tree-search
-          model=model.thesaurus.keywords
-          selected=(get model.model (concat model.path '.keyword'))
+          model=this.model.thesaurus.keywords
+          selected=(get this.model.model (concat this.model.path '.keyword'))
           select=(route-action 'selectKeyword')
         }}
       </div>
@@ -52,7 +52,7 @@
           <input
             type='checkbox'
             name='fullPath'
-            checked={{model.keywords.fullPath}}
+            checked={{this.model.keywords.fullPath}}
             onChange={{route-action 'changeFullPath'}}
           />
           Full Path
@@ -60,7 +60,7 @@
       </div>
     </div>
     {{object/md-keyword-list
-      model=(get model.model model.path)
+      model=(get this.model.model this.model.path)
       deleteKeyword=(route-action 'removeKeyword')
       editThesaurus=false
     }}

@@ -1,6 +1,6 @@
 import { and } from '@ember/object/computed';
 import Component from '@ember/component';
-import { computed, get, set } from '@ember/object';
+import { action, computed, get, set } from '@ember/object';
 import { once } from '@ember/runloop';
 import { validator, buildValidations } from 'ember-cp-validations';
 
@@ -83,11 +83,9 @@ const theComp = Component.extend(Validations, {
   collapse: true,
   isCollapsed: and('collapsible', 'collapse'),
 
-  actions: {
-    toggleCollapse() {
-      this.toggleProperty('collapse');
-    }
-  }
+  toggleCollapse: action(function () {
+    this.toggleProperty('collapse');
+  }),
 });
 
 export { Validations, theComp as default };
