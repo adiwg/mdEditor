@@ -4,12 +4,15 @@ on:
   push:
     branches:
       - develop
-      - ember-migration
   pull_request:
     branches:
       - develop
       - master
       - ember-migration
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   lint:
