@@ -4,10 +4,12 @@ on:
   push:
     branches:
       - develop
+      - ember-migration
   pull_request:
     branches:
       - develop
       - master
+      - ember-migration
 
 jobs:
   lint:
