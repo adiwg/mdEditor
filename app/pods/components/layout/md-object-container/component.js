@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import { computed } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
 @classic
 export default class MdObjectContainerComponent extends Component {
@@ -35,9 +35,12 @@ export default class MdObjectContainerComponent extends Component {
   */
   collapseProperty = true;
 
-  @computed('collapsible', 'collapseProperty')
+  @tracked _isCollapsible;
   get isCollapsible() {
-    return this.collapsible && this.collapseProperty;
+    return this._isCollapsible ?? (this.collapsible && this.collapseProperty);
+  }
+  set isCollapsible(value) {
+    this._isCollapsible = value;
   }
 
   get dataSpy() {

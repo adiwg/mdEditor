@@ -1,7 +1,7 @@
 import { alias, equal, or } from '@ember/object/computed';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import { Promise } from 'rsvp';
@@ -46,7 +46,7 @@ export default class MdTranslateComponent extends Component {
    */
   forceValid = false;
 
-  writer = null;
+  @tracked writer = null;
   @tracked result = null;
   @tracked errorLevel = null;
   @tracked errors = null;
@@ -126,9 +126,12 @@ export default class MdTranslateComponent extends Component {
     return null;
   }
 
-  @computed('writer', 'writerOptions')
+  @tracked _writeObj;
   get writeObj() {
-    return this.writerOptions.findBy('value', this.writer);
+    return this._writeObj ?? this.writerOptions.findBy('value', this.writer);
+  }
+  set writeObj(value) {
+    this._writeObj = value;
   }
 
   get writerType() {

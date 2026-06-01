@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import { computed } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
 @classic
 export default class MdButtonComponent extends Component {
@@ -76,9 +76,12 @@ export default class MdButtonComponent extends Component {
    * @category computed
    * @requires text
    */
-  @computed('text')
+  @tracked _responsive;
   get responsive() {
-    return this.text.length > 12 || this.text.indexOf(' ') > 0;
+    return this._responsive ?? (this.text.length > 12 || this.text.indexOf(' ') > 0);
+  }
+  set responsive(value) {
+    this._responsive = value;
   }
 
   click(event) {
