@@ -1,15 +1,19 @@
-<NestableDraggableObject
-  @content={{this}}
-  @isDraggable={{model.draggable}}
-  @dragStartAction={{this.dragStart}}
->
-  <DraggableObjectTarget
-    @action={{handleDrop}}
-    @model={{model}}
-    @validateDragEvent={{validateDragEvent}}
-    @validateDrag={{validateDrag}}
-    @dragged={{tree.dragged}}
-  >
+{{#nestable-draggable-object
+  content=this
+  isDraggable=model.draggable
+  dragStartAction=(action 'dragStart')
+  dragMoveAction=(action 'dragMove')
+  dragEndAction=(action 'dragEnd')
+}}
+  {{#tree-draggable-target
+    action=(action 'handleDropAction')
+    model=model
+    validateDragEvent=validateDragEvent
+    validateDrag=validateDrag
+    dragged=tree.dragged
+    dragOverAction=(action 'dragOver')
+    dragOutAction=(action 'dragOut')
+  }}
     {{tree-leaf
       model=model
       inTree=true
@@ -21,22 +25,22 @@
       disableCheck=disableCheck
       labelComponent=labelComponent
     }}
-  </DraggableObjectTarget>
+  {{/tree-draggable-target}}
+{{/nestable-draggable-object}}
 
-  {{#if model.isExpanded}}
-    {{tree-view
-      model=model.children
-      select=select
-      selected=selected
-      sortKeys=sortKeys
-      hover=hover
-      parentDepth=nodeDepth
-      parentPath=nodePath
-      disableCheck=disableCheck
-      labelComponent=labelComponent
-      tree=tree
-      validateDrag=tree.validateDrag
-      handleDrop=tree.handleDrop
-    }}
-  {{/if}}
-</NestableDraggableObject>
+{{#if model.isExpanded}}
+  {{tree-view
+    model=model.children
+    select=select
+    selected=selected
+    sortKeys=sortKeys
+    hover=hover
+    parentDepth=nodeDepth
+    parentPath=nodePath
+    disableCheck=disableCheck
+    labelComponent=labelComponent
+    tree=tree
+    validateDrag=tree.validateDrag
+    handleDrop=tree.handleDrop
+  }}
+{{/if}}

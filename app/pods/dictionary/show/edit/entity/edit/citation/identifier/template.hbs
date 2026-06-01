@@ -1,12 +1,12 @@
 <h4 class='section-header'>
   Editing Identifier
-  {{control/md-status model=parentModel}}
+  {{control/md-status model=this.parentModel}}
 </h4>
 
 <div class=''>
   {{object/md-identifier
     class=''
-    model=model
+    model=this.model
     profilePath='dictionary.entity.citation.identifier'
     data-spy='Identifier'
   }}
@@ -26,7 +26,7 @@
   named='md-scroll-spy-dict-edit'
   send=(component
     'control/md-scroll-spy'
-    scrollInit=scrollTo
+    scrollInit=this.scrollTo
     setScrollTo=(route-action 'setScrollTo')
   )
 }}

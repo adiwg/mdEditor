@@ -1,12 +1,12 @@
 <h4 class='section-header'>
   Editing Alternate Identifier:
-  {{model.identifier}}
+  {{this.model.identifier}}
   {{control/md-status model=(compute (route-action 'parentModel'))}}
 </h4>
 
 <div class=''>
   {{object/md-identifier
-    model=model
+    model=this.model
     profilePath='record.lineage.citation.identifier'
     data-spy='Identifier'
   }}
@@ -26,7 +26,7 @@
   named='md-scroll-spy-record-edit'
   send=(component
     'control/md-scroll-spy'
-    scrollInit=scrollTo
+    scrollInit=this.scrollTo
     setScrollTo=(route-action 'setScrollTo')
   )
 }}

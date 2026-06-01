@@ -10,7 +10,13 @@
   </button>
   <Control::MdButtonConfirm
     class='btn btn-sm btn-danger'
-    @onConfirm={{fn this.deleteItem this.record this.index this.isSelected this.clickOnRow}}
+    @onConfirm={{fn
+      this.deleteItem
+      this.record
+      this.index
+      this.isSelected
+      this.clickOnRow
+    }}
   >
     <span class='fa fa-times'></span>
     Delete

@@ -2,21 +2,22 @@
   <div class='col-sm-9'>
     {{sb-tree
       labelComponent='sb-tree-label'
-      model=model
-      selected=selected
-      select=(fn this.send 'selectRecord')
+      model=this.model
+      selected=this.selected
+      select=this.selectRecord
+      onDropComplete=this.onDropComplete
     }}
   </div>
   <div class='col-sm-3'>
     <div class='md-control-sidebar'>
-      {{#if hasToken}}
-        {{#if tokenService.token}}
+      {{#if this.hasToken}}
+        {{#if this.tokenService.token}}
           <div class='card'>
             <div class='card-block'>
               Token added for
-              {{tokenService.userName}}
+              {{this.tokenService.userName}}
               Expires
-              {{moment-format tokenService.expiry 'LLL'}}
+              {{moment-format this.tokenService.expiry 'LLL'}}
             </div>
           </div>
           <hr />
@@ -24,8 +25,8 @@
         <button
           type='button'
           class='btn btn-lg btn-primary'
-          disabled={{if canPublish false true}}
-          {{on 'click' (fn this.send 'publish')}}
+          disabled={{if this.canPublish false true}}
+          {{on 'click' this.publish}}
         >
           Publish
         </button>
@@ -37,8 +38,8 @@
         <button
           type='button'
           class='btn btn-lg btn-primary add-token-button'
-          disabled={{if rawToken false true}}
-          {{on 'click' (fn this.send 'addToken')}}
+          disabled={{if this.rawToken false true}}
+          {{on 'click' this.addToken}}
         >
           Add token
         </button>

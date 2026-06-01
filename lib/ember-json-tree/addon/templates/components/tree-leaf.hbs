@@ -69,6 +69,11 @@
       </span>
     </span>
   {{/if}}
+  {{#if model._isDragTarget}}
+    <span class='tree-cell'>
+      <span class='tree-drop-indicator'>DROP TARGET</span>
+    </span>
+  {{/if}}
 {{else}}
   {{tree-label
     labelComponent=labelComponent

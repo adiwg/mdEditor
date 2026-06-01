@@ -1,10 +1,10 @@
 <h4 class='section-header'>
-  Editing Raster Description #{{rasterId}}
-  {{control/md-status model=parentModel}}
+  Editing Raster Description #{{this.rasterId}}
+  {{control/md-status model=this.parentModel}}
 </h4>
 
 {{object/md-raster
-  model=model
+  model=this.model
   editAttribute=this.editAttribute
   deleteAttrGroup=this.deleteAttrGroup
   addAttrGroup=this.addAttrGroup
@@ -25,8 +25,8 @@
   named='md-scroll-spy-record-edit'
   send=(component
     'control/md-scroll-spy'
-    scrollInit=scrollTo
+    scrollInit=this.scrollTo
     setScrollTo=this.setScrollTo
-    refresh=refresh
+    refresh=this.refresh
   )
 }}

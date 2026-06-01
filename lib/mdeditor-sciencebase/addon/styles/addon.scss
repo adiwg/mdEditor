@@ -27,8 +27,55 @@
     }
   }
 
+  .tree-leaf {
+    transition: background-color 120ms linear, outline-color 120ms linear;
+  }
+
+  .tree-leaf:not(.node-disabled):not(.tree-highlight):hover {
+    background-color: rgba(41, 171, 224, 0.14);
+  }
+
   .tree-label-dropped {
     color: #f47c3c;
+    background-color: rgba(244, 124, 60, 0.15);
+  }
+
+  // Override the default barely-visible light orange with a strong orange
+  // outline when a valid drag target is being hovered
+  .draggable-object-target.accepts-drag .tree-leaf {
+    background-color: rgba(244, 124, 60, 0.4) !important;
+    outline: 2px dashed #f47c3c;
+    outline-offset: -2px;
+  }
+
+  // Some render paths apply accepts-drag on nested wrappers; keep highlight strong
+  .accepts-drag .tree-leaf {
+    background-color: rgba(244, 124, 60, 0.4) !important;
+    outline: 2px dashed #f47c3c;
+    outline-offset: -2px;
+  }
+
+  .tree-leaf.tree-drag-target {
+    background-color: rgba(244, 124, 60, 0.4) !important;
+    outline: 2px dashed #f47c3c;
+    outline-offset: -2px;
+  }
+
+  // Fade the source row while it is being dragged
+  .is-dragging-object > .draggable-object-target > .tree-leaf {
+    opacity: 0.7;
+  }
+
+  // Fallback source-row styling for alternate component wrapper shapes
+  .js-draggableObject.is-dragging-object .tree-leaf {
+    opacity: 0.7;
+    outline: 2px solid rgba(41, 171, 224, 0.55);
+    outline-offset: -2px;
+  }
+
+  // Show a move cursor on draggable rows
+  .js-draggableObject[draggable='true'] {
+    cursor: move;
   }
 
 .sb-tree-root > div > .tree-trunk {

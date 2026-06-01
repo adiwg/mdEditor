@@ -3,7 +3,7 @@
     model=this
     valuePath='name'
     placeholder='Descriptive name for the domain value.'
-    profilePath=(concat profilePath '.domainItem.name')
+    profilePath=(concat this.profilePath '.domainItem.name')
     showValidations=true
   }}
 </td>
@@ -12,7 +12,7 @@
     model=this
     valuePath='value'
     placeholder='Value of the domain item.'
-    profilePath=(concat profilePath '.domainItem.value')
+    profilePath=(concat this.profilePath '.domainItem.value')
     showValidations=true
   }}
 </td>
@@ -21,7 +21,7 @@
     model=this
     valuePath='definition'
     placeholder='A brief definition for the domain item.'
-    profilePath=(concat profilePath '.domainItem.definition')
+    profilePath=(concat this.profilePath '.domainItem.definition')
     showValidations=true
   }}
 </td>

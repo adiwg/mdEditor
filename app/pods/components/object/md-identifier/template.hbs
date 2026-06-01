@@ -30,7 +30,7 @@
   profilePath=(concat this.profilePath '.namespace')
 }}
 
-{{#liquid-unless predicate=this.isCollapsed}}
+<LiquidUnless @predicate={{this.isCollapsed}}>
   {{input/md-input
     value=this.effectiveModel.version
     placeholder='Enter the version for the identifier.'
@@ -62,15 +62,11 @@
       }}
     </Layout::MdCard>
   {{/unless}}
-{{/liquid-unless}}
+</LiquidUnless>
 
 {{#if this.collapsible}}
   <p class='text-right'>
-    <button
-      type='button'
-      class='plain-link'
-      {{on 'click' (action 'toggleCollapse')}}
-    >
+    <button type='button' class='plain-link' {{on 'click' this.toggleCollapse}}>
       {{fa-icon (if this.isCollapsed 'caret-down' 'caret-up')}}
       {{if this.isCollapsed 'More' 'Less'}}
     </button>

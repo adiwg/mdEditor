@@ -1,5 +1,6 @@
 import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
+import { action } from '@ember/object';
 import { or } from '@ember/object/computed';
 
 @classic
@@ -80,4 +81,14 @@ export default class SubbarLinkComponent extends Component {
   @or('clickText', 'text') clickTxt;
   @or('clickType', 'btnType') clickButtonType;
   @or('clickIcon', 'icon') clickButtonIcon;
+
+  @action
+  handleButtonClick(event) {
+    event.stopPropagation();
+
+    let clickAction = this.click;
+    if (typeof clickAction === 'function') {
+      clickAction(event);
+    }
+  }
 }

@@ -2,7 +2,13 @@
   {{#if btn.confirm}}
     <Control::MdButtonConfirm
       @class='btn btn-sm btn-{{btn.type}}'
-      @onConfirm={{fn this.executeAction btn this.column this.index this.record}}
+      @onConfirm={{fn
+        this.executeAction
+        btn
+        this.column
+        this.index
+        this.record
+      }}
     >
       <span class='fa fa-{{btn.icon}}'></span>
       {{btn.title}}
@@ -11,7 +17,10 @@
     <button
       type='button'
       class='btn btn-sm btn-{{btn.type}}'
-      {{on 'click' (fn this.executeAction btn this.column this.index this.record)}}
+      {{on
+        'click'
+        (fn this.executeAction btn this.column this.index this.record)
+      }}
     >
       {{fa-icon btn.icon}}
       {{btn.title}}

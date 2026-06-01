@@ -1,9 +1,10 @@
 <div class='dashboard'>
   <div class='row'>
     <div class='col-xs-12 col-sm-4'>
-      {{#layout/md-card
-        class='card-inverse card-primary text-center' block=false
-      }}
+      <Layout::MdCard
+        @class='card-inverse card-primary text-center'
+        @cardBlock={{false}}
+      >
         <div class='card-block'>
           <div class='card-title row'>
             <div class='col-xs-3'>
@@ -25,12 +26,13 @@
             </div>
           </div>
         {{/link-to}}
-      {{/layout/md-card}}
+      </Layout::MdCard>
     </div>
     <div class='col-xs-12 col-sm-4'>
-      {{#layout/md-card
-        class='card-inverse card-success text-center' block=false
-      }}
+      <Layout::MdCard
+        @class='card-inverse card-success text-center'
+        @cardBlock={{false}}
+      >
         <div class='card-block'>
           <div class='card-title row'>
             <div class='col-xs-3'>
@@ -52,10 +54,13 @@
             </div>
           </div>
         {{/link-to}}
-      {{/layout/md-card}}
+      </Layout::MdCard>
     </div>
     <div class='col-xs-12 col-sm-4'>
-      {{#layout/md-card class='card-inverse card-info text-center' block=false}}
+      <Layout::MdCard
+        @class='card-inverse card-info text-center'
+        @cardBlock={{false}}
+      >
         <div class='card-block'>
           <div class='card-title row'>
             <div class='col-xs-3'>
@@ -77,7 +82,7 @@
             </div>
           </div>
         {{/link-to}}
-      {{/layout/md-card}}
+      </Layout::MdCard>
     </div>
   </div>
   <hr />

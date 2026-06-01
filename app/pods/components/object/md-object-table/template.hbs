@@ -179,7 +179,11 @@
                               </button> --}}
                         <Control::MdButtonConfirm
                           @class='btn btn-{{this.btnSize}} btn-danger'
-                          @onConfirm={{fn this.deleteItem this.displayItems index}}
+                          @onConfirm={{fn
+                            this.deleteItem
+                            this.displayItems
+                            index
+                          }}
                         >
                           <span class='fa fa-times'></span>
                           Delete

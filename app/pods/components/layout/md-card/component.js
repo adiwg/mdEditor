@@ -134,11 +134,11 @@ export default class MdCardComponent extends Component {
   /**
    * If true, the card-block class will be added.
    *
-   * @property block
+   * @property cardBlock
    * @type {Boolean}
    * @default true
    */
-  block = true;
+  cardBlock = true;
 
   /**
    * If true, the card-flex class will be added.
