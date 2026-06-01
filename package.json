@@ -24,8 +24,8 @@
     "build": "ember build --environment=production && cp dist/index.html dist/404.html",
     "lint": "concurrently \"yarn:lint:*(!fix)\" --names \"lint:\"",
     "lint:fix": "concurrently \"yarn:lint:*:fix\" --names \"fix:\"",
-    "lint:hbs": "ember-template-lint .",
-    "lint:hbs:fix": "ember-template-lint . --fix",
+    "lint:hbs": "DISABLE_V8_COMPILE_CACHE=1 ember-template-lint .",
+    "lint:hbs:fix": "DISABLE_V8_COMPILE_CACHE=1 ember-template-lint . --fix",
     "lint:js": "eslint .",
     "lint:js:fix": "eslint . --fix",
     "lint:sass": "stylelint 'app/styles/**/*.scss'",
@@ -201,7 +201,7 @@
       "eslint --fix",
       "prettier --write"
     ],
-    "*.hbs": "ember-template-lint --fix",
+    "*.hbs": "DISABLE_V8_COMPILE_CACHE=1 ember-template-lint --fix",
     "*.{scss,yaml}": "prettier --write"
   },
   "ember-addon": {
