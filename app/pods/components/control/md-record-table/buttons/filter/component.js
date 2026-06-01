@@ -1,5 +1,4 @@
 import { inject as service } from '@ember/service';
-import { computed } from '@ember/object';
 import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import { once } from '@ember/runloop';
@@ -8,7 +7,6 @@ import { once } from '@ember/runloop';
 export default class FilterComponent extends Component {
   @service flashMessages;
 
-  @computed('selectedItems.[]')
   get showButton() {
     return this.selectedItems?.length >= 1;
   }

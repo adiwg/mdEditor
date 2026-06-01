@@ -1,6 +1,7 @@
 import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
 /**
  * @module mdeditor
@@ -9,9 +10,15 @@ import { action, computed } from '@ember/object';
 
 @classic
 export default class MdKeywordListComponent extends Component {
-  @computed('model.thesaurus.identifier.0.identifier')
+  @tracked _readOnly;
   get readOnly() {
-    return this.model?.thesaurus?.identifier?.[0]?.identifier !== 'custom';
+    return (
+      this._readOnly ??
+      (this.model?.thesaurus?.identifier?.[0]?.identifier !== 'custom')
+    );
+  }
+  set readOnly(value) {
+    this._readOnly = value;
   }
 
   @action
