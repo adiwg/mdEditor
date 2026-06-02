@@ -1,6 +1,6 @@
 <FilePicker
   @class='map-file-picker'
-  @fileLoaded='readData'
+  @fileLoaded={{this.readData}}
   @progressValue={{this.progress}}
   @selectOnClick={{false}}
   @preview={{false}}
@@ -14,10 +14,10 @@
     @lat={{this.lat}}
     @lng={{this.lng}}
     @zoom={{this.zoom}}
-    @onLoad={{action 'setup'}}
+    @onLoad={{this.setup}}
     @editLayers={{this.layers}}
-    @closeForm={{action 'closeForm'}}
-    @showForm={{action 'showForm'}}
+    @closeForm={{this.closeForm}}
+    @showForm={{this.showForm}}
   >
     {{! Specify child layer components here }}
     <LayerGroup @name='Terrain' @baselayer={{true}} @default={{true}}>
@@ -50,14 +50,14 @@
       {{/each}}
     </FeatureGroup>
 
-    {{layer-control}}
+    <LayerControl />
   </LeafletDraw>
 
   {{#if this.formData}}
     <h4 class='table-title'>Edit Feature Properties
       <button
         class='btn btn-xs btn-info pull-right'
-        {{on 'click' (action 'closeForm')}}
+        {{on 'click' this.closeForm}}
         title='Close Form'
         type='button'
       >
@@ -73,9 +73,9 @@
       @columnComponents={{hash
         leaflet-table-row-actions=(component
           'leaflet-table-row-actions'
-          showForm=(action 'showForm')
-          zoomTo=(action 'zoomTo')
-          deleteFeature=(action 'deleteFeature')
+          showForm=this.showForm
+          zoomTo=this.zoomTo
+          deleteFeature=this.deleteFeature
         )
       }}
       @showGlobalFilter={{false}}
@@ -94,9 +94,9 @@
                 {{body.row
                   record=record
                   index=index
-                  showForm=(action 'showForm')
-                  zoomTo=(action 'zoomTo')
-                  deleteFeature=(action 'deleteFeature')
+                  showForm=this.showForm
+                  zoomTo=this.zoomTo
+                  deleteFeature=this.deleteFeature
                 }}
                 {{#if (exists-in body.expandedItems record)}}
                   {{body.RowExpand

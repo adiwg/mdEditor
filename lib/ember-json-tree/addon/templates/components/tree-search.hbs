@@ -6,7 +6,7 @@
       type='text'
       class='form-control input-search'
       placeholder='Type to search...'
-      value=searchString
+      value=this.searchString
     }}
   </div>
   <div class='form-group chk-grp'>
@@ -16,7 +16,11 @@
       </div> }}
     <div class='checkbox'>
       <label>
-        {{input type='checkbox' class='chk-exact-match' checked=exactMatch}}
+        {{input
+          type='checkbox'
+          class='chk-exact-match'
+          checked=this.exactMatch
+        }}
         Exact Match
       </label>
     </div>
@@ -31,12 +35,12 @@
         </button>
     </div> }}
   <div class='form-group text-info inline-block'>
-    {{#if searchString.length}}
-      {{actualTotal}}
+    {{#if this.searchString.length}}
+      {{this.actualTotal}}
       matches found.
-      {{#if overLimit}}
+      {{#if this.overLimit}}
         Displaying first
-        {{limit}}
+        {{this.limit}}
         results...
       {{/if}}
     {{/if}}
@@ -45,12 +49,12 @@
 {{! template-lint-disable no-inline-styles }}
 <div class='search-output' style='opacity: 1;'>
   <ul class='list-group'>
-    {{#each (sort-by 'label' searchResult) as |child|}}
+    {{#each (sort-by 'label' this.searchResult) as |child|}}
       {{tree-leaf
         model=child
-        highlight=searchString
-        select=select
-        selected=selected
+        highlight=this.searchString
+        select=this.select
+        selected=this.selected
       }}
     {{/each}}
   </ul>

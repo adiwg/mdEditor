@@ -1,46 +1,46 @@
 {{#nestable-draggable-object
   content=this
-  isDraggable=model.draggable
-  dragStartAction=(action 'dragStart')
-  dragMoveAction=(action 'dragMove')
-  dragEndAction=(action 'dragEnd')
+  isDraggable=this.model.draggable
+  dragStartAction=this.dragStart
+  dragMoveAction=this.dragMove
+  dragEndAction=this.dragEnd
 }}
   {{#tree-draggable-target
-    action=(action 'handleDropAction')
-    model=model
-    validateDragEvent=validateDragEvent
-    validateDrag=validateDrag
-    dragged=tree.dragged
-    dragOverAction=(action 'dragOver')
-    dragOutAction=(action 'dragOut')
+    action=this.handleDropAction
+    model=this.model
+    validateDragEvent=this.validateDragEvent
+    validateDrag=this.validateDrag
+    dragged=this.tree.dragged
+    dragOverAction=this.dragOver
+    dragOutAction=this.dragOut
   }}
     {{tree-leaf
-      model=model
+      model=this.model
       inTree=true
-      select=select
-      selected=selected
-      hover=hover
-      nodeDepth=nodeDepth
-      nodePath=nodePath
-      disableCheck=disableCheck
-      labelComponent=labelComponent
+      select=this.select
+      selected=this.selected
+      hover=this.hover
+      nodeDepth=this.nodeDepth
+      nodePath=this.nodePath
+      disableCheck=this.disableCheck
+      labelComponent=this.labelComponent
     }}
   {{/tree-draggable-target}}
 {{/nestable-draggable-object}}
 
-{{#if model.isExpanded}}
+{{#if this.model.isExpanded}}
   {{tree-view
-    model=model.children
-    select=select
-    selected=selected
-    sortKeys=sortKeys
-    hover=hover
-    parentDepth=nodeDepth
-    parentPath=nodePath
-    disableCheck=disableCheck
-    labelComponent=labelComponent
-    tree=tree
-    validateDrag=tree.validateDrag
-    handleDrop=tree.handleDrop
+    model=this.model.children
+    select=this.select
+    selected=this.selected
+    sortKeys=this.sortKeys
+    hover=this.hover
+    parentDepth=this.nodeDepth
+    parentPath=this.nodePath
+    disableCheck=this.disableCheck
+    labelComponent=this.labelComponent
+    tree=this.tree
+    validateDrag=this.tree.validateDrag
+    handleDrop=this.tree.handleDrop
   }}
 {{/if}}
