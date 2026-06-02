@@ -1,7 +1,7 @@
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
+import Component from '@glimmer/component';
 
-@classic
 export default class MdProfileFormComponent extends Component {
-  tagName = 'form';
+  get record() {
+    return this.args.record;
+  }
 }

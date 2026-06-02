@@ -7,24 +7,23 @@ module('Integration | Component | object/md-profile/custom', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function (assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
     this.model = {
       title: 'testme',
       description: 'testing description'
-    }
+    };
 
-    await render(hbs `{{object/md-profile/custom record=model}}`);
+    await render(hbs`
+      <Object::MdProfile::Custom @record={{this.model}} />
+    `);
 
     assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(),
       '|Title|Description|Description|testing|description|Profile|Definition|Select|the|profile|definition.|Select|Schemas|No|schemas|avialable.|Schemas|Selected|Select|schemas|from|the|list.|'
     );
 
-    // Template block usage:
-    await render(hbs `
-      {{#object/md-profile/custom record=model}}
+    await render(hbs`
+      <Object::MdProfile::Custom @record={{this.model}}>
         template block text
-      {{/object/md-profile/custom}}
+      </Object::MdProfile::Custom>
     `);
 
     assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(),
