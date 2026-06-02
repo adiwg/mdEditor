@@ -1,26 +1,26 @@
-<tr class={{record.state}}>
-  {{#each processedColumns as |column|}}
+<tr class={{this.record.state}}>
+  {{#each this.processedColumns as |column|}}
     {{#if column.isVisible}}
       <td class={{column.className}}>
         {{#if column.template}}
           {{#if (eq column.template 'components/leaflet-table/actions')}}
             {{leaflet-table/actions
-              record=record
-              showForm=showForm
-              zoomTo=zoomTo
-              deleteFeature=deleteFeature
+              record=this.record
+              showForm=this.showForm
+              zoomTo=this.zoomTo
+              deleteFeature=this.deleteFeature
             }}
           {{else}}
             {{component
               column.template
-              record=record
-              showForm=showForm
-              zoomTo=zoomTo
-              deleteFeature=deleteFeature
+              record=this.record
+              showForm=this.showForm
+              zoomTo=this.zoomTo
+              deleteFeature=this.deleteFeature
             }}
           {{/if}}
         {{else}}
-          {{get record column.propertyName}}
+          {{get this.record column.propertyName}}
         {{/if}}
       </td>
     {{/if}}

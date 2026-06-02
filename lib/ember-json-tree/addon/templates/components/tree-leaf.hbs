@@ -1,7 +1,7 @@
-{{#if inTree}}
-  {{#unless model.isRoot}}
+{{#if this.inTree}}
+  {{#unless this.model.isRoot}}
     <span class='tree-cell text-nowrap'>
-      {{#each (range 1 nodeDepth)}}
+      {{#each (range 1 this.nodeDepth)}}
         <span class='tree-indent'></span>
       {{/each}}
     </span>
@@ -12,21 +12,21 @@
     role='button'
     {{on 'click' this.toggleCheck}}
   >
-    {{#if model.draggable}}
+    {{#if this.model.draggable}}
       {{fa-icon 'ellipsis-v' fixedWidth=false}}
     {{/if}}
   </span>
 
-  {{#unless disableCheck}}
-    {{#unless model.hideCheck}}
+  {{#unless this.disableCheck}}
+    {{#unless this.model.hideCheck}}
       <span
         class='tree-cell tree-icon'
         role='button'
         {{on 'click' this.toggleCheck}}
       >
-        {{#if model.checkable}}
+        {{#if this.model.checkable}}
           {{fa-icon
-            (if model.isChecked 'check-square-o' 'square-o')
+            (if this.model.isChecked 'check-square-o' 'square-o')
             fixedWidth=true
           }}
         {{else}}
@@ -36,12 +36,12 @@
     {{/unless}}
   {{/unless}}
 
-  {{#unless model.hideToggle}}
+  {{#unless this.model.hideToggle}}
     <span class='tree-cell tree-icon'>
       <span class='toggle-icon' role='button' {{on 'click' this.toggleExpand}}>
-        {{#if model.children.length}}
+        {{#if this.model.children.length}}
           {{fa-icon
-            (if model.isExpanded 'minus' 'plus')
+            (if this.model.isExpanded 'minus' 'plus')
             fixedWidth=true
             class='icon expand-icon'
           }}
@@ -55,31 +55,31 @@
   <span class='tree-cell tree-fill'>
     <span class='tree-cell'>
       {{tree-label
-        model=model
-        labelComponent=labelComponent
-        nodePath=nodePath
-        selected=selected
+        model=this.model
+        labelComponent=this.labelComponent
+        nodePath=this.nodePath
+        selected=this.selected
       }}
     </span>
   </span>
-  {{#if model.definition}}
+  {{#if this.model.definition}}
     <span class='tree-cell'>
       <span class='badge'>?
-        {{ember-tooltip text=model.definition side='right'}}
+        {{ember-tooltip text=this.model.definition side='right'}}
       </span>
     </span>
   {{/if}}
-  {{#if model._isDragTarget}}
+  {{#if this.model._isDragTarget}}
     <span class='tree-cell'>
       <span class='tree-drop-indicator'>DROP TARGET</span>
     </span>
   {{/if}}
 {{else}}
   {{tree-label
-    labelComponent=labelComponent
-    model=model
-    nodePath=nodePath
-    selected=selected
-    highlight=highlight
+    labelComponent=this.labelComponent
+    model=this.model
+    nodePath=this.nodePath
+    selected=this.selected
+    highlight=this.highlight
   }}
 {{/if}}
