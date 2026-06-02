@@ -24,7 +24,7 @@
 
   {{#liquid-if predicate=this.profile use='fade'}}
     {{#if this.profile.isNew}}
-      {{object/md-profile/custom record=this.profile}}
+      <Object::MdProfile::Custom @record={{this.profile}} />
     {{else if this.profile}}
       {{#if this.profile.validations.hasWarnings}}
         <div class='alert alert-warning' role='alert'>{{fa-icon
@@ -35,7 +35,7 @@
           {{/each}}
         </div>
       {{/if}}
-      {{object/md-profile/custom record=this.profile}}
+      <Object::MdProfile::Custom @record={{this.profile}} />
     {{/if}}
   {{else}}
     {{control/md-edit-table

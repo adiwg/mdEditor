@@ -1,12 +1,11 @@
-import classic from 'ember-classic-decorator';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 
-@classic
-export default class PreviewComponent extends Component {
-  classNameBindings = ['textMuted'];
-  textMuted = true;
-
+export default class MdProfilePreviewComponent extends Component {
   get config() {
-    return this.record?.config || this.record;
+    return this.args.record?.config || this.args.record;
+  }
+
+  get textMutedClass() {
+    return this.args.textMuted !== false ? 'text-muted' : '';
   }
 }

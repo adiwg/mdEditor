@@ -1,30 +1,32 @@
-{{input/md-input
-  model=this.record
-  valuePath='uri'
-  label='URL'
-  placeholder='Enter URL of the profile.'
-  showValidations=true
-}}
+<form ...attributes>
+  {{input/md-input
+    model=this.record
+    valuePath='uri'
+    label='URL'
+    placeholder='Enter URL of the profile.'
+    showValidations=true
+  }}
 
-{{input/md-input
-  model=this.record
-  valuePath='alias'
-  label='Alias'
-  placeholder='Enter an alternative title.'
-  showValidations=true
-}}
+  {{input/md-input
+    model=this.record
+    valuePath='alias'
+    label='Alias'
+    placeholder='Enter an alternative title.'
+    showValidations=true
+  }}
 
-<div class='form-group'>
-  <label class=''>Version</label>
-  <div class=''>
-    <span>{{if this.record.localVersion this.record.localVersion '--'}}</span>
-    {{#if this.record.hasUpdate}}
-      <span class='label label-pill label-info'>Update Available ({{this.record.remoteVersion}})</span>
-    {{/if}}
+  <div class='form-group'>
+    <label class=''>Version</label>
+    <div class=''>
+      <span>{{if this.record.localVersion this.record.localVersion '--'}}</span>
+      {{#if this.record.hasUpdate}}
+        <span class='label label-pill label-info'>Update Available ({{this.record.remoteVersion}})</span>
+      {{/if}}
+    </div>
   </div>
-</div>
 
-<hr />
+  <hr />
 
-{{object/md-profile/preview record=this.record}}
-{{yield}}
+  <Object::MdProfile::Preview @record={{this.record}} />
+  {{yield}}
+</form>

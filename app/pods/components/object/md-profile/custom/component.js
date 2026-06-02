@@ -1,15 +1,15 @@
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
+import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { later } from '@ember/runloop';
 
-@classic
 export default class CustomComponent extends Component {
-  tagName = 'form';
-
   @service('profile') definitions;
   @service schemas;
+
+  get record() {
+    return this.args.record;
+  }
 
   get notSelected() {
     return this.schemas.schemas.filter(schema =>

@@ -1,17 +1,19 @@
-<div class='form-group'>
-  <label class=''>Title</label>
-  <div class=''>{{this.config.title}}</div>
+<div class={{this.textMutedClass}} ...attributes>
+  <div class='form-group'>
+    <label class=''>Title</label>
+    <div class=''>{{this.config.title}}</div>
+  </div>
+  <div class='form-group'>
+    <label class=''>Description</label>
+    <div class=''>{{this.config.description}}</div>
+  </div>
+  <div class='form-group'>
+    <label class=''>Identifier</label>
+    <div class=''>{{this.config.identifier}}</div>
+  </div>
+  <div class='form-group'>
+    <label class=''>Namespace</label>
+    <div class=''>{{this.config.namespace}}</div>
+  </div>
+  {{yield}}
 </div>
-<div class='form-group'>
-  <label class=''>Description</label>
-  <div class=''>{{this.config.description}}</div>
-</div>
-<div class='form-group'>
-  <label class=''>Identifier</label>
-  <div class=''>{{this.config.identifier}}</div>
-</div>
-<div class='form-group'>
-  <label class=''>Namespace</label>
-  <div class=''>{{this.config.namespace}}</div>
-</div>
-{{yield}}
