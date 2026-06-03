@@ -7,7 +7,7 @@ export default class ItisRoute extends Route {
   @service router;
 
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.breadCrumb = {
       title: 'ITIS',

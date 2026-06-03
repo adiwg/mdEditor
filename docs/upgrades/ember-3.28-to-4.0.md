@@ -4,8 +4,7 @@
 
 - **Source LTS**: Ember 3.28 (ember-source, ember-cli, ember-data all `~3.28.0`)
 - **Target LTS**: Ember 4.12
-- **Migration branch**: `dvonanderson/feature/push-to-ember-4`
-- **Extended branch**: `dvonanderson/feature/push-to-ember-4-1-2`
+- **Migration branch**: `ember-migration` (prep on 3.28, then merge to `develop`)
 - **Tool**: [`ember-cli-update`](https://github.com/ember-cli/ember-cli-update) — run at each version step to apply config/blueprint diffs
 
 ---
@@ -37,22 +36,34 @@
 
 ---
 
-### 2. `this._super()` broken in route lifecycle methods
+### 2. `this._super()` vs `super.methodName()` — when to use which
 
-**What broke**: `this._super()` only works in `init()` because `CoreObject` wraps it. In Ember 4 native class syntax, route lifecycle hooks (`setupController`, `afterModel`, `model`, etc.) must use `super`.
+**Classic `.extend()`** (`Model.extend`, `Component.extend`, `EmberObject.extend`, `Indicator.extend`, etc.):
 
-**Fix**: ~37 route files changed:
+- Always use **`this._super(...arguments)`** in every hook, including `init`.
+- **Do not** use `super.init(...arguments)` — it throws `(intermediate value).init is not a function` because `.extend()` is not a real ES6 class hierarchy.
+- Applies to `app/models/*`, nested `templateClass = EmberObject.extend({ ... })`, and addons such as `control/md-indicator/related`.
+
+**Native classes** (`export default class Foo extends Route` / `@classic class Foo extends Component`):
+
+- Use **`super.methodName(...arguments)`** for lifecycle hooks (`init`, `setupController`, `afterModel`, `didReceiveAttrs`, `willDestroy`, etc.).
+- On Ember 4, `this._super()` in non-`init` hooks on native classes is unreliable; prefer `super` for those routes and components.
+
+**Examples**:
+
 ```js
-// Before
-setupController(controller, model) {
-  this._super(...arguments);
-  // ...
-}
+// Classic model — keep _super on 3.28 and in init on Ember 4
+const Setting = Model.extend({
+  init() {
+    this._super(...arguments);
+  },
+});
 
-// After
-setupController(controller, model) {
-  super.setupController(...arguments);
-  // ...
+// Native route — use super for lifecycle hooks
+export default class ContactRoute extends Route {
+  setupController(controller, model) {
+    super.setupController(controller, model);
+  }
 }
 ```
 

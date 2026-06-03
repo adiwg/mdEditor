@@ -1,20 +1,18 @@
 import Route from '@ember/routing/route';
-import { get, defineProperty } from '@ember/object';
+import { defineProperty } from '@ember/object';
 import { alias } from '@ember/object/computed';
 
 export default class IndexRoute extends Route {
-  setupController() {
-    // Call _super for default behavior
-    this._super(...arguments);
+  setupController(controller, model) {
+    super.setupController(controller, model);
 
-    this.controller.set('parentModel', this.modelFor('record.show.edit'));
-    this.controller.set(
-      'rasterId',
-      get(this.controllerFor('record.show.edit.spatial.raster'), 'rasterId')
-    );
+    controller.setProperties({
+      parentModel: this.modelFor('record.show.edit'),
+      rasterId: this.paramsFor('record.show.edit.spatial.raster').raster_id,
+    });
 
     defineProperty(
-      this.controller,
+      controller,
       'refreshSpy',
       alias('model.json.metadata.resourceInfo.coverageDescription.length')
     );

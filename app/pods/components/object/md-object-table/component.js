@@ -130,7 +130,7 @@ export default class MdObjectTableComponent extends Component {
    *  ```javascript
    *  Ember.Object.extend({
    *    init() {
-   *      this._super(...arguments);
+   *      super.init(...arguments);
    *
    *      this.set('foo', A());
    *      this.set('bar', A());

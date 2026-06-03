@@ -67,13 +67,13 @@ export default Table.extend({
     return selected;
   },
 
-  _onSelectedItemsChanged: observer('selectedItems.[]', function() {
+  _onSelectedItemsChanged: observer('selectedItems.[]', function () {
     this.select(this.selectedItems);
   }),
 
   actions: {
     clickOnRow() {
       this._super(...arguments);
-    }
-  }
+    },
+  },
 });

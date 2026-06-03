@@ -28,7 +28,7 @@ const Validations = buildValidations({
 
 const TemplateClass = EmberObject.extend(Validations, {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     set(this, 'reference', {});
   },

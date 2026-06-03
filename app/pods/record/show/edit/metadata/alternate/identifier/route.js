@@ -14,11 +14,10 @@ export default class IdentifierRoute extends Route.extend(ScrollTo) {
 
     return this.setupModel();
   }
-  setupController() {
-    // Call _super for default behavior
-    this._super(...arguments);
+  setupController(controller, model) {
+    super.setupController(controller, model);
 
-    this.controller.set('parentModel', this.modelFor('record.show.edit'));
+    controller.set('parentModel', this.modelFor('record.show.edit'));
     this.controllerFor('record.show.edit').setProperties({
       onCancel: this.setupModel,
       cancelScope: this,

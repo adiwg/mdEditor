@@ -21,7 +21,7 @@ const Validations = buildValidations({
 
 const Template = EmberObject.extend(Validations, {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
     this.set('repository', {});
     this.set('specimen', null);
   },
@@ -32,7 +32,7 @@ const theComp = Component.extend(Validations, {
   specimen: alias('model.specimen'),
   repository: alias('model.repository'),
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 

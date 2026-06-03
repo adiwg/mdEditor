@@ -1,16 +1,14 @@
 import Route from '@ember/routing/route';
-import { get } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default class IdentifierRoute extends Route.extend(ScrollTo) {
   model() {
     return this.setupModel();
   }
-  setupController() {
-    // Call _super for default behavior
-    this._super(...arguments);
+  setupController(controller, model) {
+    super.setupController(controller, model);
 
-    this.controller.set('parentModel', this.modelFor('record.show.edit'));
+    controller.set('parentModel', this.modelFor('record.show.edit'));
     this.controllerFor('record.show.edit').setProperties({
       onCancel: this.setupModel,
       cancelScope: this,

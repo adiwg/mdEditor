@@ -35,7 +35,7 @@ const Validations = buildValidations({
 
 const TemplateClass = EmberObject.extend(Validations, {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     set(this, 'taxonomicSystem', []);
     set(this, 'identificationReference', []);
@@ -50,7 +50,7 @@ const theComp = Component.extend(Validations, {
   editSystem: null,
 
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
@@ -96,7 +96,7 @@ const theComp = Component.extend(Validations, {
   taxonomicClassification: alias('model.taxonomicClassification'),
   systemTemplate: EmberObject.extend({
     init() {
-      this._super(...arguments);
+      super.init(...arguments);
       this.set('citation', {});
     },
   }),

@@ -10,7 +10,7 @@ export default class NotFoundRoute extends Route {
     });
   }
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.breadCrumb = {
       title: 'Page Not Found',

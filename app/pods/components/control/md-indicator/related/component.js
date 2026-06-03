@@ -36,15 +36,12 @@ export default Indicator.extend({
    */
 
   init() {
-    this.type = this.type || 'info';
-
     this._super(...arguments);
-
+    this.type = this.type || 'info';
     this.linkText = this.linkText || 'Open Related';
-
     this.classNames = ['md-indicator-related', `md-${this.type}`].concat(
-      this
-      .classNames);
+      this.classNames
+    );
   },
 
   isVisible: bool('related'),
@@ -121,10 +118,19 @@ export default Indicator.extend({
    * @routeIdPathscategory computed
    * @requires path,parent
    */
-  related: computed('path', 'parent', function () {
-    return get(this.parent, this.path).findBy(this.relatedId, get(this
-      .model, this.relatedIdLocal || this.relatedId));
-  }),
+  related: computed(
+    'path',
+    'parent',
+    'model',
+    'relatedId',
+    'relatedIdLocal',
+    function () {
+      return get(this.parent, this.path).findBy(
+        this.relatedId,
+        get(this.model, this.relatedIdLocal || this.relatedId)
+      );
+    }
+  ),
 
   /**
    * The index of the related object.
@@ -134,9 +140,17 @@ export default Indicator.extend({
    * @category computed
    * @requires related
    */
-  relatedIndex: computed('related', function () {
-    return get(this.parent, this.path).indexOf(this.related);
-  }),
+  relatedIndex: computed(
+    'related',
+    'parent',
+    'path',
+    'model',
+    'relatedId',
+    'relatedIdLocal',
+    function () {
+      return get(this.parent, this.path).indexOf(this.related);
+    }
+  ),
 
   /**
    * An array of property names that correspond to model.ids for the link-to.
@@ -146,7 +160,7 @@ export default Indicator.extend({
    * @category computed
    * @requires routeIdPaths
    */
-  models: map('routeIdPaths', function (p) {
+  models: map('routeIdPaths', 'model', function (p) {
     return this.get(p);
-  })
+  }),
 });

@@ -38,7 +38,7 @@ export default Table.extend(Validations, {
   addAttrGroup: null,
 
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 

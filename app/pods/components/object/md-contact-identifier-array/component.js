@@ -2,23 +2,20 @@ import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import EmObject from '@ember/object';
 import { A } from '@ember/array';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'identifier': [
+  identifier: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'namespace': [
+  namespace: [
     validator('presence', {
-      presence: true
-    })
-  ]
+      presence: true,
+    }),
+  ],
 });
 
 /**
@@ -50,8 +47,8 @@ export default class MdContactIdentifierArrayComponent extends Component {
    */
   templateClass = EmObject.extend(Validations, {
     init() {
-      this._super(...arguments);
+      super.init(...arguments);
       this.set('service', A());
-    }
+    },
   });
 }

@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 
 export default class NewRoute extends Route {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.breadCrumb = {
       title: 'New',

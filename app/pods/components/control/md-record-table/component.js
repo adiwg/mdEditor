@@ -50,8 +50,6 @@ export default Table.extend({
       })
     );
 
-    this._super(...arguments);
-
     // Populate selectedItems from pre-existing selectProperty values so
     // checkboxes display the correct initial checked state.
     this.initFromSelectProperty();
