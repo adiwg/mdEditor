@@ -12,11 +12,10 @@ export default class IndexRoute extends Route {
     let model = get(m, 'json.metadata');
     set(model, 'resourceLineage', get(model, 'resourceLineage') ?? []);
   }
-  setupController() {
-    // Call _super for default behavior
-    super.setupController(...arguments);
+  setupController(controller, model) {
+    super.setupController(controller, model);
 
-    this.controller.set('parentModel', this.modelFor('record.show.edit'));
+    controller.set('parentModel', this.modelFor('record.show.edit'));
   }
 
   @action

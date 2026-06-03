@@ -1,4 +1,5 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import EmberObject, { set, get } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
@@ -28,44 +29,29 @@ const Validations = buildValidations({
 
 const TemplateClass = EmberObject.extend(Validations, {
   init() {
-    super.init(...arguments);
+    this._super(...arguments);
 
     set(this, 'reference', {});
   },
 });
 
-const theComp = Component.extend(Validations, {
+@classic
+export default class MdDomainitemComponent extends Component.extend(Validations) {
+  tagName = 'form';
+
+  name = alias('model.name');
+  value = alias('model.value');
+  definition = alias('model.definition');
+
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
     once(this, function () {
       set(model, 'reference', get(model, 'reference') ?? {});
     });
-  },
+  }
+}
 
-  /**
-   * The string representing the path in the profile object for the domain.
-   *
-   * @property profilePath
-   * @type {String}
-   * @default 'false'
-   * @required
-   */
-
-  /**
-   * The object to use as the data model for the domain.
-   *
-   * @property model
-   * @type {Object}
-   * @required
-   */
-
-  tagName: 'form',
-  name: alias('model.name'),
-  value: alias('model.value'),
-  definition: alias('model.definition'),
-});
-
-export { Validations, TemplateClass as Template, theComp as default };
+export { Validations, TemplateClass as Template };

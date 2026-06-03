@@ -1,5 +1,6 @@
 import { and } from '@ember/object/computed';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import { action, computed, get, set } from '@ember/object';
 import { once } from '@ember/runloop';
 import { validator, buildValidations } from 'ember-cp-validations';
@@ -13,79 +14,58 @@ const Validations = buildValidations({
   ],
 });
 
-const theComp = Component.extend(Validations, {
+@classic
+export default class MdIdentifierComponent extends Component.extend(Validations) {
+  classNames = ['md-identifier'];
+  attributeBindings = ['data-spy'];
+
+  collapsible = false;
+  collapse = true;
+
+  isCollapsed = and('collapsible', 'collapse');
+
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
     this._localModel = {};
-  },
+  }
 
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = get(this, 'model') || this._localModel;
 
     once(this, function () {
       set(model, 'authority', get(model, 'authority') ?? {});
     });
-  },
+  }
 
-  classNames: ['md-identifier'],
-  attributeBindings: ['data-spy'],
-
-  /**
-   * The identifier object to render
-   *
-   * @property model
-   * @type {object}
-   * @required
-   */
-
-  /**
-   * Render short form of the identifier template, i.e. no authority
-   *
-   * @property short
-   * @type {Boolean}
-   */
-
-  /**
-   * Determines whether to render identifier field with confirmation button
-   *
-   * @property confirmIdentifier
-   * @type {Boolean}
-   */
-
-  effectiveModel: computed('model', '_localModel', function () {
+  @computed('model', '_localModel')
+  get effectiveModel() {
     return get(this, 'model') || this._localModel;
-  }),
+  }
 
-  identifier: computed('effectiveModel.identifier', {
-    get() {
-      return get(this, 'effectiveModel.identifier');
-    },
+  @computed('effectiveModel.identifier')
+  get identifier() {
+    return get(this, 'effectiveModel.identifier');
+  }
 
-    set(_key, value) {
-      set(this, 'effectiveModel.identifier', value);
-      return value;
-    },
-  }),
+  set identifier(value) {
+    set(this, 'effectiveModel.identifier', value);
+  }
 
-  namespace: computed('effectiveModel.namespace', {
-    get() {
-      return get(this, 'effectiveModel.namespace');
-    },
+  @computed('effectiveModel.namespace')
+  get namespace() {
+    return get(this, 'effectiveModel.namespace');
+  }
 
-    set(_key, value) {
-      set(this, 'effectiveModel.namespace', value);
-      return value;
-    },
-  }),
-  collapsible: false,
-  collapse: true,
-  isCollapsed: and('collapsible', 'collapse'),
+  set namespace(value) {
+    set(this, 'effectiveModel.namespace', value);
+  }
 
-  toggleCollapse: action(function () {
+  @action
+  toggleCollapse() {
     this.toggleProperty('collapse');
-  }),
-});
+  }
+}
 
-export { Validations, theComp as default };
+export { Validations };

@@ -1,4 +1,5 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import EmberObject, { computed, get, set } from '@ember/object';
 import { A } from '@ember/array';
 import { once } from '@ember/runloop';
@@ -41,26 +42,16 @@ const Template = EmberObject.extend(Validations, {
   }),
 });
 
-const theComp = Component.extend(Validations, {
-  _contacts: computed('model', {
-    get() {
-      let party = get(this, 'model.party');
-      return party ? party.mapBy('contactId') : [];
-    },
-    set(key, value) {
-      let map = value.map((itm) => {
-        return {
-          contactId: itm,
-        };
-      });
-      set(this, 'model.party', map);
-      return value;
-    },
-  }),
+@classic
+export default class MdPartyComponent extends Component.extend(Validations) {
+  attributeBindings = ['data-spy'];
 
-  role: alias('model.role'),
+  templateClass = Template;
+
+  role = alias('model.role');
+
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
@@ -68,10 +59,22 @@ const theComp = Component.extend(Validations, {
       set(model, 'party', get(model, 'party') ?? []);
       set(model, 'role', get(model, 'role') ?? null);
     });
-  },
+  }
 
-  attributeBindings: ['data-spy'],
-  templateClass: Template,
-});
+  @computed('model')
+  get _contacts() {
+    let party = get(this, 'model.party');
+    return party ? party.mapBy('contactId') : [];
+  }
 
-export { Validations, Template, theComp as default };
+  set _contacts(value) {
+    let map = value.map((itm) => {
+      return {
+        contactId: itm,
+      };
+    });
+    set(this, 'model.party', map);
+  }
+}
+
+export { Validations, Template };

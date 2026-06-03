@@ -100,7 +100,7 @@ export default class MdTransferComponent extends Component {
   formatTemplate = EmberObject.extend(
     /*Validations, */ {
       init() {
-        super.init(...arguments);
+        this._super(...arguments);
         this.set('formatSpecification', {});
         this.set('formatSpecification.onlineResource', [{}]);
       },

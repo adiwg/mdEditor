@@ -47,7 +47,7 @@ export default class MdContactIdentifierArrayComponent extends Component {
    */
   templateClass = EmObject.extend(Validations, {
     init() {
-      super.init(...arguments);
+      this._super(...arguments);
       this.set('service', A());
     },
   });
