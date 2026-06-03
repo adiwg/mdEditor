@@ -5,7 +5,7 @@
 
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import { action, computed, defineProperty } from '@ember/object';
+import { action, computed, defineProperty, set } from '@ember/object';
 import { alias, not, notEmpty, and, or } from '@ember/object/computed';
 import { isBlank } from '@ember/utils';
 import { assert, debug } from '@ember/debug';
@@ -195,6 +195,8 @@ export default class MdTextareaComponent extends Component {
         //Ember.run.once(()=>model.set(valuePath, ""));
       }
 
+      const explicitRequired = this.required;
+
       defineProperty(this, 'value', alias(`model.${valuePath}`));
 
       defineProperty(
@@ -209,15 +211,33 @@ export default class MdTextareaComponent extends Component {
         computed(
           'validation.options.presence{presence,disabled}',
           'disabled',
-          function () {
-            return (
-              !this.disabled &&
-              this.validation?.options?.presence?.presence &&
-              !this.validation?.options?.presence?.disabled
-            );
+          '_requiredOverride',
+          {
+            get() {
+              let fromValidation =
+                !this.disabled &&
+                this.validation?.options?.presence?.presence &&
+                !this.validation?.options?.presence?.disabled;
+
+              if (this._requiredOverride !== undefined) {
+                return Boolean(this._requiredOverride) || fromValidation;
+              }
+
+              return fromValidation;
+            },
+
+            set(key, value) {
+              set(this, '_requiredOverride', value);
+
+              return value;
+            },
           }
-        ).readOnly()
+        )
       );
+
+      if (explicitRequired) {
+        set(this, '_requiredOverride', explicitRequired);
+      }
 
       defineProperty(
         this,

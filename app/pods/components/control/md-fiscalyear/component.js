@@ -1,34 +1,38 @@
-import { computed } from '@ember/object';
+import { computed, get } from '@ember/object';
+import { not } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import classic from 'ember-classic-decorator';
 import Select from 'mdeditor/pods/components/input/md-select/component';
 import layout from 'mdeditor/pods/components/input/md-select/template';
 import moment from 'moment';
-import { inject as service } from '@ember/service';
-import { not } from '@ember/object/computed';
 
-export default Select.extend({
-  layout,
-  settings: service('settings'),
-  classNames: ['md-fiscalyear'],
-  label: 'Pick Fiscal Year',
-  placeholder: 'Pick a Fiscal Year',
-  objectArray: computed(function () {
-    return Array.apply(0, Array(12)).map(function (element, index) {
-      return {
-        year: index + (moment().year() - 10),
-      };
-    });
-  }),
-  valuePath: 'year',
-  namePath: 'year',
-  tooltip: false,
-  searchEnabled: true,
-  create: true,
-  disabled: computed('settings.data.fiscalStartMonth', function () {
-    return not(this.get('settings.data.fiscalStartMonth'));
-  }),
+/**
+ * Fiscal year picker built on md-select.
+ *
+ * @class md-fiscalyear
+ * @extends md-select
+ */
+@classic
+class MdFiscalyearComponent extends Select {
+  layout = layout;
+
+  label = 'Pick Fiscal Year';
+
+  placeholder = 'Pick a Fiscal Year';
+
+  valuePath = 'year';
+
+  namePath = 'year';
+
+  tooltip = false;
+
+  searchEnabled = true;
+
+  create = true;
+
   change() {
     const val = this.value;
-    const month = parseInt(this.get('settings.data.fiscalStartMonth'), 10) - 1;
+    const month = parseInt(get(this, 'settings.data.fiscalStartMonth'), 10) - 1;
     const dt =
       month <= 6
         ? moment(val, 'YYYY')
@@ -43,5 +47,28 @@ export default Select.extend({
     }
 
     this.set('value', null);
-  },
+  }
+}
+
+MdFiscalyearComponent.reopen({
+  settings: service('settings'),
+
+  objectArray: computed(function () {
+    return Array.apply(0, Array(12)).map(function (element, index) {
+      return {
+        year: index + (moment().year() - 10),
+      };
+    });
+  }),
+
+  disabled: computed('settings.data.fiscalStartMonth', function () {
+    return not(this.get('settings.data.fiscalStartMonth'));
+  }),
 });
+
+MdFiscalyearComponent.prototype.classNames = [
+  ...Select.prototype.classNames,
+  'md-fiscalyear',
+];
+
+export default MdFiscalyearComponent;
