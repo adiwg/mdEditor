@@ -16,6 +16,9 @@ import { Validations } from '../component';
 export default class PreviewComponent extends Component.extend(Validations) {
   tagName = 'form';
 
+}
+
+PreviewComponent.reopen({
   /**
    * 'name is the alias for 'coverageName' used in the validations for the
    * 'raster/preview' object.
@@ -25,7 +28,7 @@ export default class PreviewComponent extends Component.extend(Validations) {
    * @requires alias
    * @default "alias('model.coverageName')"
    */
-  @alias('item.coverageName') name;
+  name: alias('item.coverageName'),
 
   /**
    * 'description' is the alias for 'coverageDescription' used in the validations for the
@@ -36,5 +39,5 @@ export default class PreviewComponent extends Component.extend(Validations) {
    * @requires alias
    * @default "alias('model.coverageDescription')"
    */
-  @alias('item.coverageDescription') description;
-}
+  description: alias('item.coverageDescription'),
+});

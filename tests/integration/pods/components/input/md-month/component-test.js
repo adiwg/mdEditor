@@ -7,10 +7,9 @@ module('Integration | Component | input/md month', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('date', '10');
 
-    await render(hbs`{{input/md-month date="10"}}`);
+    await render(hbs`{{input/md-month date=this.date}}`);
 
     assert.equal(find('input').value, 'October');
 

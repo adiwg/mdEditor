@@ -134,11 +134,6 @@ export default class MdEntityComponent extends Component.extend(Validations) {
 
   attributeTemplate = Attribute;
 
-  @alias('model.codeName') codeName;
-  @alias('model.description') description;
-  @alias('dictionary.entity') entities;
-  @alias('model.attribute') attributes;
-
   get attributeList() {
     let attr = this.model?.attribute;
     if(attr) {
@@ -234,3 +229,10 @@ export default class MdEntityComponent extends Component.extend(Validations) {
     this.editAttribute(id);
   }
 }
+
+MdEntityComponent.reopen({
+  codeName: alias('model.codeName'),
+  description: alias('model.description'),
+  entities: alias('dictionary.entity'),
+  attributes: alias('model.attribute'),
+});

@@ -22,8 +22,6 @@ export default class MdIdentifierComponent extends Component.extend(Validations)
   collapsible = false;
   collapse = true;
 
-  isCollapsed = and('collapsible', 'collapse');
-
   init() {
     super.init(...arguments);
     this._localModel = {};
@@ -39,33 +37,38 @@ export default class MdIdentifierComponent extends Component.extend(Validations)
     });
   }
 
-  @computed('model', '_localModel')
-  get effectiveModel() {
-    return get(this, 'model') || this._localModel;
-  }
-
-  @computed('effectiveModel.identifier')
-  get identifier() {
-    return get(this, 'effectiveModel.identifier');
-  }
-
-  set identifier(value) {
-    set(this, 'effectiveModel.identifier', value);
-  }
-
-  @computed('effectiveModel.namespace')
-  get namespace() {
-    return get(this, 'effectiveModel.namespace');
-  }
-
-  set namespace(value) {
-    set(this, 'effectiveModel.namespace', value);
-  }
-
   @action
   toggleCollapse() {
     this.toggleProperty('collapse');
   }
 }
+
+MdIdentifierComponent.reopen({
+  isCollapsed: and('collapsible', 'collapse'),
+
+  effectiveModel: computed('model', '_localModel', function () {
+    return get(this, 'model') || this._localModel;
+  }),
+
+  identifier: computed('effectiveModel.identifier', {
+    get() {
+      return get(this, 'effectiveModel.identifier');
+    },
+
+    set(key, value) {
+      set(this, 'effectiveModel.identifier', value);
+    },
+  }),
+
+  namespace: computed('effectiveModel.namespace', {
+    get() {
+      return get(this, 'effectiveModel.namespace');
+    },
+
+    set(key, value) {
+      set(this, 'effectiveModel.namespace', value);
+    },
+  }),
+});
 
 export { Validations };

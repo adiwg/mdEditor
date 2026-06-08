@@ -68,6 +68,9 @@ export default class MdSrsComponent extends Component.extend(Validations) {
    * @required
    */
 
-  @alias('model.referenceSystemIdentifier.identifier') refSystem;
-  @alias('model.referenceSystemType') refType;
 }
+
+MdSrsComponent.reopen({
+  refSystem: alias('model.referenceSystemIdentifier.identifier'),
+  refType: alias('model.referenceSystemType'),
+});

@@ -46,8 +46,6 @@ export default class MdDistributorComponent extends Component.extend(Validations
    * @required
    */
 
-  @alias('model.contact.role') role;
-
   get contacts() {
     let party = this.model?.contact?.party;
     return party ? party.mapBy('contactId') : null;
@@ -75,3 +73,7 @@ export default class MdDistributorComponent extends Component.extend(Validations
     });
   }
 }
+
+MdDistributorComponent.reopen({
+  role: alias('model.contact.role'),
+});

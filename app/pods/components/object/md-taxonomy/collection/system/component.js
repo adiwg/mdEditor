@@ -33,7 +33,6 @@ export default class MdTaxonomyCollectionSystemComponent extends Component.exten
    */
 
   tagName = 'form';
-  @alias('model.citation') citation;
 
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
@@ -45,3 +44,7 @@ export default class MdTaxonomyCollectionSystemComponent extends Component.exten
     });
   }
 }
+
+MdTaxonomyCollectionSystemComponent.reopen({
+  citation: alias('model.citation'),
+});

@@ -225,7 +225,63 @@ Also: EMT v5 changed the theme system from CSS classes to services — see branc
 
 ---
 
-### 15. `selectedItems` getter — Ember array methods on IdentifierArray
+### 15. `Component.extend(Validations)` + native `@classic` class hybrids
+
+**What broke**: Object form components migrated to `@classic class extends Component.extend(Validations)` with `alias()` / `@computed` / `@alias` defined on the **class body**. ember-cp-validations + the native-class hybrid does not install those macros on the prototype correctly.
+
+**Symptom**: Rendering a child input with a bound alias value (e.g. `value=this.definition`) passes the **ComputedProperty decorator object** instead of the string value:
+
+```
+Assertion Failed: EmberObject.create no longer supports defining computed properties.
+Define computed properties using extend() or reopen() before calling create().
+```
+
+Stack trace points at a child component (`input/md-textarea`, `input/md-input`, etc.) — the bug is on the **parent** form component.
+
+**Fix**: Keep the native class for lifecycle hooks; move all computed macros to **`reopen()`** after the class:
+
+```js
+@classic
+export default class MdAttributeComponent extends Component.extend(Validations) {
+  tagName = 'form';
+
+  didReceiveAttrs() {
+    super.didReceiveAttrs(...arguments);
+    // ...
+  }
+}
+
+MdAttributeComponent.reopen({
+  definition: alias('model.definition'),
+  domainList: computed('domains.{@each.domainId,@each.codeName}', function () {
+    // ...
+  }),
+});
+```
+
+**Do NOT** use on the class body for these hybrids:
+- `definition = alias('model.definition')`
+- `@alias('model.definition') definition`
+- `@computed(...) get domainList() { ... }`
+
+**Applies to**: All ~30 `object/md-*` form components using `Component.extend(Validations)`. Same pattern as `md-codelist-multi` and `control/md-indicator/related` when overriding parent computeds.
+
+**Deferred**: Converting these forms off `Component.extend(Validations)` entirely — wait until the Ember 4 bump when ember-cp-validations usage can be reassessed.
+
+---
+
+### 16. `input/md-month` and `extraFormats`
+
+**What broke**: After native-class conversion, `extraFormats` was a native getter; `_date` parsing in `md-datetime` did not include `extraFormats` when parsing bare `date="10"` values.
+
+**Fix**:
+- `MdMonthComponent.reopen({ extraFormats: computed(function () { return ['MM', 'M', 'MMM']; }) })`
+- `md-datetime` `_date` computed depends on `'extraFormats.[]'` and includes them in moment format list
+- Test uses `this.set('date', '10')` + `date=this.date` (not bare `date="10"`)
+
+---
+
+### 17. `selectedItems` getter — Ember array methods on IdentifierArray
 
 **What broke**: `this.data.filterBy(prop).toArray()` fails because `this.data` may be an `IdentifierArray` in Ember 4, which doesn't always expose Ember array methods directly.
 

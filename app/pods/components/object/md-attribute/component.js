@@ -49,12 +49,6 @@ const TemplateClass = EmberObject.extend(Validations, {
 export default class MdAttributeComponent extends Component.extend(Validations) {
   tagName = 'form';
 
-  codeName = alias('model.codeName');
-  dataType = alias('model.dataType');
-  definition = alias('model.definition');
-  allowNull = alias('model.allowNull');
-  domains = alias('dictionary.domain');
-
   rangeTemplate = EmberObject.extend(
     buildValidations({
       minRangeValue: [
@@ -90,9 +84,16 @@ export default class MdAttributeComponent extends Component.extend(Validations) 
       set(model, 'timePeriod', get(model, 'timePeriod') ?? []);
     });
   }
+}
 
-  @computed('domains.{@each.domainId,@each.codeName}')
-  get domainList() {
+MdAttributeComponent.reopen({
+  codeName: alias('model.codeName'),
+  dataType: alias('model.dataType'),
+  definition: alias('model.definition'),
+  allowNull: alias('model.allowNull'),
+  domains: alias('dictionary.domain'),
+
+  domainList: computed('domains.{@each.domainId,@each.codeName}', function () {
     let domains = this.domains || [];
 
     return domains.map((domain) => {
@@ -104,7 +105,7 @@ export default class MdAttributeComponent extends Component.extend(Validations) 
         };
       }
     });
-  }
-}
+  }),
+});
 
 export { Validations, TemplateClass as Template };

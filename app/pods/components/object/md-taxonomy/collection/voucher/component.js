@@ -32,9 +32,6 @@ const Template = EmberObject.extend(Validations, {
 export default class MdVoucherComponent extends Component.extend(Validations) {
   classNames = ['form'];
 
-  specimen = alias('model.specimen');
-  repository = alias('model.repository');
-
   templateClass = Template;
 
   didReceiveAttrs() {
@@ -48,5 +45,10 @@ export default class MdVoucherComponent extends Component.extend(Validations) {
     });
   }
 }
+
+MdVoucherComponent.reopen({
+  specimen: alias('model.specimen'),
+  repository: alias('model.repository'),
+});
 
 export { Validations, Template };

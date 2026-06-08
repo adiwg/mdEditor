@@ -24,9 +24,6 @@ const Validations = buildValidations({
 export default class MdLocaleComponent extends Component.extend(Validations) {
   @service settings;
 
-  language = alias('model.language');
-  characterSet = alias('model.characterSet');
-
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
 
@@ -46,5 +43,10 @@ export default class MdLocaleComponent extends Component.extend(Validations) {
     }
   }
 }
+
+MdLocaleComponent.reopen({
+  language: alias('model.language'),
+  characterSet: alias('model.characterSet'),
+});
 
 export { Validations };

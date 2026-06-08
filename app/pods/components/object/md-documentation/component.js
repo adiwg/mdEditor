@@ -48,6 +48,9 @@ export default class MdDocumentationComponent extends Component.extend(Validatio
    * @required
    */
 
-  @alias('model.citation') citation;
-  @alias('model.resourceType') resourceType;
 }
+
+MdDocumentationComponent.reopen({
+  citation: alias('model.citation'),
+  resourceType: alias('model.resourceType'),
+});

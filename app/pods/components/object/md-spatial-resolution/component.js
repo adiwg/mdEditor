@@ -90,13 +90,9 @@ export default class MdSpatialResolutionComponent extends Component.extend(Valid
 
   classNames = ['form'];
 
-  @alias('model.scaleFactor') scaleFactor;
-
   get scaleDisabled() {
     return !isEmpty(this.model?.levelOfDetail) || this.measurePresent;
   }
-
-  @alias('model.levelOfDetail') levelOfDetail;
 
   get levelDisabled() {
     let scaleFactor = this.model?.scaleFactor;
@@ -104,17 +100,11 @@ export default class MdSpatialResolutionComponent extends Component.extend(Valid
       this.measurePresent;
   }
 
-  @alias('model.measure') measure;
-
   get measureDisabled() {
     let scaleFactor = this.model?.scaleFactor;
     return(!isEmpty(scaleFactor) && !Number.isNaN(scaleFactor)) ||
       !isEmpty(this.model?.levelOfDetail);
   }
-
-  @alias('model.measure.type') measureType;
-  @alias('model.measure.value') measureValue;
-  @alias('model.measure.unitOfMeasure') measureUnit;
 
   get measurePresent() {
     return this.measureType || this.measureUnit || this.measureValue;
@@ -144,3 +134,12 @@ export default class MdSpatialResolutionComponent extends Component.extend(Valid
     ];
   }
 }
+
+MdSpatialResolutionComponent.reopen({
+  scaleFactor: alias('model.scaleFactor'),
+  levelOfDetail: alias('model.levelOfDetail'),
+  measure: alias('model.measure'),
+  measureType: alias('model.measure.type'),
+  measureValue: alias('model.measure.value'),
+  measureUnit: alias('model.measure.unitOfMeasure'),
+});

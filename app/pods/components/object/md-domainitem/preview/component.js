@@ -8,8 +8,11 @@ import {
 @classic
 export default class PreviewComponent extends Component.extend(Validations) {
   tagName = '';
-  @alias('item') model;
-  @alias('model.name') name;
-  @alias('model.value') value;
-  @alias('model.definition') definition;
 }
+
+PreviewComponent.reopen({
+  model: alias('item'),
+  name: alias('model.name'),
+  value: alias('model.value'),
+  definition: alias('model.definition'),
+});

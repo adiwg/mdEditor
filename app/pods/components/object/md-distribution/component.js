@@ -76,10 +76,6 @@ export default class MdDistributionComponent extends Component.extend(Validation
   deleteDistribution = null;
   addDistribution = null;
 
-  @alias('model.distributor') distributor;
-  @alias('model.description') description;
-  @not('validations.attrs.distributor.options.array-required.disabled') distributorRequired;
-
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
 
@@ -88,3 +84,9 @@ export default class MdDistributionComponent extends Component.extend(Validation
     }
   }
 }
+
+MdDistributionComponent.reopen({
+  distributor: alias('model.distributor'),
+  description: alias('model.description'),
+  distributorRequired: not('validations.attrs.distributor.options.array-required.disabled'),
+});

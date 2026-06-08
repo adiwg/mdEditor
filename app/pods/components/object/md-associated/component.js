@@ -41,8 +41,6 @@ export default class MdAssociatedComponent extends Component.extend(Validations)
    * @required
    */
 
-  @alias('model.associationType') associationType;
-
   get linkedRecord() {
     let store = this.store;
 
@@ -106,3 +104,7 @@ export default class MdAssociatedComponent extends Component.extend(Validations)
     });
   }
 }
+
+MdAssociatedComponent.reopen({
+  associationType: alias('model.associationType'),
+});

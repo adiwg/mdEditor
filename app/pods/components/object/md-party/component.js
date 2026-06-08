@@ -48,8 +48,6 @@ export default class MdPartyComponent extends Component.extend(Validations) {
 
   templateClass = Template;
 
-  role = alias('model.role');
-
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
 
@@ -60,21 +58,26 @@ export default class MdPartyComponent extends Component.extend(Validations) {
       set(model, 'role', get(model, 'role') ?? null);
     });
   }
-
-  @computed('model')
-  get _contacts() {
-    let party = get(this, 'model.party');
-    return party ? party.mapBy('contactId') : [];
-  }
-
-  set _contacts(value) {
-    let map = value.map((itm) => {
-      return {
-        contactId: itm,
-      };
-    });
-    set(this, 'model.party', map);
-  }
 }
+
+MdPartyComponent.reopen({
+  role: alias('model.role'),
+
+  _contacts: computed('model', {
+    get() {
+      let party = get(this, 'model.party');
+      return party ? party.mapBy('contactId') : [];
+    },
+
+    set(key, value) {
+      let map = value.map((itm) => {
+        return {
+          contactId: itm,
+        };
+      });
+      set(this, 'model.party', map);
+    },
+  }),
+});
 
 export { Validations, Template };

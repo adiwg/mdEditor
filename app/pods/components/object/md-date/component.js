@@ -21,9 +21,6 @@ export default class MdDateComponent extends Component.extend(Validations) {
   tagName = '';
   selectedPrecision = null;
 
-  @alias('model.date') date;
-  @alias('model.dateType') dateType;
-
   selectedPrecisionChanged = observer('selectedPrecision', function () {
     const date = this.model?.date;
     if (!date) return;
@@ -90,3 +87,8 @@ export default class MdDateComponent extends Component.extend(Validations) {
     this.setPrecisionBasedOnDate();
   }
 }
+
+MdDateComponent.reopen({
+  date: alias('model.date'),
+  dateType: alias('model.dateType'),
+});

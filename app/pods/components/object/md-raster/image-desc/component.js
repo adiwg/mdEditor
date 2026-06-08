@@ -49,8 +49,6 @@ export default class MdRasterImageDescComponent extends Component.extend(Validat
    * @required
    */
 
-  @alias('model.imageQualityCode.identifier') imgQualCodeIdentifier;
-
   //Todo: work on fix for this with Josh
   // constructor() {
   //   super(...arguments);
@@ -78,3 +76,7 @@ export default class MdRasterImageDescComponent extends Component.extend(Validat
     }
   }
 }
+
+MdRasterImageDescComponent.reopen({
+  imgQualCodeIdentifier: alias('model.imageQualityCode.identifier'),
+});

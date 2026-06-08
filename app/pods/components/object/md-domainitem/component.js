@@ -39,10 +39,6 @@ const TemplateClass = EmberObject.extend(Validations, {
 export default class MdDomainitemComponent extends Component.extend(Validations) {
   tagName = 'form';
 
-  name = alias('model.name');
-  value = alias('model.value');
-  definition = alias('model.definition');
-
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
 
@@ -53,5 +49,11 @@ export default class MdDomainitemComponent extends Component.extend(Validations)
     });
   }
 }
+
+MdDomainitemComponent.reopen({
+  name: alias('model.name'),
+  value: alias('model.value'),
+  definition: alias('model.definition'),
+});
 
 export { Validations, TemplateClass as Template };

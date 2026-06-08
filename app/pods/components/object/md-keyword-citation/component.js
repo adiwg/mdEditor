@@ -32,8 +32,6 @@ const Validations = buildValidations({
 
 @classic
 export default class MdKeywordCitationComponent extends Component.extend(Validations) {
-  @alias('model.thesaurus.title') title;
-
   get disabled() {
     return this.model?.thesaurus?.identifier?.[0]?.identifier !== 'custom';
   }
@@ -78,3 +76,7 @@ export default class MdKeywordCitationComponent extends Component.extend(Validat
     return value;
   }
 }
+
+MdKeywordCitationComponent.reopen({
+  title: alias('model.thesaurus.title'),
+});

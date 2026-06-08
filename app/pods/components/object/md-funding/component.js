@@ -64,9 +64,6 @@ export default class MdFundingComponent extends Component.extend(Validations) {
 
   tagName = 'form';
 
-  @alias('model.allocation') allocation;
-  @alias('model.timePeriod') timePeriod;
-
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
     scheduleOnce('afterRender', this, '_initModelDefaults');
@@ -79,3 +76,8 @@ export default class MdFundingComponent extends Component.extend(Validations) {
     if (model.timePeriod == null) { set(model, 'timePeriod', {}); }
   }
 }
+
+MdFundingComponent.reopen({
+  allocation: alias('model.allocation'),
+  timePeriod: alias('model.timePeriod'),
+});

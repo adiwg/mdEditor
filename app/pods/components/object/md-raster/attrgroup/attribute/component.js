@@ -58,28 +58,6 @@ export default class MdRasterAttrgroupAttributeComponent extends Component.exten
 
   tagName = 'form';
 
-  /**
-   * 'attrIdentifier' is the alias for 'attributeIdentifier.identifier' used in the validations for the
-   * 'attributeIdentifier' object.
-   *
-   * @property attrIdentifier
-   * @type String
-   * @requires alias
-   * @default "alias('model.attributeIdentifier.identifier')"
-   */
-  @alias('model.attributeIdentifier.identifier') attrIdentifier;
-
-  /**
-   * 'attrDesc' is the alias for 'attributeDescription' used in the validations for the
-   * 'attribute' object.
-   *
-   * @property attrDesc
-   * @type String
-   * @requires alias
-   * @default "alias('model.attributeDescription')"
-   */
-  @alias('model.attriuteDescription') attrDesc;
-
   constructor() {
     super(...arguments);
 
@@ -110,3 +88,27 @@ export default class MdRasterAttrgroupAttributeComponent extends Component.exten
     });
   }
 }
+
+MdRasterAttrgroupAttributeComponent.reopen({
+  /**
+   * 'attrIdentifier' is the alias for 'attributeIdentifier.identifier' used in the validations for the
+   * 'attributeIdentifier' object.
+   *
+   * @property attrIdentifier
+   * @type String
+   * @requires alias
+   * @default "alias('model.attributeIdentifier.identifier')"
+   */
+  attrIdentifier: alias('model.attributeIdentifier.identifier'),
+
+  /**
+   * 'attrDesc' is the alias for 'attributeDescription' used in the validations for the
+   * 'attribute' object.
+   *
+   * @property attrDesc
+   * @type String
+   * @requires alias
+   * @default "alias('model.attributeDescription')"
+   */
+  attrDesc: alias('model.attriuteDescription'),
+});

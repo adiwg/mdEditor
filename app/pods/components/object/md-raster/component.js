@@ -45,39 +45,6 @@ export default class MdRasterComponent extends Component.extend(Validations) {
 
   tagName = 'form';
 
-  /**
-  * 'name' is the alias for 'coverageName' used in the validations for the
-  * 'raster' object.
-  *
-  * @property name
-  * @type String
-  * @requires alias
-  * @default "alias('model.coverageName')"
-  */
-  @alias('model.coverageName') name;
-
-  /**
-   * 'description' is the alias for 'coverageDescripiton' used in the validations for the
-   * 'raster' object.
-   *
-   * @property description
-   * @type String
-   * @requires alias
-   * @default "alias('model.coverageDescription')"
-   */
-  @alias('model.coverageDescription') description;
-
-  /**
-   * 'identifier' is the alias for 'processLevelCode.identifier' used in the validations
-   * for the 'coverageDescription.processLevelCode' object.
-   *
-   * @property identifier
-   * @type String
-   * @requires alias
-   * @default "alias('model.processLevelCode.identifier')"
-   */
-  @alias('model.processLevelCode.identifier') identifier;
-
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
 
@@ -92,5 +59,40 @@ export default class MdRasterComponent extends Component.extend(Validations) {
     }
   }
 }
+
+MdRasterComponent.reopen({
+  /**
+  * 'name' is the alias for 'coverageName' used in the validations for the
+  * 'raster' object.
+  *
+  * @property name
+  * @type String
+  * @requires alias
+  * @default "alias('model.coverageName')"
+  */
+  name: alias('model.coverageName'),
+
+  /**
+   * 'description' is the alias for 'coverageDescripiton' used in the validations for the
+   * 'raster' object.
+   *
+   * @property description
+   * @type String
+   * @requires alias
+   * @default "alias('model.coverageDescription')"
+   */
+  description: alias('model.coverageDescription'),
+
+  /**
+   * 'identifier' is the alias for 'processLevelCode.identifier' used in the validations
+   * for the 'coverageDescription.processLevelCode' object.
+   *
+   * @property identifier
+   * @type String
+   * @requires alias
+   * @default "alias('model.processLevelCode.identifier')"
+   */
+  identifier: alias('model.processLevelCode.identifier'),
+});
 
 export { Validations };
