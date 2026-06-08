@@ -1,25 +1,3 @@
-{{! Debug: Check what's available }}
-{{#unless this.model}}
-  <div class='alert alert-danger'>DEBUG: this.model is not available</div>
-{{/unless}}
-{{#if this.model}}
-  {{#unless this.model.json}}
-    <div class='alert alert-warning'>DEBUG: this.model.json is not available</div>
-  {{/unless}}
-  {{#if this.model.json}}
-    {{#unless this.model.json.metadata}}
-      <div class='alert alert-warning'>DEBUG: this.model.json.metadata is not
-        available</div>
-    {{/unless}}
-    {{#if this.model.json.metadata}}
-      {{#unless this.model.json.metadata.resourceInfo}}
-        <div class='alert alert-warning'>DEBUG:
-          this.model.json.metadata.resourceInfo is not available</div>
-      {{/unless}}
-    {{/if}}
-  {{/if}}
-{{/if}}
-
 {{#let this.model.json.metadata.resourceInfo as |resource|}}
   <div class='row'>
     <form class='col-xxl-11 col-xxxl-10 col-xxl-offset-1'>

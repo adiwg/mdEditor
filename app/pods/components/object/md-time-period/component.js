@@ -108,9 +108,6 @@ export default class MdTimePeriodComponent extends Component.extend(Validations)
     return value;
   }
 
-  @alias('model.timeInterval.interval') intervalAmount;
-  @alias('model.identifier.identifier') identifier;
-
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
     scheduleOnce('afterRender', this, '_initModelDefaults');
@@ -125,3 +122,8 @@ export default class MdTimePeriodComponent extends Component.extend(Validations)
     if (model.identifier == null) { set(model, 'identifier', {}); }
   }
 }
+
+MdTimePeriodComponent.reopen({
+  intervalAmount: alias('model.timeInterval.interval'),
+  identifier: alias('model.identifier.identifier'),
+});

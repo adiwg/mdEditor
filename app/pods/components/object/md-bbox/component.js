@@ -44,16 +44,18 @@ const Validations = buildValidations({
 export default class MdBboxComponent extends Component.extend(Validations) {
   classNames = ['form'];
 
-  @alias('model.northLatitude') north;
-  @alias('model.southLatitude') south;
-  @alias('model.eastLongitude') east;
-  @alias('model.westLongitude') west;
-  @alias('model.minimumAltitude') minimumAltitude;
-  @alias('model.maximumAltitude') maximumAltitude;
-  @alias('model.unitsOfAltitude') unitsOfAltitude;
-
   // btnText: computed('isTruelyValid', function() {
   //   let text = this.get('validations.isTruelyValid') ? ''
   //   this.set('btnText', )
   // }),
 }
+
+MdBboxComponent.reopen({
+  north: alias('model.northLatitude'),
+  south: alias('model.southLatitude'),
+  east: alias('model.eastLongitude'),
+  west: alias('model.westLongitude'),
+  minimumAltitude: alias('model.minimumAltitude'),
+  maximumAltitude: alias('model.maximumAltitude'),
+  unitsOfAltitude: alias('model.unitsOfAltitude'),
+});

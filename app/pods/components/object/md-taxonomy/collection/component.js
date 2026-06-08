@@ -46,11 +46,6 @@ export default class MdTaxonomyCollectionComponent extends Component.extend(
 ) {
   tagName = 'form';
 
-  taxonomicSystem = alias('model.taxonomicSystem');
-  title = alias('model.taxonomicSystem.firstObject.citation.title');
-  identificationProcedure = alias('model.identificationProcedure');
-  taxonomicClassification = alias('model.taxonomicClassification');
-
   voucherTemplate = Voucher;
 
   systemTemplate = EmberObject.extend({
@@ -82,5 +77,12 @@ export default class MdTaxonomyCollectionComponent extends Component.extend(
     });
   }
 }
+
+MdTaxonomyCollectionComponent.reopen({
+  taxonomicSystem: alias('model.taxonomicSystem'),
+  title: alias('model.taxonomicSystem.firstObject.citation.title'),
+  identificationProcedure: alias('model.identificationProcedure'),
+  taxonomicClassification: alias('model.taxonomicClassification'),
+});
 
 export { Validations, TemplateClass as Template };

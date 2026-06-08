@@ -46,9 +46,6 @@ export default class MdAllocationComponent extends Component.extend(Validations)
   'data-spy' = 'Allocation';
   tagName = 'form';
 
-  @alias('model.amount') amount;
-  @alias('model.currency') currency;
-
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
 
@@ -61,3 +58,8 @@ export default class MdAllocationComponent extends Component.extend(Validations)
     });
   }
 }
+
+MdAllocationComponent.reopen({
+  amount: alias('model.amount'),
+  currency: alias('model.currency'),
+});

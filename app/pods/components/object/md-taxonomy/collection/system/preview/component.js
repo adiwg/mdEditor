@@ -18,7 +18,10 @@ const Validations = buildValidations({
 @classic
 export default class PreviewComponent extends Component.extend(Validations) {
   tagName = '';
-  @alias('item') model;
-  @alias('model.modifications') modifications;
-  @alias('model.citation.title') title;
 }
+
+PreviewComponent.reopen({
+  model: alias('item'),
+  modifications: alias('model.modifications'),
+  title: alias('model.citation.title'),
+});

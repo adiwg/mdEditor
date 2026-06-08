@@ -56,8 +56,10 @@ export default class MdSourceComponent extends Component.extend(Validations) {
    */
 
   tagName = 'form';
-
-  @alias('model.domainId') domainId;
-  @alias('model.codeName') codeName;
-  @alias('model.description') description;
 }
+
+MdSourceComponent.reopen({
+  domainId: alias('model.domainId'),
+  codeName: alias('model.codeName'),
+  description: alias('model.description'),
+});

@@ -53,12 +53,16 @@ export default class MdDatetimeComponent extends Component {
       defineProperty(
         this,
         '_date',
-        computed(`model.${valuePath}`, {
+        computed(`model.${valuePath}`, 'extraFormats.[]', {
           get() {
             let val = this.model?.[valuePath];
             if (!val) return null;
             if (val instanceof Date) return moment.utc(val);
-            let formats = [this.altFormat, this.format].filter(Boolean);
+            let formats = [
+              this.altFormat,
+              this.format,
+              ...(this.extraFormats || []),
+            ].filter(Boolean);
             return moment(val, formats.length ? formats : null);
           },
           set(key, value) {
@@ -71,12 +75,16 @@ export default class MdDatetimeComponent extends Component {
       defineProperty(
         this,
         '_date',
-        computed('date', {
+        computed('date', 'extraFormats.[]', {
           get() {
             let val = this.date;
             if (!val) return null;
             if (val instanceof Date) return moment.utc(val);
-            let formats = [this.altFormat, this.format].filter(Boolean);
+            let formats = [
+              this.altFormat,
+              this.format,
+              ...(this.extraFormats || []),
+            ].filter(Boolean);
             return moment(val, formats.length ? formats : null);
           },
           set(key, value) {

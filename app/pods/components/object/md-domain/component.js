@@ -72,10 +72,6 @@ export default class MdDomainComponent extends Component.extend(Validations) {
 
   tagName = 'form';
 
-  @alias('model.domainId') domainId;
-  @alias('model.codeName') codeName;
-  @alias('model.description') description;
-
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
 
@@ -88,3 +84,9 @@ export default class MdDomainComponent extends Component.extend(Validations) {
     });
   }
 }
+
+MdDomainComponent.reopen({
+  domainId: alias('model.domainId'),
+  codeName: alias('model.codeName'),
+  description: alias('model.description'),
+});
