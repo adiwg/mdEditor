@@ -42,8 +42,7 @@ export default class IdRoute extends Route {
   }
   //some test actions
   setupController(controller, model) {
-    // Call _super for default behavior
-    this._super(controller, model);
+    super.setupController(controller, model);
   }
   // serialize(model) {
   //   // If we got here without an ID (and therefore without a model)

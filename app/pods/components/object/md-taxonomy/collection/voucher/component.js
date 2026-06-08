@@ -1,5 +1,6 @@
 import EmberObject, { get, set } from '@ember/object';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import { alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 import { validator, buildValidations } from 'ember-cp-validations';
@@ -27,12 +28,17 @@ const Template = EmberObject.extend(Validations, {
   },
 });
 
-const theComp = Component.extend(Validations, {
-  classNames: ['form'],
-  specimen: alias('model.specimen'),
-  repository: alias('model.repository'),
+@classic
+export default class MdVoucherComponent extends Component.extend(Validations) {
+  classNames = ['form'];
+
+  specimen = alias('model.specimen');
+  repository = alias('model.repository');
+
+  templateClass = Template;
+
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
@@ -40,10 +46,7 @@ const theComp = Component.extend(Validations, {
       set(model, 'repository', get(model, 'repository') ?? {});
       set(model, 'specimen', get(model, 'specimen') ?? null);
     });
-  },
+  }
+}
 
-  //attributeBindings: ['data-spy'],
-  templateClass: Template,
-});
-
-export { Validations, Template, theComp as default };
+export { Validations, Template };

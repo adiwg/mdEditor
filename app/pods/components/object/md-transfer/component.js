@@ -65,43 +65,47 @@ export default class MdTransferComponent extends Component {
   //     });
   //   }
   // }),
-  @alias('model.distributionFormat.firstObject.formatSpecification.title') formatUri;
+  @alias('model.distributionFormat.firstObject.formatSpecification.title')
+  formatUri;
 
   get timeUnit() {
-    return [{
+    return [
+      {
         name: 'year',
-        value: 'year'
+        value: 'year',
       },
       {
         name: 'month',
-        value: 'month'
+        value: 'month',
       },
       {
         name: 'day',
-        value: 'day'
+        value: 'day',
       },
       {
         name: 'hour',
-        value: 'hour'
+        value: 'hour',
       },
       {
         name: 'minute',
-        value: 'minute'
+        value: 'minute',
       },
       {
         name: 'second',
-        value: 'second'
-      }
+        value: 'second',
+      },
     ];
   }
 
-  formatTemplate = EmberObject.extend( /*Validations, */ {
-    init() {
-      this._super(...arguments);
-      this.set('formatSpecification', {});
-      this.set('formatSpecification.onlineResource', [{}]);
+  formatTemplate = EmberObject.extend(
+    /*Validations, */ {
+      init() {
+        this._super(...arguments);
+        this.set('formatSpecification', {});
+        this.set('formatSpecification.onlineResource', [{}]);
+      },
     }
-  });
+  );
 
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);

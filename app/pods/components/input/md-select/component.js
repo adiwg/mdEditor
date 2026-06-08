@@ -389,6 +389,8 @@ export default class MdSelectComponent extends Component {
         //Ember.run.once(()=>model.set(path, ""));
       }
 
+      const explicitRequired = this.required;
+
       defineProperty(this, 'value', alias(`model.${path}`));
 
       defineProperty(
@@ -403,15 +405,33 @@ export default class MdSelectComponent extends Component {
         computed(
           'validation.options.presence.{presence,disabled}',
           'disabled',
-          function () {
-            return (
-              !this.disabled &&
-              this.validation?.options?.presence?.presence &&
-              !this.validation?.options?.presence?.disabled
-            );
+          '_requiredOverride',
+          {
+            get() {
+              let fromValidation =
+                !this.disabled &&
+                this.validation?.options?.presence?.presence &&
+                !this.validation?.options?.presence?.disabled;
+
+              if (this._requiredOverride !== undefined) {
+                return Boolean(this._requiredOverride) || fromValidation;
+              }
+
+              return fromValidation;
+            },
+
+            set(key, value) {
+              set(this, '_requiredOverride', value);
+
+              return value;
+            },
           }
-        ).readOnly()
+        )
       );
+
+      if (explicitRequired) {
+        set(this, '_requiredOverride', explicitRequired);
+      }
 
       defineProperty(
         this,
