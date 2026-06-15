@@ -1,15 +1,13 @@
 <button
   type='button'
-  {{on 'click' (fn this.doClickOnRow this.index this.record)}}
+  {{on 'click' this.doClickOnRow}}
   class='md-checkbox-cell'
   aria-label='Toggle row selection'
-  aria-pressed={{if this.isSelected 'true' 'false'}}
+  aria-pressed={{if @isSelected 'true' 'false'}}
 >
-  <i
-    class={{if
-      this.isSelected
-      this.themeInstance.selectRowIcon
-      this.themeInstance.deselectRowIcon
-    }}
-  ></i>
+  {{#if @isSelected}}
+    {{fa-icon 'check-square-o' fw=true}}
+  {{else}}
+    {{fa-icon 'square-o' fw=true}}
+  {{/if}}
 </button>

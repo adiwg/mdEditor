@@ -1,0 +1,13 @@
+diff --git a/node_modules/ember-source/dist/packages/ember-babel.js b/node_modules/ember-source/dist/packages/ember-babel.js
+index 1111111..2222222 100644
+--- a/node_modules/ember-source/dist/packages/ember-babel.js
++++ b/node_modules/ember-source/dist/packages/ember-babel.js
+@@ -150,7 +150,7 @@ export function createSuper(Derived) {
+ /*
+   Does not differ from default implementation.
+ */
+-function arrayLikeToArray(arr, len) {
++export function arrayLikeToArray(arr, len) {
+   if (len == null || len > arr.length) len = arr.length;
+ 
+   let arr2 = new Array(len);

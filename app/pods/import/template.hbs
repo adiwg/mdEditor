@@ -18,7 +18,7 @@
       {{#unless this.model.files}}
         <FilePicker
           class='md-file-picker md-import-picker import-file-picker'
-          @fileLoaded={{route-action 'readData'}}
+          @fileLoaded={{this.onFileLoaded}}
           @preview={{false}}
           @accept='.json,.xml'
           @readAs='readAsText'
@@ -57,13 +57,13 @@
                 value={{this.importUri}}
                 placeholder='Enter online link to mdJSON'
                 class='form-control'
-                {{on 'input' (route-action 'setImportUri')}}
+                {{on 'input' this.setImportUri}}
               />
               <span class='input-group-btn'>
                 <button
                   class='btn btn-primary'
                   type='button'
-                  {{on 'click' (route-action 'readFromUri')}}
+                  {{on 'click' this.readFromUri}}
                 >
                   {{#if this.isLoading}}
                     {{fa-icon 'spinner' spin=true}}
@@ -112,24 +112,25 @@
         </div> --}}
         <Layout::MdCard
           @title={{capitalize key}}
-          @titleIcon={{compute (route-action 'getIcon' key)}}
+          @titleIcon={{compute this.getIcon key}}
           @collapsible={{true}}
           @collapsed={{false}}
           @data-spy={{capitalize key}}
           @shadow={{true}}
         >
           {{!-- <h3>{{section.meta.title}}</h3> --}}
-          {{control/md-record-table
-            data=item
-            dataColumns=(compute (route-action 'getColumns') key)
-            hideActionsColumn=true
-            selectProperty='meta.export'
-            showColumnsDropdown=(not-eq key 'settings')
-            showComponentFooter=(not-eq key 'settings')
-            showGlobalFilter=(not-eq key 'settings')
-            showPageSize=(not-eq key 'settings')
-            useFilteringByColumns=(not-eq key 'settings')
-          }}
+          <Control::MdRecordTable
+            class='md-record-table'
+            @records={{item}}
+            @dataColumns={{this.importTableColumns}}
+            @hideActionsColumn={{true}}
+            @selectProperty='meta.export'
+            @showColumnsDropdown={{not-eq key 'settings'}}
+            @showComponentFooter={{not-eq key 'settings'}}
+            @showGlobalFilter={{not-eq key 'settings'}}
+            @showPageSize={{not-eq key 'settings'}}
+            @useFilteringByColumns={{not-eq key 'settings'}}
+          />
         </Layout::MdCard>
       {{/each-in}}
     {{/if}}
@@ -141,18 +142,18 @@
         <button
           type='button'
           class='btn btn-lg btn-primary btn-block md-btn-responsive'
-          {{on 'click' (route-action 'closePreview')}}
+          {{on 'click' this.closePreview}}
         >{{fa-icon 'arrow-left'}} Close Preview</button>
       {{else if this.model.files}}
         <button
           type='button'
           class='btn btn-lg btn-success btn-block md-btn-responsive'
-          {{on 'click' (route-action 'importData')}}
+          {{on 'click' this.importData}}
         >{{fa-icon 'sign-in'}} Click to Import Data</button>
         <button
           type='button'
           class='btn btn-lg btn-danger btn-block md-btn-responsive'
-          {{on 'click' (route-action 'cancelImport')}}
+          {{on 'click' this.cancelImport}}
         >{{fa-icon 'times'}} Cancel Import</button>
         <div class='btn-fake btn-block'>
           {{x-toggle
@@ -169,7 +170,7 @@
         {{control/md-scroll-spy
           offset=130
           scrollInit=this.scrollTo
-          setScrollTo=(route-action 'setScrollTo')
+          setScrollTo=this.setScrollTo
         }}
       {{/if}}
     </div>
@@ -183,7 +184,7 @@
   @showConfirm={{true}}
   @confirmLabel='Go to Settings'
   @showCancel={{true}}
-  @confirm={{route-action 'goToSettings'}}
+  @confirm={{this.goToSettings}}
   @cancel={{fn (mut this.showApiModal) false}}
 >
   <div class='alert alert-info' role='alert'>{{fa-icon 'exclamation-triangle'}}

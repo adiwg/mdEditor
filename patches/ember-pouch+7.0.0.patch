@@ -1,0 +1,13 @@
+diff --git a/node_modules/ember-pouch/index.js b/node_modules/ember-pouch/index.js
+index 1111111..2222222 100644
+--- a/node_modules/ember-pouch/index.js
++++ b/node_modules/ember-pouch/index.js
+@@ -29,7 +29,7 @@ module.exports = {
+   },
+ 
+   treeForVendor: function() {
+-    var content = "Ember.libraries.register('Ember Pouch', '" + version + "');";
++    var content = "if (typeof Ember !== 'undefined') { Ember.libraries.register('Ember Pouch', '" + version + "'); }";
+     var registerVersionTree = writeFile(
+       'ember-pouch/register-version.js',
+       content

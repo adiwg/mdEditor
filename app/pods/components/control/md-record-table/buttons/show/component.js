@@ -1,7 +1,14 @@
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
+import Component from '@glimmer/component';
 
-@classic
 export default class ShowComponent extends Component {
-  tagName = '';
+  get record() {
+    return this.args.record;
+  }
+
+  get routeName() {
+    const record = this.record;
+    const modelName = record?.constructor?.modelName;
+
+    return modelName ? `${modelName}.show` : null;
+  }
 }

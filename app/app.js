@@ -14,7 +14,7 @@ if (typeof Buffer === 'undefined') {
 import Route from '@ember/routing/route';
 import Component from '@ember/component';
 import Application from '@ember/application';
-import Resolver from 'ember-resolver';
+// import Resolver from 'ember-resolver';
 import {
   computed,
   defineProperty,
@@ -28,7 +28,7 @@ import {
 import {
   assert
 } from '@ember/debug';
-// import Resolver from './resolver';
+import Resolver from './resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';
 let events = {

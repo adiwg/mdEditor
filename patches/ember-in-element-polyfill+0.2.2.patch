@@ -1,0 +1,13 @@
+diff --git a/node_modules/ember-in-element-polyfill/index.js b/node_modules/ember-in-element-polyfill/index.js
+index 1111111..2222222 100644
+--- a/node_modules/ember-in-element-polyfill/index.js
++++ b/node_modules/ember-in-element-polyfill/index.js
+@@ -4,7 +4,7 @@ const VersionChecker = require('ember-cli-version-checker');
+ const InElementTransform = require('./lib/in-element-transform');
+ const debug = require('debug')('ember-in-element-polyfill');
+ 
+-const MINIMUM_PUBLIC_IN_ELEMENT_EMBER_VERSION = '10.0.0'; // t.b.d
++const MINIMUM_PUBLIC_IN_ELEMENT_EMBER_VERSION = '3.20.0';
+ 
+ module.exports = {
+   name: require('./package').name,

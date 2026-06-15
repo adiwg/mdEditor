@@ -1,7 +1,3 @@
-import MdModelsTable from 'mdeditor/pods/components/md-models-table/component';
-import classic from 'ember-classic-decorator';
+import MdModelsTableComponent from 'mdeditor/pods/components/md-models-table/component';
 
-@classic
-export default class MdPouchRecordTable extends MdModelsTable {
-  classNames = ['md-record-table']
-}
+export default class MdPouchRecordTable extends MdModelsTableComponent {}

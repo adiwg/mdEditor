@@ -21,7 +21,7 @@
     <div class='collapse navbar-collapse' id='md-navbar-main-collapse'>
       <ul class='nav navbar-nav'>
         <li>
-          {{#link-to route='dashboard'}}
+          <LinkTo @route='dashboard'>
             <span class='fa fa-dashboard'></span>
             <span class='md-nav-text'>Dashboard</span>
             {{ember-tooltip
@@ -29,10 +29,10 @@
               side='bottom'
               tooltipClass='ember-tooltip md-nav-tip'
             }}
-          {{/link-to}}
+          </LinkTo>
         </li>
         <li>
-          {{#link-to route='export'}}
+          <LinkTo @route='export'>
             <span class='fa fa-sign-out'></span>
             <span class='md-nav-text'>Export</span>
             {{ember-tooltip
@@ -40,10 +40,10 @@
               side='bottom'
               tooltipClass='ember-tooltip md-nav-tip'
             }}
-          {{/link-to}}
+          </LinkTo>
         </li>
         <li>
-          {{#link-to route='import'}}
+          <LinkTo @route='import'>
             <span class='fa fa-sign-in'></span>
             <span class='md-nav-text'>Import</span>
             {{ember-tooltip
@@ -51,10 +51,10 @@
               side='bottom'
               tooltipClass='ember-tooltip md-nav-tip'
             }}
-          {{/link-to}}
+          </LinkTo>
         </li>
         <li>
-          {{#link-to route='publish'}}
+          <LinkTo @route='publish'>
             <span class='fa fa-share-square-o'></span>
             <span class='md-nav-text'>Publish</span>
             {{ember-tooltip
@@ -62,10 +62,10 @@
               side='bottom'
               tooltipClass='ember-tooltip md-nav-tip'
             }}
-          {{/link-to}}
+          </LinkTo>
         </li>
         <li>
-          {{#link-to route='sync'}}
+          <LinkTo @route='sync'>
             <span class='fa fa-retweet'></span>
             <span class='md-nav-text'>Sync</span>
             {{ember-tooltip
@@ -73,13 +73,13 @@
               side='bottom'
               tooltipClass='ember-tooltip md-nav-tip'
             }}
-          {{/link-to}}
+          </LinkTo>
         </li>
         {{yield}}
       </ul>
       <ul class='nav navbar-nav navbar-right'>
         <li>
-          {{#link-to route='settings'}}
+          <LinkTo @route='settings'>
             <span class='fa fa-gear'></span>
             <span class='md-nav-text nav-settings'>Settings</span>
             {{ember-tooltip
@@ -87,7 +87,7 @@
               side='bottom'
               tooltipClass='ember-tooltip md-nav-tip'
             }}
-          {{/link-to}}
+          </LinkTo>
         </li>
       </ul>
     </div>

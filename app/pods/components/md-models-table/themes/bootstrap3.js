@@ -1,11 +1,6 @@
-import Theme from 'ember-models-table/themes/bootstrap3';
-import classic from 'ember-classic-decorator';
+import Theme from 'ember-models-table/services/emt-themes/bootstrap3';
 
-@classic
 export default class MdBootstrap3Theme extends Theme {
-  // Override componentsPath to use our custom components at models-table/
-  componentsPath = 'models-table/';
-
   sortAscIcon = 'fa fa-caret-up';
   sortDescIcon = 'fa fa-caret-down';
   columnVisibleIcon = 'fa fa-check-square-o';

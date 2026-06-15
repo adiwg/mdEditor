@@ -1,16 +1,11 @@
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
+import Component from '@glimmer/component';
 import { action } from '@ember/object';
 
-@classic
 export default class CheckAllComponent extends Component {
-  // toggleAllSelection is passed in from parent
-  toggleAllSelection = null;
-
   @action
   doToggleAllSelection() {
-    if (this.toggleAllSelection) {
-      this.toggleAllSelection();
+    if (this.args.toggleAllSelection) {
+      this.args.toggleAllSelection();
     }
   }
 }

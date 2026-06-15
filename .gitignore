@@ -37,3 +37,4 @@ yarn.lock.ember-try
 
 /migration_info/*
 _ak-mdTest-fullset-20231105.json
+.playwright/*

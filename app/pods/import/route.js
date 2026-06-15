@@ -1,7 +1,6 @@
 import { A, isArray } from '@ember/array';
 import EmObject, { computed, get, set } from '@ember/object';
 import { or } from '@ember/object/computed';
-import { assign } from '@ember/polyfills';
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
@@ -9,7 +8,7 @@ import { later, scheduleOnce } from '@ember/runloop';
 import Base from 'ember-local-storage/adapters/base';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import { JsonDefault as Contact } from 'mdeditor/models/contact';
-import { Promise, allSettled } from 'rsvp';
+import { Promise, allSettled, all } from 'rsvp';
 import { v4 as uuidv4 } from 'uuid';
 import { fixLiabilityTypo } from '../../utils/fix-liability-typo';
 
@@ -22,6 +21,7 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
   @service ajax;
   @service apiValidator;
   @service router;
+  @service store;
 
   @or('settings.data.mdTranslatorAPI', 'defaultAPI') apiURL;
 
@@ -42,6 +42,14 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
     // Implement your custom setup after
     controller.set('importUri', this.get('settings.data.importUriBase'));
     controller.set('apiURL', this.apiURL);
+    controller.set('onFileLoaded', (file) => this.readData(file));
+    controller.set('importTableColumns', this.columns);
+    controller.set('importData', () => this.importData());
+    controller.set('setImportUri', (event) => this.setImportUri(event));
+    controller.set('readFromUri', () => this.readFromUri());
+    controller.set('goToSettings', () => this.goToSettings());
+    controller.set('setScrollTo', (scrollTo) => this.setScrollTo(scrollTo));
+    controller.set('getIcon', (type) => this.getIcon(type));
   }
 
   model() {
@@ -147,7 +155,7 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
         data.pushObject(
           template.create({
             attributes: {
-              json: JSON.stringify(assign(Contact.create(), item)),
+              json: JSON.stringify(Object.assign(Contact.create(), item)),
             },
             type: 'contacts',
           })
@@ -219,9 +227,10 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
 
     fixLiabilityTypo(files);
 
-    route.currentRouteModel().set('files', files);
-
-    route.currentRouteModel().set('data', json.data);
+    const model = route.currentRouteModel();
+    set(model, 'files', files);
+    set(model, 'data', json.data);
+    model.notifyPropertyChange('files');
   }
   mapMdJSON(data) {
     let map = A();
@@ -248,6 +257,8 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
       item.meta.title = this.getTitle(item);
       item.meta.icon = this.icons[item.type];
       item.meta.export = true;
+      item.title = item.meta.title;
+      item.dateUpdated = get(item, 'attributes.date-updated') || 'unknown';
 
       map[item.type].push(EmObject.create(item));
       return map;
@@ -300,11 +311,11 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
 
     return [
       {
-        propertyName: 'meta.title',
+        propertyName: 'title',
         title: 'Title',
       },
       {
-        propertyName: 'attributes.date-updated',
+        propertyName: 'dateUpdated',
         title: 'Last Updated',
       },
       {
@@ -313,8 +324,10 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
       },
       {
         title: 'Actions',
-        component: 'control/md-record-table/buttons/custom',
+        propertyName: 'id',
+        component: 'md-custom-button',
         disableFiltering: true,
+        className: 'md-actions-column',
         buttonConfig: {
           title: 'Preview JSON',
           action(model) {
@@ -328,7 +341,7 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
 
   showPreview(model) {
     let json = {};
-    assign(json, model.attributes);
+    Object.assign(json, model.attributes);
 
     if (model.attributes.json) {
       json.json = JSON.parse(model.attributes.json);
@@ -546,7 +559,16 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
       .importData(data, {
         truncate: !this.currentRouteModel().get('merge'),
         json: false,
+        reload: false,
       })
+      .then(() => this.router.transitionTo('dashboard'))
+      .then(() =>
+        all([
+          store.findAll('record', { reload: true }),
+          store.findAll('contact', { reload: true }),
+          store.findAll('dictionary', { reload: true }),
+        ])
+      )
       .then(() => {
         // Wait for all records to be fully loaded and their observers to fire
         // before resetting the hash to prevent dirty state
@@ -585,7 +607,12 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
             extendedTimeout: 1500,
           }
         );
-        this.router.transitionTo('dashboard');
+      })
+      .catch((error) => {
+        console.error('Import failed', error);
+        this.flashMessages.danger(
+          `Import failed: ${error.message || error}`
+        );
       });
 
     let settingService = this.settings;

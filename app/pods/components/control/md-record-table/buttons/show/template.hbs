@@ -1,8 +1,10 @@
-<LinkTo
-  @route={{concat this.record.constructor.modelName '.show'}}
-  @model={{this.record.id}}
-  class='btn btn-sm btn-info'
->
-  {{fa-icon 'eye'}}
-  Show
-</LinkTo>
+{{#if this.routeName}}
+  <LinkTo
+    @route={{this.routeName}}
+    @model={{this.record.id}}
+    class='btn btn-sm btn-info'
+  >
+    {{fa-icon 'eye'}}
+    Show
+  </LinkTo>
+{{/if}}

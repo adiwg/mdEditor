@@ -24,7 +24,7 @@ function getRouteWithAction(router, actionName) {
 
   let handler = emberArray(getRoutes(router)).find((route) => {
     let actions = route.actions || route._actions;
-    action = actions && actions[actionName];
+    action = (actions && actions[actionName]) || route[actionName];
 
     return typeof action === 'function';
   });

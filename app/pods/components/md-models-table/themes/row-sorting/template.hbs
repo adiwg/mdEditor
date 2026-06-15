@@ -1,0 +1,41 @@
+<tr ...attributes>
+  {{#if this.shouldAddExtraColumn}}
+    <th></th>
+  {{/if}}
+  {{#each this.headerCells as |cell|}}
+    <th
+      class='{{@themeInstance.theadCell}} {{cell.column.className}}'
+      colspan='{{cell.column.realColspanForSortCell}}'
+    >
+      {{#if cell.isCheckAll}}
+        <button
+          type='button'
+          class='center-block md-checkbox-all'
+          aria-label='Toggle all rows'
+          {{on 'click' this.toggleAllSelection}}
+        >
+          {{#if (is-equal @selectedItems.length @data.length)}}
+            {{fa-icon 'check-square-o' fw=true}}
+          {{else}}
+            {{fa-icon 'square-o' fw=true}}
+          {{/if}}
+        </button>
+      {{else}}
+        <span
+          role='button'
+          tabindex='0'
+          {{on 'click' (fn this.sortColumn cell.column)}}
+        >
+          {{cell.title}}
+          {{#if cell.column.useSorting}}
+            {{#if cell.column.sortAsc}}
+              <i class='{{@themeInstance.sortAscIcon}}' />
+            {{else if cell.column.sortDesc}}
+              <i class='{{@themeInstance.sortDescIcon}}' />
+            {{/if}}
+          {{/if}}
+        </span>
+      {{/if}}
+    </th>
+  {{/each}}
+</tr>

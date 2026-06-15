@@ -1,54 +1,37 @@
-import { observer } from '@ember/object';
-import classic from 'ember-classic-decorator';
-import Table from 'mdeditor/pods/components/md-models-table/component';
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
+import { getOwner, setOwner } from '@ember/application';
+import Theme from 'mdeditor/pods/components/md-models-table/themes/bootstrap3';
 
-/**
- * @module mdeditor
- * @submodule components-control
- */
+export default class MdSelectTableComponent extends Component {
+  get themeInstance() {
+    if (!this._themeInstance) {
+      const owner = getOwner(this);
+      this._themeInstance = new Theme();
+      setOwner(this._themeInstance, owner);
+    }
 
-/**
- * Table with action on row click. Used to select objects (records).
- *
- * ```handlebars
- * {{control/md-select-table
- *   data=model.data
- *   columns=model.columns
- *   select=callback
- * }}
- * ```
- *
- * @class md-select-table
- * @extends models-table
- */
-@classic
-class MdSelectTableComponent extends Table {
-  classNames = ['md-select-table'];
+    return this._themeInstance;
+  }
 
-  filteringIgnoreCase = true;
+  get tableData() {
+    let data = this.args.records ?? this.args.data;
 
-  /**
-   * Callback on row selection.
-   *
-   * @method select
-   * @param {Array} selected Selected items.
-   * @return {Array}
-   */
-  select(selected) {
-    return selected;
+    if (!data) {
+      return [];
+    }
+
+    return typeof data.toArray === 'function' ? data.toArray() : data;
+  }
+
+  get columns() {
+    return this.args.columns ?? this.args.dataColumns ?? [];
+  }
+
+  @action
+  onDisplayDataChanged(settings) {
+    if (typeof this.args.select === 'function') {
+      this.args.select(settings.selectedItems);
+    }
   }
 }
-
-MdSelectTableComponent.reopen({
-  _onSelectedItemsChanged: observer('selectedItems.[]', function () {
-    this.select(this.selectedItems);
-  }),
-
-  actions: {
-    clickOnRow() {
-      this._super(...arguments);
-    },
-  },
-});
-
-export default MdSelectTableComponent;

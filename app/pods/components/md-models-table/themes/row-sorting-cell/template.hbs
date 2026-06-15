@@ -1,0 +1,35 @@
+<th
+  class='{{@themeInstance.theadCell}} {{@column.className}}'
+  colspan='{{@column.realColspanForSortCell}}'
+  ...attributes
+>
+  {{#if this.isCheckAllColumn}}
+    <button
+      type='button'
+      {{on 'click' this.toggleAllSelection}}
+      class='center-block md-checkbox-all'
+      aria-label='Toggle all rows'
+    >
+      {{#if (is-equal @selectedItems.length @data.length)}}
+        {{fa-icon 'check-square-o' fw=true}}
+      {{else}}
+        {{fa-icon 'square-o' fw=true}}
+      {{/if}}
+    </button>
+  {{else}}
+    {{#if (has-block)}}
+      {{yield (hash sortColumn=this.onClick)}}
+    {{else}}
+      <span role='button' tabindex='0' {{on 'click' this.onClick}}>
+        {{this.columnTitle}}
+        {{#if @column.useSorting}}
+          {{#if @column.sortAsc}}
+            <i class='{{@themeInstance.sortAscIcon}}' />
+          {{else if @column.sortDesc}}
+            <i class='{{@themeInstance.sortDescIcon}}' />
+          {{/if}}
+        {{/if}}
+      </span>
+    {{/if}}
+  {{/if}}
+</th>

@@ -1,5 +1,5 @@
 <li>
-  {{#link-to route='record.show.translate' model=this.model}}
+  <LinkTo @route='record.show.translate' @model={{this.model}}>
     <span class='fa fa-retweet'></span>
     <span class='md-nav-text'>Translate</span>
     {{ember-tooltip
@@ -7,7 +7,7 @@
       side='bottom'
       tooltipClass='ember-tooltip md-nav-tip'
     }}
-  {{/link-to}}
+  </LinkTo>
 </li>
 <li class='divider-vertical'>
 </li>

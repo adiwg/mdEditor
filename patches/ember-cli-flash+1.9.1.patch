@@ -1,0 +1,21 @@
+diff --git a/node_modules/ember-cli-flash/app/initializers/flash-messages.js b/node_modules/ember-cli-flash/app/initializers/flash-messages.js
+index 1111111..2222222 100644
+--- a/node_modules/ember-cli-flash/app/initializers/flash-messages.js
++++ b/node_modules/ember-cli-flash/app/initializers/flash-messages.js
+@@ -1,5 +1,5 @@
+ import config from '../config/environment';
+-import { deprecate } from '@ember/application/deprecations';
++import { deprecate } from '@ember/debug';
+ 
+ /* eslint-disable ember/new-module-imports */
+ const INJECTION_FACTORIES_DEPRECATION_MESSAGE = '[ember-cli-flash] Future versions of ember-cli-flash will no longer inject the service automatically. Instead, you should explicitly inject it into your Route, Controller or Component with `Ember.inject.service`.';
+diff --git a/node_modules/ember-cli-flash/addon/templates/components/flash-message.hbs b/node_modules/ember-cli-flash/addon/templates/components/flash-message.hbs
+index 5555555..6666666 100644
+--- a/node_modules/ember-cli-flash/addon/templates/components/flash-message.hbs
++++ b/node_modules/ember-cli-flash/addon/templates/components/flash-message.hbs
+@@ -1,4 +1,4 @@
+-{{#if hasBlock}}
++{{#if (has-block)}}
+   {{yield this flash (action "close")}}
+ {{else}}
+   {{flash.message}}

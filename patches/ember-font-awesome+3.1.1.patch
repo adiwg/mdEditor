@@ -1,0 +1,22 @@
+diff --git a/node_modules/ember-font-awesome/addon/components/fa-icon.js b/node_modules/ember-font-awesome/addon/components/fa-icon.js
+index 1111111..2222222 100644
+--- a/node_modules/ember-font-awesome/addon/components/fa-icon.js
++++ b/node_modules/ember-font-awesome/addon/components/fa-icon.js
+@@ -5,7 +5,6 @@ const {
+   computed,
+   deprecate,
+   get,
+-  getWithDefault,
+   isArray
+ } = Ember;
+ 
+@@ -128,7 +127,8 @@ const FaIconComponent = Ember.Component.extend({
+       }
+     }
+ 
+-    const size = getWithDefault(this, 'size', '').toString();
++    const sizeValue = get(this, 'size');
++    const size = (sizeValue === undefined ? '' : sizeValue).toString();
+     if (size.endsWith && size.endsWith('x')) {
+       const preferedSize = size.substring(0, size.length - 1);
+       deprecate(

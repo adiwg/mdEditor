@@ -1,0 +1,199 @@
+{{! template-lint-disable no-invalid-interactive }}
+<ModelsTable
+  class='md-record-table'
+  @themeInstance={{this.themeInstance}}
+  @data={{this.tableData}}
+  @columns={{this.columns}}
+  @columnComponents={{this.columnComponents}}
+  @selectedItems={{this.initialSelectedItems}}
+  @filteringIgnoreCase={{this.filteringIgnoreCase}}
+  @multipleSelect={{this.multipleSelect}}
+  @onDisplayDataChanged={{this.onDisplayDataChanged}}
+  @showGlobalFilter={{@showGlobalFilter}}
+  @showColumnsDropdown={{@showColumnsDropdown}}
+  @showComponentFooter={{@showComponentFooter}}
+  @showPageSize={{@showPageSize}}
+  @useFilteringByColumns={{@useFilteringByColumns}}
+  @pageSize={{@pageSize}}
+  @expandedItems={{@expandedItems}}
+  @expandedRowComponent={{@expandedRowComponent}}
+  @columnSets={{@columnSets}}
+  @selectRowOnClick={{@selectRowOnClick}}
+  @useNumericPagination={{@useNumericPagination}}
+  @showCurrentPageNumberSelect={{@showCurrentPageNumberSelect}}
+  @currentPageNumber={{@currentPageNumber}}
+  @filterString={{@filterString}}
+  @useDataGrouping={{@useDataGrouping}}
+  @currentGroupingPropertyName={{@currentGroupingPropertyName}}
+  @groupedHeaders={{@groupedHeaders}}
+  @onRowDoubleClick={{@onRowDoubleClick}}
+  @onRowHover={{@onRowHover}}
+  @onRowOut={{@onRowOut}}
+  @onColumnsVisibilityChanged={{@onColumnsVisibilityChanged}}
+  as |MT|
+>
+  <div class={{MT.themeInstance.headerWrapper}}>
+    {{#if this.showGlobalFilter}}
+      <MT.GlobalFilter />
+    {{/if}}
+    {{#if this.showColumnsDropdown}}
+      <MT.ColumnsDropdown />
+    {{/if}}
+  </div>
+  <div class='models-table-clear'></div>
+
+  <MT.Table as |Table|>
+    <Table.Header as |Header|>
+      <tr>
+        {{#each
+          (this.sortHeaderColumns MT.processedColumns)
+          as |column|
+        }}
+          <th
+            class='{{MT.themeInstance.theadCell}} {{column.className}}'
+            colspan='{{column.realColspanForSortCell}}'
+          >
+            {{#if (this.isCheckAllColumn column)}}
+              <button
+                type='button'
+                class='center-block md-checkbox-all'
+                aria-label='Toggle all rows'
+                {{on
+                  'click'
+                  (fn this.toggleAllSelection MT.toggleAllSelection)
+                }}
+              >
+                {{#if
+                  (this.allRowsSelected
+                    MT.selectedItems this.tableData
+                  )
+                }}
+                  {{fa-icon 'check-square-o' fw=true}}
+                {{else}}
+                  {{fa-icon 'square-o' fw=true}}
+                {{/if}}
+              </button>
+            {{else}}
+              <button
+                type='button'
+                class='btn btn-link emt-sort-header'
+                {{on 'click' (fn this.sortColumn MT.sort column)}}
+              >
+                {{this.sortHeaderTitle column}}
+                {{#if column.useSorting}}
+                  {{#if column.sortAsc}}
+                    <i class='{{MT.themeInstance.sortAscIcon}}' />
+                  {{else if column.sortDesc}}
+                    <i class='{{MT.themeInstance.sortDescIcon}}' />
+                  {{/if}}
+                {{/if}}
+              </button>
+            {{/if}}
+          </th>
+        {{/each}}
+      </tr>
+      {{#if this.useFilteringByColumns}}
+        <Header.RowFiltering />
+      {{/if}}
+    </Table.Header>
+    <tbody>
+      {{#each MT.visibleContent as |record index|}}
+        <tr
+          class='{{this.rowSelectedClass
+              record
+              MT.selectedItems
+              MT.themeInstance
+            }}'
+          {{on 'click' (fn this.clickRow MT.clickOnRow index record)}}
+        >
+          {{#each MT.visibleProcessedColumns as |column colIndex|}}
+            <td class='{{column.className}}'>
+              {{#if (this.isCheckColumn column)}}
+                <button
+                  type='button'
+                  class='md-checkbox-cell'
+                  aria-label='Toggle row selection'
+                  aria-pressed={{if
+                    (this.isRecordSelected record MT.selectedItems)
+                    'true'
+                    'false'
+                  }}
+                  {{on
+                    'click'
+                    (fn this.toggleRowSelection MT.clickOnRow colIndex record)
+                  }}
+                >
+                  {{#if
+                    (this.isRecordSelected record MT.selectedItems)
+                  }}
+                    {{fa-icon 'check-square-o' fw=true}}
+                  {{else}}
+                    {{fa-icon 'square-o' fw=true}}
+                  {{/if}}
+                </button>
+              {{else if (this.isCustomButtonColumn column)}}
+                {{#let
+                  (this.readButtonConfig column)
+                  as |btnConfig|
+                }}
+                  {{#if btnConfig}}
+                    <button
+                      type='button'
+                      class='btn btn-sm btn-{{if
+                          btnConfig.style
+                          btnConfig.style
+                          "primary"
+                        }}'
+                      {{on
+                        'click'
+                        (fn this.runCustomButtonAction btnConfig record)
+                      }}
+                    >
+                      {{fa-icon 'binoculars'}}
+                      {{btnConfig.title}}
+                    </button>
+                  {{/if}}
+                {{/let}}
+              {{else if (this.isButtonsShowColumn column)}}
+                <LinkTo
+                  @route={{this.showRouteName}}
+                  @model={{record.id}}
+                  class='btn btn-sm btn-info'
+                >
+                  {{fa-icon 'eye'}}
+                  Show
+                </LinkTo>
+              {{else if (this.isButtonsColumn column)}}
+                <Control::MdRecordTable::Buttons
+                  @record={{record}}
+                  @index={{index}}
+                  @isSelected={{this.isRecordSelected
+                    record
+                    MT.selectedItems
+                  }}
+                  @clickOnRow={{MT.clickOnRow}}
+                  @showSlider={{@showSlider}}
+                />
+              {{else}}
+                {{this.cellValue record column}}
+              {{/if}}
+            </td>
+          {{/each}}
+        </tr>
+      {{else}}
+        <tr>
+          <td
+            class='{{MT.themeInstance.noDataCell}}'
+            colspan='{{MT.visibleProcessedColumns.length}}'
+          >
+            {{MT.themeInstance.noDataToShowMsg}}
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </MT.Table>
+
+  {{#if this.showComponentFooter}}
+    <MT.Footer />
+  {{/if}}
+</ModelsTable>

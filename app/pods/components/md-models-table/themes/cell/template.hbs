@@ -1,0 +1,52 @@
+{{! template-lint-disable no-invalid-interactive }}
+<td
+  {{on 'click' this.onClick}}
+  class='{{@column.className}}'
+  ...attributes
+>
+  {{#if (has-block)}}
+    {{yield}}
+  {{else if this.isCheckColumn}}
+    <button
+      type='button'
+      {{on 'click' this.toggleRowSelection}}
+      class='md-checkbox-cell'
+      aria-label='Toggle row selection'
+      aria-pressed={{if @isSelected 'true' 'false'}}
+    >
+      {{#if @isSelected}}
+        {{fa-icon 'check-square-o' fw=true}}
+      {{else}}
+        {{fa-icon 'square-o' fw=true}}
+      {{/if}}
+    </button>
+  {{else if this.isCustomButtonColumn}}
+    {{#let this.buttonConfig as |c|}}
+      {{#if c}}
+        <button
+          type='button'
+          class='btn btn-sm btn-{{if c.style c.style "primary"}}'
+          {{on 'click' this.runCustomButtonAction}}
+        >
+          {{fa-icon 'binoculars'}}
+          {{c.title}}
+        </button>
+      {{/if}}
+    {{/let}}
+  {{else if this.isButtonsShowColumn}}
+    {{#if this.showRouteName}}
+      <LinkTo
+        @route={{this.showRouteName}}
+        @model={{@record.id}}
+        class='btn btn-sm btn-info'
+      >
+        {{fa-icon 'eye'}}
+        Show
+      </LinkTo>
+    {{/if}}
+  {{else if this.isButtonsColumn}}
+    <Control::MdRecordTable::Buttons @record={{@record}} @index={{@index}} />
+  {{else if this.cellValue}}
+    {{this.cellValue}}
+  {{/if}}
+</td>

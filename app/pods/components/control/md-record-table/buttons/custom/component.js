@@ -1,20 +1,9 @@
-import classic from 'ember-classic-decorator';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 
-/**
- * @property column.buttonConfig.style - Button style
- * @type {String}
- *
- * @property column.buttonConfig.title - Text to display in the button
- * @type {String}
- *
- * @property record - The record passed to the component
- * @type {Object}
- *
- * @property column.buttonConfig.action - Action to run on button click
- * @param {Object} record The row record
- */
-@classic
-export default class CustomComponent extends Component {
-  action() {}
+export default class CustomButtonComponent extends Component {
+  get buttonConfig() {
+    const column = this.args.column;
+
+    return column?.buttonConfig ?? column?.originalDefinition?.buttonConfig;
+  }
 }
