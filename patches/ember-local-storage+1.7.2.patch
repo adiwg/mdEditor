@@ -1,12 +1,27 @@
-diff --git a/node_modules/ember-local-storage/addon/adapters/base.js /Users/pixelwizdesigns/workspace_adiwg/mdEditor/node_modules/ember-local-storage/addon/adapters/base.js b/node_modules/ember-local-storage/addon/adapters/base.js /Users/pixelwizdesigns/workspace_adiwg/mdEditor/node_modules/ember-local-storage/addon/adapters/base.js
---- a/node_modules/ember-local-storage/addon/adapters/base.js	1985-10-26 04:15:00
-+++ b/node_modules/ember-local-storage/addon/adapters/base.js	2026-06-14 09:02:09
+diff --git a/node_modules/ember-local-storage/addon/helpers/storage.js b/node_modules/ember-local-storage/addon/helpers/storage.js
+index 1111111..2222222 100644
+--- a/node_modules/ember-local-storage/addon/helpers/storage.js
++++ b/node_modules/ember-local-storage/addon/helpers/storage.js
+@@ -1,8 +1,7 @@
+-import { assert } from '@ember/debug';
++import { assert, deprecate } from '@ember/debug';
+ import EmberObject, { computed } from '@ember/object';
+ import { getOwner } from '@ember/application';
+ import { dasherize } from '@ember/string';
+-import { deprecate } from '@ember/application/deprecations';
+ 
+ 
+ const storage = {};
+diff --git a/node_modules/ember-local-storage/addon/adapters/base.js b/node_modules/ember-local-storage/addon/adapters/base.js
+index 3333333..4444444 100644
+--- a/node_modules/ember-local-storage/addon/adapters/base.js
++++ b/node_modules/ember-local-storage/addon/adapters/base.js
 @@ -1,4 +1,3 @@
 -import { keys } from '@ember/polyfills';
  import RSVP from 'rsvp';
  import { run } from '@ember/runloop';
  import { isEmpty, typeOf } from '@ember/utils';
-@@ -7,7 +6,7 @@
+@@ -7,7 +6,7 @@ import DS from 'ember-data';
  import ImportExportMixin from '../mixins/adapters/import-export';
  import { _buildKey } from '../helpers/storage';
  
@@ -15,9 +30,27 @@ diff --git a/node_modules/ember-local-storage/addon/adapters/base.js /Users/pixe
  
  const {
    JSONAPIAdapter
-diff --git a/node_modules/ember-local-storage/addon/helpers/import-export.js /Users/pixelwizdesigns/workspace_adiwg/mdEditor/node_modules/ember-local-storage/addon/helpers/import-export.js b/node_modules/ember-local-storage/addon/helpers/import-export.js /Users/pixelwizdesigns/workspace_adiwg/mdEditor/node_modules/ember-local-storage/addon/helpers/import-export.js
---- a/node_modules/ember-local-storage/addon/helpers/import-export.js	1985-10-26 04:15:00
-+++ b/node_modules/ember-local-storage/addon/helpers/import-export.js	2026-06-14 09:02:07
+diff --git a/node_modules/ember-local-storage/addon/mixins/storage.js b/node_modules/ember-local-storage/addon/mixins/storage.js
+index 5555555..6666666 100644
+--- a/node_modules/ember-local-storage/addon/mixins/storage.js
++++ b/node_modules/ember-local-storage/addon/mixins/storage.js
+@@ -1,11 +1,10 @@
+-import { assign, merge } from '@ember/polyfills';
+ import Mixin from '@ember/object/mixin';
+ import { set, get } from '@ember/object';
+ import { isArray, A } from '@ember/array';
+ import { getStorage } from '../helpers/storage';
+ import { copy } from 'ember-copy'
+ 
+-const assignIt = assign || merge;
++const assignIt = Object.assign;
+ 
+ export default Mixin.create({
+   _storageKey: null,
+diff --git a/node_modules/ember-local-storage/addon/helpers/import-export.js b/node_modules/ember-local-storage/addon/helpers/import-export.js
+index 7777777..8888888 100644
+--- a/node_modules/ember-local-storage/addon/helpers/import-export.js
++++ b/node_modules/ember-local-storage/addon/helpers/import-export.js
 @@ -1,20 +1,24 @@
  import { all, Promise } from 'rsvp';
 -import { assign, merge } from '@ember/polyfills';
@@ -50,7 +83,7 @@ diff --git a/node_modules/ember-local-storage/addon/helpers/import-export.js /Us
  
    content = options.json ? JSON.parse(content) : content;
  
-@@ -38,33 +42,68 @@
+@@ -38,33 +42,68 @@ export function importData(store, content, options) {
      });
    }
  
@@ -108,7 +141,7 @@ diff --git a/node_modules/ember-local-storage/addon/helpers/import-export.js /Us
 +
 +        all(
 +          reloadTypes.map(function (type) {
-+            return store.findAll(type);
++            return store.findAll(type, { reload: true });
 +          })
 +        )
 +          .then(resolve)
@@ -138,7 +171,7 @@ diff --git a/node_modules/ember-local-storage/addon/helpers/import-export.js /Us
  
    let json, data;
  
-@@ -76,7 +115,7 @@
+@@ -76,7 +115,7 @@ export function exportData(store, types, options) {
  
      records.data = records.data.concat(exportData);
      return records;
@@ -147,7 +180,7 @@ diff --git a/node_modules/ember-local-storage/addon/helpers/import-export.js /Us
  
    if (options.json || options.download) {
      json = JSON.stringify(data);
-@@ -88,7 +127,7 @@
+@@ -88,7 +127,7 @@ export function exportData(store, types, options) {
  
    if (options.download) {
      window.saveAs(
@@ -156,32 +189,3 @@ diff --git a/node_modules/ember-local-storage/addon/helpers/import-export.js /Us
        options.filename
      );
    }
-diff --git a/node_modules/ember-local-storage/addon/helpers/storage.js /Users/pixelwizdesigns/workspace_adiwg/mdEditor/node_modules/ember-local-storage/addon/helpers/storage.js b/node_modules/ember-local-storage/addon/helpers/storage.js /Users/pixelwizdesigns/workspace_adiwg/mdEditor/node_modules/ember-local-storage/addon/helpers/storage.js
---- a/node_modules/ember-local-storage/addon/helpers/storage.js	1985-10-26 04:15:00
-+++ b/node_modules/ember-local-storage/addon/helpers/storage.js	2026-06-14 09:02:08
-@@ -1,8 +1,7 @@
--import { assert } from '@ember/debug';
-+import { assert, deprecate } from '@ember/debug';
- import EmberObject, { computed } from '@ember/object';
- import { getOwner } from '@ember/application';
- import { dasherize } from '@ember/string';
--import { deprecate } from '@ember/application/deprecations';
- 
- 
- const storage = {};
-diff --git a/node_modules/ember-local-storage/addon/mixins/storage.js /Users/pixelwizdesigns/workspace_adiwg/mdEditor/node_modules/ember-local-storage/addon/mixins/storage.js b/node_modules/ember-local-storage/addon/mixins/storage.js /Users/pixelwizdesigns/workspace_adiwg/mdEditor/node_modules/ember-local-storage/addon/mixins/storage.js
---- a/node_modules/ember-local-storage/addon/mixins/storage.js	1985-10-26 04:15:00
-+++ b/node_modules/ember-local-storage/addon/mixins/storage.js	2026-06-14 09:02:08
-@@ -1,11 +1,10 @@
--import { assign, merge } from '@ember/polyfills';
- import Mixin from '@ember/object/mixin';
- import { set, get } from '@ember/object';
- import { isArray, A } from '@ember/array';
- import { getStorage } from '../helpers/storage';
- import { copy } from 'ember-copy'
- 
--const assignIt = assign || merge;
-+const assignIt = Object.assign;
- 
- export default Mixin.create({
-   _storageKey: null,

@@ -10,7 +10,15 @@ index 1111111..2222222 100644
    isArray
  } = Ember;
  
-@@ -128,7 +127,8 @@ const FaIconComponent = Ember.Component.extend({
+@@ -38,7 +37,6 @@ const FaIconComponent = Ember.Component.extend({
+ 
+   didReceiveAttrs() {
+     this._super(...arguments);
+-    this.checkDeprecations();
+   },
+ 
+   style: computed('color', function() {
+@@ -128,7 +126,8 @@ const FaIconComponent = Ember.Component.extend({
        }
      }
  

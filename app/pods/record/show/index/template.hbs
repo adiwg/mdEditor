@@ -1,4 +1,4 @@
-{{#let this.model.json.metadata.resourceInfo as |resource|}}
+{{#let (get this.model.json "metadata.resourceInfo") as |resource|}}
   <div class='row md-no-spotlight'>
     <div class='col-sm-9 col-md-offset-1'>
       <h3>
@@ -7,6 +7,14 @@
         {{this.model.title}}
         {{control/md-status model=this.model}}
       </h3>
+
+      {{#unless resource}}
+        <div class='alert alert-warning'>
+          This record is missing resource metadata and cannot be displayed fully.
+        </div>
+      {{/unless}}
+
+      {{#if resource}}
 
       <Layout::MdCard
         @shadow={{false}}
@@ -183,6 +191,8 @@
         </section>
 
       </Layout::MdCard>
+
+      {{/if}}
 
       {{outlet}}
     </div>

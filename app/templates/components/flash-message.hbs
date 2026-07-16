@@ -1,0 +1,10 @@
+{{#if (has-block)}}
+  {{yield this this.flash}}
+{{else}}
+  {{this.flash.message}}
+  {{#if this.showProgressBar}}
+    <div class="alert-progress">
+      <div class="alert-progressBar" style={{this.progressDuration}}></div>
+    </div>
+  {{/if}}
+{{/if}}

@@ -6,16 +6,52 @@ index 1111111..2222222 100644
  import config from '../config/environment';
 -import { deprecate } from '@ember/application/deprecations';
 +import { deprecate } from '@ember/debug';
- 
+
  /* eslint-disable ember/new-module-imports */
  const INJECTION_FACTORIES_DEPRECATION_MESSAGE = '[ember-cli-flash] Future versions of ember-cli-flash will no longer inject the service automatically. Instead, you should explicitly inject it into your Route, Controller or Component with `Ember.inject.service`.';
+
 diff --git a/node_modules/ember-cli-flash/addon/templates/components/flash-message.hbs b/node_modules/ember-cli-flash/addon/templates/components/flash-message.hbs
 index 5555555..6666666 100644
 --- a/node_modules/ember-cli-flash/addon/templates/components/flash-message.hbs
 +++ b/node_modules/ember-cli-flash/addon/templates/components/flash-message.hbs
-@@ -1,4 +1,4 @@
+@@ -1,9 +1,9 @@
 -{{#if hasBlock}}
+-  {{yield this flash (action "close")}}
 +{{#if (has-block)}}
-   {{yield this flash (action "close")}}
++  {{yield this this.flash (action "close")}}
  {{else}}
-   {{flash.message}}
+-  {{flash.message}}
+-  {{#if showProgressBar}}
++  {{this.flash.message}}
++  {{#if this.showProgressBar}}
+     <div class="alert-progress">
+-      <div class="alert-progressBar" style={{progressDuration}}></div>
++      <div class="alert-progressBar" style={{this.progressDuration}}></div>
+     </div>
+   {{/if}}
+ {{/if}}
+
+diff --git a/node_modules/ember-cli-flash/addon/components/flash-message.js b/node_modules/ember-cli-flash/addon/components/flash-message.js
+index 3333333..7777777 100644
+--- a/node_modules/ember-cli-flash/addon/components/flash-message.js
++++ b/node_modules/ember-cli-flash/addon/components/flash-message.js
+@@ -1,17 +1,10 @@
+ import { htmlSafe, classify } from '@ember/string';
+ import Component from '@ember/component';
+ import { isPresent } from '@ember/utils';
+-import { run } from '@ember/runloop';
++import { next, cancel } from '@ember/runloop';
+ import { computed, set, get } from '@ember/object';
++import { and, bool, not, readOnly } from '@ember/object/computed';
+ import layout from '../templates/components/flash-message';
+ import getWithDefault from '../utils/get-with-default';
+-const {
+-  and,
+-  bool,
+-  readOnly,
+-  not
+-} = computed;
+-const {
+-  next,
+-  cancel
+-} = run;

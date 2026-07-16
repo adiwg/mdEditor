@@ -128,18 +128,15 @@ export default class MdCodelistComponent extends Select {
         this,
         'mdCodelist',
         computed(`mdCodes.${this.mdCodeName}.codelist.[]`, function () {
-          const codelist = this.mdCodes.get(this.mdCodeName).codelist;
+          const codelistEntry = this.mdCodes.get(this.mdCodeName);
+          const codelist = codelistEntry?.codelist || A([]);
           if (this.disableSort) {
             return codelist;
           }
-          return codelist.sortBy(this.namePath);
+          return codelist.sortBy ? codelist.sortBy(this.namePath) : A(codelist);
         })
       );
     }
-
-    // CRITICAL: Force codelist to be evaluated immediately
-    // This ensures power-select has the data when it initializes
-    const initialList = this.codelist;
   }
 
   /*

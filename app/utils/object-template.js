@@ -61,7 +61,10 @@ export function applyTemplateArray(context, property, templateClass, defaults) {
 
     return A(
       property.map((item) => {
-        let instance = templateClass.create(owner.ownerInjection(), defaults || {});
+        let instance = templateClass.create(
+          owner.ownerInjection(),
+          defaults || {}
+        );
         if (item) {
           let keys = Object.keys(item);
           let hash = {};
@@ -107,7 +110,7 @@ export function applyObjectTemplateArray(
         }
 
         property.forEach((item, idx, items) => {
-          let newItem = assign(
+          let newItem = Object.assign(
             templateClass.create(owner.ownerInjection(), defaults || {}),
             item
           );

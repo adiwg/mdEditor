@@ -1969,7 +1969,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@embroider/macros@npm:^0.50.0 || ^1.0.0, @embroider/macros@npm:^1.0.0, @embroider/macros@npm:^1.10.0, @embroider/macros@npm:^1.12.0, @embroider/macros@npm:^1.13.1, @embroider/macros@npm:^1.18.1, @embroider/macros@npm:^1.19.5, @embroider/macros@npm:^1.8.0":
+"@embroider/macros@npm:^0.50.0 || ^1.0.0, @embroider/macros@npm:^1.0.0, @embroider/macros@npm:^1.10.0, @embroider/macros@npm:^1.13.1, @embroider/macros@npm:^1.18.1, @embroider/macros@npm:^1.19.5, @embroider/macros@npm:^1.8.0":
   version: 1.20.4
   resolution: "@embroider/macros@npm:1.20.4"
   dependencies:
@@ -1987,6 +1987,27 @@ __metadata:
     "@glint/template":
       optional: true
   checksum: 10c0/dfb28c3d4fce8facf6d8b16612765b9f244aca190aa124b2fe0ca097f37dfc9a501a49e2a75ba1401672fe55f77850a69580367ef97c380e46d6eefefa8b4c4a
+  languageName: node
+  linkType: hard
+
+"@embroider/macros@npm:^1.12.0":
+  version: 1.20.5
+  resolution: "@embroider/macros@npm:1.20.5"
+  dependencies:
+    "@embroider/shared-internals": "npm:3.1.1"
+    assert-never: "npm:^1.2.1"
+    babel-import-util: "npm:^3.0.1"
+    ember-cli-babel: "npm:^7.26.6 || ^8.3.1"
+    find-up: "npm:^5.0.0"
+    lodash: "npm:^4.17.21"
+    resolve: "npm:^1.20.0"
+    semver: "npm:^7.3.2"
+  peerDependencies:
+    "@glint/template": ^1.0.0
+  peerDependenciesMeta:
+    "@glint/template":
+      optional: true
+  checksum: 10c0/4df76a3dc8e00e9be233099841896a5086884978f909fc02afbdb20a86eb050049641c1f80d041abb39249cc7247d8398f0c67961655ba59c2b5dae3f5edaaaf
   languageName: node
   linkType: hard
 

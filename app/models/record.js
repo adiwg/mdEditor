@@ -149,7 +149,7 @@ const Record = Model.extend(Validations, Copyable, {
       }
 
       // Fallback icon if service is not available
-      return 'fa fa-file-o';
+      return 'file-o';
     }
   ),
 

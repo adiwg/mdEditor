@@ -1,6 +1,7 @@
 import Component from '@glimmer/component';
-import { get } from '@ember/object';
+import { get, set } from '@ember/object';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { getOwner, setOwner } from '@ember/application';
 import { TrackedArray } from 'tracked-built-ins';
 import Theme from 'mdeditor/pods/components/md-models-table/themes/bootstrap3';
@@ -20,6 +21,8 @@ import * as tableRender from './table-render';
  * @class md-record-table
  */
 export default class MdRecordTableComponent extends Component {
+  @service router;
+
   get themeInstance() {
     if (!this._themeInstance) {
       const owner = getOwner(this);
@@ -56,10 +59,26 @@ export default class MdRecordTableComponent extends Component {
     let data = this.tableData;
 
     if (!prop || !data.length) {
+      this._initialSelectedItems = undefined;
+      this._initialSelectedItemsKey = null;
       return undefined;
     }
 
-    return new TrackedArray(data.filter((item) => get(item, prop)));
+    const cacheKey = `${prop}:${data.length}:${data[0]?.id ?? ''}`;
+
+    if (
+      this._initialSelectedItemsKey === cacheKey &&
+      this._initialSelectedItems
+    ) {
+      return this._initialSelectedItems;
+    }
+
+    this._initialSelectedItemsKey = cacheKey;
+    this._initialSelectedItems = new TrackedArray(
+      data.filter((item) => get(item, prop))
+    );
+
+    return this._initialSelectedItems;
   }
 
   get filteringIgnoreCase() {
@@ -149,10 +168,10 @@ export default class MdRecordTableComponent extends Component {
 
     data.forEach((item) => {
       const isSelected = settings.selectedItems?.includes(item);
-      const currentValue = item.get(prop);
+      const currentValue = get(item, prop);
 
       if (currentValue !== isSelected) {
-        item.set(prop, isSelected);
+        set(item, prop, isSelected);
       }
     });
   }
@@ -173,7 +192,20 @@ export default class MdRecordTableComponent extends Component {
 
   @action
   clickRow(clickOnRow, index, record) {
-    clickOnRow?.(index, record);
+    if (this.args.selectRowOnClick !== false) {
+      clickOnRow?.(index, record);
+    }
+
+    if (typeof this.args.onRecordClick === 'function') {
+      this.args.onRecordClick(record);
+    } else if (this.args.openRecordOnClick) {
+      const modelName = record?.constructor?.modelName;
+
+      if (modelName && record?.id) {
+        this.router.transitionTo(`${modelName}.show`, record.id);
+      }
+    }
+
     return false;
   }
 

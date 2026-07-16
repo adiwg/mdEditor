@@ -4,11 +4,11 @@ import { or } from '@ember/object/computed';
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { later, scheduleOnce } from '@ember/runloop';
+import { later, run, scheduleOnce } from '@ember/runloop';
 import Base from 'ember-local-storage/adapters/base';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import { JsonDefault as Contact } from 'mdeditor/models/contact';
-import { Promise, allSettled, all } from 'rsvp';
+import { Promise, all, allSettled } from 'rsvp';
 import { v4 as uuidv4 } from 'uuid';
 import { fixLiabilityTypo } from '../../utils/fix-liability-typo';
 
@@ -44,12 +44,19 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
     controller.set('apiURL', this.apiURL);
     controller.set('onFileLoaded', (file) => this.readData(file));
     controller.set('importTableColumns', this.columns);
-    controller.set('importData', () => this.importData());
+    controller.set('importData', () => run(() => this.importData()));
     controller.set('setImportUri', (event) => this.setImportUri(event));
     controller.set('readFromUri', () => this.readFromUri());
     controller.set('goToSettings', () => this.goToSettings());
     controller.set('setScrollTo', (scrollTo) => this.setScrollTo(scrollTo));
     controller.set('getIcon', (type) => this.getIcon(type));
+    controller.set('showPreview', (row) => this.showPreview(row));
+    controller.set('toggleRowExport', (row, event) => {
+      row.set('meta.export', event.target.checked);
+    });
+    controller.set('toggleMerge', (value) => {
+      this.currentRouteModel()?.set('merge', value);
+    });
   }
 
   model() {
@@ -85,6 +92,45 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
         return 'N/A';
     }
   }
+
+  importSettingsRecord(settingResource) {
+    let settingRecord =
+      this.settings.data ||
+      this.store.peekAll('setting').find((record) => !record.isDeleted);
+
+    if (!settingRecord) {
+      settingRecord = this.store.createRecord('setting');
+      this.settings.set('data', settingRecord);
+    }
+
+    const otherSettings = this.store
+      .peekAll('setting')
+      .filter(
+        (record) =>
+          record !== settingRecord && !record.isDeleted && !record.isDestroying
+      );
+
+    const importedAttributes = {
+      ...(settingResource.attributes || {}),
+      repositoryDefaults: settingResource.attributes?.repositoryDefaults ?? [],
+    };
+
+    return allSettled(
+      otherSettings.map((record) => record.destroyRecord())
+    ).then(() => {
+      settingRecord.setProperties(importedAttributes);
+      return settingRecord.save().then(() => {
+        if (this.settings.data !== settingRecord) {
+          this.settings.set('data', settingRecord);
+        }
+
+        this.flashMessages.success(`Imported Settings.`, {
+          extendedTimeout: 1500,
+        });
+      });
+    });
+  }
+
   formatMdJSON(json) {
     let { contact, dataDictionary } = json;
 
@@ -228,9 +274,17 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
     fixLiabilityTypo(files);
 
     const model = route.currentRouteModel();
-    set(model, 'files', files);
-    set(model, 'data', json.data);
-    model.notifyPropertyChange('files');
+    if (!model) {
+      return;
+    }
+
+    // Defer UI update so concurrent store findAll / application re-renders
+    // do not collide with the import preview render.
+    scheduleOnce('afterRender', null, () => {
+      set(model, 'files', files);
+      set(model, 'data', json.data);
+      model.notifyPropertyChange('files');
+    });
   }
   mapMdJSON(data) {
     let map = A();
@@ -541,11 +595,11 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
   @action
   importData() {
     let store = this.store;
+    const routeModel = this.currentRouteModel();
+    const mergeMode = routeModel.get('merge');
+    const importedRecords = routeModel.get('data').filterBy('meta.export');
     let data = {
-      data: this.currentRouteModel()
-        .get('data')
-        .filterBy('meta.export')
-        .rejectBy('type', 'settings'),
+      data: importedRecords.rejectBy('type', 'settings'),
     };
 
     // Remove all PouchDB relationships
@@ -555,23 +609,15 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
       }
     });
 
-    store
+    // importData (with default reload:true) calls findAll for each type inside a
+    // single Ember.run(), so all records are in the store before the transition
+    // render fires — avoiding the two-render Glimmer autotracking conflict.
+    const dataImportPromise = store
       .importData(data, {
-        truncate: !this.currentRouteModel().get('merge'),
+        truncate: !mergeMode,
         json: false,
-        reload: false,
       })
-      .then(() => this.router.transitionTo('dashboard'))
-      .then(() =>
-        all([
-          store.findAll('record', { reload: true }),
-          store.findAll('contact', { reload: true }),
-          store.findAll('dictionary', { reload: true }),
-        ])
-      )
       .then(() => {
-        // Wait for all records to be fully loaded and their observers to fire
-        // before resetting the hash to prevent dirty state
         later(() => {
           ['record', 'contact', 'dictionary'].forEach((modelName) => {
             store.peekAll(modelName).forEach((record) => {
@@ -587,63 +633,40 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
                   );
                   record.setCurrentHash(json);
                   record.set('jsonSnapshot', json);
-                  // Notify property change to force hasDirtyHash recomputation
                   record.notifyPropertyChange('currentHash');
                 } catch (e) {
-                  // Skip records that can't be serialized
                   console.warn('Could not reset hash for record:', e);
                 }
               }
             });
           });
         }, 100);
+      });
+
+    let newSettings = importedRecords.findBy('type', 'settings');
+    const settingsImportPromise = newSettings
+      ? this.importSettingsRecord(newSettings)
+      : Promise.resolve();
+
+    allSettled([dataImportPromise, settingsImportPromise])
+      .then((results) => {
+        const rejectedResult = results.findBy('state', 'rejected');
+
+        if (rejectedResult) {
+          throw rejectedResult.reason;
+        }
 
         this.flashMessages.success(
-          `Imported data. Records were
-              ${
-                this.currentRouteModel().get('merge') ? 'merged' : 'replaced'
-              }.`,
-          {
-            extendedTimeout: 1500,
-          }
+          `Imported data. Records were ${mergeMode ? 'merged' : 'replaced'}.`,
+          { extendedTimeout: 1500 }
         );
+
+        return this.transitionTo('dashboard');
       })
       .catch((error) => {
         console.error('Import failed', error);
-        this.flashMessages.danger(
-          `Import failed: ${error.message || error}`
-        );
+        this.flashMessages.danger(`Import failed: ${error.message || error}`);
       });
-
-    let settingService = this.settings;
-    let newSettings = this.currentRouteModel()
-      .get('data')
-      .filterBy('meta.export')
-      .findBy('type', 'settings');
-
-    if (newSettings) {
-      let settings = {
-        data: [newSettings],
-      };
-      let destroys = [];
-
-      store.findAll('setting').forEach((rec) => {
-        destroys.pushObject(rec.destroyRecord());
-      });
-
-      allSettled(destroys).then(() => {
-        store
-          .importData(settings, {
-            json: false,
-          })
-          .then(() => {
-            settingService.setup();
-            this.flashMessages.success(`Imported Settings.`, {
-              extendedTimeout: 1500,
-            });
-          });
-      });
-    }
   }
 
   @action

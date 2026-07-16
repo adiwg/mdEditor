@@ -68,7 +68,7 @@
             message='<h4 class="text-danger"><span class="fa fa-exclamation-circle"></span> <strong>Are you
             sure?</strong></h4> Clicking <strong class="text-danger">Confirm</strong> will delete ALL records in
         your browser cache. Have you made a backup?'
-            confirmAction=(route-action 'clearLocalStorage')
+            confirmAction=this.clearLocalStorage
             showCancel=true
             cancelType='primary'
             showConfirm=true
@@ -184,7 +184,7 @@
     @plain={{true}}
     @title='Metadata Repository'
     @templateClass={{this.settings.repositoryTemplate}}
-    @onChange={{route-action 'save'}}
+    @onChange={{this.save}}
     @data-spy='Metadata Repository'
     as |meta|
   >
@@ -197,7 +197,7 @@
         mdCodeName='metadataRepository'
         closeOnSelect=true
         placeholder='Select or enter a repository.'
-        change=(route-action 'save')
+        change=this.save
       }}
     </td>
     <td>
@@ -206,7 +206,7 @@
         model=meta.item
         valuePath='title'
         placeholder='Text string used to identify a set of resources in the repository.'
-        change=(route-action 'save')
+        change=this.save
       }}
     </td>
   </Object::MdArrayTable>
@@ -225,7 +225,7 @@
 </Layout::MdCard>
 
 <Layout::MdCard @title='Publishing Settings' @data-spy='Publishing'>
-  {{#each (compute (route-action 'catalogs')) as |catalog|}}
+  {{#each this.catalogs as |catalog|}}
     <Layout::MdCard
       @title={{catalog.name}}
       @collapsible={{true}}
@@ -235,8 +235,8 @@
     >
       {{component
         catalog.settingsComponent
-        model=(compute (route-action 'getPublishOptions') catalog.name)
-        save=(route-action 'save')
+        model=(compute this.getPublishOptions catalog.name)
+        save=this.save
       }}
     </Layout::MdCard>
   {{/each}}
@@ -248,6 +248,6 @@
   send=(component
     'control/md-scroll-spy'
     scrollInit=this.scrollTo
-    setScrollTo=(route-action 'setScrollTo')
+    setScrollTo=this.setScrollTo
   )
 }}

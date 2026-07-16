@@ -41,7 +41,9 @@ export default Service.extend({
       settings.notifyPropertyChange('hasDirtyAttributes');
 
       if (!(me.get('isDestroyed') || me.get('isDestroying'))) {
-        me.set('data', settings);
+        if (me.get('data') !== settings) {
+          me.set('data', settings);
+        }
       }
 
       return settings;

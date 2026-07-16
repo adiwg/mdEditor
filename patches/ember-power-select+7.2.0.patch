@@ -25,3 +25,15 @@ index 1111111..2222222 100644
  }
  
  function getOptionMatcher(matcher: MatcherFn, defaultMatcher: MatcherFn, searchField: string | undefined): MatcherFn {
+diff --git a/node_modules/ember-power-select/addon/components/power-select/trigger.hbs b/node_modules/ember-power-select/addon/components/power-select/trigger.hbs
+index 3333333..4444444 100644
+--- a/node_modules/ember-power-select/addon/components/power-select/trigger.hbs
++++ b/node_modules/ember-power-select/addon/components/power-select/trigger.hbs
+@@ -1,6 +1,6 @@
+ {{#if @select.selected}}
+   {{#if @selectedItemComponent}}
+-    {{component (ensure-safe-component @selectedItemComponent) extra=(readonly @extra) option=(readonly @select.selected) select=(readonly @select)}}
++    {{component (ensure-safe-component @selectedItemComponent) extra=@extra option=@select.selected select=@select}}
+   {{else}}
+     <span class="ember-power-select-selected-item">{{yield @select.selected @select}}</span>
+   {{/if}}

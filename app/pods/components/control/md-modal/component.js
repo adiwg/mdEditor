@@ -90,10 +90,15 @@ export default class MdModalComponent extends Component {
    * @property confirm
    */
   confirm = () => {
+    let shouldClose = true;
+
     if (this.confirmAction) {
-      this.confirmAction();
+      shouldClose = this.confirmAction() !== false;
     }
-    this.closeModal();
+
+    if (shouldClose) {
+      this.closeModal();
+    }
   };
 
   /**
