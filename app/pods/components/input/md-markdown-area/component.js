@@ -188,6 +188,6 @@ export default class MdMarkdownAreaComponent extends Component {
 
   @action
   updateValue(value) {
-    this.value = value;
+    this.set('value', value);
   }
 }

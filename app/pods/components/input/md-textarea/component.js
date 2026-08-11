@@ -168,7 +168,7 @@ export default class MdTextareaComponent extends Component {
 
   @action
   updateValue(event) {
-    this.value = event.target.value;
+    this.set('value', event.target.value);
   }
 
   @action

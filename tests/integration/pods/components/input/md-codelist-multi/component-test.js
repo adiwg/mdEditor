@@ -112,4 +112,19 @@ module('Integration | Component | input/md codelist multi', function(hooks) {
         .replace(/[ \n]+/g, '|'), '|×|foo|×|biz|',
         'value updated');
   });
+
+  test('selecting writes back through the two-way binding', async function(assert) {
+    this.set('resource', { status: ['foo'] });
+
+    await render(hbs `{{input/md-codelist-multi
+      create=false
+      value=this.resource.status
+      mdCodeName="foobar"}}`);
+
+    await clickTrigger();
+    await triggerEvent(find('.ember-power-select-option'), 'mouseup');
+
+    assert.deepEqual([...this.resource.status].sort(), ['bar', 'foo'],
+      'selection propagates to the bound property');
+  });
 });

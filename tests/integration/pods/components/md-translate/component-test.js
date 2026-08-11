@@ -59,7 +59,7 @@ module('Integration | Component | md translate', function(hooks) {
     this.set('result', '{"foo":"bar"}');
 
     assert.equal(find('.md-translator-preview.warning').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Result|{"foo":"bar"}|Preview|JSON|Format|Save|Result|',
+      '|Result|Preview|JSON|Format|Save|Result|',
       'result');
 
     assert.equal(find('.md-translator-preview.warning textarea').value,

@@ -40,7 +40,7 @@ module('Integration | Component | object/md lineage', function(hooks) {
     await render(hbs`<section>{{object/md-lineage profilePath="foobar" model=lineage}}</section>`);
 
     assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Statement|Statement|statement|No|Process|Step|found.|Add|Process|Step|Source|2|Add|OK|#|Description|0|description|More...|Delete|1|description|More...|Delete|Citation|2|Add|OK|#|Title|0|title|More...|Delete|1|title|More...|Delete|Scope|scopeCode|×|');
+      '|Statement|Statement|No|Process|Step|found.|Add|Process|Step|Source|2|Add|OK|#|Description|0|More...|Delete|1|More...|Delete|Citation|2|Add|OK|#|Title|0|title|More...|Delete|1|title|More...|Delete|Scope|scopeCode|×|');
 
     // Template block usage:
     await render(hbs`<section>

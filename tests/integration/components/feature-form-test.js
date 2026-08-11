@@ -22,7 +22,7 @@ module('Integration | Component | feature form', function(hooks) {
     assert.equal(find('.ember-view').textContent
       .replace(/[ \n]+/g, '|')
       .trim(),
-      '|Feature|ID|Name|Description|Description|foobar|Other|Properties|read-only|Name|Value|None|found.|'
+      '|Feature|ID|Name|Description|Description|Other|Properties|read-only|Name|Value|None|found.|'
     );
 
     // Template block usage:
@@ -35,7 +35,7 @@ module('Integration | Component | feature form', function(hooks) {
     assert.equal(find('.ember-view').textContent
       .replace(/[ \n]+/g, '|')
       .trim(),
-      '|Feature|ID|Name|Description|Description|foobar|Other|Properties|read-only|Name|Value|None|found.|template|block|text|'
+      '|Feature|ID|Name|Description|Description|Other|Properties|read-only|Name|Value|None|found.|template|block|text|'
     );
   });
 });

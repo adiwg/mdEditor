@@ -32,7 +32,7 @@ module('Integration | Component | object/md online resource', function (hooks) {
 
     assert.equal(
       this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Name|URI|Protocol|Description|Description|description|Function|download|?|×|Application|Profile|applicationProfile|×|Protocol|Request|Protocol|Request|protocolRequest|'
+      '|Name|URI|Protocol|Description|Description|Function|download|?|×|Application|Profile|applicationProfile|×|Protocol|Request|Protocol|Request|'
     );
 
     // Template block usage:
@@ -44,7 +44,7 @@ module('Integration | Component | object/md online resource', function (hooks) {
 
     assert.equal(
       this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Name|URI|Protocol|Description|Description|description|Function|download|?|×|Application|Profile|applicationProfile|×|Protocol|Request|Protocol|Request|protocolRequest|template|block|text|',
+      '|Name|URI|Protocol|Description|Description|Function|download|?|×|Application|Profile|applicationProfile|×|Protocol|Request|Protocol|Request|template|block|text|',
       'block'
     );
   });

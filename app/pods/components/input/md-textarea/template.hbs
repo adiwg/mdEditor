@@ -31,9 +31,10 @@
       class={{this.inputClass}}
       readonly={{this.readonly}}
       disabled={{this.readonly}}
+      value={{this.value}}
       {{on 'input' this.updateValue}}
       {{autoresize}}
-    >{{this.value}}</textarea>
+    ></textarea>
     <span class='md-input-error'>
       {{#if this.showErrorMessage}}
         <span class='md-error'>

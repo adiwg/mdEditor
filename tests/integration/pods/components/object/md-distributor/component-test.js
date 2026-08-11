@@ -42,7 +42,7 @@ module('Integration | Component | object/md distributor', function (hooks) {
     await render(hbs `{{object/md-distributor model=distributor profilePath="foobar"}}`);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Contacts|Role|role|×|Transfer|Options|2|Add|OK|#|Size(mb)|Online?|Offline?|Format?|0|9.9|no|no|no|More...|Delete|1|10.9|no|no|no|More...|Delete|Order|Process|Fees|Fees|1.00USD|Planned|Availability|Ordering|Instructions|Ordering|Instructions|Turnaround|Turnaround|'
+      '|Contacts|Role|role|×|Transfer|Options|2|Add|OK|#|Size(mb)|Online?|Offline?|Format?|0|9.9|no|no|no|More...|Delete|1|10.9|no|no|no|More...|Delete|Order|Process|Fees|Fees|Planned|Availability|Ordering|Instructions|Ordering|Instructions|Turnaround|Turnaround|'
     );
 
     // Template block usage:
@@ -53,7 +53,7 @@ module('Integration | Component | object/md distributor', function (hooks) {
     `);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Contacts|Role|role|×|Transfer|Options|2|Add|OK|#|Size(mb)|Online?|Offline?|Format?|0|9.9|no|no|no|More...|Delete|1|10.9|no|no|no|More...|Delete|Order|Process|Fees|Fees|1.00USD|Planned|Availability|Ordering|Instructions|Ordering|Instructions|Turnaround|Turnaround|template|block|text|',
+      '|Contacts|Role|role|×|Transfer|Options|2|Add|OK|#|Size(mb)|Online?|Offline?|Format?|0|9.9|no|no|no|More...|Delete|1|10.9|no|no|no|More...|Delete|Order|Process|Fees|Fees|Planned|Availability|Ordering|Instructions|Ordering|Instructions|Turnaround|Turnaround|template|block|text|',
       'block'
     );
   });

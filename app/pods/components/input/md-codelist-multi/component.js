@@ -56,6 +56,7 @@ class MdCodelistMultiComponent extends MdCodelist {
       set(this, 'value', nextValue);
     } else {
       set(this, 'localValue', nextValue);
+      set(this, 'value', nextValue);
     }
 
     this.change();
