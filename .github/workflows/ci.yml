@@ -26,10 +26,18 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'yarn'
 
+      # Must run before the cache-enabled setup-node below: that action shells
+      # out to `yarn cache dir`, which fails against the runner's global Yarn 1
+      # because package.json pins packageManager to yarn@4.
       - name: Enable Corepack
         run: corepack enable
+
+      - name: Restore Yarn cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
 
       - name: Install Dependencies
         run: yarn install --immutable
@@ -54,10 +62,17 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'yarn'
 
+      # See note in the lint job: Corepack must be enabled before any
+      # setup-node step that uses cache: 'yarn'.
       - name: Enable Corepack
         run: corepack enable
+
+      - name: Restore Yarn cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
 
       - name: Install Dependencies
         run: yarn install --immutable
