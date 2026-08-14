@@ -1,8 +1,8 @@
 import Model, { attr } from '@ember-data/model';
+import { observer } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 import { inject as service } from '@ember/service';
-import EmberObject, { observer } from '@ember/object';
 
 const defaultValues = {
   // itisProxyUrl: 'https://api.sciencebase.gov/mdTranslator',

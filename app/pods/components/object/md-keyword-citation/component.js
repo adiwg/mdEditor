@@ -47,7 +47,6 @@ export default class MdKeywordCitationComponent extends Component.extend(Validat
     }
     onlineResourceArray[0].uri = value;
     this.model.thesaurus.onlineResource = onlineResourceArray;
-    return value;
   }
 
   get date() {
@@ -60,7 +59,6 @@ export default class MdKeywordCitationComponent extends Component.extend(Validat
       this.model.thesaurus.date = [{}];
     }
     this.model.thesaurus.date[0].date = value;
-    return value;
   }
 
   get dateType() {
@@ -73,7 +71,6 @@ export default class MdKeywordCitationComponent extends Component.extend(Validat
       this.model.thesaurus.date = [{}];
     }
     this.model.thesaurus.date[0].dateType = value;
-    return value;
   }
 }
 

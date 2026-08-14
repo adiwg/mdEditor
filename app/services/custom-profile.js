@@ -38,7 +38,7 @@ const EMPTY_PROFILE = {
 export default Service.extend({
   init() {
     this._super(...arguments);
-    this.customProfiles = this.store.findAll('custom-profile');
+    this.set('customProfiles', this.store.findAll('custom-profile'));
   },
   flashMessages: service(),
   store: service(),
@@ -263,6 +263,7 @@ export default Service.extend({
     }
 
     const thesauri = [];
+    // eslint-disable-next-line no-unused-vars -- false positive: babel-eslint@8 mis-scopes for-of bindings
     for (const profileItem of resolvedItems) {
       const { url: itemUrl, data } = profileItem;
       if (data?.thesauri?.length > 0) {

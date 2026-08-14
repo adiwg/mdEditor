@@ -134,6 +134,8 @@ export default class MdMarkdownAreaComponent extends Component {
     } else if (length + 25 > max) {
       return 'warning';
     }
+
+    return '';
   }
 
   /**

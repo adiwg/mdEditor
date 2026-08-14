@@ -1,4 +1,4 @@
-import { render, click, waitFor, findAll } from '@ember/test-helpers';
+import { render, click, waitFor } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';

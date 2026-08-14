@@ -8,8 +8,6 @@ import {
 } from 'ember-ajax/errors';
 //import moment from 'moment';
 
-const console = window.console;
-
 const proxy =
   '/itis-proxy?' +
   'wt=json' +

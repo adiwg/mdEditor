@@ -4,10 +4,6 @@ import {
   isEmpty
 } from '@ember/utils';
 import { isArray, A } from '@ember/array';
-import {
-  computed,
-  get
-} from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default class AllocationRoute extends Route.extend(ScrollTo) {

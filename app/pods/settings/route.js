@@ -1,8 +1,7 @@
 import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import Setting from 'mdeditor/models/setting';
-import { get, set, action } from '@ember/object';
+import { set, action } from '@ember/object';
 
 @classic
 export default class SettingsRoute extends Route {

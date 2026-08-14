@@ -139,7 +139,7 @@ export default class MdCodelistComponent extends Select {
 
     // CRITICAL: Force codelist to be evaluated immediately
     // This ensures power-select has the data when it initializes
-    const initialList = this.codelist;
+    this.codelist;
   }
 
   /*

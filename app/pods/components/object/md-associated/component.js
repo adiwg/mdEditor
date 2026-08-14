@@ -1,7 +1,6 @@
 import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import { set } from '@ember/object';
 import { once } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import {
@@ -78,13 +77,11 @@ export default class MdAssociatedComponent extends Component.extend(Validations)
 
       model.notifyPropertyChange('hasDirtyHash');
 
-      return value;
     }
 
     assoc.associationType = value;
     model.notifyPropertyChange('hasDirtyHash');
 
-    return value;
   }
 
   editLinked(record) {

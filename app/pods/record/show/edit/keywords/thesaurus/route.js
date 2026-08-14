@@ -4,8 +4,6 @@ import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
-import axios from 'axios';
-import ENV from 'mdeditor/config/environment';
 
 export default class ThesaurusRoute extends Route {
   @service keyword;

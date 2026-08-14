@@ -6,7 +6,6 @@ module('Unit | Service | mdjson - Dictionary Export/Import', function (hooks) {
 
   test('formatRecord with includeDictionaries=false should not include dataDictionary array', function (assert) {
     let service = this.owner.lookup('service:mdjson');
-    let store = this.owner.lookup('service:store');
 
     // Create a mock record with mdDictionary array
     let mockRecord = {
@@ -74,7 +73,7 @@ module('Unit | Service | mdjson - Dictionary Export/Import', function (hooks) {
 
     // The result should have a dataDictionary array (empty in this case since we mocked empty store)
     assert.ok(
-      resultWithDicts.hasOwnProperty('dataDictionary'),
+      Object.prototype.hasOwnProperty.call(resultWithDicts, 'dataDictionary'),
       'mdEditor-JSON export should include dataDictionary array'
     );
   });
@@ -134,7 +133,7 @@ module('Unit | Service | mdjson - Dictionary Export/Import', function (hooks) {
 
     // The result should have a dataDictionary array (even if empty)
     assert.ok(
-      result.hasOwnProperty('dataDictionary'),
+      Object.prototype.hasOwnProperty.call(result, 'dataDictionary'),
       'Default formatRecord should include dataDictionary array'
     );
   });

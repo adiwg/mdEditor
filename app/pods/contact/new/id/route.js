@@ -68,7 +68,7 @@ export default class IdRoute extends Route {
   }
 
   @action
-  willTransition(transition) {
+  willTransition() {
     return true;
   }
 

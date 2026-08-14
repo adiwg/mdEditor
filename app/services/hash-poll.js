@@ -54,6 +54,7 @@ export default class HashPollService extends Service {
   }
 
   pollTask = task({ restartable: true }, async () => {
+    // eslint-disable-next-line no-constant-condition -- the task is restartable; cancellation ends the loop
     while (true) {
       await this.poll();
       await timeout(pollInterval);

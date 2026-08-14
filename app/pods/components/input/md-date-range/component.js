@@ -73,6 +73,10 @@ export default class MdDateRangeComponent extends Component.extend(
   selectedPrecisionChanged = observer('selectedPrecision', function () {
     const startDate = this.start;
     const endDate = this.end;
+    if (!startDate || !endDate) return;
+
+    const parsedStartDate = dayjs(startDate);
+    const parsedEndDate = dayjs(endDate);
     let newStartDate, newEndDate;
 
     switch (this.selectedPrecision) {
@@ -96,7 +100,6 @@ export default class MdDateRangeComponent extends Component.extend(
         newEndDate = parsedEndDate.format('YYYY');
         this.selectedFormat = 'YYYY';
         break;
-      case 'Time':
       default:
         newStartDate = parsedStartDate.format('YYYY-MM-DD HH:mm:ss');
         newEndDate = parsedEndDate.format('YYYY-MM-DD HH:mm:ss');

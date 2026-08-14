@@ -1,8 +1,7 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
-import EmberObject from '@ember/object';
-import { scheduleOnce, once } from '@ember/runloop';
+import { once } from '@ember/runloop';
 import { getOwner } from '@ember/application';
 import { get } from '@ember/object';
 

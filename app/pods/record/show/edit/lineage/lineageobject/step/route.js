@@ -1,9 +1,7 @@
 import Route from '@ember/routing/route';
-import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
-import { get } from '@ember/object';
 
 export default class StepRoute extends Route {
   @service flashMessages;

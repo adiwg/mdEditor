@@ -29,12 +29,6 @@ export default class MdDateComponent extends Component.extend(Validations) {
     let newDate;
 
     switch (this.selectedPrecision) {
-      case 'Time':
-        newDate = parsedDate.format('YYYY-MM-DD HH:mm:ss');
-        break;
-      case 'Day':
-        newDate = parsedDate.format('YYYY-MM-DD');
-        break;
       case 'Month':
         this.set('selectedFormat', 'YYYY-MM');
         if (dateObj) newDate = dayjs(dateObj).format('YYYY-MM');

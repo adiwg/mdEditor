@@ -11,7 +11,7 @@ export default class IndexRoute extends Route {
     set(
       info,
       'keyword',
-      !info.hasOwnProperty('keyword') ? A() : A(info.keyword)
+      !Object.prototype.hasOwnProperty.call(info, 'keyword') ? A() : A(info.keyword)
     );
 
     //check to see if custom list

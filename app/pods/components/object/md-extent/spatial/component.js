@@ -80,7 +80,7 @@ export default class MdExtentSpatialComponent extends Component {
   }
 
   deleteFeatures() {
-    this.geographicElement = [];
+    set(this, 'geographicElement', []);
   }
 
   didReceiveAttrs() {

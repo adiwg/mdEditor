@@ -1,8 +1,6 @@
 import Service, { inject as service } from '@ember/service';
 import EmberObject, { set, get } from '@ember/object';
 import config from 'mdeditor/config/environment';
-import { defaultValues } from 'mdeditor/models/setting';
-import { isEmpty } from '@ember/utils';
 
 const {
   APP: { version },

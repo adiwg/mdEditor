@@ -2,7 +2,7 @@ import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { get, set } from '@ember/object';
-import { scheduleOnce } from '@ember/runloop';
+import { once, scheduleOnce } from '@ember/runloop';
 import { validator, buildValidations } from 'ember-cp-validations';
 
 const timeUnit = [{
@@ -94,7 +94,6 @@ export default class MdTimePeriodComponent extends Component.extend(Validations)
     once(this, function () {
       set(this, 'model.startDateTime', value);
     });
-    return value;
   }
 
   get endDateTime() {
@@ -105,7 +104,6 @@ export default class MdTimePeriodComponent extends Component.extend(Validations)
     once(this, function () {
       set(this, 'model.endDateTime', value);
     });
-    return value;
   }
 
   didReceiveAttrs() {

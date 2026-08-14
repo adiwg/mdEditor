@@ -9,7 +9,6 @@ import Ajv from 'ajv';
 import ajvErrors from 'ajv-errors';
 import * as draft4 from 'ajv/lib/refs/json-schema-draft-04';
 import { inject as service } from '@ember/service';
-import ajv from 'ajv';
 
 const ajvOptions = {
   verbose: true,

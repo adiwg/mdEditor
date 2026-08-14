@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
-import { action, computed } from '@ember/object';
+import { action, computed, set } from '@ember/object';
 import { or } from '@ember/object/computed';
 import { isArray, A } from '@ember/array';
 import { later } from '@ember/runloop';
@@ -45,7 +45,7 @@ export default class MdItisComponent extends Component {
   init() {
     super.init(...arguments);
 
-    this.selected = [];
+    set(this, 'selected', []);
     assert('No taxonomy object supplied', this.taxonomy);
   }
 

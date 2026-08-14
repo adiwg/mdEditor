@@ -5,8 +5,9 @@ export default helper(function objectEach([obj]) {
     return obj;
   }
   let result = [];
+  // eslint-disable-next-line no-unused-vars -- false positive: babel-eslint@8 mis-scopes for-in bindings
   for (let key in obj) {
-    if (obj.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
       result.push({ key, value: obj[key] });
     }
   }

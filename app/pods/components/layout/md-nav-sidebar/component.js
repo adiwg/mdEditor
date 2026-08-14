@@ -23,7 +23,7 @@ export default class MdNavSidebarComponent extends Component {
   @computed('version')
   get prerelease() {
     let version = this.version;
-    if (!version) return;
+    if (!version) return undefined;
 
     if (version.substring(0, 3) === '0.0') {
       return 'alpha';
@@ -32,6 +32,8 @@ export default class MdNavSidebarComponent extends Component {
     if (version.substring(0, 1) === '0' && version.substring(0, 3) > 0) {
       return 'beta';
     }
+
+    return undefined;
   }
 
   @action

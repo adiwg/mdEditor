@@ -78,6 +78,7 @@ export default Service.extend({
         return axios.get(thesaurus.url);
       });
       const responses = await Promise.all(promises);
+      // eslint-disable-next-line no-unused-vars -- false positive: babel-eslint@8 mis-scopes for-of bindings
       for (const [index, response] of responses.entries()) {
         if (!response) continue;
         const thesaurus = response.data;

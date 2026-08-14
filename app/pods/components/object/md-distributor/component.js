@@ -58,7 +58,6 @@ export default class MdDistributorComponent extends Component.extend(Validations
       };
     });
     this.model.contact.party = map;
-    return value;
   }
 
   didReceiveAttrs() {

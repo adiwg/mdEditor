@@ -126,10 +126,10 @@ export default class PouchService extends Service {
     let successCount = 0;
     records.forEach(r => r ? successCount++ : errorCount++);
     this.router.transitionTo('sync.list');
-    if (!!successCount) {
+    if (successCount) {
       this.flashMessages.success(`Successfully imported ${successCount} ${meta.list}`);
     }
-    if (!!errorCount) {
+    if (errorCount) {
       this.flashMessages.danger(`Error importing ${errorCount} ${meta.list}`);
     }
   }
@@ -151,7 +151,7 @@ export default class PouchService extends Service {
         break;
     }
     // Only update the pouch record if one exists
-    if (!!pouchRecord) {
+    if (pouchRecord) {
       pouchRecord.json = relatedRecord.cleanJson;
       return await pouchRecord.save();
     }

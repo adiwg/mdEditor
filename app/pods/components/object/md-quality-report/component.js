@@ -26,7 +26,6 @@ export default class MdQualityReportComponent extends Component {
     } else {
       this.model.qualityMeasure.name = [value];
     }
-    return value;
   }
 
   get evaluationMethodStartDateTime() {
@@ -43,7 +42,6 @@ export default class MdQualityReportComponent extends Component {
     } else {
       this.model.evaluationMethod.dateTime = [value];
     }
-    return value;
   }
 
   get evaluationMethodEndDateTime() {
@@ -60,7 +58,6 @@ export default class MdQualityReportComponent extends Component {
     } else {
       this.model.evaluationMethod.dateTime = [null, value];
     }
-    return value;
   }
 
   didReceiveAttrs() {

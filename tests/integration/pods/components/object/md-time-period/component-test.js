@@ -2,7 +2,6 @@ import { findAll, render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import moment from 'moment';
 
 module('Integration | Component | object/md time period', function(hooks) {
   setupRenderingTest(hooks);

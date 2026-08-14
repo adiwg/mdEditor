@@ -22,7 +22,6 @@ export default class QuantitativeResultComponent extends Component {
     } else {
       this.model.value = [parseInt(value)];
     }
-    return value;
   }
 
   didReceiveAttrs() {

@@ -5,15 +5,12 @@ import { assign } from '@ember/polyfills';
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { later, scheduleOnce } from '@ember/runloop';
-import Base from 'ember-local-storage/adapters/base';
+import { later } from '@ember/runloop';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import { JsonDefault as Contact } from 'mdeditor/models/contact';
 import { Promise, allSettled } from 'rsvp';
 import { v4 as uuidv4 } from 'uuid';
 import { fixLiabilityTypo } from '../../utils/fix-liability-typo';
-
-const generateIdForRecord = Base.create().generateIdForRecord;
 
 export default class ImportRoute extends Route.extend(ScrollTo) {
   @service flashMessages;
