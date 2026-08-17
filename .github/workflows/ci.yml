@@ -20,10 +20,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Use Node.js 18
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '18'
 
@@ -34,7 +34,7 @@ jobs:
         run: corepack enable
 
       - name: Restore Yarn cache
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '18'
           cache: 'yarn'
@@ -56,10 +56,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Use Node.js 18
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '18'
 
@@ -69,7 +69,7 @@ jobs:
         run: corepack enable
 
       - name: Restore Yarn cache
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '18'
           cache: 'yarn'
@@ -78,6 +78,9 @@ jobs:
         run: yarn install --immutable
 
       - name: Run Tests
-        run: yarn ember exam --test-port 0 --random
+        run: |
+          echo "Using ember-exam seed: $TEST_SEED"
+          yarn ember exam --test-port 0 --random --seed "$TEST_SEED"
         env:
           CI: true
+          TEST_SEED: ${{ github.run_id }}
