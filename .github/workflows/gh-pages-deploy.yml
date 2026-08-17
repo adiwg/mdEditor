@@ -15,6 +15,7 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: '18'
+          package-manager-cache: false
 
       - name: enable corepack
         run: corepack enable

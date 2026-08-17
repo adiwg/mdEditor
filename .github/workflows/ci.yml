@@ -26,6 +26,7 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: '18'
+          package-manager-cache: false
 
       # Must run before the cache-enabled setup-node below: that action shells
       # out to `yarn cache dir`, which fails against the runner's global Yarn 1
@@ -38,6 +39,7 @@ jobs:
         with:
           node-version: '18'
           cache: 'yarn'
+          package-manager-cache: false
 
       - name: Install Dependencies
         run: yarn install --immutable
@@ -62,6 +64,7 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: '18'
+          package-manager-cache: false
 
       # See note in the lint job: Corepack must be enabled before any
       # setup-node step that uses cache: 'yarn'.
@@ -73,6 +76,7 @@ jobs:
         with:
           node-version: '18'
           cache: 'yarn'
+          package-manager-cache: false
 
       - name: Install Dependencies
         run: yarn install --immutable
