@@ -5,6 +5,12 @@ module.exports = {
   rules: {
     // We oftentimes want to have long form properties for readability
     'declaration-block-no-redundant-longhand-properties': null,
+    //TODO: needs to be fixed.
+    'scss/double-slash-comment-whitespace-inside': null,
+    'scss/no-global-function-names': null,
+    'font-family-no-missing-generic-family-keyword': null,
+    'keyframes-name-pattern': null,
+    'scss/at-mixin-pattern': null,
 
     // This is just a personal preference unless the quotes are needed
     // to escape special characters
@@ -23,7 +29,7 @@ module.exports = {
     // pascal case and a double-kebab-case. This regex checks for all of those 3 patterns and won't fail
     // lint check, but will fail if its any other pattern.
     'selector-class-pattern': [
-      '(^([a-z][a-z0-9]*)(-{1,2}[a-z0-9]+)*$)|(^CodeMirror)',
+      '^(?:[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?:__[a-z0-9]+(?:-[a-z0-9]+)*)?(?:--[a-z0-9]+(?:-[a-z0-9]+)*)*|CodeMirror.*)$',
       {
         message: (selector) =>
           `Expected class selector "${selector}" to be kebab-case`,

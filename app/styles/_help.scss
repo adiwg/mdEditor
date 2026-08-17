@@ -8,11 +8,14 @@
 section.md-help-sidebar {
   background-color: lighten($brand-success, 40);
   height: 100%;
+
   // opacity: 0;
   overflow: hidden;
+
   // padding: 53px 0 0;
   position: absolute;
   top: 0;
+
   // transition: opacity .5s ease;
   width: #{$sidebar-width}px;
   z-index: 3;
