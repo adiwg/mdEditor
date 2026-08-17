@@ -92,6 +92,7 @@ jobs:
         env:
           CI: true
           TEST_SEED: ${{ github.run_id }}
+          TZ: America/New_York
 
       - name: Upload test output log
         if: always()
