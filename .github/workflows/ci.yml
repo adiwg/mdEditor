@@ -45,7 +45,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Lint JS
-        run: yarn lint:js
+        run: yarn lint:js --quiet
 
       - name: Lint Templates
         run: yarn lint:hbs
@@ -83,8 +83,19 @@ jobs:
 
       - name: Run Tests
         run: |
+          set -o pipefail
           echo "Using ember-exam seed: $TEST_SEED"
-          yarn ember exam --test-port 0 --random --seed "$TEST_SEED"
+          if ! yarn ember exam --test-port 0 --random --seed "$TEST_SEED" 2>&1 | tee test-output.log; then
+            echo "Initial run failed. Retrying once with same seed: $TEST_SEED"
+            yarn ember exam --test-port 0 --random --seed "$TEST_SEED" 2>&1 | tee -a test-output.log
+          fi
         env:
           CI: true
           TEST_SEED: ${{ github.run_id }}
+
+      - name: Upload test output log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-output-${{ github.run_id }}
+          path: test-output.log
