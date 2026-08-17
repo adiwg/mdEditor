@@ -151,16 +151,9 @@
                         (intersect this.expandedItems gi.visibleGroupedItems)
                         'length'
                       )
-                      isSelected=(exists-in this.selectedItems record)
-                      isExpanded=(exists-in this.expandedItems record)
                     }}
                     {{#if (exists-in this.expandedItems record)}}
-                      {{component
-                        tb.row-expand
-                        record=record
-                        index=index
-                        isSelected=(exists-in this.selectedItems record)
-                      }}
+                      {{component tb.row-expand record=record index=index}}
                     {{/if}}
                   {{/each}}
                   {{#if this.groupSummaryRowComponent}}
@@ -184,20 +177,13 @@
         {{/each}}
       {{else}}
         {{#each this.visibleContent as |record index|}}
-          {{component
-            tb.row
-            record=record
-            index=index
-            isSelected=(exists-in this.selectedItems record)
-            isExpanded=(exists-in this.expandedItems record)
-          }}
+          {{component tb.row record=record index=index}}
           {{#if (exists-in this.expandedItems record)}}
             {{component
               tb.row-expand
               expandedRowComponent=this.expandedRowComponent
               record=record
               index=index
-              isSelected=(exists-in this.selectedItems record)
             }}
           {{/if}}
         {{else}}

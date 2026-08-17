@@ -63,7 +63,7 @@ module('Integration | Component | control/md itis', function(hooks) {
     // await click('button[type=submit]');
     // await settled();
 
-    await render(hbs`{{control/md-itis taxonomy=taxonomy searchResult=taxa found=true}}`);
+    await render(hbs`{{control/md-itis taxonomy=taxonomy searchResult=taxa}}`);
 
     assert.ok(find('.md-itis-taxalist'), 'renders search result');
 

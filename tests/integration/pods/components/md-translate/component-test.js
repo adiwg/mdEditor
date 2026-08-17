@@ -39,7 +39,6 @@ module('Integration | Component | md translate', function(hooks) {
       messages=messages
       result=result
       errorLevel=2
-      isJson=true
       writeObj=writer
     }}`);
 

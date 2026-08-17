@@ -1,5 +1,5 @@
 import { A, isArray } from '@ember/array';
-import EmObject, { computed, get, set } from '@ember/object';
+import EmObject, { get, set } from '@ember/object';
 import { or } from '@ember/object/computed';
 import { assign } from '@ember/polyfills';
 import Route from '@ember/routing/route';
@@ -86,6 +86,9 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
     let template = EmObject.extend({
       init() {
         this._super(...arguments);
+        if (!this.attributes) {
+          this.attributes = { json: null };
+        }
         if (this.attributes.json) {
           const json = JSON.parse(this.attributes.json);
           switch (this.type) {
@@ -131,11 +134,6 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
           }
         }
       },
-      attributes: computed(function () {
-        return {
-          json: null,
-        };
-      }),
       type: null,
     });
 

@@ -164,6 +164,8 @@ export default class MdCodelistComponent extends Select {
   /**
    * mapped is a re-mapped array of code objects.
    * The initial codelist for 'mdCodeName' is provided by the 'codelist' service.
+   * Callers that don't use 'mdCodeName' may supply their own array directly;
+   * once set explicitly, that value takes precedence over the derived one.
    *
    * @property mapped
    * @type {Array}
@@ -172,6 +174,7 @@ export default class MdCodelistComponent extends Select {
    */
   @computed('mdCodelist.[]')
   get mapped() {
+    if (this._mapped !== undefined) return this._mapped;
     if (!this.mdCodelist) return A([]);
     let codeId = this.valuePath;
     let codeName = this.namePath;
@@ -194,6 +197,10 @@ export default class MdCodelistComponent extends Select {
     });
 
     return codelist;
+  }
+
+  set mapped(value) {
+    this._mapped = value;
   }
 
   /**

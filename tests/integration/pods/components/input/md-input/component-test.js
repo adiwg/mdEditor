@@ -13,7 +13,6 @@ module('Integration | Component | input/md input', function(hooks) {
       {{input/md-input
         label="Foo"
         value="Bar"
-        showInfoTip="true"
         maxlength=100
         required="true"
         inputClass="test"

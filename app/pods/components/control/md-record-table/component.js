@@ -128,25 +128,33 @@ MdRecordTableComponent.reopen({
     };
   }),
 
-  actionsColumn: computed('allActions', 'hideActionsColumn', function () {
-    if (this.hideActionsColumn) {
-      return null;
-    }
+  actionsColumn: computed('allActions', 'hideActionsColumn', {
+    get() {
+      if (this._actionsColumn !== undefined) return this._actionsColumn;
 
-    let all = this.allActions;
+      if (this.hideActionsColumn) {
+        return null;
+      }
 
-    return {
-      title: 'Actions',
-      className: 'md-actions-column',
-      component: all
-        ? 'control/md-record-table/buttons'
-        : 'control/md-record-table/buttons/show',
-      disableFiltering: !all,
-      componentForFilterCell: all
-        ? 'control/md-record-table/buttons/filter'
-        : null,
-      showSlider: this.showSlider,
-    };
+      let all = this.allActions;
+
+      return {
+        title: 'Actions',
+        className: 'md-actions-column',
+        component: all
+          ? 'control/md-record-table/buttons'
+          : 'control/md-record-table/buttons/show',
+        disableFiltering: !all,
+        componentForFilterCell: all
+          ? 'control/md-record-table/buttons/filter'
+          : null,
+        showSlider: this.showSlider,
+      };
+    },
+    set(key, value) {
+      this._actionsColumn = value;
+      return value;
+    },
   }),
 });
 

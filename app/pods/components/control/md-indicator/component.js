@@ -135,6 +135,8 @@ export default class MdIndicatorComponent extends Component {
    */
   @computed('note')
   get values() {
+    if (this._values !== undefined) return this._values;
+
     let args = parseArgs(this.note);
 
     return args.reduce((acc, a) => {
@@ -142,6 +144,10 @@ export default class MdIndicatorComponent extends Component {
 
       return acc;
     }, {});
+  }
+
+  set values(value) {
+    this._values = value;
   }
 
   init() {
