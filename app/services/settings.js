@@ -17,6 +17,12 @@ export default Service.extend({
 
     this.setup();
   },
+
+  // Resolves once the initial settings record has loaded (or been created)
+  get ready() {
+    return this._setupPromise;
+  },
+
   setup() {
     let me = this;
     let store = this.store;
