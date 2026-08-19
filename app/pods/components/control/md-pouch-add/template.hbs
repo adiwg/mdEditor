@@ -21,7 +21,7 @@
       <button
         class='btn btn-md btn-success'
         type='button'
-        {{on 'click' (fn this.savenew @section.meta.type)}}
+        {{on 'click' (fn this.saveNew @section.meta.type)}}
       >
         {{fa-icon 'floppy-o'}}
         Save
@@ -33,7 +33,7 @@
         <button
           class='btn btn-lg btn-primary'
           type='button'
-          {{on 'click' (fn this.savenew @section.meta.type)}}
+          {{on 'click' this.addNew}}
         >
           {{fa-icon 'plus'}}
           Add new
