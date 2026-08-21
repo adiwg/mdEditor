@@ -14,7 +14,17 @@ if (typeof Buffer === 'undefined') {
 import Route from '@ember/routing/route';
 import Component from '@ember/component';
 import Application from '@ember/application';
-import Resolver from 'ember-resolver';
+import { registerDeprecationHandler } from '@ember/debug';
+import Resolver from './resolver';
+
+// ember-tooltips@3.6.0 uses the deprecated @ember/string helpers internally.
+// There is no app-side fix available; silence this specific deprecation only.
+registerDeprecationHandler((message, options, next) => {
+  if (options && options.id === 'ember-string.add-package') {
+    return;
+  }
+  next(message, options);
+});
 import {
   computed,
   defineProperty,
@@ -28,7 +38,6 @@ import {
 import {
   assert
 } from '@ember/debug';
-// import Resolver from './resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';
 let events = {

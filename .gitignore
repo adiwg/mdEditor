@@ -34,6 +34,7 @@ jsconfig.json
 .claude/
 
 .yarn/*
+!.yarn/patches
 yarn.lock.ember-try
 
 /migration_info/*
