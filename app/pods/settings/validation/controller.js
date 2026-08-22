@@ -23,12 +23,14 @@ export default class ValidationController extends Controller {
   }, {
     propertyName: 'uri',
     title: 'URL',
-    break: true
+    break: true,
+    component: 'control/md-record-table/cell-content-display'
   }, {
     propertyName: 'description',
     title: 'Description',
     truncate: true,
-    isHidden: true
+    isHidden: true,
+    component: 'control/md-record-table/cell-content-display'
   }, {
     propertyName: 'formattedGlobal',
     title: 'Global?',

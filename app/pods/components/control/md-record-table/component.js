@@ -1,8 +1,8 @@
-import { computed, get, defineProperty, observer } from '@ember/object';
-import { next } from '@ember/runloop';
-import { A } from '@ember/array';
-import classic from 'ember-classic-decorator';
-import Table from 'mdeditor/pods/components/md-models-table/component';
+import Component from '@glimmer/component';
+import { action, get, set } from '@ember/object';
+import FilterButton from 'mdeditor/pods/components/control/md-record-table/buttons/filter/component';
+import RowSelectCheckbox from 'ember-models-table/components/models-table/themes/default/row-select-checkbox';
+import RowSelectAllCheckbox from 'ember-models-table/components/models-table/themes/default/row-select-all-checkbox';
 
 /**
  * @module mdeditor
@@ -14,148 +14,98 @@ import Table from 'mdeditor/pods/components/md-models-table/component';
  * rows.
  *
  * ```handlebars
- * {{control/md-record-table
- *   data=model.data
- *   columns=model.columns
- *   select=callback
- * }}
+ * <Control::MdRecordTable
+ *   @data={{this.model.data}}
+ *   @dataColumns={{this.model.columns}}
+ * />
  * ```
  *
  * @class md-record-table
- * @extends models-table
  */
-@classic
-class MdRecordTableComponent extends Table {
-  classNames = ['md-record-table'];
-
-  selectProperty = '_selected';
-
-  hideActionsColumn = false;
-
-  init() {
-    this.dataColumns = this.dataColumns || [];
-    this.filteringIgnoreCase = this.filteringIgnoreCase || true;
-    this.multipleSelect = this.multipleSelect || true;
-
-    defineProperty(
-      this,
-      'columns',
-      computed('dataColumns', 'checkColumn', 'actionsColumn', function () {
-        let chk = this.checkColumn;
-        let action = this.actionsColumn;
-        let cols = A().concat(this.dataColumns);
-
-        if (chk) {
-          cols = [chk].concat(cols);
-        }
-
-        if (action) {
-          cols.push(action);
-        }
-
-        return cols;
-      })
-    );
-
-    super.init(...arguments);
-
-    this.initFromSelectProperty();
+export default class MdRecordTableComponent extends Component {
+  get selectProperty() {
+    return this.args.selectProperty ?? '_selected';
   }
 
   /**
    * Seed selectedItems from the selectProperty flag on each data item.
-   * Called on init and whenever the data reference changes.
    */
-  initFromSelectProperty() {
-    let prop = this.selectProperty;
-    let data = this.data;
+  get initialSelectedItems() {
+    const prop = this.selectProperty;
+    const data = this.args.data;
+
+    if (!prop || !data) {
+      return [];
+    }
+
+    return data.filter((item) => get(item, prop));
+  }
+
+  get checkColumn() {
+    return {
+      component: RowSelectCheckbox,
+      disableFiltering: true,
+      mayBeHidden: false,
+      componentForSortCell: RowSelectAllCheckbox,
+      className: 'text-center',
+    };
+  }
+
+  get actionsColumn() {
+    if (this.args.actionsColumn !== undefined) {
+      return this.args.actionsColumn;
+    }
+
+    if (this.args.hideActionsColumn) {
+      return null;
+    }
+
+    const all = this.args.allActions;
+
+    return {
+      title: 'Actions',
+      className: 'md-actions-column',
+      component: all
+        ? 'control/md-record-table/buttons'
+        : 'control/md-record-table/buttons/show',
+      disableFiltering: !all,
+      componentForFilterCell: all ? FilterButton : null,
+      showSlider: this.args.showSlider,
+    };
+  }
+
+  get columns() {
+    const cols = [this.checkColumn, ...(this.args.dataColumns ?? [])];
+    const actions = this.actionsColumn;
+
+    if (actions) {
+      cols.push(actions);
+    }
+
+    return cols;
+  }
+
+  /**
+   * Keep each row's selectProperty flag (e.g. `_selected`, used by the
+   * Export page to know which records to export) in sync with the table's
+   * live selection.
+   */
+  @action
+  handleDisplayDataChanged(displaySettings) {
+    const prop = this.selectProperty;
+    const data = this.args.data;
 
     if (!prop || !data) {
       return;
     }
 
-    let selected = A(data.filter((item) => get(item, prop)));
-    this.set('selectedItems', selected);
-  }
+    const selected = displaySettings.selectedItems;
 
-  /**
-   * Callback on row selection.
-   *
-   * @method select
-   * @param {Object} rec Selected record.
-   * @param {Number} index Selected row index.
-   * @param {Array} selected Selected records.
-   * @return {Array} Selected records.
-   */
-  select(rec, index, selected) {
-    return selected;
+    data.forEach((item) => {
+      const isSelected = selected.includes(item);
+      if (get(item, prop) !== isSelected) {
+        set(item, prop, isSelected);
+      }
+    });
   }
 }
-
-MdRecordTableComponent.reopen({
-  dataObserver: observer('data', function () {
-    this.initFromSelectProperty();
-  }),
-
-  syncSelectedItemsObserver: observer('selectedItems.[]', function () {
-    next(() => {
-      let prop = this.selectProperty;
-      let data = this.data;
-      let parentSelectedItems = this.get('selectedItems');
-
-      if (!prop || !data) {
-        return;
-      }
-
-      data.forEach((item) => {
-        const isSelected =
-          parentSelectedItems && parentSelectedItems.includes(item);
-        const currentValue = item.get(prop);
-        if (currentValue !== isSelected) {
-          item.set(prop, isSelected);
-        }
-      });
-    });
-  }),
-
-  checkColumn: computed(function () {
-    return {
-      component: 'components/md-models-table/components/check',
-      disableFiltering: true,
-      mayBeHidden: false,
-      componentForSortCell: 'components/md-models-table/components/check-all',
-      className: 'text-center',
-    };
-  }),
-
-  actionsColumn: computed('allActions', 'hideActionsColumn', {
-    get() {
-      if (this._actionsColumn !== undefined) return this._actionsColumn;
-
-      if (this.hideActionsColumn) {
-        return null;
-      }
-
-      let all = this.allActions;
-
-      return {
-        title: 'Actions',
-        className: 'md-actions-column',
-        component: all
-          ? 'control/md-record-table/buttons'
-          : 'control/md-record-table/buttons/show',
-        disableFiltering: !all,
-        componentForFilterCell: all
-          ? 'control/md-record-table/buttons/filter'
-          : null,
-        showSlider: this.showSlider,
-      };
-    },
-    set(key, value) {
-      this._actionsColumn = value;
-      return value;
-    },
-  }),
-});
-
-export default MdRecordTableComponent;

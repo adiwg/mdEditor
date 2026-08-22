@@ -26,6 +26,7 @@ export default class ProfileIndexController extends Controller {
       title: 'Description',
       truncate: true,
       isHidden: false,
+      component: 'control/md-record-table/cell-content-display',
     },
   ];
 

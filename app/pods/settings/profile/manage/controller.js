@@ -23,12 +23,14 @@ export default class ProfileManageController extends Controller {
       propertyName: 'uri',
       title: 'URL',
       break: true,
+      component: 'control/md-record-table/cell-content-display',
     },
     {
       propertyName: 'description',
       title: 'Description',
       truncate: true,
       isHidden: true,
+      component: 'control/md-record-table/cell-content-display',
     },
   ];
 

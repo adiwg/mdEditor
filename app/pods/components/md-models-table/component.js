@@ -1,14 +1,12 @@
-import classic from 'ember-classic-decorator';
-import Table from 'ember-models-table/components/models-table';
-import { getOwner, setOwner } from '@ember/application';
-import Theme from './themes/bootstrap3';
+import Component from '@glimmer/component';
+import { inject as service } from '@ember/service';
 
-@classic
-export default class MdModelsTableComponent extends Table {
-  init() {
-    const theme = Theme.create();
-    setOwner(theme, getOwner(this));
-    this.themeInstance = theme;
-    super.init(...arguments);
-  }
+/**
+ * Thin wrapper around ember-models-table's <ModelsTable>, supplying our
+ * Font Awesome theme by default. ember-models-table@5 moved theming to an
+ * injectable service rather than a manually-created class instance, and
+ * requires @themeInstance to be passed in explicitly.
+ */
+export default class MdModelsTableComponent extends Component {
+  @service('emt-themes/mdeditor-bootstrap3') themeInstance;
 }

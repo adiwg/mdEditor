@@ -1,54 +1,24 @@
-import { observer } from '@ember/object';
-import classic from 'ember-classic-decorator';
-import Table from 'mdeditor/pods/components/md-models-table/component';
-
-/**
- * @module mdeditor
- * @submodule components-control
- */
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
 
 /**
  * Table with action on row click. Used to select objects (records).
  *
  * ```handlebars
- * {{control/md-select-table
- *   data=model.data
- *   columns=model.columns
- *   select=callback
- * }}
+ * <Control::MdSelectTable
+ *   @data={{this.model.data}}
+ *   @columns={{this.model.columns}}
+ *   @select={{this.select}}
+ * />
  * ```
  *
  * @class md-select-table
- * @extends models-table
  */
-@classic
-class MdSelectTableComponent extends Table {
-  classNames = ['md-select-table'];
-
-  filteringIgnoreCase = true;
-
-  /**
-   * Callback on row selection.
-   *
-   * @method select
-   * @param {Array} selected Selected items.
-   * @return {Array}
-   */
-  select(selected) {
-    return selected;
+export default class MdSelectTableComponent extends Component {
+  @action
+  handleDisplayDataChanged(displaySettings) {
+    if (typeof this.args.select === 'function') {
+      this.args.select(displaySettings.selectedItems);
+    }
   }
 }
-
-MdSelectTableComponent.reopen({
-  _onSelectedItemsChanged: observer('selectedItems.[]', function () {
-    this.select(this.selectedItems);
-  }),
-
-  actions: {
-    clickOnRow() {
-      this._super(...arguments);
-    },
-  },
-});
-
-export default MdSelectTableComponent;

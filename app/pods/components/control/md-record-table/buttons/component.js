@@ -5,12 +5,11 @@ import { action } from '@ember/object';
 export default class ButtonsComponent extends Component {
   @service router;
 
-  classNames = ['md-dashboard-buttons'];
-
   get record() { return this.args.record; }
   get index() { return this.args.index; }
   get isSelected() { return this.args.isSelected; }
   get clickOnRow() { return this.args.clickOnRow; }
+  get column() { return this.args.column; }
 
   @action
   deleteItem(item, index, isSelected, clickOnRow) {
