@@ -363,7 +363,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/helper-module-imports@npm:^7.22.15, @babel/helper-module-imports@npm:^7.28.6":
+"@babel/helper-module-imports@npm:^7.28.6":
   version: 7.28.6
   resolution: "@babel/helper-module-imports@npm:7.28.6"
   dependencies:
@@ -4902,7 +4902,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-import-util@npm:^2.0.0, babel-import-util@npm:^2.0.1":
+"babel-import-util@npm:^2.0.0":
   version: 2.1.1
   resolution: "babel-import-util@npm:2.1.1"
   checksum: 10c0/3abf7abb213fa5b37ca53eac637da8148ff43292259b99f90027c99b3c5ff69d1daa22015b7174c56142827666f6583fd62ad78fe35fd365de9d90c847edf83e
@@ -8199,16 +8199,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"decorator-transforms@npm:^1.0.1":
-  version: 1.2.1
-  resolution: "decorator-transforms@npm:1.2.1"
-  dependencies:
-    "@babel/plugin-syntax-decorators": "npm:^7.23.3"
-    babel-import-util: "npm:^2.0.1"
-  checksum: 10c0/7a3791580a7f927714eb5ef927a0579a5ff1c8b50d514280bb3b0eda1d7646401d302870f3292fe6bbe29602803f564fc8cd54c09388d3c35b9e25a55ff0d187
-  languageName: node
-  linkType: hard
-
 "decorator-transforms@npm:^2.0.0, decorator-transforms@npm:^2.3.0":
   version: 2.3.1
   resolution: "decorator-transforms@npm:2.3.1"
@@ -9553,7 +9543,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-concurrency@npm:^2.0.0 || ^3.0.0":
+"ember-concurrency@npm:^2.0.0 || ^3.0.0, ember-concurrency@npm:^3.1.1":
   version: 3.1.1
   resolution: "ember-concurrency@npm:3.1.1"
   dependencies:
@@ -9567,24 +9557,6 @@ __metadata:
   peerDependencies:
     ember-source: ^3.28.0 || ^4.0.0 || >=5.0.0
   checksum: 10c0/8c4ed76851ee89988bc033cb2476937a6e1efb63a2a729291c8657bd923e0be3289571c4e2e2868b160ea1539b4adacc95eceb754bfa4ebef896501dd93dbfd5
-  languageName: node
-  linkType: hard
-
-"ember-concurrency@npm:^5.1.0":
-  version: 5.2.0
-  resolution: "ember-concurrency@npm:5.2.0"
-  dependencies:
-    "@babel/helper-module-imports": "npm:^7.22.15"
-    "@babel/helper-plugin-utils": "npm:^7.12.13"
-    "@babel/types": "npm:^7.12.13"
-    "@embroider/addon-shim": "npm:^1.8.7"
-    decorator-transforms: "npm:^1.0.1"
-  peerDependencies:
-    "@glint/template": ">= 1.0.0"
-  peerDependenciesMeta:
-    "@glint/template":
-      optional: true
-  checksum: 10c0/9a1107c96b14fa2eec18a06d0be0f2999dce05d6d532b1bbe4fec1ded8efe85fa7cf3d0ab3632f3cbf98d779db7142ec5217a9156d20f92e79f4273de09ae76e
   languageName: node
   linkType: hard
 
@@ -16664,7 +16636,7 @@ __metadata:
     ember-cli-string-helpers: "npm:4.0.7"
     ember-cli-terser: "npm:^4.0.2"
     ember-composable-helpers: "npm:^5.0.0"
-    ember-concurrency: "npm:^5.1.0"
+    ember-concurrency: "npm:^3.1.1"
     ember-copy: "npm:^1.0.0"
     ember-cp-validations: "npm:^5.0.0"
     ember-data: "npm:~4.12.0"
