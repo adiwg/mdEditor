@@ -1,6 +1,5 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import FilterButton from 'mdeditor/pods/components/control/md-record-table/buttons/filter/component';
 
 /**
  * Table used to edit objects with row expander. Includes column to toggle
@@ -48,7 +47,9 @@ export default class MdEditTableComponent extends Component {
     return {
       className: 'md-actions-column',
       component: 'components/md-models-table/components/row-buttons',
-      componentForFilterCell: FilterButton,
+      // Resolver path string, not a direct class import - our own pods
+      // components only pair with their template via resolver lookup.
+      componentForFilterCell: 'control/md-record-table/buttons/filter',
       disableFiltering: true,
       disableSorting: true,
       mayBeHidden: false,

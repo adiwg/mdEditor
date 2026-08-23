@@ -1,6 +1,5 @@
 import Component from '@glimmer/component';
 import { action, get, set } from '@ember/object';
-import FilterButton from 'mdeditor/pods/components/control/md-record-table/buttons/filter/component';
 import RowSelectCheckbox from 'ember-models-table/components/models-table/themes/default/row-select-checkbox';
 import RowSelectAllCheckbox from 'ember-models-table/components/models-table/themes/default/row-select-all-checkbox';
 
@@ -43,6 +42,9 @@ export default class MdRecordTableComponent extends Component {
 
   get checkColumn() {
     return {
+      // ember-models-table's own components use modern co-located
+      // templates (setComponentTemplate baked in at build time), so a
+      // direct class reference carries its template with it.
       component: RowSelectCheckbox,
       disableFiltering: true,
       mayBeHidden: false,
@@ -69,7 +71,13 @@ export default class MdRecordTableComponent extends Component {
         ? 'control/md-record-table/buttons'
         : 'control/md-record-table/buttons/show',
       disableFiltering: !all,
-      componentForFilterCell: all ? FilterButton : null,
+      // Our own pods components pair with their template only via
+      // resolver lookup by name - a direct class import has no
+      // template attached (unlike the addon's own co-located
+      // components above), so this must stay a resolver path string.
+      componentForFilterCell: all
+        ? 'control/md-record-table/buttons/filter'
+        : null,
       showSlider: this.args.showSlider,
     };
   }
