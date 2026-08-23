@@ -93,7 +93,7 @@
     "ember-cli-sri": "^2.1.1",
     "ember-cli-string-helpers": "4.0.7",
     "ember-cli-terser": "^4.0.2",
-    "ember-composable-helpers": "^2.4.0",
+    "ember-composable-helpers": "^5.0.0",
     "ember-concurrency": "^5.1.0",
     "ember-copy": "^1.0.0",
     "ember-cp-validations": "^5.0.0",

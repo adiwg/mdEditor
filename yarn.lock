@@ -9569,19 +9569,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-composable-helpers@npm:^2.4.0":
-  version: 2.4.0
-  resolution: "ember-composable-helpers@npm:2.4.0"
-  dependencies:
-    "@babel/core": "npm:^7.0.0"
-    broccoli-funnel: "npm:2.0.1"
-    ember-cli-babel: "npm:^7.1.0"
-    resolve: "npm:^1.10.0"
-  checksum: 10c0/eacdaea84136454d3a02cfa5d93114a349be2061a53051e285290c2581df7b2ad0d2fd4827cf0aafab26510aad70d295b07dab3f57c93b0e8d30b3b0c21a5e11
-  languageName: node
-  linkType: hard
-
-"ember-composable-helpers@npm:~5.0.0":
+"ember-composable-helpers@npm:^5.0.0, ember-composable-helpers@npm:~5.0.0":
   version: 5.0.0
   resolution: "ember-composable-helpers@npm:5.0.0"
   dependencies:
@@ -16707,7 +16695,7 @@ __metadata:
     ember-cli-sri: "npm:^2.1.1"
     ember-cli-string-helpers: "npm:4.0.7"
     ember-cli-terser: "npm:^4.0.2"
-    ember-composable-helpers: "npm:^2.4.0"
+    ember-composable-helpers: "npm:^5.0.0"
     ember-concurrency: "npm:^5.1.0"
     ember-copy: "npm:^1.0.0"
     ember-cp-validations: "npm:^5.0.0"
