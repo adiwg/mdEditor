@@ -2,6 +2,10 @@ import Application from '../app';
 import config from '../config/environment';
 import { setApplication } from '@ember/test-helpers';
 import { start } from 'ember-qunit';
+import { setup } from 'qunit-dom';
+import QUnit from 'qunit';
+
+setup(QUnit.assert);
 
 const debugLookup =
   typeof window !== 'undefined' &&

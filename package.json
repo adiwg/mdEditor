@@ -187,7 +187,10 @@
     "ember-in-element-polyfill@npm:^1.0.1": "patch:ember-in-element-polyfill@npm%3A0.1.3#~/.yarn/patches/ember-in-element-polyfill-npm-0.1.3-9d3d5a5352.patch",
     "ember-in-element-polyfill@npm:^0.2.0": "patch:ember-in-element-polyfill@npm%3A0.1.3#~/.yarn/patches/ember-in-element-polyfill-npm-0.1.3-9d3d5a5352.patch",
     "ember-in-element-polyfill@npm:^0.2.1": "patch:ember-in-element-polyfill@npm%3A0.1.3#~/.yarn/patches/ember-in-element-polyfill-npm-0.1.3-9d3d5a5352.patch",
-    "ember-in-element-polyfill@npm:^0.1.3": "patch:ember-in-element-polyfill@npm%3A0.1.3#~/.yarn/patches/ember-in-element-polyfill-npm-0.1.3-9d3d5a5352.patch"
+    "ember-in-element-polyfill@npm:^0.1.3": "patch:ember-in-element-polyfill@npm%3A0.1.3#~/.yarn/patches/ember-in-element-polyfill-npm-0.1.3-9d3d5a5352.patch",
+    "ember-composability-tools@npm:~0.0.3": "patch:ember-composability-tools@npm%3A0.0.12#~/.yarn/patches/ember-composability-tools-npm-0.0.12-eac2e8860e.patch",
+    "ember-composability-tools@npm:^0.0.12": "patch:ember-composability-tools@npm%3A0.0.12#~/.yarn/patches/ember-composability-tools-npm-0.0.12-eac2e8860e.patch",
+    "ember-composability-tools@npm:^0.0.11": "patch:ember-composability-tools@npm%3A0.0.11#~/.yarn/patches/ember-composability-tools-npm-0.0.11-4d2ccf3153.patch"
   },
   "engines": {
     "node": "18*"
