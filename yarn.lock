@@ -10274,14 +10274,14 @@ __metadata:
 
 "ember-simplemde@patch:ember-simplemde@npm%3A1.3.1#~/.yarn/patches/ember-simplemde-npm-1.3.1-176fdded8e.patch":
   version: 1.3.1
-  resolution: "ember-simplemde@patch:ember-simplemde@npm%3A1.3.1#~/.yarn/patches/ember-simplemde-npm-1.3.1-176fdded8e.patch::version=1.3.1&hash=17d4f7"
+  resolution: "ember-simplemde@patch:ember-simplemde@npm%3A1.3.1#~/.yarn/patches/ember-simplemde-npm-1.3.1-176fdded8e.patch::version=1.3.1&hash=ec8886"
   dependencies:
     ember-assign-polyfill: "npm:2.0.2"
     ember-cli-babel: "npm:^7.26.6"
     ember-cli-htmlbars: "npm:2.0.3"
     ember-cli-node-assets: "npm:0.2.2"
     simplemde: "npm:^1.11.2"
-  checksum: 10c0/a51aff9986edb8f3ca5091059c2498a86a08e090cb6680edfa631104887420df003f6a38d3fc116f88bd30545ce74c26e07b5f4059b3c380d26dac89600047d4
+  checksum: 10c0/0d4e8e803d007dfecf885e11fa6a37017658870d2fe69100e187408b5f9deca814b5b3562fd2b92e00b6150e6f3b34647c4c315d362b988a785e6706831c008f
   languageName: node
   linkType: hard
 

@@ -1,11 +1,12 @@
 diff --git a/addon/components/simple-mde.js b/addon/components/simple-mde.js
-index 5604af8d0d9b67eb8d4b527eae65a350d89a6e46..872bb101ef281ce1dfc02a539c296d9d4761b3c3 100644
+index 5604af8d0d9b67eb8d4b527eae65a350d89a6e46..21ebdbd5c7f8aa32d793ea778a46028a210ae48b 100644
 --- a/addon/components/simple-mde.js
 +++ b/addon/components/simple-mde.js
-@@ -1,6 +1,12 @@
+@@ -1,7 +1,15 @@
  import { once } from '@ember/runloop';
  import { getOwner } from '@ember/application';
 -import TextArea from '@ember/component/text-area';
+-import { assign, merge } from '@ember/polyfills';
 +// `@ember/component/text-area` was removed in Ember 4.0. This addon only
 +// used it to get a `<textarea>` element for SimpleMDE to mount onto -- all
 +// actual editing happens through the wrapped SimpleMDE/codemirror instance,
@@ -13,10 +14,13 @@ index 5604af8d0d9b67eb8d4b527eae65a350d89a6e46..872bb101ef281ce1dfc02a539c296d9d
 +// with `tagName: 'textarea'` plus the same attribute pass-through is
 +// equivalent.
 +import Component from '@ember/component';
- import { assign, merge } from '@ember/polyfills';
++// `merge` was also removed from `@ember/polyfills` in Ember 4.0; `assign`
++// (still exported) is a drop-in replacement for this addon's 2-object use.
++import { assign } from '@ember/polyfills';
  import { get, computed } from '@ember/object';
  import { typeOf, isEmpty } from '@ember/utils';
-@@ -15,7 +21,9 @@ const {
+ import Ember from 'ember';
+@@ -15,7 +23,9 @@ const {
  
  const options = {};
  
@@ -27,3 +31,12 @@ index 5604af8d0d9b67eb8d4b527eae65a350d89a6e46..872bb101ef281ce1dfc02a539c296d9d
    layout,
  
    /**
+@@ -100,7 +110,7 @@ export default TextArea.extend({
+    */
+   didInsertElement () {
+     this.set('currentEditor', new SimpleMDE(
+-      merge({
++      assign({
+         element: document.getElementById(this.elementId)
+       }, this.get('buildSimpleMDEOptions')
+       )
