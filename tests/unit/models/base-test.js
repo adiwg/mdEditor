@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { settled } from '@ember/test-helpers';
 
 import { run } from '@ember/runloop';
 
@@ -12,7 +13,7 @@ module('Unit | Model | base', function (hooks) {
     assert.equal(model.modelName, 'base');
   });
 
-  test('clears dirty hash across repeated save cycles', function (assert) {
+  test('clears dirty hash across repeated save cycles', async function (assert) {
     const store = this.owner.lookup('service:store');
 
     const model = run(() =>
@@ -72,5 +73,7 @@ module('Unit | Model | base', function (hooks) {
       model.wasUpdated();
     });
     assert.false(model.hasDirtyHash, 'clears after second save cycle');
+
+    await settled();
   });
 });
