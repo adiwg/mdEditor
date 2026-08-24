@@ -18,8 +18,6 @@ export default function createContact(total) {
         "onlineResource": [],
         "contactInstructions": null
       },
-      title: 'Contact' + i,
-      icon: 'user',
       contactId: i
     });
 
