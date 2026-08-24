@@ -10259,7 +10259,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-simplemde@npm:^1.3.1":
+"ember-simplemde@npm:1.3.1":
   version: 1.3.1
   resolution: "ember-simplemde@npm:1.3.1"
   dependencies:
@@ -10269,6 +10269,19 @@ __metadata:
     ember-cli-node-assets: "npm:0.2.2"
     simplemde: "npm:^1.11.2"
   checksum: 10c0/f3239eac9a50ee2e7d9a4b80866aaa7711a089569723f347ca1b1b0d808ebc7c2a0240a05bf47fb4cf34b95df2d9df15148bf3d12732914d74da07735ea65443
+  languageName: node
+  linkType: hard
+
+"ember-simplemde@patch:ember-simplemde@npm%3A1.3.1#~/.yarn/patches/ember-simplemde-npm-1.3.1-176fdded8e.patch":
+  version: 1.3.1
+  resolution: "ember-simplemde@patch:ember-simplemde@npm%3A1.3.1#~/.yarn/patches/ember-simplemde-npm-1.3.1-176fdded8e.patch::version=1.3.1&hash=17d4f7"
+  dependencies:
+    ember-assign-polyfill: "npm:2.0.2"
+    ember-cli-babel: "npm:^7.26.6"
+    ember-cli-htmlbars: "npm:2.0.3"
+    ember-cli-node-assets: "npm:0.2.2"
+    simplemde: "npm:^1.11.2"
+  checksum: 10c0/a51aff9986edb8f3ca5091059c2498a86a08e090cb6680edfa631104887420df003f6a38d3fc116f88bd30545ce74c26e07b5f4059b3c380d26dac89600047d4
   languageName: node
   linkType: hard
 
@@ -16688,7 +16701,7 @@ __metadata:
     ember-resize: "npm:^0.3.4"
     ember-resolver: "npm:^11.0.1"
     ember-route-action-helper: "npm:^2.0.8"
-    ember-simplemde: "npm:^1.3.1"
+    ember-simplemde: "patch:ember-simplemde@npm%3A1.3.1#~/.yarn/patches/ember-simplemde-npm-1.3.1-176fdded8e.patch"
     ember-source: "npm:~4.12.0"
     ember-source-channel-url: "npm:^2.0.1"
     ember-template-lint: "npm:^6.0.0"
