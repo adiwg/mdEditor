@@ -3,21 +3,24 @@
 {{/if}}
 
 <div class='md-input-input'>
-  {{bs-datetimepicker
-    date=this._date
-    format=this.format
-    extraFormats=this.extraFormats
-    dateIcon='fa fa-calendar'
-    timeIcon='fa fa-clock-o'
-    icons=this.calendarIcons
-    placeholder=this.placeholder
-    focusOnShow=false
-    showClear=this.showClear
-    useCurrent=this.useCurrent
-    textFieldRequired=this.required
-    showTodayButton=this.showTodayButton
-    change=this.handleChange
-  }}
+  <input
+    type={{this.inputType}}
+    class='form-control'
+    value={{this.nativeValue}}
+    placeholder={{this.placeholder}}
+    required={{this.required}}
+    {{on 'input' this.handleInput}}
+  />
+  {{#if this.showClear}}
+    <button
+      type='button'
+      class='md-datetime-clear btn btn-link'
+      title='Clear'
+      {{on 'click' this.clear}}
+    >
+      {{fa-icon 'times'}}
+    </button>
+  {{/if}}
 
   <span class='md-inputgroup-error'>
     {{#if this.showErrorMessage}}

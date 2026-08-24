@@ -38,15 +38,15 @@ module('Integration | Component | control/md fiscalyear', function(hooks) {
 
     await render(hbs`
       {{input/md-datetime
-        class="this.start"
-        valuePath="this.start"
+        class="start"
+        valuePath="start"
         model=this
         label="Start Date"
-        placeholder="Enter this.start dateTime"
+        placeholder="Enter start dateTime"
       }}
       {{input/md-datetime
-        class="this.end"
-        valuePath="this.end"
+        class="end"
+        valuePath="end"
         model=this
         label="End Date"
       }}

@@ -12,6 +12,21 @@ import { assert, debug } from '@ember/debug';
 import moment from 'moment';
 import dayjs from 'dayjs';
 
+/**
+ * Native HTML input[type] to use for a given dayjs/moment format string.
+ * Checked in order: a time token wins over date/month/year tokens since
+ * the format strings used in this app always combine them (e.g.
+ * 'YYYY-MM-DDTHH:mm:ssZ').
+ */
+function inputTypeForFormat(format) {
+  const fmt = format || '';
+  if (/[Hhms]/.test(fmt)) return 'datetime-local';
+  if (/D/.test(fmt)) return 'date';
+  if (/M/.test(fmt)) return 'month';
+  if (/Y/.test(fmt)) return 'number';
+  return 'datetime-local';
+}
+
 @classic
 export default class MdDatetimeComponent extends Component {
   /**
@@ -29,8 +44,6 @@ export default class MdDatetimeComponent extends Component {
   format = 'YYYY-MM-DDTHH:mm:ssZ';
   placeholder = 'Enter date and time';
   label = null;
-  useCurrent = 'day';
-  showTodayButton = true;
   showClear = true;
 
   init() {
@@ -96,47 +109,43 @@ export default class MdDatetimeComponent extends Component {
     }
   }
 
-  get calendarIcons() {
-    return {
-      time: 'fa fa-clock-o',
-      date: 'fa fa-calendar',
-      up: 'fa fa-chevron-up',
-      down: 'fa fa-chevron-down',
-      previous: 'fa fa-angle-double-left',
-      next: 'fa fa-angle-double-right',
-      close: 'fa fa-times',
-      clear: 'fa fa-trash',
-    };
+  get inputType() {
+    return inputTypeForFormat(this.format);
   }
 
-  get closesOnSelection() {
-    return !/[HhmsaAZz]/.test(this.format || '');
-  }
-
-  picker() {
-    const pickerElement = this.element?.querySelector('.input-group.date');
-
-    if (!pickerElement) {
-      return null;
+  /**
+   * Value formatted for the native input[type] in `inputType` - the
+   * browser requires a specific format per input type, independent of
+   * `format`/`altFormat` (which only control the value written back to
+   * the model, via `formatValue`).
+   */
+  get nativeValue() {
+    const date = this._date;
+    if (!date || !date.isValid?.()) {
+      return '';
     }
 
-    const jq = globalThis?.jQuery;
-    if (typeof jq === 'function') {
-      return jq(pickerElement).data('DateTimePicker');
+    switch (this.inputType) {
+      case 'date':
+        return date.format('YYYY-MM-DD');
+      case 'month':
+        return date.format('YYYY-MM');
+      case 'number':
+        return date.format('YYYY');
+      case 'datetime-local':
+      default:
+        return date.format('YYYY-MM-DDTHH:mm');
     }
-
-    return pickerElement.DateTimePicker ?? null;
   }
 
   @action
-  handleChange(value) {
-    if (this.closesOnSelection && value) {
-      once(this, 'hidePicker');
-    }
+  handleInput(event) {
+    set(this, '_date', event.target.value);
   }
 
-  hidePicker() {
-    this.picker()?.hide();
+  @action
+  clear() {
+    set(this, '_date', null);
   }
 
   formatValue(value, target) {

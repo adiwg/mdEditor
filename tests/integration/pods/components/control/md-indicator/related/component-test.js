@@ -43,7 +43,7 @@ module('Integration | Component | control/md-indicator/related', function (
       model=this.model
       icon="cog"
       note="The attribute \${foo} has an associated domain: \${bar}."
-      route="this.dictionary.show.edit.domain.edit"
+      route="dictionary.show.edit.domain.edit"
       values=this.values
       parent=this.dictionary
       relatedId="domainId"
