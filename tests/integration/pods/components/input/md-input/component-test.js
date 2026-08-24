@@ -21,13 +21,13 @@ module('Integration | Component | input/md input', function(hooks) {
 
     assert.equal(find('label').textContent.trim(), 'Foo', 'labeled OK');
 
-    const input = this.$('input');
+    const input = find('input');
     const props = [
-      input.prop('required'),
-      input.prop('maxlength'),
-      input.val(),
-      input.prop('placeholder'),
-      input.hasClass('test')
+      input.required,
+      input.maxLength,
+      input.value,
+      input.placeholder,
+      input.classList.contains('test')
     ];
     assert.deepEqual(props, [true, 100, 'Bar', 'Enter FooBar', true],
       'properties set OK');

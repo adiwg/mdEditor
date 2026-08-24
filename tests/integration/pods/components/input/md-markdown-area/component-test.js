@@ -19,7 +19,7 @@ module('Integration | Component | input/md markdown area', function(hooks) {
 
     this.set('markdownValue', 'This is foobar.');
 
-    await render(hbs`{{input/md-markdown-area value=markdownValue maxlength=10 required=false}}`);
+    await render(hbs`{{input/md-markdown-area value=this.markdownValue maxlength=10 required=false}}`);
 
     assert.equal(find('.md-markdown-editor .length.md-error').textContent, 'length: 15', 'maxlength ok');
 
