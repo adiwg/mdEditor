@@ -33,7 +33,7 @@ module('Integration | Component | sb publisher', function (hooks) {
     this.set('records', createRecord(3));
 
     await render(
-      hbs`{{sb-publisher config=config settings=settings records=records}}`
+      hbs`{{sb-publisher config=this.config settings=this.settings records=this.records}}`
     );
 
     assert.equal(findAll('.tree-leaf').length, 4);

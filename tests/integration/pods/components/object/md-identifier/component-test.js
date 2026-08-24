@@ -11,7 +11,7 @@ module('Integration | Component | object/md identifier', function (hooks) {
     // Set any properties with this.set('myProperty', 'value');
     this.set('id', createIdentifier(1)[0]);
 
-    await render(hbs`{{object/md-identifier model=id profilePath="foobar"}}`);
+    await render(hbs`{{object/md-identifier model=this.id profilePath="foobar"}}`);
 
     let text = find('.md-identifier')
       .textContent.replace(/[\s\n]+/g, '|')

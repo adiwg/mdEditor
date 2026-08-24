@@ -48,10 +48,10 @@ module('Integration | Component | input/md codelist multi', function(hooks) {
     this.set('fooVal', ['foo', 'bar']);
 
     // Template block usage:" + EOL +
-    await render(hbs `
+    await render(hbs`
       {{#input/md-codelist-multi
         mdCodeName="foobar"
-        value=fooVal
+        value=this.fooVal
       }}
         <p>template block text</p>
       {{/input/md-codelist-multi}}
@@ -72,11 +72,11 @@ module('Integration | Component | input/md codelist multi', function(hooks) {
         'submitted value is passed to external action');
     };
 
-    await render(hbs `{{input/md-codelist-multi
+    await render(hbs`{{input/md-codelist-multi
       create=false
-      value=value
+      value=this.value
       mdCodeName="foobar"
-      change=(action "update" value)}}`);
+      change=(action "update" this.value)}}`);
 
       await clickTrigger();
       await triggerEvent(find('.ember-power-select-option'),'mouseup');
@@ -97,11 +97,11 @@ module('Integration | Component | input/md codelist multi', function(hooks) {
         'submitted value is passed to external action');
     };
 
-    await render(hbs `{{input/md-codelist-multi
+    await render(hbs`{{input/md-codelist-multi
       create=true
-      value=value
+      value=this.value
       mdCodeName="foobar"
-      change=(action "update" value)}}`);
+      change=(action "update" this.value)}}`);
 
       await clickTrigger();
       await typeInSearch('biz');
@@ -116,7 +116,7 @@ module('Integration | Component | input/md codelist multi', function(hooks) {
   test('selecting writes back through the two-way binding', async function(assert) {
     this.set('resource', { status: ['foo'] });
 
-    await render(hbs `{{input/md-codelist-multi
+    await render(hbs`{{input/md-codelist-multi
       create=false
       value=this.resource.status
       mdCodeName="foobar"}}`);

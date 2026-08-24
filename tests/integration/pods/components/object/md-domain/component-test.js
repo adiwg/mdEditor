@@ -12,14 +12,14 @@ module('Integration | Component | object/md domain', function(hooks) {
     this.set('domain', createDomain(1)[0]);
 
 
-    await render(hbs`{{object/md-domain profilePath="foobar" model=domain}}`);
+    await render(hbs`{{object/md-domain profilePath="foobar" model=this.domain}}`);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Domain|Information|Domain|Identifier|Code|Name|Common|Name|Description|Description|Domain|Items|1|Add|OK|#|Domain|Item|Name|Value|Definition|0|More...|Delete|Domain|Reference|Edit|Title|Not|Defined|Alternate|Titles|No|alternate|titles|assigned.|Dates|No|dates|assigned.|Identifier|No|identifiers|assigned.|Responsible|Party|No|responsibility|assigned.|Edit|Citation|');
 
     // Template block usage:
     await render(hbs`
-      <Object::MdDomain @profilePath="foobar" @model={{domain}}>
+      <Object::MdDomain @profilePath="foobar" @model={{this.domain}}>
         template block text
       </Object::MdDomain>
     `);

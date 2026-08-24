@@ -17,7 +17,7 @@ module('Integration | Component | feature form', function(hooks) {
       }
     });
 
-    await render(hbs `{{feature-form model=model}}`);
+    await render(hbs`{{feature-form model=this.model}}`);
 
     assert.equal(find('.ember-view').textContent
       .replace(/[ \n]+/g, '|')
@@ -26,8 +26,8 @@ module('Integration | Component | feature form', function(hooks) {
     );
 
     // Template block usage:
-    await render(hbs `
-      {{#feature-form model=model}}
+    await render(hbs`
+      {{#feature-form model=this.model}}
         template block text
       {{/feature-form}}
     `);

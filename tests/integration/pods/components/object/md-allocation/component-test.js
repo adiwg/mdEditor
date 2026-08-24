@@ -19,14 +19,14 @@ module('Integration | Component | object/md allocation', function(hooks) {
       sourceAllocationId: 'sourceAllocationId'
     });
 
-    await render(hbs`{{object/md-allocation profilePath="test" model=allocation}}`);
+    await render(hbs`{{object/md-allocation profilePath="test" model=this.allocation}}`);
 
     assert.equal(find('.md-card').textContent.replace(/[ \n]+/g, '|').trim(),
       '|Amount|Amount|Currency|Choose|unit|of|currency|Award|ID|Source|Pick|contact|that|supplied|funds|Recipient|Pick|contact|that|received|funds|No|Other|Contacts|found.|Add|Other|Contact|Matching|Matching|funds|or|in-kind|services|Comment|Comment|No|Online|Resource|found.|Add|Online|Resource|');
 
     // Template block usage:
     await render(hbs`
-      <Object::MdAllocation @profilePath="test" @model={{allocation}} @class="testme">
+      <Object::MdAllocation @profilePath="test" @model={{this.allocation}} @class="testme">
         template block text
       </Object::MdAllocation>
     `);

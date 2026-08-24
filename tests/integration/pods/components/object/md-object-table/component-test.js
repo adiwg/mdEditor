@@ -17,15 +17,15 @@ module('Integration | Component | object/md-object-table', function (hooks) {
       baz: 'baz1'
     }];
 
-    await render(hbs `{{object/md-object-table header="Foo Bars" attributes="biz,baz"}}`);
+    await render(hbs`{{object/md-object-table header="Foo Bars" attributes="biz,baz"}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       '|No|Foo|Bars|found.|Add|Foo|Bar|');
 
     // Template block usage:
-    await render(hbs `
+    await render(hbs`
       {{#object/md-object-table
-       items=model
+       items=this.model
        header="FooBar"
        buttonText="Add FooBar"
        ellipsis=true

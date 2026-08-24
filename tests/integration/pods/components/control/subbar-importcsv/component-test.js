@@ -22,7 +22,7 @@ module('Integration | Component | control/subbar importcsv', function(hooks) {
 
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs`{{control/subbar-importcsv class="importcsv" actionContext=foo}}`);
+    await render(hbs`{{control/subbar-importcsv class="importcsv" actionContext=this.foo}}`);
 
     assert.equal(find('.importcsv').textContent.replace(/[ \n]+/g, '|').trim(),
       '|Do|Import|Cancel|Import|');

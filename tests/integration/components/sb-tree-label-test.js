@@ -36,7 +36,7 @@ module('Integration | Component | sb tree label', function (hooks) {
       type: 'application',
       uuid: '4ebb8fe5-f88f-49a4-9964-ff5395e234b8'
     })
-    await render(hbs `{{sb-tree-label model=model}}`);
+    await render(hbs`{{sb-tree-label model=this.model}}`);
 
     assert.equal(find('.tree-cell').innerText.trim(), 'Data Management Strategy : test Parent Id: None --');
   });

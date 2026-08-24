@@ -12,8 +12,8 @@ module('Integration | Component | input/md datetime', function(hooks) {
     // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
     this.set('mydate', '1999-12-31T23:59:59.999+0900');
-    await render(hbs `{{input/md-datetime
-                      date=mydate
+    await render(hbs`{{input/md-datetime
+                      date=this.mydate
                       format="YYYY-MM-DD"
                       placeholder="Enter date"}}`);
 

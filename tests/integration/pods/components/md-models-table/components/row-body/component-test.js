@@ -14,6 +14,6 @@ module('Integration | Component | md-models-table/components/row-body', function
       assert.ok(true, 'call collapseRow');
     });
 
-    await render(hbs`{{md-models-table/components/row-body collapseRow=myAction}}`);
+    await render(hbs`{{md-models-table/components/row-body collapseRow=this.myAction}}`);
   });
 });

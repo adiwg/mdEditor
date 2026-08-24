@@ -17,7 +17,7 @@ module('Integration | Component | object/md citation/preview', function(hooks) {
       assert.ok(v, 'Called external action');
     });
 
-    await render(hbs`{{object/md-citation/preview editCitation=editCitation citation=citation}}`);
+    await render(hbs`{{object/md-citation/preview editCitation=this.editCitation citation=this.citation}}`);
 
     assert.equal(find('.md-card').textContent.replace(/[ \n]+/g, '|').trim(),
       '|Citation|Edit|Title|title0|Alternate|Titles|alternateTitle0|alternateTitle1|Dates|2016-10-13|(dateType)|2016-10-22|(dateType)|Identifier|identifier0|identifier-0|Responsible|Party|role|(|individualId0|)|role|(|individualId0|)|Edit|Citation|');
@@ -26,7 +26,7 @@ module('Integration | Component | object/md citation/preview', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      <Object::MdCitation::Preview @editCitation={{editCitation}}>
+      <Object::MdCitation::Preview @editCitation={{this.editCitation}}>
         template block text
       </Object::MdCitation::Preview>
     `);

@@ -12,7 +12,7 @@ module('Integration | Component | object/md citation', function (hooks) {
     this.set('citation', createCitation(1)[0]);
 
     await render(
-      hbs`{{object/md-citation profilePath="foobar" model=citation}}`
+      hbs`{{object/md-citation profilePath="foobar" model=this.citation}}`
     );
 
     await fillIn('input[id$="-input"]', 'Updated Alternate Title');

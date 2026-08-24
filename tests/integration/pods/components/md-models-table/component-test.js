@@ -25,7 +25,7 @@ module('Integration | Component | md models table', function(hooks) {
       title: 'Type'
     }]);
 
-    await render(hbs`{{md-models-table data=data columns=columns}}`);
+    await render(hbs`{{md-models-table data=this.data columns=this.columns}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Search:|Columns|Show|All|Hide|All|Restore|Defaults|Title|Type|Title|Type|Title|Type|foo|bar|biz|baz|Show|1|-|2|of|2|Clear|all|filters|Rows:|10|25|50|Page:|1|');

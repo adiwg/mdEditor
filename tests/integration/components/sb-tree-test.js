@@ -58,7 +58,7 @@ module('Integration | Component | sb tree', function (hooks) {
       uuid: '4ebb8fe5-f88f-49a4-9964-ff5395e234b8'
     }])
 
-    await render(hbs `{{sb-tree model=model labelComponent="sb-tree-label"}}`);
+    await render(hbs`{{sb-tree model=this.model labelComponent="sb-tree-label"}}`);
     assert.equal(find('.tree-trunk').innerText
       .replace(/[\s\t]/g, '\n')
       .trim()

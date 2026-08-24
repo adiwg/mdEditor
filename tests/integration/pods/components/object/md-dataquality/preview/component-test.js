@@ -18,7 +18,7 @@ module('Integration | Component | object/md dataquality/preview', function(hooks
       }
     });
 
-    await render(hbs`<section>{{object/md-dataquality/preview item=dq index=0}}</section>`);
+    await render(hbs`<section>{{object/md-dataquality/preview item=this.dq index=0}}</section>`);
 
     assert.ok(find('section'), 'component renders');
     assert.dom('section .text-info').hasText('Data Quality #0', 'renders index heading');

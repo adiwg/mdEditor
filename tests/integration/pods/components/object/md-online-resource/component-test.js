@@ -20,7 +20,7 @@ module('Integration | Component | object/md online resource', function (hooks) {
     };
 
     await render(
-      hbs`{{object/md-online-resource model=model profilePath="foobar"}}`
+      hbs`{{object/md-online-resource model=this.model profilePath="foobar"}}`
     );
 
     await fillIn('input[id$="-input"]', 'resource-name-updated');
@@ -37,7 +37,7 @@ module('Integration | Component | object/md online resource', function (hooks) {
 
     // Template block usage:
     await render(hbs`
-      <Object::MdOnlineResource @profilePath="foobar" @model={{model}}>
+      <Object::MdOnlineResource @profilePath="foobar" @model={{this.model}}>
         template block text
       </Object::MdOnlineResource>
     `);

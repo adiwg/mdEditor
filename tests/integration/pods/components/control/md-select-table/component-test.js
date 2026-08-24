@@ -30,7 +30,7 @@ module('Integration | Component | control/md select table', function(hooks) {
       assert.equal(selected[0].title, 'foo', 'calls action');
     });
 
-    await render(hbs`{{control/md-select-table columns=columns data=data select=select}}`);
+    await render(hbs`{{control/md-select-table columns=this.columns data=this.data select=this.select}}`);
 
     assert.equal(find('.md-select-table').textContent.replace(/[ \n\t\s]+/g, '|').trim(),
       '|Search:|Columns|Show|All|Hide|All|Restore|Defaults|Title|Type|Title|Type|Title|Type|foo|bar|biz|baz|Show|1|-|2|of|2|Clear|all|filters|Rows:|10|25|50|Page:|1|');

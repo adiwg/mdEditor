@@ -13,7 +13,7 @@ module(
       // Set any properties with this.set('myProperty', 'value');
       this.set('id', createIdentifier(2));
 
-      await render(hbs`{{object/md-identifier-object-table model=id}}`);
+      await render(hbs`{{object/md-identifier-object-table model=this.id}}`);
 
       assert.equal(
         find('.md-object-table')

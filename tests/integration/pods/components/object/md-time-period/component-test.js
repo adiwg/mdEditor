@@ -60,7 +60,7 @@ module('Integration | Component | object/md time period', function(hooks) {
       }
     ];
 
-    await render(hbs`{{object/md-time-period profilePath="foobar" model=(get model "0")}}`);
+    await render(hbs`{{object/md-time-period profilePath="foobar" model=(get this.model "0")}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Time|Period|Dates|Precision|Year|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|Description|Time|Period|Names|2|Add|Time|Period|Name|0|Delete|1|Delete|Interval|Interval|Amount|Time|Unit|year|×|Duration|Years|Months|Days|Hours|Minutes|Seconds|');
@@ -70,7 +70,7 @@ module('Integration | Component | object/md time period', function(hooks) {
 
     assert.equal(input, '2016|2016|identifier|description|periodName0|periodName1|9|1|1|1|1|1|1', 'input values');
 
-    await render(hbs`{{object/md-time-period profilePath="foobar" model=model.lastObject}}`);
+    await render(hbs`{{object/md-time-period profilePath="foobar" model=this.model.lastObject}}`);
 
     var input1 = findAll('form input, form textarea').mapBy('value').join('|');
 

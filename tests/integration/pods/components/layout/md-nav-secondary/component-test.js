@@ -71,7 +71,7 @@ module('Integration | Component | md nav secondary', function (hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs `{{layout/md-nav-secondary model=model}}`);
+    await render(hbs`{{layout/md-nav-secondary model=this.model}}`);
 
     var more = findAll('.overflow-nav').length ? '|More' : '';
 
@@ -79,8 +79,8 @@ module('Integration | Component | md nav secondary', function (hooks) {
       .replace(/[ \n]+/g, '|'), more + '|Foo|Bar|');
 
     // Template block usage:
-    await render(hbs `
-      {{#layout/md-nav-secondary model=model}}
+    await render(hbs`
+      {{#layout/md-nav-secondary model=this.model}}
         <li>template block text</li>
       {{/layout/md-nav-secondary}}
     `);
@@ -99,14 +99,14 @@ module('Integration | Component | md nav secondary', function (hooks) {
 
     this.set('customService.active', 'org.adiwg.profile.basic');
 
-    await render(hbs `{{layout/md-nav-secondary model=model}}`);
+    await render(hbs`{{layout/md-nav-secondary model=this.model}}`);
 
     var more = findAll('.overflow-nav').length ? '|More' : '';
 
     assert.equal(find('.nav').textContent
       .replace(/[ \n]+/g, '|'), more + '|FooBar|BarFoo|FooBar1|BarFoo2|');
 
-    await render(hbs `<div style="width:100px;">{{layout/md-nav-secondary model=model}}</div>`);
+    await render(hbs`<div style="width:100px;">{{layout/md-nav-secondary model=this.model}}</div>`);
 
     assert.ok(findAll('.dropdown .dropdown-menu').length, 'render more dropdown');
   });

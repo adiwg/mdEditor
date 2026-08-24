@@ -60,11 +60,11 @@ module('Integration | Component | object/md extent/spatial', function (hooks) {
       }]
     };
 
-    await render(hbs `{{object/md-extent/spatial
-      extent=extent
+    await render(hbs`{{object/md-extent/spatial
+      extent=this.extent
       index=9
-      deleteFeatures=deleteFeatures
-      editFeatures=editFeatures
+      deleteFeatures=this.deleteFeatures
+      editFeatures=this.editFeatures
       profilePath="foobar"
     }}`);
 
@@ -100,8 +100,8 @@ module('Integration | Component | object/md extent/spatial', function (hooks) {
 
     this.empty = { geographicExtent: [{}] };
     // Template block usage:
-    await render(hbs `
-      {{#object/md-extent/spatial extent=empty profilePath="foobar"
+    await render(hbs`
+      {{#object/md-extent/spatial extent=this.empty profilePath="foobar"
 }}
         template block text
       {{/object/md-extent/spatial}}

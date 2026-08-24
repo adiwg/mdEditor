@@ -20,7 +20,7 @@ module('Integration | Component | control/md errors', function (hooks) {
       }]
     }, { title: 'Test2', errors: [] }]);
 
-    await render(hbs `{{control/md-errors errors=errors}}`);
+    await render(hbs`{{control/md-errors errors=this.errors}}`);
 
     assert.equal(find('.md-error-list').textContent.replace(/[ \n]+/g,
         '|').trim(),
@@ -31,8 +31,8 @@ module('Integration | Component | control/md errors', function (hooks) {
       'class applied');
 
     // Template block usage:
-    await render(hbs `
-      {{#control/md-errors  errors=errors}}
+    await render(hbs`
+      {{#control/md-errors  errors=this.errors}}
         template block text
       {{/control/md-errors}}
     `);

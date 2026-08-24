@@ -38,19 +38,19 @@ module('Integration | Component | control/md fiscalyear', function(hooks) {
 
     await render(hbs`
       {{input/md-datetime
-        class="start"
-        valuePath="start"
+        class="this.start"
+        valuePath="this.start"
         model=this
         label="Start Date"
-        placeholder="Enter start dateTime"
+        placeholder="Enter this.start dateTime"
       }}
       {{input/md-datetime
-        class="end"
-        valuePath="end"
+        class="this.end"
+        valuePath="this.end"
         model=this
         label="End Date"
       }}
-      {{control/md-fiscalyear context=this settings=settings}}`);
+      {{control/md-fiscalyear context=this settings=this.settings}}`);
 
     await clickTrigger('.md-fiscalyear');
     await selectChoose('.md-fiscalyear', year);

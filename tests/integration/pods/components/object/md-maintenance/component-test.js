@@ -60,7 +60,7 @@ module('Integration | Component | object/md maintenance', function(hooks) {
       ]
     };
 
-    await render(hbs`{{object/md-maintenance profilePath="foobar" model=model}}`);
+    await render(hbs`{{object/md-maintenance profilePath="foobar" model=this.model}}`);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Frequency|frequency|×|Dates|2|Add|Date|#|Precision|Date|Date|Type|Description|0|Day|creation|?|×|Delete|1|Day|publication|?|×|Delete|Contacts|2|Add|Contact|#|Role|Contacts|0|author|?|×|Delete|1|publisher|?|×|Delete|Notes|2|Add|Notes|0|Delete|1|Delete|Scope|×|scopeCode0|×|scopeCode1|');

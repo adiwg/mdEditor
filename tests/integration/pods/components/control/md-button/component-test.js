@@ -13,7 +13,7 @@ module('Integration | Component | control/md-button', function(hooks) {
       assert.ok(val, 'Click action');
     });
 
-    await render(hbs`{{control/md-button text="Click me" click=(action myAction true)}}`);
+    await render(hbs`{{control/md-button text="Click me" click=(action this.myAction true)}}`);
 
     assert.equal(this.element.textContent.trim(), 'Click me');
     click('.md-button');

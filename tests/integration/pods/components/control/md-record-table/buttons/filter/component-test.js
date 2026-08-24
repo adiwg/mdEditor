@@ -17,7 +17,7 @@ module('Integration | Component | control/md record table/buttons/filter', funct
       assert.equal(selectedItems, items, 'fires action')
     });
 
-    await render(hbs`{{control/md-record-table/buttons/filter deleteSelected=deleteSelected selectedItems=selectedItems}}`);
+    await render(hbs`{{control/md-record-table/buttons/filter deleteSelected=this.deleteSelected selectedItems=this.selectedItems}}`);
 
     assert.equal(find('button.btn-danger').textContent.trim(), 'Delete Selected');
 

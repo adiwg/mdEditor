@@ -25,14 +25,14 @@ module('Integration | Component | object/md address/md address block', function(
       "country": "country"
     });
 
-    await render(hbs`{{object/md-address/md-address-block item=address}}`);
+    await render(hbs`{{object/md-address/md-address-block item=this.address}}`);
 
     assert.equal(find('address').textContent.replace(/[ \n]+/g, '|').trim(),
       '|deliveryPoint0|deliveryPoint1|city,|administrativeArea|postalCode|country|mailing,|physical|');
 
     // Template block usage:
     await render(hbs`
-      <Object::MdAddress::MdAddressBlock @item={{address}}>
+      <Object::MdAddress::MdAddressBlock @item={{this.address}}>
         template block text
       </Object::MdAddress::MdAddressBlock>
     `);

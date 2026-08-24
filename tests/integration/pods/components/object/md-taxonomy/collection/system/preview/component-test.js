@@ -12,7 +12,7 @@ module('Integration | Component | object/md taxonomy/collection/system/preview',
     // Handle any actions with this.on('myAction', function(val) { ... });
     this.model = createTaxonomy()[0].taxonomicSystem[0];
 
-    await render(hbs`{{object/md-taxonomy/collection/system/preview model=model profilePath="foobar"}}`);
+    await render(hbs`{{object/md-taxonomy/collection/system/preview model=this.model profilePath="foobar"}}`);
 
     var input = findAll('input, textarea').mapBy('value').join('|');
 
