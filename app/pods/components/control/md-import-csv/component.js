@@ -2,7 +2,7 @@ import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { next } from '@ember/runloop';
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 import Papa from 'papaparse';
 import { action } from '@ember/object';
 import { Promise } from 'rsvp';

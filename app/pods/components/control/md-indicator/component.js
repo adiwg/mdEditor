@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { computed } from '@ember/object';
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 import { interpolate, parseArgs } from 'mdeditor/utils/md-interpolate';
 
 @classic
