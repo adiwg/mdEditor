@@ -21,6 +21,6 @@ module('Integration | Component | control/md record table/buttons/filter', funct
 
     assert.equal(find('button.btn-danger').textContent.trim(), 'Delete Selected');
 
-    doubleClick('button.btn-danger');
+    await doubleClick('button.btn-danger');
   });
 });

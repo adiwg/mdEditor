@@ -1,0 +1,25 @@
+diff --git a/addon/templates/leaflet-map.hbs b/addon/templates/leaflet-map.hbs
+index 0d018e62b2dc6401fbbcf1b5e51a85a11ae44c6e..655b339b30882f42299722f94371528cd3a1c2cb 100644
+--- a/addon/templates/leaflet-map.hbs
++++ b/addon/templates/leaflet-map.hbs
+@@ -17,16 +17,16 @@
+   {{!--
+     Here we need to create the addon registered contextual components to yield later
+   --}}
+-  {{#if emberLeaflet.components}}
+-    {{#each emberLeaflet.components as |c|}}
++  {{#if this.emberLeaflet.components}}
++    {{#each this.emberLeaflet.components as |c|}}
+       {{ember-leaflet-assign-to
+         components
+         key=c.as
+         value=(component c.name parentComponent=this)
+-        onChange=(action (mut mergedComponents))}}
++        onChange=(action (mut this.mergedComponents))}}
+     {{/each}}
+ 
+-    {{yield mergedComponents}}
++    {{yield this.mergedComponents}}
+   {{else}}
+     {{yield components}}
+   {{/if}}

@@ -24,7 +24,7 @@ module('Integration | Component | object/md objectroute table', function(hooks) 
 
     // Template block usage:
     await render(hbs`
-      <Object::MdObjectrouteTable @items={{model}} @header="FooBar" @buttonText="Add FooBar" @ellipsis={{true}} @profilePath="foobar" @attributes="biz,baz" as |foo|>
+      <Object::MdObjectrouteTable @items={{this.model}} @header="FooBar" @buttonText="Add FooBar" @ellipsis={{true}} @profilePath="foobar" @attributes="biz,baz" as |foo|>
         <span>Biz:{{foo.biz}}</span>
         <span>Baz:{{foo.baz}}</span>
       </Object::MdObjectrouteTable>

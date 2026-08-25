@@ -9361,7 +9361,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-cli-version-checker@npm:^3.0.0, ember-cli-version-checker@npm:^3.0.1, ember-cli-version-checker@npm:^3.1.3":
+"ember-cli-version-checker@npm:^3.0.0, ember-cli-version-checker@npm:^3.1.3":
   version: 3.1.3
   resolution: "ember-cli-version-checker@npm:3.1.3"
   dependencies:
@@ -9509,17 +9509,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-composability-tools@npm:0.0.11":
-  version: 0.0.11
-  resolution: "ember-composability-tools@npm:0.0.11"
-  dependencies:
-    ember-cli-babel: "npm:^7.1.2"
-    ember-cli-htmlbars: "npm:^3.0.0"
-    ember-in-element-polyfill: "npm:^0.1.3"
-  checksum: 10c0/9e17172ec7ecd89f401684ca09fd95aa7b458f94992c93660b33382f7c299fe92bf37eccdfa30795c19dfd2528744ae526f7a6309b2e5c566638eb6a0b12e289
-  languageName: node
-  linkType: hard
-
 "ember-composability-tools@npm:0.0.12":
   version: 0.0.12
   resolution: "ember-composability-tools@npm:0.0.12"
@@ -9528,17 +9517,6 @@ __metadata:
     ember-cli-htmlbars: "npm:^3.1.0"
     ember-in-element-polyfill: "npm:^0.2.0"
   checksum: 10c0/823a8ba7176cab4008ceaedabf548e5080892b70064f9c496bfb45c7c74dc2fce0adee40cd45c9657aeb833bb35a8d932bb8c5b819c062214ab0eb72abaa9281
-  languageName: node
-  linkType: hard
-
-"ember-composability-tools@patch:ember-composability-tools@npm%3A0.0.11#~/.yarn/patches/ember-composability-tools-npm-0.0.11-4d2ccf3153.patch":
-  version: 0.0.11
-  resolution: "ember-composability-tools@patch:ember-composability-tools@npm%3A0.0.11#~/.yarn/patches/ember-composability-tools-npm-0.0.11-4d2ccf3153.patch::version=0.0.11&hash=20bc27"
-  dependencies:
-    ember-cli-babel: "npm:^7.1.2"
-    ember-cli-htmlbars: "npm:^3.0.0"
-    ember-in-element-polyfill: "npm:^0.1.3"
-  checksum: 10c0/138763f8e8591fcd53541f6b08149aba9878a1ff99138a5667854365f4382ccb738d013be50fc592d05fdfb559f2db109e5ce6c0e83ac5793af83b04755a3d39
   languageName: node
   linkType: hard
 
@@ -9895,28 +9873,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-leaflet@npm:~3.0.5":
-  version: 3.0.18
-  resolution: "ember-leaflet@npm:3.0.18"
-  dependencies:
-    broccoli-funnel: "npm:^2.0.1"
-    broccoli-merge-trees: "npm:^3.0.2"
-    ember-cli-babel: "npm:^7.4.1"
-    ember-cli-htmlbars: "npm:^3.0.1"
-    ember-cli-version-checker: "npm:^3.0.1"
-    ember-composability-tools: "npm:^0.0.11"
-    ember-get-config: "npm:^0.2.4"
-    ember-in-element-polyfill: "npm:^0.1.3"
-    ember-invoke-action: "npm:^1.5.1"
-    fastboot-transform: "npm:^0.1.3"
-    resolve: "npm:^1.10.0"
-  peerDependencies:
-    leaflet: ">=0.7"
-  checksum: 10c0/762a029b98f725a53a2d60526209f88a41f9b118f2c53288c0f5b472f15af114f0560d8ad14d958ba56452497e460c969d049e0c6a1e95bdf208ac0799227b79
-  languageName: node
-  linkType: hard
-
-"ember-leaflet@npm:~4.0.2":
+"ember-leaflet@npm:4.0.2":
   version: 4.0.2
   resolution: "ember-leaflet@npm:4.0.2"
   dependencies:
@@ -9934,6 +9891,27 @@ __metadata:
   peerDependencies:
     leaflet: ">=0.7"
   checksum: 10c0/e874dcf14d4fe2d42dbb4736808238eb9203981878ca7dae86a987a280ba57a0ef0ffd3db3b2c8aada455590cccd35da9844be718547adb0f7de9b695484b0d6
+  languageName: node
+  linkType: hard
+
+"ember-leaflet@patch:ember-leaflet@npm%3A4.0.2#~/.yarn/patches/ember-leaflet-npm-4.0.2-d70a8f66b5.patch":
+  version: 4.0.2
+  resolution: "ember-leaflet@patch:ember-leaflet@npm%3A4.0.2#~/.yarn/patches/ember-leaflet-npm-4.0.2-d70a8f66b5.patch::version=4.0.2&hash=7d9697"
+  dependencies:
+    broccoli-funnel: "npm:^2.0.2"
+    broccoli-merge-trees: "npm:^3.0.2"
+    ember-cli-babel: "npm:^7.13.0"
+    ember-cli-htmlbars: "npm:^4.0.8"
+    ember-composability-tools: "npm:^0.0.12"
+    ember-get-config: "npm:^0.2.4"
+    ember-in-element-polyfill: "npm:^0.2.1"
+    ember-invoke-action: "npm:^1.5.1"
+    ember-let-polyfill: "npm:^0.1.0"
+    fastboot-transform: "npm:^0.1.3"
+    resolve: "npm:^1.13.1"
+  peerDependencies:
+    leaflet: ">=0.7"
+  checksum: 10c0/fc177c542d581fa4589f2f9ed37822e92eb170228b3c34bb63d151d5daf3dc541f057448cb142ff499a383bc08bcb5eded5a5452e3d096e98ffa33ba153e1dfb
   languageName: node
   linkType: hard
 
@@ -16683,7 +16661,7 @@ __metadata:
     ember-fetch: "npm:^7.1.0"
     ember-font-awesome: "npm:^3.1.1"
     ember-in-viewport: "npm:^3.10.3"
-    ember-leaflet: "npm:~4.0.2"
+    ember-leaflet: "patch:ember-leaflet@npm%3A4.0.2#~/.yarn/patches/ember-leaflet-npm-4.0.2-d70a8f66b5.patch"
     ember-leaflet-layer-control: "npm:~0.2.1"
     ember-load: "npm:0.0.17"
     ember-load-initializers: "npm:^2.1.2"

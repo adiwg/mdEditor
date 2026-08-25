@@ -23,12 +23,12 @@ module('Integration | Component | feature table', function (hooks) {
     assert.expect(4);
 
     await render(hbs `{{feature-table
-      data=data.features
+      data=this.data.features
       columnComponents=(hash
         leaflet-table-row-actions=(component "leaflet-table-row-actions"
-        showForm=showForm
-        zoomTo=zoomTo
-        deleteFeature=deleteFeature
+        showForm=this.showForm
+        zoomTo=this.zoomTo
+        deleteFeature=this.deleteFeature
       ))
     }}`);
 
