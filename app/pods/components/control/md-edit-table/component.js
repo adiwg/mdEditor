@@ -29,6 +29,7 @@ export default class MdEditTableComponent extends Component {
         icon: 'pencil',
         action: 'handleEditRow',
         target: this,
+        toggleExpand: true,
       },
       {
         title: 'Delete',

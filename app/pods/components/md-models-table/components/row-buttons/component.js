@@ -8,6 +8,14 @@ export default class RowButtonsComponent extends Component {
 
   @action
   executeAction(btn, column, index, record, event) {
+    if (btn.toggleExpand) {
+      if (this.isExpanded) {
+        this.collapseRow(index, record);
+      } else {
+        this.expandRow(index, record);
+      }
+    }
+
     if (btn.target) {
       if (typeof btn.action === 'function') {
         btn.action.call(btn.target, column, index, record, event);

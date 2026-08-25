@@ -1,4 +1,4 @@
-import { find, render, doubleClick } from '@ember/test-helpers';
+import { find, render, click } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -21,6 +21,7 @@ module('Integration | Component | control/md record table/buttons/filter', funct
 
     assert.equal(find('button.btn-danger').textContent.trim(), 'Delete Selected');
 
-    await doubleClick('button.btn-danger');
+    await click('button.btn-danger');
+    await click('button.btn-danger');
   });
 });

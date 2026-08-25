@@ -18,6 +18,11 @@ export default class FilterComponent extends Component {
   deleteSelected() {
     const records = this.args.selectedItems;
 
+    if (typeof this.args.deleteSelected === 'function') {
+      this.args.deleteSelected(records);
+      return;
+    }
+
     records.forEach((rec) => {
       const modelName = rec.constructor.modelName;
       const title = rec.get('title');
