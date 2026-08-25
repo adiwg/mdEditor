@@ -1,10 +1,10 @@
 {{#if (has-block)}}
-  <div class="md-record-table" ...attributes>
+  <div class='md-record-table' ...attributes>
     {{yield}}
   </div>
 {{else}}
   <MdModelsTable
-    class="md-record-table"
+    class='md-record-table'
     ...attributes
     @data={{@data}}
     @columns={{this.columns}}

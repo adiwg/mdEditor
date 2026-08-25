@@ -18,8 +18,8 @@ module('Integration | Component | input/md date range', function(hooks) {
     assert.equal(find('.testme').textContent.replace(/[ \n]+/g, '|').trim(),
       'Dates|Precision|Year|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|');
 
-    assert.equal(new Date(findAll('.date input')[0].value).toISOString(), this.start.toISOString(), 'set start');
-    assert.equal(new Date(findAll('.date input')[1].value).toISOString(), this.end.toISOString(), 'set end');
+    assert.equal(new Date(findAll('.md-datetime input')[0].value).toISOString(), this.start.toISOString(), 'set start');
+    assert.equal(new Date(findAll('.md-datetime input')[1].value).toISOString(), this.end.toISOString(), 'set end');
     // Template block usage:
     await render(hbs`
       <Input::MdDateRange @class="testme" @startDateTime={{this.start}} @endDateTime={{this.end}} @profilePath="foobar">

@@ -18,7 +18,7 @@ module('Integration | Component | object/md array table', function(hooks) {
     }]);
 
     await render(hbs`
-      <Object::MdArrayTable @columns="biz,baz" @value={{data}} @title="FooBar" @data-spy="FooBar" as |f|>
+      <Object::MdArrayTable @columns="biz,baz" @value={{this.data}} @title="FooBar" @data-spy="FooBar" as |f|>
         <td>
           {{f.item.biz}}
         </td>
@@ -33,7 +33,7 @@ module('Integration | Component | object/md array table', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      <Object::MdArrayTable @columns="biz,baz" @value={{data}} @title="FooBar">
+      <Object::MdArrayTable @columns="biz,baz" @value={{this.data}} @title="FooBar">
         template block text
       </Object::MdArrayTable>
     `);

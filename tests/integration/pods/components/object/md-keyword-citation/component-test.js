@@ -21,7 +21,10 @@ module('Integration | Component | object/md keyword citation', function(hooks) {
 
     var input = findAll('form input').mapBy('value').join('|');
 
-    assert.equal(input, "title0|2016-10-13T00:00:00-04:00|edition|http://adiwg.org", 'input values');
+    // Native <input type="datetime-local"> reports its value as
+    // "YYYY-MM-DDTHH:mm" (no seconds, no timezone offset) regardless of
+    // the model's stored format.
+    assert.equal(input, "title0|2016-10-13T00:00|edition|http://adiwg.org", 'input values');
 
     // Template block usage:
     await render(hbs`

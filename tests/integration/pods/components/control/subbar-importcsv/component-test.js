@@ -27,7 +27,7 @@ module('Integration | Component | control/subbar importcsv', function(hooks) {
     assert.equal(find('.importcsv').textContent.replace(/[ \n]+/g, '|').trim(),
       '|Do|Import|Cancel|Import|');
 
-    click('.importcsv .btn-info');
+    await click('.importcsv .btn-info');
 
     // Template block usage:
     await render(hbs`
