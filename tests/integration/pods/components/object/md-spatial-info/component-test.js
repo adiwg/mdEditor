@@ -106,7 +106,7 @@ module('Integration | Component | object/md spatial info', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      <Object::MdSpatialInfo @profilePath="foobar" @model={{hash}}>
+      <Object::MdSpatialInfo @profilePath="foobar" @model={{(hash)}}>
         template block text
       </Object::MdSpatialInfo>
     `);

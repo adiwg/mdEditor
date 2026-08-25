@@ -23,7 +23,7 @@ module('Integration | Component | object/md taxonomy/collection/system', functio
 
     // Template block usage:
     await render(hbs`
-      <Object::MdTaxonomy::Collection::System @model={{hash}} @profilePath="foobar">
+      <Object::MdTaxonomy::Collection::System @model={{(hash)}} @profilePath="foobar">
         template block text
       </Object::MdTaxonomy::Collection::System>
     `);

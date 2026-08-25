@@ -58,7 +58,7 @@ module('Integration | Component | object/md transfer', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      <Object::MdTransfer @profilePath="foobar" @model={{hash}}>
+      <Object::MdTransfer @profilePath="foobar" @model={{(hash)}}>
         template block text
       </Object::MdTransfer>
     `);

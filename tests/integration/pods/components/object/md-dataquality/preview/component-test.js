@@ -33,7 +33,7 @@ module('Integration | Component | object/md dataquality/preview', function(hooks
 
     // Template block usage:
     await render(hbs`<section>
-      <Object::MdDataquality::Preview @item={{hash}} @index={{1}}>
+      <Object::MdDataquality::Preview @item={{(hash)}} @index={{1}}>
         template block text
       </Object::MdDataquality::Preview></section>
     `);

@@ -81,7 +81,7 @@ module('Integration | Component | object/md time period', function(hooks) {
       'geologic age');
     // Template block usage:
     await render(hbs`
-      <Object::MdTimePeriod @profilePath="foobar" @model={{hash}}>
+      <Object::MdTimePeriod @profilePath="foobar" @model={{(hash)}}>
         template block text
       </Object::MdTimePeriod>
     `);

@@ -35,7 +35,7 @@ module('Integration | Component | object/md party', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      <Object::MdParty @model={{hash}}>
+      <Object::MdParty @model={{(hash)}}>
         template block text
       </Object::MdParty>
     `);

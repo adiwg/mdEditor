@@ -44,7 +44,7 @@ module('Integration | Component | object/md lineage', function(hooks) {
 
     // Template block usage:
     await render(hbs`<section>
-      <Object::MdLineage @profilePath="foobar" @model={{hash}}>
+      <Object::MdLineage @profilePath="foobar" @model={{(hash)}}>
         template block text
       </Object::MdLineage></section>
     `);

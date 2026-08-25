@@ -42,7 +42,7 @@ module('Integration | Component | object/md party array', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      <Object::MdPartyArray @model={{hash}} @profilePath="foobar">
+      <Object::MdPartyArray @model={{(hash)}} @profilePath="foobar">
         template block text
       </Object::MdPartyArray>
     `);

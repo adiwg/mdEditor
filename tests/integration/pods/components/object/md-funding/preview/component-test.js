@@ -26,7 +26,7 @@ module('Integration | Component | object/md funding/preview', function(hooks) {
 
     // Template block usage:
     await render(hbs`<section>
-      <Object::MdFunding::Preview @item={{hash}}>
+      <Object::MdFunding::Preview @item={{(hash)}}>
         template block text
       </Object::MdFunding::Preview></section>
     `);

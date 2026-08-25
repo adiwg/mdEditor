@@ -21,7 +21,7 @@ module('Integration | Component | object/md entity', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      <Object::MdEntity @dictionary={{hash}} @profilePath="foobar" @model={{hash}}>
+      <Object::MdEntity @dictionary={{(hash)}} @profilePath="foobar" @model={{(hash)}}>
         template block text
       </Object::MdEntity>
     `);

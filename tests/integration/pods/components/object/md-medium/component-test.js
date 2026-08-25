@@ -33,7 +33,7 @@ module('Integration | Component | object/md medium', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      <Object::MdMedium @profilePath="foobar" @model={{hash}}>
+      <Object::MdMedium @profilePath="foobar" @model={{(hash)}}>
         template block text
       </Object::MdMedium>
     `);

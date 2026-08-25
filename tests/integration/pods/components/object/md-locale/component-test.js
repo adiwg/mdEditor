@@ -24,7 +24,7 @@ module('Integration | Component | object/md locale', function(hooks) {
 
     // Template block usage:
     await render(hbs`<section>
-      <Object::MdLocale @settings={{this.settings}} @model={{hash}} @profilePath="foobar">
+      <Object::MdLocale @settings={{this.settings}} @model={{(hash)}} @profilePath="foobar">
         template block text
       </Object::MdLocale></section>
     `);
