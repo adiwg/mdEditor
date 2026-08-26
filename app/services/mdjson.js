@@ -53,10 +53,14 @@ export default Service.extend({
         return acc;
       }, []);
 
-      let records = this.store.peekAll('record').filterBy('recordId');
+      let records = this.store
+        .peekAll('record')
+        .filter((record) => get(record, 'recordId'));
 
       refs.forEach((ref) => {
-        let record = records.findBy('recordId', ref.mdRecordId);
+        let record = records.find(
+          (record) => get(record, 'recordId') === ref.mdRecordId
+        );
 
         if (record) {
           let info = get(record, 'json.metadata.metadataInfo') || {};
@@ -98,9 +102,13 @@ export default Service.extend({
     let arr = [];
 
     if (ids.length) {
-      let dicts = this.store.peekAll('dictionary').filterBy('dictionaryId');
+      let dicts = this.store
+        .peekAll('dictionary')
+        .filter((dict) => get(dict, 'dictionaryId'));
       ids.forEach((id) => {
-        let record = dicts.findBy('dictionaryId', id);
+        let record = dicts.find(
+          (dict) => get(dict, 'dictionaryId') === id
+        );
 
         if (record) {
           arr.pushObject(record.get('json.dataDictionary'));
@@ -127,7 +135,9 @@ export default Service.extend({
       }
 
       if (check[key] && !_contacts.includes(value)) {
-        let contact = conts.get('contacts').findBy('contactId', value);
+        let contact = conts
+          .get('contacts')
+          .find((contact) => get(contact, 'contactId') === value);
 
         if (!contact) {
           return null;
@@ -140,7 +150,9 @@ export default Service.extend({
 
         if (orgs && orgs.length) {
           orgs.forEach((itm) => {
-            let org = conts.get('contacts').findBy('contactId', itm);
+            let org = conts
+              .get('contacts')
+              .find((contact) => get(contact, 'contactId') === itm);
 
             if (!org) {
               return;
@@ -180,7 +192,9 @@ export default Service.extend({
     }
 
     let json = JSON.parse(JSON.stringify(cleaner.clean(clean), _replacer));
-    let contacts = this.store.peekAll('contact').mapBy('json');
+    let contacts = this.store
+      .peekAll('contact')
+      .map((contact) => get(contact, 'json'));
 
     json.contact = contacts.filter((item) => {
       return _contacts.includes(get(item, 'contactId'));

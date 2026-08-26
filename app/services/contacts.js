@@ -1,6 +1,6 @@
 import Service, { inject as service } from '@ember/service';
 import { A } from '@ember/array';
-import EmberObject, { computed } from '@ember/object';
+import EmberObject, { computed, get } from '@ember/object';
 
 export default Service.extend({
   init() {
@@ -16,13 +16,13 @@ export default Service.extend({
   contacts: A(),
 
   organizations: computed('contacts.[]', function() {
-    let orgs = this.contacts.filterBy('json.isOrganization');
+    let orgs = this.contacts.filter((contact) => get(contact, 'json.isOrganization'));
 
     return orgs;
   }),
 
   individuals: computed('contacts.[]', function() {
-    let ind = this.contacts.rejectBy('json.isOrganization');
+    let ind = this.contacts.filter((contact) => !get(contact, 'json.isOrganization'));
 
     return ind;
   }),
@@ -54,7 +54,12 @@ export default Service.extend({
     let codelist = [];
     let icons = this.icons;
     let defaultIcon = this.defaultIcon;
-    let mdCodelist = this.contacts.sortBy('title');
+    let mdCodelist = this.contacts.slice().sort((a, b) => {
+      let titleA = a.get('title') || '';
+      let titleB = b.get('title') || '';
+
+      return titleA.localeCompare(titleB);
+    });
 
     mdCodelist.forEach(function(item) {
       let newObject = EmberObject.create({

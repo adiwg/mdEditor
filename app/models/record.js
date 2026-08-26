@@ -163,14 +163,14 @@ const Record = Model.extend(Validations, Copyable, {
   hasParent: computed('parentIds.[]', function () {
     let ids = this.parentIds;
     let allRecords = this.store.peekAll('record');
-    let records = allRecords.rejectBy('hasSchemaErrors');
+    let records = allRecords.filter((record) => !get(record, 'hasSchemaErrors'));
 
     if (!ids) {
       return false;
     }
 
     return ids.find((id) => {
-      return records.findBy('recordId', id.identifier) ? true : false;
+      return records.find((record) => get(record, 'recordId') === id.identifier) ? true : false;
     });
   }),
 
@@ -182,7 +182,7 @@ const Record = Model.extend(Validations, Copyable, {
       return undefined;
     }
 
-    return allRecords.findBy('recordId', id);
+    return allRecords.find((record) => get(record, 'recordId') === id);
   }),
 
   defaultType: alias(
