@@ -1,5 +1,6 @@
 import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
+import { set } from '@ember/object';
 import { once } from '@ember/runloop';
 
 @classic
@@ -8,10 +9,18 @@ export default class VerticalComponent extends Component {
     super.didReceiveAttrs(...arguments);
     let model = this.model;
     once(this, function () {
-      model.description = model.description ?? null;
-      model.minValue = model.minValue ?? null;
-      model.maxValue = model.maxValue ?? null;
-      model.crsId = model.crsId ?? {};
+      if (model.description === undefined) {
+        set(model, 'description', null);
+      }
+      if (model.minValue === undefined) {
+        set(model, 'minValue', null);
+      }
+      if (model.maxValue === undefined) {
+        set(model, 'maxValue', null);
+      }
+      if (!model.crsId) {
+        set(model, 'crsId', {});
+      }
     });
   }
 }
