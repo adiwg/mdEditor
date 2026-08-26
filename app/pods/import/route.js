@@ -13,6 +13,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { fixLiabilityTypo } from '../../utils/fix-liability-typo';
 
 export default class ImportRoute extends Route.extend(ScrollTo) {
+  @service store;
   @service flashMessages;
   @service jsonvalidator;
   @service settings;
