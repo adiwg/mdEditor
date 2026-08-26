@@ -2278,7 +2278,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ember/render-modifiers@npm:^2.1.0":
+"@ember/render-modifiers@npm:^2.0.2, @ember/render-modifiers@npm:^2.1.0":
   version: 2.1.0
   resolution: "@ember/render-modifiers@npm:2.1.0"
   dependencies:
@@ -8677,7 +8677,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-auto-import@npm:^2.10.0, ember-auto-import@npm:^2.2.3, ember-auto-import@npm:^2.5.0, ember-auto-import@npm:^2.6.0, ember-auto-import@npm:^2.6.1, ember-auto-import@npm:^2.6.3":
+"ember-auto-import@npm:^2.10.0, ember-auto-import@npm:^2.2.3, ember-auto-import@npm:^2.2.4, ember-auto-import@npm:^2.5.0, ember-auto-import@npm:^2.6.0, ember-auto-import@npm:^2.6.1, ember-auto-import@npm:^2.6.3":
   version: 2.13.1
   resolution: "ember-auto-import@npm:2.13.1"
   dependencies:
@@ -9007,14 +9007,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-cli-flash@npm:^1.9.1":
-  version: 1.9.1
-  resolution: "ember-cli-flash@npm:1.9.1"
+"ember-cli-flash@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "ember-cli-flash@npm:3.0.0"
   dependencies:
-    ember-cli-babel: "npm:^7.1.2"
-    ember-cli-htmlbars: "npm:^3.0.0"
-    ember-runtime-enumerable-includes-polyfill: "npm:^2.0.0"
-  checksum: 10c0/dc3b6e16dd4337df6f22d861706e21741125df8a5f6288d80f3ffb108c85f8bf50c3bbf949568c79e99879d767230621289c1723a9ea9ba126b9cedd46638c42
+    "@ember/render-modifiers": "npm:^2.0.2"
+    ember-auto-import: "npm:^2.2.4"
+    ember-cli-babel: "npm:^7.26.10"
+    ember-cli-htmlbars: "npm:^6.0.1"
+  checksum: 10c0/a47c7042ba4ac0590563c523cd378e31e63d0e57ea0207696b24b74264182384740091ddeb654d12fe6b0882ebf0b47e6b38b6e9b96668f7dc46ce8af3d934db
   languageName: node
   linkType: hard
 
@@ -10104,7 +10105,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-pouch@npm:^7.0.0":
+"ember-pouch@npm:7.0.0":
   version: 7.0.0
   resolution: "ember-pouch@npm:7.0.0"
   dependencies:
@@ -10117,6 +10118,22 @@ __metadata:
     pouchdb-find: "npm:^7.1.1"
     relational-pouch: "npm:^4.0.0"
   checksum: 10c0/9eb66bea3ee2a866e21b018f712908a407139209ed0572a1d72ab53747164ff9da0c684eb2580b7a912e0e65b59d0b6ddca2c3739ad8487979cd1fc3d1f1d15f
+  languageName: node
+  linkType: hard
+
+"ember-pouch@patch:ember-pouch@npm%3A7.0.0#~/.yarn/patches/ember-pouch-npm-7.0.0-6972b5be0b.patch":
+  version: 7.0.0
+  resolution: "ember-pouch@patch:ember-pouch@npm%3A7.0.0#~/.yarn/patches/ember-pouch-npm-7.0.0-6972b5be0b.patch::version=7.0.0&hash=99a801"
+  dependencies:
+    broccoli-file-creator: "npm:^2.1.1"
+    broccoli-stew: "npm:^2.1.0"
+    ember-auto-import: "npm:^1.5.3"
+    ember-cli-babel: "npm:^7.17.2"
+    ember-cli-htmlbars: "npm:^4.2.2"
+    pouchdb-browser: "npm:^7.1.1"
+    pouchdb-find: "npm:^7.1.1"
+    relational-pouch: "npm:^4.0.0"
+  checksum: 10c0/749ebd6be398cb2a2a9814c24b5f6bf7e473327196ede7d99026a976d0844a144607b35d0c805399346ad7751ece44ffbf620fe86c56fc82bcfe1c40876cbb9e
   languageName: node
   linkType: hard
 
@@ -10175,13 +10192,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-resize@npm:^0.3.4":
+"ember-resize@npm:0.3.4":
   version: 0.3.4
   resolution: "ember-resize@npm:0.3.4"
   dependencies:
     ember-cli-babel: "npm:^7.1.0"
     ember-cli-htmlbars: "npm:^3.0.0"
   checksum: 10c0/912614b4f5cb1d105f418cdc6bcc40fdcae7c552562876a0e520d286dc3a33c5841bbdd8587c28cb2f593fa4be0eca9cf45191a6babb363b5c92f290d3481947
+  languageName: node
+  linkType: hard
+
+"ember-resize@patch:ember-resize@npm%3A0.3.4#~/.yarn/patches/ember-resize-npm-0.3.4-37eb9d299e.patch":
+  version: 0.3.4
+  resolution: "ember-resize@patch:ember-resize@npm%3A0.3.4#~/.yarn/patches/ember-resize-npm-0.3.4-37eb9d299e.patch::version=0.3.4&hash=d24099"
+  dependencies:
+    ember-cli-babel: "npm:^7.1.0"
+    ember-cli-htmlbars: "npm:^3.0.0"
+  checksum: 10c0/c9447525415d5aa8b2067819c153268af9b5d60af5a4829c798a893377040aa7d33a5aaf940c153a29aac6ceb8c84d27ab51cc8f830cf7dcb7c7a3e35d8c2fd5
   languageName: node
   linkType: hard
 
@@ -16639,7 +16666,7 @@ __metadata:
     ember-cli-deploy-build: "npm:^2.0.0"
     ember-cli-deploy-git: "npm:^1.3.4"
     ember-cli-eslint: "npm:^5.1.0"
-    ember-cli-flash: "npm:^1.9.1"
+    ember-cli-flash: "npm:^3.0.0"
     ember-cli-htmlbars: "npm:^5.7.2"
     ember-cli-inject-live-reload: "npm:^2.1.0"
     ember-cli-moment-shim: "npm:^3.8.0"
@@ -16672,11 +16699,11 @@ __metadata:
     ember-models-table: "npm:5.0.0"
     ember-moment: "npm:^10.0.2"
     ember-page-title: "npm:^7.0.0"
-    ember-pouch: "npm:^7.0.0"
+    ember-pouch: "patch:ember-pouch@npm%3A7.0.0#~/.yarn/patches/ember-pouch-npm-7.0.0-6972b5be0b.patch"
     ember-power-select: "npm:^7.2.0"
     ember-power-select-with-create: "npm:^2.0.0"
     ember-qunit: "npm:^6.2.0"
-    ember-resize: "npm:^0.3.4"
+    ember-resize: "patch:ember-resize@npm%3A0.3.4#~/.yarn/patches/ember-resize-npm-0.3.4-37eb9d299e.patch"
     ember-resolver: "npm:^11.0.1"
     ember-route-action-helper: "npm:^2.0.8"
     ember-simplemde: "patch:ember-simplemde@npm%3A1.3.1#~/.yarn/patches/ember-simplemde-npm-1.3.1-176fdded8e.patch"
