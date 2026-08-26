@@ -130,7 +130,7 @@
     "ember-template-lint": "^6.0.0",
     "ember-template-lint-plugin-prettier": "^5.0.0",
     "ember-tether": "2.0.1",
-    "ember-toggle": "^6.0.3",
+    "ember-toggle": "patch:ember-toggle@npm%3A6.0.3#~/.yarn/patches/ember-toggle-npm-6.0.3-82f16ca961.patch",
     "ember-tooltips": "^3.6.0",
     "ember-truth-helpers": "^2.1.0",
     "ember-try": "^1.4.0",
