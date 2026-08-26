@@ -12,6 +12,11 @@ export default Service.extend({
   data: null,
   _setupPromise: null,
 
+  // Set just before an intentional, already-confirmed reload (e.g. Clear
+  // Storage Cache) so the application route's beforeunload guard doesn't
+  // show a second, redundant "leave site?" prompt.
+  bypassUnloadWarning: false,
+
   init() {
     this._super(...arguments);
 

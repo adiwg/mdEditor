@@ -22,11 +22,16 @@ export default class ApplicationRoute extends Route {
   @service profile;
   @service('custom-profile') customProfile;
   @service flashMessages;
+  @service settings;
 
   constructor() {
     super(...arguments);
 
     window.addEventListener('beforeunload', (evt) => {
+      if (this.settings.bypassUnloadWarning) {
+        return undefined;
+      }
+
       let dirty = this.currentRouteModel().filter(function (itm) {
         return itm.filterBy('hasDirtyHash').length;
       }).length;

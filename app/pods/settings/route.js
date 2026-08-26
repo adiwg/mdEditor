@@ -57,6 +57,11 @@ export default class SettingsRoute extends Route {
   clearLocalStorage() {
     let data = this.settings.data.serialize({ includeId: true });
 
+    // The user already confirmed this action via the "Are you sure?"
+    // modal -- suppress the app's separate beforeunload "leave site?"
+    // prompt so the reload actually happens without a second confirm.
+    this.settings.set('bypassUnloadWarning', true);
+
     window.localStorage.clear();
 
     if (this.settings.data.keepSettings) {
