@@ -1,7 +1,6 @@
 import { A, isArray } from '@ember/array';
 import EmObject, { get, set } from '@ember/object';
 import { or } from '@ember/object/computed';
-import { assign } from '@ember/polyfills';
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
@@ -143,7 +142,7 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
         data.pushObject(
           template.create({
             attributes: {
-              json: JSON.stringify(assign(Contact.create(), item)),
+              json: JSON.stringify(Object.assign(Contact.create(), item)),
             },
             type: 'contacts',
           })
@@ -324,7 +323,7 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
 
   showPreview(model) {
     let json = {};
-    assign(json, model.attributes);
+    Object.assign(json, model.attributes);
 
     if (model.attributes.json) {
       json.json = JSON.parse(model.attributes.json);

@@ -5,7 +5,6 @@
 
 import { getOwner } from '@ember/application';
 import { A, isArray } from '@ember/array';
-import { assign } from '@ember/polyfills';
 import { once } from '@ember/runloop';
 
 /**
@@ -28,7 +27,7 @@ export function applyTemplate(context, object, templateClass, defaults) {
       return value;
     }
 
-    return assign(
+    return Object.assign(
       {},
       Template.create(owner.ownerInjection(), defaults || {}),
       value
@@ -107,7 +106,7 @@ export function applyObjectTemplateArray(
         }
 
         property.forEach((item, idx, items) => {
-          let newItem = assign(
+          let newItem = Object.assign(
             templateClass.create(owner.ownerInjection(), defaults || {}),
             item
           );
