@@ -15,6 +15,9 @@ export default class SettingsRoute extends Route {
   @service
   publish;
 
+  @service
+  flashMessages;
+
   /**
    * The profile service
    *
@@ -64,7 +67,18 @@ export default class SettingsRoute extends Route {
       this.store.pushPayload('setting', data);
 
       let rec = this.store.peekRecord('setting', data.data.id);
-      rec.save().then(() => window.location.reload());
+      rec
+        .save()
+        .catch((error) => {
+          // Reload regardless of whether the save succeeded -- storage
+          // was already cleared above, so staying on the stale page isn't
+          // an option. Surface the failure instead of leaving the user to
+          // notice settings didn't come back after a manual reload.
+          this.flashMessages.danger(
+            'Failed to save settings before reload: ' + error.message
+          );
+        })
+        .finally(() => window.location.reload());
       return;
     }
 
