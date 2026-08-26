@@ -1,0 +1,52 @@
+diff --git a/addon/adapters/base.js b/addon/adapters/base.js
+index 6abace4e0eb0d9f245333cb03f6c5b461914bee3..4a4c4e3d53e02f3dc5b66b11014a38dd2bc1e8b9 100644
+--- a/addon/adapters/base.js
++++ b/addon/adapters/base.js
+@@ -3,16 +3,12 @@ import RSVP from 'rsvp';
+ import { run } from '@ember/runloop';
+ import { isEmpty, typeOf } from '@ember/utils';
+ import { computed, get } from '@ember/object';
+-import DS from 'ember-data';
++import JSONAPIAdapter from '@ember-data/adapter/json-api';
+ import ImportExportMixin from '../mixins/adapters/import-export';
+ import { _buildKey } from '../helpers/storage';
+ 
+ const getKeys = Object.keys || keys;
+ 
+-const {
+-  JSONAPIAdapter
+-} = DS;
+-
+ // Ember data ships with ember-inflector
+ import { singularize, pluralize } from 'ember-inflector';
+ 
+diff --git a/addon/helpers/storage.js b/addon/helpers/storage.js
+index 5c8e93dd5de8b1a4fe9b19628d4a3258f3cefb37..3ab936a2dca859e83c6fc8a0eae4d1ec97189177 100644
+--- a/addon/helpers/storage.js
++++ b/addon/helpers/storage.js
+@@ -2,7 +2,7 @@ import { assert } from '@ember/debug';
+ import EmberObject, { computed } from '@ember/object';
+ import { getOwner } from '@ember/application';
+ import { dasherize } from '@ember/string';
+-import { deprecate } from '@ember/application/deprecations';
++import { deprecate } from '@ember/debug';
+ 
+ 
+ const storage = {};
+diff --git a/addon/serializers/serializer.js b/addon/serializers/serializer.js
+index d9290fa51a89c82b1b732bcdab37d3c5173252a6..15a201b0dc925966b91c6e05efcbcd2df98a1887 100644
+--- a/addon/serializers/serializer.js
++++ b/addon/serializers/serializer.js
+@@ -1,10 +1,6 @@
+-import DS from 'ember-data';
++import JSONAPISerializer from '@ember-data/serializer/json-api';
+ 
+-const {
+-  JSONAPISerializer
+-} = DS;
+-
+-const emberDataVersionOlderThan3Point1 = DS.VERSION.match(/^[0-2]\.|3\.0/);
++const emberDataVersionOlderThan3Point1 = false;
+ 
+ export default JSONAPISerializer.extend({
+   // Serialization behavior

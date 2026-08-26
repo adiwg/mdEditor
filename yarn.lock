@@ -9729,7 +9729,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-font-awesome@npm:^3.1.1":
+"ember-font-awesome@npm:3.1.1":
   version: 3.1.1
   resolution: "ember-font-awesome@npm:3.1.1"
   dependencies:
@@ -9739,6 +9739,19 @@ __metadata:
     ember-cli-htmlbars: "npm:^2.0.2"
     font-awesome: "npm:^4.7.0"
   checksum: 10c0/960f50719822dabdaf8b4bcb7dc945afac641aea4deb1063650e06c0200e5aceab6f0b319299566e02749c9267df24ec6d88bc9daef320155e5b871140e656f1
+  languageName: node
+  linkType: hard
+
+"ember-font-awesome@patch:ember-font-awesome@npm%3A3.1.1#~/.yarn/patches/ember-font-awesome-npm-3.1.1-ed15a9f8bf.patch":
+  version: 3.1.1
+  resolution: "ember-font-awesome@patch:ember-font-awesome@npm%3A3.1.1#~/.yarn/patches/ember-font-awesome-npm-3.1.1-ed15a9f8bf.patch::version=3.1.1&hash=84bc40"
+  dependencies:
+    broccoli-funnel: "npm:^1.2.0"
+    chalk: "npm:^1.1.3"
+    ember-cli-babel: "npm:^6.6.0"
+    ember-cli-htmlbars: "npm:^2.0.2"
+    font-awesome: "npm:^4.7.0"
+  checksum: 10c0/8d95fcecfc66ee940998d551120ef1938b2095875b97f9e71af809b49fdf245fc6b62d4698ce0a65e8c12b9e999b6c15843f67061f76ec8336c53139e7221286
   languageName: node
   linkType: hard
 
@@ -9947,7 +9960,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-local-storage@npm:^1.7.2":
+"ember-local-storage@npm:1.7.2":
   version: 1.7.2
   resolution: "ember-local-storage@npm:1.7.2"
   dependencies:
@@ -9961,6 +9974,23 @@ __metadata:
     ember-cli-version-checker: "npm:^2.1.0"
     ember-copy: "npm:^1.0.0"
   checksum: 10c0/f92e9be12ad0460f67c453ef36e2dd308319bc1e447f395411add3e9372e5c4d1200962765571fe08cb29d3577c909e1d748bb825bfe6ed6105a349560f10ddd
+  languageName: node
+  linkType: hard
+
+"ember-local-storage@patch:ember-local-storage@npm%3A1.7.2#~/.yarn/patches/ember-local-storage-npm-1.7.2-bab994f60b.patch":
+  version: 1.7.2
+  resolution: "ember-local-storage@patch:ember-local-storage@npm%3A1.7.2#~/.yarn/patches/ember-local-storage-npm-1.7.2-bab994f60b.patch::version=1.7.2&hash=5e2a06"
+  dependencies:
+    blob-polyfill: "npm:^2.0.20171115"
+    broccoli-funnel: "npm:^2.0.1"
+    broccoli-merge-trees: "npm:^2.0.0"
+    broccoli-stew: "npm:^1.5.0"
+    chalk: "npm:^2.3.0"
+    ember-cli-babel: "npm:^7.11.1"
+    ember-cli-string-utils: "npm:^1.1.0"
+    ember-cli-version-checker: "npm:^2.1.0"
+    ember-copy: "npm:^1.0.0"
+  checksum: 10c0/f4a684e4b8eac835a93588fa93d282fae9490c7974ee972d094098bed238556366edd5dafe07d267753c5fd4d86cd3c3b7706b5f6d29d647eba0921b3a4056e7
   languageName: node
   linkType: hard
 
@@ -16686,13 +16716,13 @@ __metadata:
     ember-exam: "npm:^8.0.0"
     ember-export-application-global: "npm:^2.0.1"
     ember-fetch: "npm:^7.1.0"
-    ember-font-awesome: "npm:^3.1.1"
+    ember-font-awesome: "patch:ember-font-awesome@npm%3A3.1.1#~/.yarn/patches/ember-font-awesome-npm-3.1.1-ed15a9f8bf.patch"
     ember-in-viewport: "npm:^3.10.3"
     ember-leaflet: "patch:ember-leaflet@npm%3A4.0.2#~/.yarn/patches/ember-leaflet-npm-4.0.2-d70a8f66b5.patch"
     ember-leaflet-layer-control: "npm:~0.2.1"
     ember-load: "npm:0.0.17"
     ember-load-initializers: "npm:^2.1.2"
-    ember-local-storage: "npm:^1.7.2"
+    ember-local-storage: "patch:ember-local-storage@npm%3A1.7.2#~/.yarn/patches/ember-local-storage-npm-1.7.2-bab994f60b.patch"
     ember-math-helpers: "npm:^2.18.2"
     ember-maybe-import-regenerator: "npm:^0.1.6"
     ember-modal-dialog: "npm:4.1.1"
