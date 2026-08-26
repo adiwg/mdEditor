@@ -64,6 +64,7 @@ export default class SettingsRoute extends Route {
 
       let rec = this.store.peekRecord('setting', data.data.id);
       rec.save().then(() => window.location.reload());
+      return;
     }
 
     window.location.reload();
