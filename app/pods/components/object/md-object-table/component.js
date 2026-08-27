@@ -45,6 +45,21 @@ export default class MdObjectTableComponent extends Component {
     super.didReceiveAttrs(...arguments);
 
     let sourceItems = this.items ?? A();
+
+    // applyTemplateArray wraps every item in a brand-new templateClass
+    // instance, copying properties across at call time. didReceiveAttrs
+    // fires on every parent re-render, not just when `items` actually
+    // changes -- rebuilding displayItems unconditionally means a stray
+    // re-render mid-edit silently swaps out the instance the edit form is
+    // bound to (this.saveItem) for a fresh clone that doesn't yet have the
+    // in-progress edits, making the table show stale/blank values until
+    // the next add/edit cycle happens to pick up the real committed data.
+    // Only rebuild when the underlying array reference actually changes.
+    if (sourceItems === this._lastSourceItems) {
+      return;
+    }
+    this._lastSourceItems = sourceItems;
+
     let items = applyTemplateArray(this, sourceItems, this.templateClass);
 
     this.sourceItems = sourceItems;
