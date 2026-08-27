@@ -5,13 +5,24 @@
 <div class='md-input-input'>
   <input
     aria-label='datetime'
-    type={{this.inputType}}
+    type={{this.htmlInputType}}
+    inputmode={{if this.isYearInput 'numeric'}}
     class='form-control'
     value={{this.nativeValue}}
     placeholder={{this.placeholder}}
     required={{this.required}}
     {{on 'input' this.handleInput}}
   />
+  {{#if this.isYearInput}}
+    <button
+      type='button'
+      class='md-datetime-year-toggle btn btn-link'
+      title='Choose year'
+      {{on 'click' this.toggleYearPicker}}
+    >
+      {{fa-icon 'calendar'}}
+    </button>
+  {{/if}}
   {{#if this.showClear}}
     <button
       type='button'
@@ -21,6 +32,33 @@
     >
       {{fa-icon 'times'}}
     </button>
+  {{/if}}
+
+  {{#if (and this.isYearInput this.isYearPickerOpen)}}
+    <div class='md-year-picker'>
+      <div class='md-year-picker-header'>
+        <button
+          type='button'
+          class='btn btn-link'
+          {{on 'click' this.prevYearDecade}}
+        >&laquo;</button>
+        <span>{{this.yearGridStart}}-{{this.yearGridEnd}}</span>
+        <button
+          type='button'
+          class='btn btn-link'
+          {{on 'click' this.nextYearDecade}}
+        >&raquo;</button>
+      </div>
+      <div class='md-year-picker-grid'>
+        {{#each this.yearGridYears as |year|}}
+          <button
+            type='button'
+            class={{if (eq year this.selectedYear) 'active'}}
+            {{on 'click' (fn this.selectYear year)}}
+          >{{year}}</button>
+        {{/each}}
+      </div>
+    </div>
   {{/if}}
 
   <span class='md-inputgroup-error'>

@@ -7,10 +7,13 @@ import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { isBlank } from '@ember/utils';
 import { set, computed, defineProperty, action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import { once } from '@ember/runloop';
 import { assert, debug } from '@ember/debug';
 import moment from 'moment';
 import dayjs from 'dayjs';
+
+const YEAR_GRID_SIZE = 12;
 
 /**
  * Native HTML input[type] to use for a given dayjs/moment format string.
@@ -45,6 +48,12 @@ export default class MdDatetimeComponent extends Component {
   placeholder = 'Enter date and time';
   label = null;
   showClear = true;
+
+  // Year precision has no native HTML input type, so a small custom
+  // year-grid popover restores the picker UX the old bootstrap
+  // datetimepicker gave for this case.
+  @tracked isYearPickerOpen = false;
+  @tracked _yearGridStart = null;
 
   init() {
     super.init(...arguments);
@@ -109,8 +118,84 @@ export default class MdDatetimeComponent extends Component {
     }
   }
 
+  didInsertElement() {
+    super.didInsertElement(...arguments);
+
+    this._handleOutsideClick = (event) => {
+      if (this.isYearPickerOpen && !this.element.contains(event.target)) {
+        set(this, 'isYearPickerOpen', false);
+      }
+    };
+    document.addEventListener('click', this._handleOutsideClick, true);
+  }
+
+  willDestroyElement() {
+    document.removeEventListener('click', this._handleOutsideClick, true);
+    super.willDestroyElement(...arguments);
+  }
+
   get inputType() {
     return inputTypeForFormat(this.format);
+  }
+
+  /**
+   * The actual `type` attribute rendered on the native input. Year
+   * precision uses 'text' rather than 'number' -- the up/down spinner a
+   * `number` input gets is not a usable substitute for picking a year,
+   * so a custom year-grid popover is offered alongside it instead.
+   */
+  get htmlInputType() {
+    return this.inputType === 'number' ? 'text' : this.inputType;
+  }
+
+  get isYearInput() {
+    return this.inputType === 'number';
+  }
+
+  get selectedYear() {
+    const date = this._date;
+    return date && date.isValid?.() ? date.year() : null;
+  }
+
+  get yearGridStart() {
+    if (this._yearGridStart !== null) {
+      return this._yearGridStart;
+    }
+
+    const year = this.selectedYear ?? new Date().getFullYear();
+
+    return year - 5;
+  }
+
+  get yearGridEnd() {
+    return this.yearGridStart + YEAR_GRID_SIZE - 1;
+  }
+
+  get yearGridYears() {
+    const start = this.yearGridStart;
+
+    return Array.from({ length: YEAR_GRID_SIZE }, (_, i) => start + i);
+  }
+
+  @action
+  toggleYearPicker() {
+    set(this, 'isYearPickerOpen', !this.isYearPickerOpen);
+  }
+
+  @action
+  prevYearDecade() {
+    set(this, '_yearGridStart', this.yearGridStart - YEAR_GRID_SIZE);
+  }
+
+  @action
+  nextYearDecade() {
+    set(this, '_yearGridStart', this.yearGridStart + YEAR_GRID_SIZE);
+  }
+
+  @action
+  selectYear(year) {
+    set(this, '_date', String(year));
+    set(this, 'isYearPickerOpen', false);
   }
 
   /**
@@ -146,6 +231,8 @@ export default class MdDatetimeComponent extends Component {
   @action
   clear() {
     set(this, '_date', null);
+    set(this, '_yearGridStart', null);
+    set(this, 'isYearPickerOpen', false);
   }
 
   formatValue(value, target) {
