@@ -1,6 +1,6 @@
 import { once } from '@ember/runloop';
 import { Validations } from '../md-online-resource/component';
-import EmberObject from '@ember/object';
+import EmberObject, { set } from '@ember/object';
 import { A } from '@ember/array';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
@@ -12,7 +12,7 @@ export default class MdOnlineResourceArrayComponent extends Component {
     super.didReceiveAttrs(...arguments);
 
     if(!this.model) {
-      once(this, () => this.model = A());
+      once(this, () => set(this, 'model', A()));
     }
   }
 
