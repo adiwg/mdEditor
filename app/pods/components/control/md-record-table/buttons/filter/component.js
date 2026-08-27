@@ -1,6 +1,7 @@
 import { inject as service } from '@ember/service';
-import Component from '@glimmer/component';
-import { action } from '@ember/object';
+import { computed } from '@ember/object';
+import classic from 'ember-classic-decorator';
+import Component from '@ember/component';
 import { once } from '@ember/runloop';
 
 /**
@@ -10,6 +11,11 @@ import { once } from '@ember/runloop';
 export default class FilterComponent extends Component {
   @service flashMessages;
 
+  // `selectedItems` is a live array mutated in place (pushObject/removeObject)
+  // by ember-models-table, not replaced - so this must be a real computed
+  // property with an explicit '.[]' dependent key. A plain getter is never
+  // re-evaluated by classic (curly) components once mounted.
+  @computed('selectedItems.[]')
   get showButton() {
     return this.args.selectedItems?.length >= 1;
   }
@@ -30,10 +36,7 @@ export default class FilterComponent extends Component {
       rec.destroyRecord().then((rec) => {
         rec.unloadRecord();
         once(() => {
-          const index = records.indexOf(rec);
-          if (index > -1) {
-            records.splice(index, 1);
-          }
+          records.removeObject(rec);
           this.flashMessages.danger(`Deleted ${modelName} "${title}".`);
         });
       });
