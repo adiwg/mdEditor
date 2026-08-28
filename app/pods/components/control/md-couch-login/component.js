@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import { next } from '@ember/runloop';
 
 export default class CouchLoginComponent extends Component {
   @service couch;
@@ -16,8 +17,13 @@ export default class CouchLoginComponent extends Component {
 
   constructor() {
     super(...arguments);
-    // Set up initial defaults
-    this.loadDefaults();
+    // Deferred with next() so the tracked writes below always land in a
+    // render pass after this constructor's own initial render computation
+    // has committed. `await this.settings.ready` can resolve as a microtask
+    // that races with Glimmer's own render-commit microtask, which
+    // otherwise intermittently throws "you attempted to update `remoteUrl`
+    // ... but it had already been used previously in the same computation."
+    next(this, this.loadDefaults);
   }
 
   async loadDefaults() {

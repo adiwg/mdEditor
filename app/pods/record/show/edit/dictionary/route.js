@@ -1,7 +1,14 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import uuidV4 from 'uuid/v4';
-import EmberObject, { get, computed, defineProperty, set } from '@ember/object';
+import EmberObject, {
+  get,
+  computed,
+  defineProperty,
+  set,
+  observer,
+} from '@ember/object';
+import { A } from '@ember/array';
 
 export default class DictionaryRoute extends Route {
   init() {
@@ -59,8 +66,25 @@ export default class DictionaryRoute extends Route {
     defineProperty(
       this.controller,
       'selected',
-      computed('model', function () {
+      computed('model.@each.selected', function () {
         return this.model.filterBy('selected');
+      })
+    );
+
+    // The checkbox column (control/md-record-table -> ember-models-table)
+    // only flips each row's own `selected` flag via set() -- it doesn't
+    // call back out to the route. Sync the record's persisted
+    // `mdDictionary` id list from the reactive `selected` list instead of
+    // trying to patch it incrementally per click, so both the checkbox
+    // column and the "Remove" button (which also just flips `selected`)
+    // go through the same path.
+    const route = this;
+
+    defineProperty(
+      this.controller,
+      '_syncSelectedDictionaries',
+      observer('selected', function () {
+        route.syncSelectedDictionaries(this.selected);
       })
     );
 
@@ -69,19 +93,11 @@ export default class DictionaryRoute extends Route {
       cancelScope: this,
     });
   }
-  _select(obj) {
-    let rec = this.modelFor('record.show.edit');
-    let selected = rec.get('json.mdDictionary');
 
-    if (obj.selected) {
-      if (selected.indexOf(obj.id) === -1) {
-        selected.pushObject(obj.id);
-        this.controller.notifyPropertyChange('model');
-        return;
-      }
-    }
-    selected.removeObject(obj.id);
-    this.controller.notifyPropertyChange('model');
+  syncSelectedDictionaries(selected) {
+    let rec = this.modelFor('record.show.edit');
+
+    set(rec, 'json.mdDictionary', A(selected.mapBy('id')));
   }
 
   @action
@@ -90,13 +106,7 @@ export default class DictionaryRoute extends Route {
   }
 
   @action
-  select(obj) {
-    this._select(obj);
-  }
-
-  @action
   remove(obj) {
     set(obj, 'selected', false);
-    this._select(obj);
   }
 }

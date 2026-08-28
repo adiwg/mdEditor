@@ -1,6 +1,6 @@
 import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
-import { action } from '@ember/object';
+import { action, set } from '@ember/object';
 
 @classic
 export default class MdStandaloneQualityReportComponent extends Component {
@@ -9,11 +9,11 @@ export default class MdStandaloneQualityReportComponent extends Component {
 
   @action
   addReportReference() {
-    this.model.reportReference = {};
+    set(this.model, 'reportReference', {});
   }
 
   @action
   deleteReportReference() {
-    this.model.reportReference = undefined;
+    set(this.model, 'reportReference', undefined);
   }
 }

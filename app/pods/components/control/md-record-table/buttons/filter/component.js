@@ -1,5 +1,5 @@
 import { inject as service } from '@ember/service';
-import { computed } from '@ember/object';
+import { action, computed } from '@ember/object';
 import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import { once } from '@ember/runloop';
@@ -8,6 +8,7 @@ import { once } from '@ember/runloop';
  * Rendered as the Actions column's filter-row cell (componentForFilterCell).
  * Shows a "Delete Selected" button whenever one or more rows are selected.
  */
+@classic
 export default class FilterComponent extends Component {
   @service flashMessages;
 
@@ -15,17 +16,23 @@ export default class FilterComponent extends Component {
   // by ember-models-table, not replaced - so this must be a real computed
   // property with an explicit '.[]' dependent key. A plain getter is never
   // re-evaluated by classic (curly) components once mounted.
+  //
+  // This is a classic `@ember/component`, invoked via the `{{component}}`
+  // helper with hash args - those land as plain properties on `this`
+  // (`this.selectedItems`), not under `this.args` (a Glimmer-only concept).
   @computed('selectedItems.[]')
   get showButton() {
-    return this.args.selectedItems?.length >= 1;
+    return this.selectedItems?.length >= 1;
   }
 
   @action
   deleteSelected() {
-    const records = this.args.selectedItems;
+    const records = this.selectedItems;
 
-    if (typeof this.args.deleteSelected === 'function') {
-      this.args.deleteSelected(records);
+    // Named onDeleteSelected (not deleteSelected) to avoid colliding with
+    // this action's own name on `this`.
+    if (typeof this.onDeleteSelected === 'function') {
+      this.onDeleteSelected(records);
       return;
     }
 
