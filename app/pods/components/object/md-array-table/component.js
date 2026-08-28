@@ -274,7 +274,6 @@ export default class MdArrayTableComponent extends Component {
             input.focus();
           });
 
-          // Trigger Bootstrap collapse
           $(panel).collapse('show');
         }
       }
@@ -296,7 +295,6 @@ export default class MdArrayTableComponent extends Component {
     const Template = this.templateClass;
     const owner = getOwner(this);
 
-    // Initialize value if it's not set
     if (!this.arrayValues) {
       this.set('value', A());
     }
@@ -306,7 +304,6 @@ export default class MdArrayTableComponent extends Component {
         ? Template.create(owner.ownerInjection())
         : { value: null }
     );
-    // Trigger reactivity
     notifyPropertyChange(this, 'value');
     notifyPropertyChange(this, 'arrayValues');
     this.valueChanged();
@@ -317,7 +314,6 @@ export default class MdArrayTableComponent extends Component {
     if (this.arrayValues && this.arrayValues.length > idx) {
       this.arrayValues.removeAt(idx);
     }
-    // Trigger reactivity
     notifyPropertyChange(this, 'value');
     notifyPropertyChange(this, 'arrayValues');
     this.valueChanged();

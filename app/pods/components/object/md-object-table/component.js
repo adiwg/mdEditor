@@ -46,15 +46,10 @@ export default class MdObjectTableComponent extends Component {
 
     let sourceItems = this.items ?? A();
 
-    // applyTemplateArray wraps every item in a brand-new templateClass
-    // instance, copying properties across at call time. didReceiveAttrs
-    // fires on every parent re-render, not just when `items` actually
-    // changes -- rebuilding displayItems unconditionally means a stray
-    // re-render mid-edit silently swaps out the instance the edit form is
-    // bound to (this.saveItem) for a fresh clone that doesn't yet have the
-    // in-progress edits, making the table show stale/blank values until
-    // the next add/edit cycle happens to pick up the real committed data.
-    // Only rebuild when the underlying array reference actually changes.
+    // didReceiveAttrs fires on every parent re-render, not just when
+    // `items` changes -- rebuilding unconditionally would swap out the
+    // instance mid-edit (this.saveItem) for a fresh clone, losing
+    // in-progress edits. Only rebuild when the array reference changes.
     if (sourceItems === this._lastSourceItems) {
       return;
     }
@@ -393,7 +388,6 @@ export default class MdObjectTableComponent extends Component {
 
     items.removeAt(index);
     this.removeSourceItemAt(index);
-    // Trigger reactivity for tracked items property
     this.displayItems = items;
   }
 
@@ -414,7 +408,6 @@ export default class MdObjectTableComponent extends Component {
     this.editing = 'adding';
     items.pushObject(itm);
     this.addSourceItem(itm);
-    // Trigger reactivity for tracked items property
     this.displayItems = items;
     spotlight.setTarget(this.elementId);
     //this.scrollTo(this.elementId);
@@ -422,13 +415,11 @@ export default class MdObjectTableComponent extends Component {
 
   @action
   doEditItem(items, index, scrollTo) {
-    // If editItem is a passed-in action, call it
     if (this.editItem && typeof this.editItem === 'function') {
       this.editItem(index, this.routeParams, scrollTo);
       return;
     }
 
-    // Default behavior
     const spotlight = this.spotlight;
 
     this.saveItem = items.objectAt(index);

@@ -58,7 +58,6 @@ export default class App extends Application {
 
 loadInitializers(App, config.modulePrefix);
 
-//for routes
 Route.reopen({
   //breadCrumb: null
   currentRouteModel: function () {

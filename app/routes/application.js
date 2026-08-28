@@ -126,9 +126,7 @@ export default class ApplicationRoute extends Route {
   }
 
   setupController(controller, model) {
-    // Call super for default behavior
     super.setupController(controller, model);
-    // Services are now injected directly in the controller
   }
 
   /**

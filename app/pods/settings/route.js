@@ -57,9 +57,8 @@ export default class SettingsRoute extends Route {
   clearLocalStorage() {
     let data = this.settings.data.serialize({ includeId: true });
 
-    // The user already confirmed this action via the "Are you sure?"
-    // modal -- suppress the app's separate beforeunload "leave site?"
-    // prompt so the reload actually happens without a second confirm.
+    // Already confirmed via the "Are you sure?" modal - suppress the
+    // separate beforeunload "leave site?" prompt so reload isn't blocked.
     this.settings.set('bypassUnloadWarning', true);
 
     window.localStorage.clear();
@@ -75,10 +74,8 @@ export default class SettingsRoute extends Route {
       rec
         .save()
         .catch((error) => {
-          // Reload regardless of whether the save succeeded -- storage
-          // was already cleared above, so staying on the stale page isn't
-          // an option. Surface the failure instead of leaving the user to
-          // notice settings didn't come back after a manual reload.
+          // Storage is already cleared, so reload regardless of save
+          // outcome - just surface the failure first.
           this.flashMessages.danger(
             'Failed to save settings before reload: ' + error.message
           );
@@ -108,9 +105,8 @@ export default class SettingsRoute extends Route {
     }
     const mdTranslatorAPI = model.get('mdTranslatorAPI');
     if (mdTranslatorAPI) {
-      // Extract the base URL by removing the API path
-      // This will convert https://api.sciencebase.gov/mdTranslator/api/v3/translator
-      // to https://api.sciencebase.gov/mdTranslator
+      // e.g. https://api.sciencebase.gov/mdTranslator/api/v3/translator
+      // -> https://api.sciencebase.gov/mdTranslator
       const baseUrl = mdTranslatorAPI.replace(/\/api\/v\d+(\/translator)?$/, '');
 
       model.set('itisProxyUrl', baseUrl);
@@ -128,7 +124,6 @@ export default class SettingsRoute extends Route {
       publishOptions = [];
     }
 
-    // Find existing settings for this catalog
     // Support both legacy 'catalog' field and new 'publisher' field
     let catalogSettings = publishOptions.find(
       (options) =>
@@ -136,11 +131,9 @@ export default class SettingsRoute extends Route {
     );
 
     if (catalogSettings) {
-      // Field migrations mutate model state, which must not happen
-      // synchronously while this is being read during a render (it was
-      // the cause of an intermittent "must supply both model and
-      // valuePath" crash in couchdb-settings/sb-settings) -- defer to
-      // after the current render completes.
+      // Mutating model state synchronously while it's being read during a
+      // render caused an intermittent "must supply both model and
+      // valuePath" crash in couchdb-settings/sb-settings - defer instead.
       schedule(
         'afterRender',
         this,
@@ -152,9 +145,7 @@ export default class SettingsRoute extends Route {
       return catalogSettings;
     }
 
-    // No settings exist for this catalog yet. Return a default entry for
-    // this render, and persist it after the render completes instead of
-    // mutating the model mid-render.
+    // No settings exist yet - same render-safety concern as above.
     let defaults = this._buildDefaultPublishOptions(catalogName);
 
     schedule(

@@ -248,7 +248,6 @@ export default class MdDatetimeComponent extends Component {
       formattedDate = dayjs(value).format(this.altFormat || this.format);
     }
 
-    // Use bracket notation for dynamic property access
     let currentValue = target.includes('.')
       ? target.split('.').reduce((obj, key) => obj?.[key], this)
       : this[target];

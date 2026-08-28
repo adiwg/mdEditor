@@ -8,21 +8,16 @@ export default class CouchLoginComponent extends Component {
   @service couch;
   @service settings;
 
-  // User data
   @tracked username = null;
   @tracked password = null;
-  // DB data
   @tracked remoteUrl = null;
   @tracked remoteName = null;
 
   constructor() {
     super(...arguments);
-    // Deferred with next() so the tracked writes below always land in a
-    // render pass after this constructor's own initial render computation
-    // has committed. `await this.settings.ready` can resolve as a microtask
-    // that races with Glimmer's own render-commit microtask, which
-    // otherwise intermittently throws "you attempted to update `remoteUrl`
-    // ... but it had already been used previously in the same computation."
+    // Deferred: calling loadDefaults() directly can race Glimmer's own
+    // render-commit microtask and throw a backtracking-write assertion
+    // on the tracked fields it sets below.
     next(this, this.loadDefaults);
   }
 
@@ -85,7 +80,6 @@ export default class CouchLoginComponent extends Component {
   @action
   logout() {
     this.couch.logout();
-    // Fields are empty again after logout - refill them from settings
     this.loadDefaults();
   }
 

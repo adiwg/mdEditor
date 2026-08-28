@@ -31,8 +31,7 @@ export default class LinkComponent extends Component {
           return a + (b.width || 0);
         }, this.nav?.navPadding || 0));
       } catch (e) {
-        // Element measurement failed, likely due to timing issues during render
-        // This is non-critical functionality for nav width calculation
+        // Non-critical: nav width measurement can fail on render timing.
       }
     });
   }

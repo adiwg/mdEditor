@@ -79,7 +79,6 @@ export function applyTemplateArray(context, property, templateClass, defaults) {
 
 /**
  * Apply the object template to each object in an array, modifying in place.
- * Note: This is a hack to get the template to work with the object-template mixin.
  *
  * @function applyObjectTemplateArray
  * @param {Object} context The context object with get/set/notifyPropertyChange

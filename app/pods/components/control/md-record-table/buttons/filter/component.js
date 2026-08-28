@@ -12,14 +12,9 @@ import { once } from '@ember/runloop';
 export default class FilterComponent extends Component {
   @service flashMessages;
 
-  // `selectedItems` is a live array mutated in place (pushObject/removeObject)
-  // by ember-models-table, not replaced - so this must be a real computed
-  // property with an explicit '.[]' dependent key. A plain getter is never
-  // re-evaluated by classic (curly) components once mounted.
-  //
-  // This is a classic `@ember/component`, invoked via the `{{component}}`
-  // helper with hash args - those land as plain properties on `this`
-  // (`this.selectedItems`), not under `this.args` (a Glimmer-only concept).
+  // `selectedItems` is mutated in place by ember-models-table, so this needs
+  // an explicit '.[]' dependent key - a plain getter won't re-evaluate. Hash
+  // args on this classic component land on `this` directly, not `this.args`.
   @computed('selectedItems.[]')
   get showButton() {
     return this.selectedItems?.length >= 1;

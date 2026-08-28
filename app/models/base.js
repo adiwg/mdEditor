@@ -111,7 +111,6 @@ const Base = Model.extend({
     //let record = model.record || this;
     let json = JSON.parse(this.serialize().data.attributes.json);
 
-    // Clear any lingering dirty attributes state
     if (this.hasDirtyAttributes) {
       this.rollbackAttributes();
     }
@@ -119,7 +118,6 @@ const Base = Model.extend({
     this.setCurrentHash(json);
     this.set('jsonSnapshot', json);
 
-    // Notify property change to force hasDirtyHash recomputation
     this.notifyPropertyChange('currentHash');
     this.notifyPropertyChange('hasDirtyHash');
 

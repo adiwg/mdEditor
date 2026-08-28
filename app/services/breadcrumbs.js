@@ -78,7 +78,6 @@ export default class BreadcrumbsService extends Service {
       }
     }
 
-    // Set isHead and isTail flags
     breadcrumbs.forEach((crumb, index) => {
       crumb.isHead = index === 0;
       crumb.isTail = index === breadcrumbs.length - 1;
@@ -120,12 +119,10 @@ export default class BreadcrumbsService extends Service {
 
     const breadCrumb = route.breadCrumb;
 
-    // If breadCrumb is explicitly null, skip this route
     if (breadCrumb === null) {
       return null;
     }
 
-    // If breadCrumb is undefined, create a default one from the route name
     const defaultTitle = this._getDefaultTitle(routeName);
 
     if (breadCrumb === undefined) {
@@ -137,7 +134,6 @@ export default class BreadcrumbsService extends Service {
       };
     }
 
-    // Merge provided breadCrumb with defaults
     return {
       title: breadCrumb.title ?? defaultTitle,
       path: breadCrumb.path ?? routeName,
@@ -161,7 +157,6 @@ export default class BreadcrumbsService extends Service {
    * @private
    */
   _routeRequiresModel(routeName) {
-    // Routes with dynamic segments (e.g., record.show has :record_id)
     const routesWithDynamicSegments = [
       'record.show',
       'record.new.id',
@@ -176,7 +171,6 @@ export default class BreadcrumbsService extends Service {
    * @private
    */
   _getRouteModel(route, routeName) {
-    // Only return model for routes that actually need it
     if (!this._routeRequiresModel(routeName)) {
       return undefined;
     }

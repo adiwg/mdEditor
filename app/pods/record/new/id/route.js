@@ -21,12 +21,6 @@ export default class IdRoute extends Route {
   }
   breadCrumb = null;
 
-  /**
-   * The profile service
-   *
-   * @return {Ember.Service} profile
-   */
-  //@service profile;
   @service router;
 
   deactivate() {
@@ -44,20 +38,6 @@ export default class IdRoute extends Route {
   setupController(controller, model) {
     super.setupController(controller, model);
   }
-  // serialize(model) {
-  //   // If we got here without an ID (and therefore without a model)
-  //   // Ensure that we leave the route param in the URL blank (not 'undefined')
-  //   if (!model) {
-  //     let rec=this.store.createRecord('record');
-  //     return {
-  //       record_id: rec.id
-  //     };
-  //   }
-  //
-  //   // Otherwise, let Ember handle it as usual
-  //   return this._super.apply(this, arguments);
-  // },
-
     willTransition(transition) {
       if (transition.targetName === 'record.new.index') {
         transition.abort();

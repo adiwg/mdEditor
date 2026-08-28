@@ -229,11 +229,6 @@ export default Service.extend({
     const response = await axios.get(url);
     const responseData = response.data;
 
-    // Normalize to a list of { url, data } items.
-    // Supported formats:
-    //   1. Manifest array:  [{name, url}, ...]  — fetch each url for its definition
-    //   2. Single profile:  {identifier, title, ...} — treat the given url as the definition
-    //   3. Wrapped object:  {profiles: [...]}
     let resolvedItems; // [{ url: string, data: object }]
 
     if (Array.isArray(responseData)) {

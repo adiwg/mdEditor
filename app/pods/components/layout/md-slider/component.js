@@ -7,9 +7,6 @@ export default class MdSliderComponent extends Component {
   classNames = ['md-slider'];
   classNameBindings = ['visible:in'];
 
-  // visible is passed in as @visible from the parent
-  // fromName is passed in as @fromName from the parent
-
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
 
@@ -22,7 +19,6 @@ export default class MdSliderComponent extends Component {
 
   @action
   toggleVisibility() {
-    // Call the onClose callback which should toggle the slider service
     let context = this.context?.isDestroying;
 
     if(!context && this.onClose) {

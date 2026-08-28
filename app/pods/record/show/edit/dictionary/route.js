@@ -71,13 +71,9 @@ export default class DictionaryRoute extends Route {
       })
     );
 
-    // The checkbox column (control/md-record-table -> ember-models-table)
-    // only flips each row's own `selected` flag via set() -- it doesn't
-    // call back out to the route. Sync the record's persisted
-    // `mdDictionary` id list from the reactive `selected` list instead of
-    // trying to patch it incrementally per click, so both the checkbox
-    // column and the "Remove" button (which also just flips `selected`)
-    // go through the same path.
+    // The checkbox/Remove UI only ever flips a row's local `selected` flag,
+    // never calling back to the route - persist mdDictionary by observing
+    // the derived `selected` list instead of patching it per click.
     const route = this;
 
     defineProperty(

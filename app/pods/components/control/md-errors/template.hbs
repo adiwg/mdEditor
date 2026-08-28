@@ -1,4 +1,3 @@
-{{! template.hbs }}
 {{#each this.formattedErrors as |errorGroup|}}
   <section>
     <h3>{{errorGroup.title}}</h3>
@@ -21,7 +20,6 @@
               {{#if err.path}}
                 <p><strong>Schema Path:</strong> {{err.path}}</p>
               {{/if}}
-              {{! Add the "Go To Error" button below the existing content }}
               <button
                 type='button'
                 class='btn btn-default btn-xs'

@@ -287,7 +287,6 @@ export default class MdTranslateComponent extends Component {
   goToSettings(event) {
     event?.preventDefault?.();
 
-    // Invoke the closure action passed from the parent route
     if (this.onGoToSettings && typeof this.onGoToSettings === 'function') {
       this.onGoToSettings();
     }

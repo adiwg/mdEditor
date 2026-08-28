@@ -32,14 +32,10 @@ export default class MdSpotlightComponent extends ModalDialog {
   overlayClass = 'md-spotlight-overlay fade-in-fast';
   targetAttachment = 'none';
   translucentOverlay = true;
-  // The spotlighted content isn't actually rendered inside this dialog's
-  // own container -- it's the original target element, kept in place and
-  // z-index-elevated above the overlay (see .md-spotlight-target in
-  // _modal.scss). ember-modal-dialog's clickOutsideToClose only checks
-  // whether a click landed inside its own container, so with it enabled
-  // every click on the spotlighted form was treated as "outside" and
-  // immediately closed the spotlight. Clicking the dimmed overlay itself
-  // still closes it via onClickOverlay below, independently of this flag.
+  // Must stay false: the spotlighted element renders outside this dialog's
+  // own container (see .md-spotlight-target in _modal.scss), so
+  // clickOutsideToClose would treat every click on it as "outside" and
+  // close immediately. Overlay clicks still close via onClickOverlay.
   clickOutsideToClose = false;
   attachment = 'middle center';
   tetherTarget = 'viewport';

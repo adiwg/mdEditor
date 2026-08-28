@@ -40,8 +40,8 @@
     background-color: rgba(244, 124, 60, 0.15);
   }
 
-  // Override the default barely-visible light orange with a strong orange
-  // outline when a valid drag target is being hovered
+  // Overrides .tree-label-dropped's subtle orange with a strong outline
+  // while a valid drag target is hovered.
   .draggable-object-target.accepts-drag .tree-leaf {
     background-color: rgba(244, 124, 60, 0.4) !important;
     outline: 2px dashed #f47c3c;
@@ -61,7 +61,6 @@
     outline-offset: -2px;
   }
 
-  // Fade the source row while it is being dragged
   .is-dragging-object > .draggable-object-target > .tree-leaf {
     opacity: 0.7;
   }
@@ -73,7 +72,6 @@
     outline-offset: -2px;
   }
 
-  // Show a move cursor on draggable rows
   .js-draggableObject[draggable='true'] {
     cursor: move;
   }

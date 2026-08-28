@@ -563,7 +563,6 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
                   // Notify property change to force hasDirtyHash recomputation
                   record.notifyPropertyChange('currentHash');
                 } catch (e) {
-                  // Skip records that can't be serialized
                   console.warn('Could not reset hash for record:', e);
                 }
               }

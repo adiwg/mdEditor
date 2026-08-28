@@ -66,7 +66,6 @@ export default class MdRasterImageDescComponent extends Component.extend(Validat
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
 
-    // let model = this.model ?? {};
     let model = this.model;
 
     if (model) {

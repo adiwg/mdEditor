@@ -127,7 +127,6 @@ export default class MdScrollSpyComponent extends Component {
       set(data, 'options.offset', this.offset);
     }
 
-    // Compute initial links from the DOM
     this.set('links', this._computeLinks());
     this.setupSpy();
 
@@ -159,7 +158,6 @@ export default class MdScrollSpyComponent extends Component {
       this.scroll();
     }
 
-    // Refresh links when attrs change (e.g., refresh property)
     scheduleOnce('afterRender', this, '_refreshLinks');
   }
 

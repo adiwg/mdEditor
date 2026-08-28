@@ -137,8 +137,7 @@ export default class MdCodelistComponent extends Select {
       );
     }
 
-    // CRITICAL: Force codelist to be evaluated immediately
-    // This ensures power-select has the data when it initializes
+    // Bare read forces eager evaluation so power-select has data on init.
     this.codelist;
   }
 

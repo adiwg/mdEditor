@@ -54,7 +54,6 @@ export default class MdNavSidebarComponent extends Component {
     const navList = document.querySelector('#md-navbar-main-collapse ul');
     if (navList) {
       navList.style.display = 'none';
-      // Force reflow
       navList.offsetHeight;
       navList.style.display = '';
     }
