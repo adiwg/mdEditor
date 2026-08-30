@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import { set, get } from '@ember/object';
+import { set } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import { formatCitation } from 'mdeditor/pods/components/object/md-citation/component';
 
@@ -11,44 +11,44 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
   afterModel(m) {
     super.afterModel(...arguments);
 
-    if (!m || !get(m, 'json.metadata')) {
+    if (!m || !m.json?.metadata) {
       return;
     }
 
-    let resourceInfo = get(m, 'json.metadata.resourceInfo');
+    let resourceInfo = m.json.metadata.resourceInfo;
     if (!resourceInfo) {
       set(m, 'json.metadata.resourceInfo', {});
-      resourceInfo = get(m, 'json.metadata.resourceInfo');
+      resourceInfo = m.json.metadata.resourceInfo;
     }
 
-    set(resourceInfo, 'timePeriod', get(resourceInfo, 'timePeriod') ?? {});
+    set(resourceInfo, 'timePeriod', resourceInfo.timePeriod ?? {});
     set(
       resourceInfo,
       'defaultResourceLocale',
-      get(resourceInfo, 'defaultResourceLocale') ?? {}
+      resourceInfo.defaultResourceLocale ?? {}
     );
     set(
       resourceInfo,
       'pointOfContact',
-      get(resourceInfo, 'pointOfContact') ?? []
+      resourceInfo.pointOfContact ?? []
     );
-    set(resourceInfo, 'status', get(resourceInfo, 'status') ?? []);
+    set(resourceInfo, 'status', resourceInfo.status ?? []);
     set(
       resourceInfo,
       'citation',
-      get(resourceInfo, 'citation') ?? formatCitation({})
+      resourceInfo.citation ?? formatCitation({})
     );
-    set(resourceInfo, 'credit', get(resourceInfo, 'credit') ?? []);
-    set(resourceInfo, 'resourceType', get(resourceInfo, 'resourceType') ?? []);
+    set(resourceInfo, 'credit', resourceInfo.credit ?? []);
+    set(resourceInfo, 'resourceType', resourceInfo.resourceType ?? []);
     set(
       resourceInfo,
       'resourceMaintenance',
-      get(resourceInfo, 'resourceMaintenance') ?? []
+      resourceInfo.resourceMaintenance ?? []
     );
     set(
       resourceInfo,
       'graphicOverview',
-      get(resourceInfo, 'graphicOverview') ?? []
+      resourceInfo.graphicOverview ?? []
     );
   }
   setupController(controller, model) {

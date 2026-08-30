@@ -1,7 +1,7 @@
 import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import { get, set } from '@ember/object';
+import { set } from '@ember/object';
 import { once, scheduleOnce } from '@ember/runloop';
 import { validator, buildValidations } from 'ember-cp-validations';
 
@@ -87,7 +87,7 @@ export default class MdTimePeriodComponent extends Component.extend(Validations)
    */
 
   get startDateTime() {
-    return get(this, 'model.startDateTime');
+    return this.model?.startDateTime;
   }
 
   set startDateTime(value) {
@@ -97,7 +97,7 @@ export default class MdTimePeriodComponent extends Component.extend(Validations)
   }
 
   get endDateTime() {
-    return get(this, 'model.endDateTime');
+    return this.model?.endDateTime;
   }
 
   set endDateTime(value) {

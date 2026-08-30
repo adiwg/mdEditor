@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
-import { get, set } from '@ember/object';
+import { set } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 export default class IndexRoute extends Route {
@@ -8,8 +8,8 @@ export default class IndexRoute extends Route {
   afterModel(m) {
     super.afterModel(...arguments);
 
-    let model = get(m, 'json.metadata');
-    set(model, 'associatedResource', get(model, 'associatedResource') ?? []);
+    let model = m.json.metadata;
+    set(model, 'associatedResource', model.associatedResource ?? []);
   }
   setupController(controller, model) {
     super.setupController(controller, model);
