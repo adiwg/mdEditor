@@ -1,7 +1,7 @@
 import { attr, belongsTo } from '@ember-data/model';
 import { alias } from '@ember/object/computed';
 import { getOwner } from '@ember/application';
-import EmberObject, { computed, get } from '@ember/object';
+import EmberObject, { computed } from '@ember/object';
 import { Copyable } from 'ember-copy';
 import Model from 'mdeditor/models/base';
 import { validator, buildValidations } from 'ember-cp-validations';
@@ -131,7 +131,7 @@ const Record = Model.extend(Validations, Copyable, {
     'json.metadata.resourceInfo.resourceType.firstObject.type',
     function () {
       const type =
-        this.get('json.metadata.resourceInfo.resourceType.0.type') || '';
+        this.json?.metadata?.resourceInfo?.resourceType?.[0]?.type || '';
 
       try {
         const owner = getOwner(this);
@@ -163,26 +163,26 @@ const Record = Model.extend(Validations, Copyable, {
   hasParent: computed('parentIds.[]', function () {
     let ids = this.parentIds;
     let allRecords = this.store.peekAll('record');
-    let records = allRecords.filter((record) => !get(record, 'hasSchemaErrors'));
+    let records = allRecords.filter((record) => !record.hasSchemaErrors);
 
     if (!ids) {
       return false;
     }
 
     return ids.find((id) => {
-      return records.find((record) => get(record, 'recordId') === id.identifier) ? true : false;
+      return records.find((record) => record.recordId === id.identifier) ? true : false;
     });
   }),
 
   defaultParent: computed('hasParent', function () {
-    let id = this.get('hasParent.identifier');
+    let id = this.hasParent?.identifier;
     let allRecords = this.store.peekAll('record');
 
     if (!id) {
       return undefined;
     }
 
-    return allRecords.find((record) => get(record, 'recordId') === id);
+    return allRecords.find((record) => record.recordId === id);
   }),
 
   defaultType: alias(
@@ -262,7 +262,7 @@ const Record = Model.extend(Validations, Copyable, {
     json.set('metadata.resourceInfo.citation.title', `Copy of ${name}`);
     json.set(
       'metadata.resourceInfo.resourceType',
-      get(json, 'metadata.resourceInfo.resourceType') ?? [{}]
+      json.metadata?.resourceInfo?.resourceType ?? [{}]
     );
     json.set('metadata.metadataInfo.metadataIdentifier', {
       identifier: newUuid,

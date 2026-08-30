@@ -6,15 +6,15 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { computed } from '@ember/object';
-import { setProperties, get, set } from '@ember/object';
+import { setProperties, set } from '@ember/object';
 import { once } from '@ember/runloop';
 
 const formatMaint = function (model) {
   setProperties(model, {
-    date: get(model, 'date') ?? [],
-    scope: get(model, 'scope') ?? [],
-    note: get(model, 'note') ?? [],
-    contact: get(model, 'contact') ?? [],
+    date: model.date ?? [],
+    scope: model.scope ?? [],
+    note: model.note ?? [],
+    contact: model.contact ?? [],
   });
 
   return model;
@@ -28,14 +28,14 @@ export default class MdMaintenanceComponent extends Component {
     super.didReceiveAttrs(...arguments);
 
     once(this, function () {
-      set(this, 'model', get(this, 'model') || {});
+      set(this, 'model', this.model || {});
       formatMaint(this.model);
     });
   }
 
   @computed('scope')
   get scopes() {
-    let scope = get(this, 'model.scope');
+    let scope = this.model?.scope;
     return scope ? scope.mapBy('scopeCode') : [];
   }
 

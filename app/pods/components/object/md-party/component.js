@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import EmberObject, { computed, get, set } from '@ember/object';
+import EmberObject, { computed, set } from '@ember/object';
 import { A } from '@ember/array';
 import { once } from '@ember/runloop';
 import { alias } from '@ember/object/computed';
@@ -54,8 +54,8 @@ export default class MdPartyComponent extends Component.extend(Validations) {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'party', get(model, 'party') ?? []);
-      set(model, 'role', get(model, 'role') ?? null);
+      set(model, 'party', model.party ?? []);
+      set(model, 'role', model.role ?? null);
     });
   }
 }
@@ -65,7 +65,7 @@ MdPartyComponent.reopen({
 
   _contacts: computed('model', {
     get() {
-      let party = get(this, 'model.party');
+      let party = this.model?.party;
       return party ? party.mapBy('contactId') : [];
     },
 

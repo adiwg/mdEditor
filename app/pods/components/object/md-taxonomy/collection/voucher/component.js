@@ -1,4 +1,4 @@
-import EmberObject, { get, set } from '@ember/object';
+import EmberObject, { set } from '@ember/object';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { alias } from '@ember/object/computed';
@@ -40,8 +40,8 @@ export default class MdVoucherComponent extends Component.extend(Validations) {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'repository', get(model, 'repository') ?? {});
-      set(model, 'specimen', get(model, 'specimen') ?? null);
+      set(model, 'repository', model.repository ?? {});
+      set(model, 'specimen', model.specimen ?? null);
     });
   }
 }

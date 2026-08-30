@@ -1,7 +1,7 @@
 import { hasMany, attr, belongsTo } from '@ember-data/model';
 import { alias, notEmpty } from '@ember/object/computed';
 import { isEmpty } from '@ember/utils';
-import EmberObject, { get, computed } from '@ember/object';
+import EmberObject, { computed } from '@ember/object';
 import { Copyable } from 'ember-copy';
 import Model from 'mdeditor/models/base';
 import { validator, buildValidations } from 'ember-cp-validations';
@@ -152,7 +152,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @requires json.isOrganization
    */
   type: computed('json.isOrganization', function () {
-    return this.get('json.isOrganization') ? 'Organization' : 'Individual';
+    return this.json?.isOrganization ? 'Organization' : 'Individual';
   }),
 
   /**
@@ -165,7 +165,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @requires json.isOrganization
    */
   icon: computed('json.isOrganization', function () {
-    const name = this.get('json.isOrganization');
+    const name = this.json?.isOrganization;
 
     return name ? 'users' : 'user';
   }),
@@ -183,21 +183,20 @@ const Contact = Model.extend(Validations, Copyable, {
     'json.logoGraphic.firstObject.fileUri.firstObject.uri',
     'defaultOrganization',
     function () {
-      let uri = this.get(
-        'json.logoGraphic.firstObject.fileUri.firstObject.uri'
-      );
+      let uri =
+        this.json?.logoGraphic?.firstObject?.fileUri?.firstObject?.uri;
 
       if (uri) {
         return uri;
       }
       let orgId = this.defaultOrganization;
 
-      if (orgId && orgId !== this.get('json.contactId')) {
-        let contacts = this.get('contactsService.organizations');
+      if (orgId && orgId !== this.contactId) {
+        let contacts = this.contactsService.organizations;
         let org = contacts.findBy('json.contactId', orgId);
 
         if (org) {
-          return get(org, 'defaultLogo');
+          return org.defaultLogo;
         }
       }
 
@@ -220,19 +219,19 @@ const Contact = Model.extend(Validations, Copyable, {
     let { memberOfOrganization } = json;
 
     return !isEmpty(memberOfOrganization)
-      ? get(memberOfOrganization, '0')
+      ? memberOfOrganization[0]
       : null;
   }),
 
   defaultOrganizationName: computed('defaultOrganization', function () {
-    let contacts = this.get('contactsService.organizations');
+    let contacts = this.contactsService.organizations;
 
     let org = contacts.findBy(
       'json.contactId.identifier',
       this.defaultOrganization
     );
 
-    return org ? get(org, 'name') : null;
+    return org ? org.name : null;
   }),
 
   /**
@@ -253,17 +252,17 @@ const Contact = Model.extend(Validations, Copyable, {
       let { name, positionName, isOrganization, memberOfOrganization } = json;
 
       let orgId = !isEmpty(memberOfOrganization)
-        ? get(memberOfOrganization, '0')
+        ? memberOfOrganization[0]
         : null;
       let combinedName = name || positionName;
       let orgName;
 
       if (orgId) {
-        let contacts = this.get('contactsService.organizations');
+        let contacts = this.contactsService.organizations;
         let org = contacts.findBy('json.contactId', orgId);
 
         if (org) {
-          orgName = get(org, 'name');
+          orgName = org.name;
         }
       }
 

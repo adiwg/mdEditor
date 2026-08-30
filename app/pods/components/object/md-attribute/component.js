@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import EmberObject, { set, get, computed } from '@ember/object';
+import EmberObject, { set, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 
@@ -77,11 +77,11 @@ export default class MdAttributeComponent extends Component.extend(Validations) 
     let model = this.model;
 
     once(this, function () {
-      set(model, 'allowNull', get(model, 'allowNull') ?? false);
-      set(model, 'reference', get(model, 'reference') ?? {});
-      set(model, 'alias', get(model, 'alias') ?? []);
-      set(model, 'valueRange', get(model, 'valueRange') ?? []);
-      set(model, 'timePeriod', get(model, 'timePeriod') ?? []);
+      set(model, 'allowNull', model.allowNull ?? false);
+      set(model, 'reference', model.reference ?? {});
+      set(model, 'alias', model.alias ?? []);
+      set(model, 'valueRange', model.valueRange ?? []);
+      set(model, 'timePeriod', model.timePeriod ?? []);
     });
   }
 }
@@ -97,11 +97,11 @@ MdAttributeComponent.reopen({
     let domains = this.domains || [];
 
     return domains.map((domain) => {
-      if (get(domain, 'domainId')) {
+      if (domain.domainId) {
         return {
-          codeId: get(domain, 'domainId'),
-          codeName: get(domain, 'codeName'),
-          tooltip: get(domain, 'description'),
+          codeId: domain.domainId,
+          codeName: domain.codeName,
+          tooltip: domain.description,
         };
       }
     });

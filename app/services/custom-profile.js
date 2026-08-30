@@ -1,4 +1,4 @@
-import { computed, get } from '@ember/object';
+import { computed } from '@ember/object';
 import { map, union } from '@ember/object/computed';
 import Service, { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
@@ -105,7 +105,7 @@ export default Service.extend({
    */
   mapByAltId: computed('profiles.[]', function () {
     return this.profiles.reduce(function (map, profile) {
-      let alt = get(profile, 'definition.alternateId');
+      let alt = profile.definition?.alternateId;
       if (isEmpty(alt)) {
         return map;
       }
@@ -136,8 +136,8 @@ export default Service.extend({
    */
   activeComponents: computed('active', function () {
     const profile = this.getActiveProfile(false);
-    let comp = profile ? get(profile, 'definition.components') : null;
-    return comp || get(this.defaultProfile, 'definition.components') || {};
+    let comp = profile ? profile.definition?.components : null;
+    return comp || this.defaultProfile?.definition?.components || {};
   }),
 
   /**
@@ -150,7 +150,7 @@ export default Service.extend({
    */
   activeSchemas: computed('active', function () {
     const profile = this.getActiveProfile(false);
-    return (profile && get(profile, 'schemas')) || [];
+    return (profile && profile.schemas) || [];
   }),
 
   /**

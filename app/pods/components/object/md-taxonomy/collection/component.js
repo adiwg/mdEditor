@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import EmberObject, { set, get } from '@ember/object';
+import EmberObject, { set } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 
@@ -64,16 +64,16 @@ export default class MdTaxonomyCollectionComponent extends Component.extend(
       set(
         model,
         'taxonomicClassification',
-        get(model, 'taxonomicClassification') ?? []
+        model.taxonomicClassification ?? []
       );
-      set(model, 'taxonomicSystem', get(model, 'taxonomicSystem') ?? []);
+      set(model, 'taxonomicSystem', model.taxonomicSystem ?? []);
       set(
         model,
         'identificationReference',
-        get(model, 'identificationReference') ?? []
+        model.identificationReference ?? []
       );
-      set(model, 'observer', get(model, 'observer') ?? []);
-      set(model, 'voucher', get(model, 'voucher') ?? []);
+      set(model, 'observer', model.observer ?? []);
+      set(model, 'voucher', model.voucher ?? []);
     });
   }
 }
