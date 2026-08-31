@@ -49,7 +49,7 @@ export default class ExportRoute extends Route.extend(ScrollTo) {
   model() {
     return EmObject.create({
       records: this.modelFor('application'),
-      settings: this.get('settings.data'),
+      settings: this.settings.data,
     });
   }
   setupController(controller, model) {

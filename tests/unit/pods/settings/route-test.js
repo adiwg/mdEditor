@@ -10,6 +10,15 @@ module('Unit | Route | settings', function(hooks) {
     assert.ok(route);
   });
 
+  test('catalogs returns the publish service catalogs', function (assert) {
+    const route = this.owner.lookup('route:settings');
+    const catalogs = ['CouchDB', 'ScienceBase'];
+
+    route.publish = { catalogs };
+
+    assert.strictEqual(route.actions.catalogs.call(route), catalogs);
+  });
+
   test('getPublishOptions returns a valid default synchronously without mutating the model mid-render', async function (assert) {
     let route = this.owner.lookup('route:settings');
     let model = { get: () => undefined, set() {} };

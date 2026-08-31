@@ -1,6 +1,5 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
-import { get } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import { inject as service } from '@ember/service';
 
@@ -29,7 +28,7 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
     this.controller.set('entityId', this.entityId);
     this.controller.set('attributeId', this.attributeId);
     this.controllerFor('dictionary.show.edit').setProperties({
-      onCancel: get(parent, 'setupModel'),
+      onCancel: parent.setupModel,
       cancelScope: this,
     });
   }

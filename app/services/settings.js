@@ -1,5 +1,5 @@
 import Service, { inject as service } from '@ember/service';
-import EmberObject, { set, get } from '@ember/object';
+import EmberObject, { set } from '@ember/object';
 import config from 'mdeditor/config/environment';
 
 const {
@@ -44,7 +44,7 @@ export default Service.extend({
       set(
         settings,
         'repositoryDefaults',
-        get(settings, 'repositoryDefaults') ?? []
+        settings.repositoryDefaults ?? []
       );
 
       settings.notifyPropertyChange('hasDirtyAttributes');

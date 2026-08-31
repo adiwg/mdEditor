@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import { isEmpty } from '@ember/utils';
-import { get, set } from '@ember/object';
+import { set } from '@ember/object';
 
 export default class IndexRoute extends Route.extend(ScrollTo) {
   @service router;
@@ -18,7 +18,7 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
   afterModel(model) {
     let domainId = this.paramsFor('dictionary.show.edit.domain.edit').domain_id;
 
-    if (isEmpty(get(model, 'domainReference'))) {
+    if (isEmpty(model.domainReference)) {
       set(model, 'domainReference', {});
     }
 

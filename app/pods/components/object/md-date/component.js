@@ -25,7 +25,7 @@ export default class MdDateComponent extends Component.extend(Validations) {
     const date = this.model?.date;
     if (!date) return;
 
-    const dateObj = this.get('model.date');
+    const dateObj = this.model?.date;
     let newDate;
 
     switch (this.selectedPrecision) {

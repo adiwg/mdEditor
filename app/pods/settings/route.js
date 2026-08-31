@@ -94,7 +94,7 @@ export default class SettingsRoute extends Route {
 
   @action
   catalogs() {
-    return this.get('publish.catalogs');
+    return this.publish.catalogs;
   }
 
   @action

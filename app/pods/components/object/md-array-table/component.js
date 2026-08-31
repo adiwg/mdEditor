@@ -11,7 +11,7 @@ import { getOwner } from '@ember/application';
 import { isArray, A } from '@ember/array';
 import { schedule } from '@ember/runloop';
 import { typeOf } from '@ember/utils';
-import { get, action } from '@ember/object';
+import { action } from '@ember/object';
 import $ from 'jquery';
 import { applyObjectTemplateArray } from 'mdeditor/utils/object-template';
 
@@ -191,7 +191,7 @@ export default class MdArrayTableComponent extends Component {
 
     if (isCollapsed !== undefined) {
       return isCollapsed;
-    } else if (isArray(value) && get(value, 'length') > 0) {
+    } else if (isArray(value) && value.length > 0) {
       return false;
     } else {
       return true;

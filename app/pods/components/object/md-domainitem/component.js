@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import EmberObject, { set, get } from '@ember/object';
+import EmberObject, { set } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 
@@ -45,7 +45,7 @@ export default class MdDomainitemComponent extends Component.extend(Validations)
     let model = this.model;
 
     once(this, function () {
-      set(model, 'reference', get(model, 'reference') ?? {});
+      set(model, 'reference', model.reference ?? {});
     });
   }
 }
