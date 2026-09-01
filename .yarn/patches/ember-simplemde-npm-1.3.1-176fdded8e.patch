@@ -1,8 +1,8 @@
 diff --git a/addon/components/simple-mde.js b/addon/components/simple-mde.js
-index 5604af8d0d9b67eb8d4b527eae65a350d89a6e46..21ebdbd5c7f8aa32d793ea778a46028a210ae48b 100644
+index 5604af8d0d9b67eb8d4b527eae65a350d89a6e46..6ba42847dadca66ae0a0948e5caa0cb0f3856931 100644
 --- a/addon/components/simple-mde.js
 +++ b/addon/components/simple-mde.js
-@@ -1,7 +1,15 @@
+@@ -1,7 +1,12 @@
  import { once } from '@ember/runloop';
  import { getOwner } from '@ember/application';
 -import TextArea from '@ember/component/text-area';
@@ -14,13 +14,10 @@ index 5604af8d0d9b67eb8d4b527eae65a350d89a6e46..21ebdbd5c7f8aa32d793ea778a46028a
 +// with `tagName: 'textarea'` plus the same attribute pass-through is
 +// equivalent.
 +import Component from '@ember/component';
-+// `merge` was also removed from `@ember/polyfills` in Ember 4.0; `assign`
-+// (still exported) is a drop-in replacement for this addon's 2-object use.
-+import { assign } from '@ember/polyfills';
  import { get, computed } from '@ember/object';
  import { typeOf, isEmpty } from '@ember/utils';
  import Ember from 'ember';
-@@ -15,7 +23,9 @@ const {
+@@ -15,7 +20,9 @@ const {
  
  const options = {};
  
@@ -31,12 +28,21 @@ index 5604af8d0d9b67eb8d4b527eae65a350d89a6e46..21ebdbd5c7f8aa32d793ea778a46028a
    layout,
  
    /**
-@@ -100,7 +110,7 @@ export default TextArea.extend({
+@@ -61,7 +68,7 @@ export default TextArea.extend({
+    * get the list of options to pass to init the SimpleMDE instance
+    */
+   buildSimpleMDEOptions: computed(function () {
+-    let builtOptions = assign({}, this.get('defaultSimpleMdeOptions'), this.get('globalSimpleMdeOptions'), this.get('options'));
++    let builtOptions = Object.assign({}, this.get('defaultSimpleMdeOptions'), this.get('globalSimpleMdeOptions'), this.get('options'));
+ 
+     if(builtOptions.toolbar && typeOf(builtOptions.toolbar) === 'array') {
+       builtOptions.toolbar.forEach(this.unpackToolbarOption);
+@@ -100,7 +107,7 @@ export default TextArea.extend({
     */
    didInsertElement () {
      this.set('currentEditor', new SimpleMDE(
 -      merge({
-+      assign({
++      Object.assign({
          element: document.getElementById(this.elementId)
        }, this.get('buildSimpleMDEOptions')
        )
