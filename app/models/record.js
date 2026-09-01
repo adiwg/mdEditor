@@ -56,7 +56,7 @@ const Validations = buildValidations({
 });
 
 const Record = Model.extend(Validations, Copyable, {
-  pouchRecord: belongsTo('pouch-record', { async: false }),
+  pouchRecord: belongsTo('pouch-record', { async: false, inverse: null }),
 
   /**
    * Record(metadata) model

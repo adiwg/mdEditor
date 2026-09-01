@@ -32,16 +32,18 @@ export default class ApplicationRoute extends Route {
         return undefined;
       }
 
-      let dirty = this.currentRouteModel().filter(function (itm) {
-        return itm.filterBy('hasDirtyHash').length;
-      }).length;
-
       let message = 'Are you sure you want to leave unsaved work?';
 
-      evt.returnValue = dirty ? message : undefined;
+      evt.returnValue = this.hasUnsavedChanges() ? message : undefined;
 
       return evt.returnValue;
     });
+  }
+
+  hasUnsavedChanges() {
+    return this.currentRouteModel().some(
+      (itm) => itm.filter((record) => record.hasDirtyHash).length
+    );
   }
 
   /**
@@ -85,7 +87,7 @@ export default class ApplicationRoute extends Route {
 
     let mapFn = function (item, id) {
       meta[id].set('listId', guidFor(item));
-      item.set('meta', meta[id]);
+      item.meta = meta[id];
 
       return item;
     };

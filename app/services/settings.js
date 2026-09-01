@@ -33,7 +33,7 @@ export default Service.extend({
     let store = this.store;
 
     let promise = store.findAll('setting').then(function (s) {
-      let rec = s.toArray()[0];
+      let rec = s[0];
       let settings = rec ? rec : store.createRecord('setting');
 
       if (settings.get('lastVersion') !== version) {

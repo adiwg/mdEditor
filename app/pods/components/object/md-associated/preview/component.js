@@ -30,7 +30,7 @@ export default class PreviewComponent extends Component {
 
     let store = this.store;
     let linked = store.peekAll('record')
-      .filterBy('recordId', this.item.mdRecordId)
+      .filter((item) => item.recordId === this.item.mdRecordId)
       .get('firstObject.json.metadata.resourceInfo.citation');
 
     return linked || this.item?.resourceCitation;
@@ -44,7 +44,7 @@ export default class PreviewComponent extends Component {
     let store = this.store;
 
     return store.peekAll('record')
-      .filterBy('recordId', this.item.mdRecordId)
+      .filter((item) => item.recordId === this.item.mdRecordId)
       .get('firstObject.json.metadata.metadataInfo.metadataIdentifier');
   }
 }

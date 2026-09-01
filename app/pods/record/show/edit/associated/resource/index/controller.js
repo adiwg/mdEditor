@@ -43,7 +43,7 @@ export default class AssociatedResourceIndexController extends Controller {
 
   @action
   sliderData() {
-    return this.store.peekAll('record').filterBy('recordId');
+    return this.store.peekAll('record').filter((item) => item.recordId);
   }
 
   @action
