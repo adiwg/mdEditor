@@ -2,7 +2,6 @@ import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import uuidV4 from 'uuid/v4';
 import EmberObject, {
-  get,
   computed,
   defineProperty,
   set,
@@ -35,13 +34,13 @@ export default class DictionaryRoute extends Route {
     let dicts = this.modelFor('application').findBy('modelName', 'dictionary');
     let rec = this.modelFor('record.show.edit');
 
-    set(rec, 'json.mdDictionary', get(rec, 'json.mdDictionary') ?? []);
-    let selected = rec.get('json.mdDictionary');
+    set(rec, 'json.mdDictionary', rec.json.mdDictionary ?? []);
+    let selected = rec.json.mdDictionary;
 
     return dicts.map((dict) => {
-      let json = get(dict, 'json');
-      let id = get(json, 'dictionaryId');
-      let data = get(json, 'dataDictionary');
+      let json = dict.json;
+      let id = json.dictionaryId;
+      let data = json.dataDictionary;
 
       if (!id) {
         set(json, 'dictionaryId', uuidV4());
@@ -50,7 +49,7 @@ export default class DictionaryRoute extends Route {
 
       return EmberObject.create({
         id: json.dataDictionary.dictionaryId,
-        title: get(data, 'citation.title'),
+        title: data.citation.title,
         description: data.description,
         subject: data.subject,
         selected: selected.includes(json.dataDictionary.dictionaryId),
