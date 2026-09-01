@@ -99,7 +99,7 @@
     "ember-cp-validations": "^5.0.0",
     "ember-data": "~4.12.0",
     "ember-decorators": "^6.1.1",
-    "ember-drag-drop": "^0.7.0",
+    "ember-drag-drop": "patch:ember-drag-drop@npm%3A0.7.0#~/.yarn/patches/ember-drag-drop-npm-0.7.0-0be7f67860.patch",
     "ember-elsewhere": "^2.0.0",
     "ember-exam": "^8.0.0",
     "ember-export-application-global": "^2.0.1",

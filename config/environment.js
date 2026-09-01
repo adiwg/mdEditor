@@ -52,6 +52,21 @@ module.exports = function (environment) {
       extendedTimeout: 1500,
       preventDuplicates: true,
       //sticky: true
+      // ember-cli-flash's automatic `application.inject(factory, 'flashMessages', ...)`
+      // has been a no-op since Ember 4.0 (owner.inject no longer injects into resolved
+      // instances) - it was only producing 4 deprecation warnings per page load and
+      // masking routes/controllers that never declared `@service flashMessages`
+      // explicitly. Disable it; inject the service explicitly everywhere it's used.
+      injectionFactories: [],
+    },
+    resizeServiceDefaults: {
+      debounceTimeout: 200,
+      heightSensitive: true,
+      widthSensitive: true,
+      // Same dead application.inject() situation as flashMessageDefaults above.
+      // Every current consumer (md-nav-secondary, leaflet-table) already injects
+      // `@service('resize') resizeService` explicitly.
+      injectionFactories: [],
     },
     "ember-cli-bootstrap-datetimepicker": {
       icons: {

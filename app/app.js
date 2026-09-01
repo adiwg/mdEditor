@@ -19,8 +19,18 @@ import Resolver from './resolver';
 
 // ember-tooltips@3.6.0 uses the deprecated @ember/string helpers internally.
 // There is no app-side fix available; silence this specific deprecation only.
+//
+// ember-cli-flash.deprecate-injection-factories: fires once at boot because we
+// set flashMessageDefaults.injectionFactories to [] (see config/environment.js)
+// to opt out of the addon's now-dead automatic `application.inject()` calls -
+// we already inject `@service flashMessages` explicitly everywhere it's used,
+// which is exactly what the addon is asking for.
 registerDeprecationHandler((message, options, next) => {
-  if (options && options.id === 'ember-string.add-package') {
+  if (
+    options &&
+    (options.id === 'ember-string.add-package' ||
+      options.id === 'ember-cli-flash.deprecate-injection-factories')
+  ) {
     return;
   }
   next(message, options);
