@@ -39,6 +39,8 @@
     "test": "yarn clean:coverage && yarn test:ember && yarn test:finalize",
     "test:ember": "COVERAGE=true ember exam --test-port 0 --random",
     "test:finalize": "ember coverage-merge && yarn clean:coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "deploy": "gh-pages -d dist",
     "postinstall": "patch-package",
     "prepare": "husky"
@@ -56,6 +58,7 @@
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "@mapbox/togeojson": "^0.16.2",
+    "@playwright/test": "^1.62.1",
     "Leaflet.vector-markers": "^0.0.6",
     "ajv": "^6.12.6",
     "ajv-errors": "^1.0.1",
