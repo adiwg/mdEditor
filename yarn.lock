@@ -9232,6 +9232,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ember-cli-string-helpers@patch:ember-cli-string-helpers@npm%3A4.0.7#~/.yarn/patches/ember-cli-string-helpers-npm-4.0.7-9424002c68.patch":
+  version: 4.0.7
+  resolution: "ember-cli-string-helpers@patch:ember-cli-string-helpers@npm%3A4.0.7#~/.yarn/patches/ember-cli-string-helpers-npm-4.0.7-9424002c68.patch::version=4.0.7&hash=d64c5b"
+  dependencies:
+    broccoli-funnel: "npm:^2.0.2"
+    ember-cli-babel: "npm:^7.7.3"
+  checksum: 10c0/bb51b49a0dddfb28790d6d63c85758a08ddee83443848e700fcd1bbaa64da7828b7327d349f487d88e6a30a6edda88c29f54dfb8c24c9f1548939b22b545997f
+  languageName: node
+  linkType: hard
+
 "ember-cli-string-utils@npm:^1.0.0, ember-cli-string-utils@npm:^1.1.0":
   version: 1.1.0
   resolution: "ember-cli-string-utils@npm:1.1.0"
@@ -9971,7 +9981,7 @@ __metadata:
 
 "ember-leaflet@patch:ember-leaflet@npm%3A4.0.2#~/.yarn/patches/ember-leaflet-npm-4.0.2-d70a8f66b5.patch":
   version: 4.0.2
-  resolution: "ember-leaflet@patch:ember-leaflet@npm%3A4.0.2#~/.yarn/patches/ember-leaflet-npm-4.0.2-d70a8f66b5.patch::version=4.0.2&hash=7d9697"
+  resolution: "ember-leaflet@patch:ember-leaflet@npm%3A4.0.2#~/.yarn/patches/ember-leaflet-npm-4.0.2-d70a8f66b5.patch::version=4.0.2&hash=c64ceb"
   dependencies:
     broccoli-funnel: "npm:^2.0.2"
     broccoli-merge-trees: "npm:^3.0.2"
@@ -9986,7 +9996,7 @@ __metadata:
     resolve: "npm:^1.13.1"
   peerDependencies:
     leaflet: ">=0.7"
-  checksum: 10c0/fc177c542d581fa4589f2f9ed37822e92eb170228b3c34bb63d151d5daf3dc541f057448cb142ff499a383bc08bcb5eded5a5452e3d096e98ffa33ba153e1dfb
+  checksum: 10c0/3fb7b38ddc38abf4bb5488235731300a4b799a36b52f487e211815d7ef136d3f7572b075ede776fc0ed2c3a57e9354b2b84f50b0065da71d8dffb74055442a9c
   languageName: node
   linkType: hard
 
@@ -16776,7 +16786,7 @@ __metadata:
     ember-cli-release: "npm:^0.2.9"
     ember-cli-sass: "npm:~10.0.1"
     ember-cli-sri: "npm:^2.1.1"
-    ember-cli-string-helpers: "npm:4.0.7"
+    ember-cli-string-helpers: "patch:ember-cli-string-helpers@npm%3A4.0.7#~/.yarn/patches/ember-cli-string-helpers-npm-4.0.7-9424002c68.patch"
     ember-cli-terser: "npm:^4.0.2"
     ember-composable-helpers: "npm:^5.0.0"
     ember-concurrency: "npm:^3.1.1"

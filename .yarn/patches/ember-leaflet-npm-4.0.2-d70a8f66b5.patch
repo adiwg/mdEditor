@@ -1,3 +1,57 @@
+diff --git a/addon/components/leaflet-map.js b/addon/components/leaflet-map.js
+index fa1272f13ae969b38e08cb3a79f3df9acd5e0f16..cded1dc15d233f705d0ff00193d63dfd047428ad 100644
+--- a/addon/components/leaflet-map.js
++++ b/addon/components/leaflet-map.js
+@@ -1,14 +1,10 @@
+ import { assert } from '@ember/debug';
+-import {
+-  merge as emberMerge,
+-  assign as emberAssign
+-} from '@ember/polyfills';
+ import { inject as service } from '@ember/service';
+ import BaseLayer from 'ember-leaflet/components/base-layer';
+ import { ParentMixin } from 'ember-composability-tools';
+ import toLatLng from 'ember-leaflet/macros/to-lat-lng';
+ import layout from '../templates/leaflet-map';
+-const assign = emberAssign || emberMerge;
++const assign = Object.assign;
+ 
+ export default BaseLayer.extend(ParentMixin, {
+   tagName: 'div',
+diff --git a/addon/helpers/div-icon.js b/addon/helpers/div-icon.js
+index 11b14fb24db9bbfdd0fb980b205f65fd0045605a..076f1af5bd40f5f5af2d3bcf6fe77dce6077d3a3 100644
+--- a/addon/helpers/div-icon.js
++++ b/addon/helpers/div-icon.js
+@@ -1,11 +1,10 @@
+ import { helper } from '@ember/component/helper';
+-import { assign } from '@ember/polyfills';
+ const isFastBoot = typeof FastBoot !== 'undefined';
+ /* global L */
+ 
+ export const divIcon = isFastBoot ? function() {} : function divIcon(_, hash) {
+   // https://github.com/emberjs/ember.js/issues/14668
+-  let options = assign({}, hash);
++  let options = Object.assign({}, hash);
+   return L.divIcon(options);
+ };
+ 
+diff --git a/addon/helpers/icon.js b/addon/helpers/icon.js
+index a8bf95838968063a3826a38dacf479770c27f6e6..2bf6c599dd4973573edf119b35677bf0bd9ca852 100644
+--- a/addon/helpers/icon.js
++++ b/addon/helpers/icon.js
+@@ -1,11 +1,10 @@
+ import { helper } from '@ember/component/helper';
+-import { assign } from '@ember/polyfills';
+ const isFastBoot = typeof FastBoot !== 'undefined';
+ /* global L */
+ 
+ export const icon = isFastBoot ? function() {} : function icon(_, hash) {
+   // https://github.com/emberjs/ember.js/issues/14668
+-  let options = assign({}, hash);
++  let options = Object.assign({}, hash);
+   return L.icon(options);
+ };
+ 
 diff --git a/addon/templates/leaflet-map.hbs b/addon/templates/leaflet-map.hbs
 index 0d018e62b2dc6401fbbcf1b5e51a85a11ae44c6e..655b339b30882f42299722f94371528cd3a1c2cb 100644
 --- a/addon/templates/leaflet-map.hbs
