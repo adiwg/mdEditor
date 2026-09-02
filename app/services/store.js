@@ -38,12 +38,12 @@ function patchSchemaService(schema, store) {
     attributeMap.forEach((meta, name) => (attributes[name] = meta));
     const relationships = modelClass.relationshipsObject || null;
     const fields = new Map();
-    for (const attr of Object.values(attributes)) {
-      fields.set(attr.name, attr);
-    }
-    for (const rel of Object.values(relationships)) {
-      fields.set(rel.name, rel);
-    }
+    Object.values(attributes).forEach((attrMeta) => {
+      fields.set(attrMeta.name, attrMeta);
+    });
+    Object.values(relationships).forEach((relMeta) => {
+      fields.set(relMeta.name, relMeta);
+    });
     const internalSchema = {
       schema: {
         legacy: true,
