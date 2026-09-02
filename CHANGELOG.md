@@ -12,18 +12,22 @@
   - https://github.com/adiwg/mdEditor/pull/688
   - https://github.com/adiwg/mdEditor/pull/801
 
+**GitHub Changelog**: https://github.com/adiwg/mdEditor/compare/v1.3.1...v1.3.2
+
 
 ## v1.3.1 (2026-01-22)
 
 Minor documentation updates. This is the last release that is based on the Ember 3.15 framework.
 Future development will move to using [Ember 3.28](https://emberjs.com/releases/lts/), an intermediate
-step to provide backward compatability before upgrading to a newer LTS version of Ember.
+step to provide backward compatibility before upgrading to a newer LTS version of Ember.
 
 
   - Minor updates to [CHANGELOG.md](https://github.com/adiwg/mdEditor/blob/develop/CHANGELOG.md)
   - Minor updates to [PULL_REQUEST_TEMPLATE.md](https://github.com/adiwg/mdEditor/blob/develop/PULL_REQUEST_TEMPLATE.md)
   - Remove unused ISSUE_TEMPLATE.md from root directory
   - Bump version to 1.3.1
+
+**GitHub Changelog**: https://github.com/adiwg/mdEditor/compare/v1.3.0...v1.3.1
 
 
 ## v1.3.0 (2026-01-16)
@@ -144,8 +148,7 @@ step to provide backward compatability before upgrading to a newer LTS version o
   - https://github.com/adiwg/mdEditor/pull/773
   - https://github.com/adiwg/mdEditor/pull/774
 
-**Full Changelog**: https://github.com/adiwg/mdEditor/compare/v1.2.1...v1.3.0
-
+**GitHub Changelog**: https://github.com/adiwg/mdEditor/compare/v1.2.1...v1.3.0
 
 
 ---
