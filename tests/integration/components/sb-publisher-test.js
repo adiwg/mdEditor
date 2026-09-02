@@ -38,4 +38,24 @@ module('Integration | Component | sb publisher', function (hooks) {
 
     assert.equal(findAll('.tree-leaf').length, 4);
   });
+
+  test('renders without crashing when settings.data has not loaded yet (still null)', async function (assert) {
+    // app/services/settings.js defaults `data: null` until its async load
+    // resolves; init()/createNode() read settings.data.publishOptions, so a
+    // publisher rendered before that resolves must not crash.
+    this.set('config', {
+      name: 'ScienceBase',
+      route: 'sciencebase',
+      defaultParent: '59ef8a34e4b0220bbd98d449',
+    });
+
+    this.set('settings', EmberObject.create({ data: null }));
+    this.set('records', createRecord(3));
+
+    await render(
+      hbs`{{sb-publisher config=this.config settings=this.settings records=this.records}}`
+    );
+
+    assert.equal(findAll('.tree-leaf').length, 4);
+  });
 });
