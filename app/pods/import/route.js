@@ -10,6 +10,7 @@ import { JsonDefault as Contact } from 'mdeditor/models/contact';
 import { Promise, allSettled } from 'rsvp';
 import { v4 as uuidv4 } from 'uuid';
 import { fixLiabilityTypo } from '../../utils/fix-liability-typo';
+import CustomButtonComponent from 'mdeditor/pods/components/control/md-record-table/buttons/custom/component';
 
 export default class ImportRoute extends Route.extend(ScrollTo) {
   @service store;
@@ -310,7 +311,7 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
       },
       {
         title: 'Actions',
-        component: 'control/md-record-table/buttons/custom',
+        component: CustomButtonComponent,
         disableFiltering: true,
         buttonConfig: {
           title: 'Preview JSON',
@@ -594,23 +595,21 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
       let settings = {
         data: [newSettings],
       };
-      let destroys = [];
+      store.findAll('setting').then((settingRecords) => {
+        let destroys = settingRecords.map((rec) => rec.destroyRecord());
 
-      store.findAll('setting').forEach((rec) => {
-        destroys.pushObject(rec.destroyRecord());
-      });
-
-      allSettled(destroys).then(() => {
-        store
-          .importData(settings, {
-            json: false,
-          })
-          .then(() => {
-            settingService.setup();
-            this.flashMessages.success(`Imported Settings.`, {
-              extendedTimeout: 1500,
+        allSettled(destroys).then(() => {
+          store
+            .importData(settings, {
+              json: false,
+            })
+            .then(() => {
+              settingService.setup();
+              this.flashMessages.success(`Imported Settings.`, {
+                extendedTimeout: 1500,
+              });
             });
-          });
+        });
       });
     }
   }

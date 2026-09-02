@@ -38,7 +38,7 @@ const EMPTY_PROFILE = {
 export default Service.extend({
   init() {
     this._super(...arguments);
-    this.set('customProfiles', this.store.findAll('custom-profile'));
+    this.set('customProfiles', this.store.peekAll('custom-profile'));
   },
   flashMessages: service(),
   store: service(),

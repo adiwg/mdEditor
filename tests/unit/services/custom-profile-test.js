@@ -12,9 +12,6 @@ module('Unit | Service | custom-profile', function(hooks) {
     await settled();
   });
 
-  // init() kicks off an async store.findAll('custom-profile') that must be
-  // allowed to settle before the store tears down, or teardown throws
-  // "store instance has already been destroyed".
   test('activeComponents reads from the active profile when present', async function (assert) {
     const service = this.owner.lookup('service:custom-profile');
     service.getActiveProfile = () => ({
@@ -44,6 +41,21 @@ module('Unit | Service | custom-profile', function(hooks) {
     service.getActiveProfile = () => ({ schemas: ['schema-a'] });
     assert.deepEqual(service.activeSchemas, ['schema-a']);
     await settled();
+  });
+
+  test('customProfiles and profiles are array-like after the store settles', async function (assert) {
+    const service = this.owner.lookup('service:custom-profile');
+    await settled();
+
+    assert.ok(
+      typeof service.customProfiles.forEach === 'function',
+      'customProfiles supports forEach'
+    );
+    assert.strictEqual(
+      typeof service.profiles.length,
+      'number',
+      'profiles (union of customProfiles + coreProfiles) has a length'
+    );
   });
 
   test('mapByAltId maps each alternate id to its profile id', async function (assert) {

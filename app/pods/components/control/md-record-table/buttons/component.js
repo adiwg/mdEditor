@@ -1,8 +1,10 @@
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
+import { setComponentTemplate } from '@ember/component';
 import { action } from '@ember/object';
+import layout from './template';
 
-export default class ButtonsComponent extends Component {
+class ButtonsComponent extends Component {
   @service router;
 
   get record() { return this.args.record; }
@@ -39,3 +41,5 @@ export default class ButtonsComponent extends Component {
     });
   }
 }
+
+export default setComponentTemplate(layout, ButtonsComponent);

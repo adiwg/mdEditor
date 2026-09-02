@@ -2,6 +2,9 @@ import Component from '@glimmer/component';
 import { action, get, set } from '@ember/object';
 import RowSelectCheckbox from 'ember-models-table/components/models-table/themes/default/row-select-checkbox';
 import RowSelectAllCheckbox from 'ember-models-table/components/models-table/themes/default/row-select-all-checkbox';
+import ButtonsComponent from './buttons/component';
+import ShowComponent from './buttons/show/component';
+import FilterComponent from './buttons/filter/component';
 
 /**
  * @module mdeditor
@@ -67,17 +70,12 @@ export default class MdRecordTableComponent extends Component {
     return {
       title: 'Actions',
       className: 'md-actions-column',
-      component: all
-        ? 'control/md-record-table/buttons'
-        : 'control/md-record-table/buttons/show',
+      // Direct class references (each explicitly paired with its pod
+      // template via setComponentTemplate) instead of resolver path
+      // strings - Embroider deprecates invoking a component by string name.
+      component: all ? ButtonsComponent : ShowComponent,
       disableFiltering: !all,
-      // Our own pods components pair with their template only via
-      // resolver lookup by name - a direct class import has no
-      // template attached (unlike the addon's own co-located
-      // components above), so this must stay a resolver path string.
-      componentForFilterCell: all
-        ? 'control/md-record-table/buttons/filter'
-        : null,
+      componentForFilterCell: all ? FilterComponent : null,
       showSlider: this.args.showSlider,
     };
   }

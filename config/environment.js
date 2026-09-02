@@ -10,7 +10,11 @@ module.exports = function (environment) {
     podModulePrefix: "mdeditor/pods",
     environment: environment,
     rootURL: '/',
-    locationType: 'auto',
+    // 'auto' is deprecated (Ember 4.x, removed in 5.0) - every other
+    // environment below already overrides to 'history', so this just makes
+    // the local dev-server default consistent with test/staging/production
+    // for no behavior change (per the deprecation's own guidance).
+    locationType: 'history',
     thesauriManifestUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@master/resources/manifest.json',
     profilesManifestUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdProfiles@master/resources/manifest.json',
     EmberENV: {

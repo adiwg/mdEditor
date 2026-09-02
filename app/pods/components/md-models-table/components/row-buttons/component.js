@@ -1,9 +1,10 @@
-import Component from '@ember/component';
+import Component, { setComponentTemplate } from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { action } from '@ember/object';
+import layout from './template';
 
 @classic
-export default class RowButtonsComponent extends Component {
+class RowButtonsComponent extends Component {
   classNames = ['md-row-buttons'];
 
   @action
@@ -29,3 +30,5 @@ export default class RowButtonsComponent extends Component {
     }
   }
 }
+
+export default setComponentTemplate(layout, RowButtonsComponent);

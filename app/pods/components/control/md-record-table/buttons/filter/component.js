@@ -1,15 +1,16 @@
 import { inject as service } from '@ember/service';
 import { action, computed } from '@ember/object';
 import classic from 'ember-classic-decorator';
-import Component from '@ember/component';
+import Component, { setComponentTemplate } from '@ember/component';
 import { once } from '@ember/runloop';
+import layout from './template';
 
 /**
  * Rendered as the Actions column's filter-row cell (componentForFilterCell).
  * Shows a "Delete Selected" button whenever one or more rows are selected.
  */
 @classic
-export default class FilterComponent extends Component {
+class FilterComponent extends Component {
   @service flashMessages;
 
   // `selectedItems` is mutated in place by ember-models-table, so this needs
@@ -45,3 +46,5 @@ export default class FilterComponent extends Component {
     });
   }
 }
+
+export default setComponentTemplate(layout, FilterComponent);
