@@ -1,5 +1,5 @@
 import Service from '@ember/service';
-import { get, set, setProperties } from '@ember/object';
+import { set, setProperties } from '@ember/object';
 import { isArray, A } from '@ember/array';
 import Schemas from 'mdjson-schemas/resources/js/schemas';
 
@@ -10,7 +10,7 @@ export default Service.extend({
     switch (type) {
       case 'contact':
         record.get('json.address').forEach((itm) => {
-          let oldAdm = get(itm, 'adminstrativeArea');
+          let oldAdm = itm.adminstrativeArea;
 
           if (oldAdm) {
             set(itm, 'administrativeArea', oldAdm);
@@ -37,14 +37,14 @@ export default Service.extend({
 
         if (isArray(lineage)) {
           lineage.forEach((itm) => {
-            let source = get(itm, 'source');
+            let source = itm.source;
 
             if (isArray(source)) {
               source.forEach((src) => {
                 set(
                   src,
                   'description',
-                  get(src, 'description') ?? get(src, 'value')
+                  src.description ?? src.value
                 );
                 set(src, 'value', null);
               });
@@ -53,18 +53,18 @@ export default Service.extend({
               });
             }
 
-            let step = get(itm, 'processStep');
+            let step = itm.processStep;
 
             if (isArray(step)) {
               step.forEach((step) => {
-                let source = get(step, 'stepSource');
+                let source = step.stepSource;
 
                 if (isArray(source)) {
                   source.forEach((src) => {
                     set(
                       src,
                       'description',
-                      get(src, 'description') || get(src, 'value')
+                      src.description || src.value
                     );
                     set(src, 'value', null);
                   });
@@ -86,7 +86,7 @@ export default Service.extend({
           }
 
           taxonomy.forEach((itm) => {
-            let classification = get(itm, 'taxonomicClassification');
+            let classification = itm.taxonomicClassification;
 
             if (classification && !isArray(classification)) {
               let fixNames = (taxon) => {
@@ -102,7 +102,7 @@ export default Service.extend({
               fixNames(classification);
               set(itm, 'taxonomicClassification', [classification]);
 
-              let refs = get(itm, 'identificationReference');
+              let refs = itm.identificationReference;
 
               if (isArray(refs)) {
                 let fixedRefs = [];
@@ -125,9 +125,9 @@ export default Service.extend({
 
         if (srs) {
           srs.forEach((itm) => {
-            let projObj = get(itm, 'referenceSystemParameterSet.projection');
-            let geoObj = get(itm, 'referenceSystemParameterSet.geodetic');
-            let vertObj = get(itm, 'referenceSystemParameterSet.verticalDatum');
+            let projObj = itm.referenceSystemParameterSet?.projection;
+            let geoObj = itm.referenceSystemParameterSet?.geodetic;
+            let vertObj = itm.referenceSystemParameterSet?.verticalDatum;
 
             if (projObj) {
               let { projection, projectionName, projectionIdentifier } =
@@ -239,13 +239,13 @@ export default Service.extend({
 
         if (isArray(repo)) {
           repo.forEach((itm) => {
-            let titles = get(itm, 'citation.titles');
+            let titles = itm.citation?.titles;
 
             if (titles) {
               set(
                 itm,
                 'citation.title',
-                get(itm, 'citation.titles') ?? get(itm, 'title')
+                itm.citation?.titles ?? itm.title
               );
               set(itm, 'citation.titles', null);
               record.save().then(function () {
