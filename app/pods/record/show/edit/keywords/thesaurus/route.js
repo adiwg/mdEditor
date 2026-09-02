@@ -1,5 +1,5 @@
 import { A, isArray } from '@ember/array';
-import EmberObject, { get, set } from '@ember/object';
+import EmberObject, { set } from '@ember/object';
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
@@ -94,7 +94,7 @@ export default class ThesaurusRoute extends Route {
       let model = this.currentRouteModel();
       let keywords = model.get('model')
         .get(model.get('path'));
-      let kw = get(keywords, 'keyword');
+      let kw = keywords.keyword;
       let val = evt.target.checked;
 
       set(keywords, 'fullPath', val);

@@ -1,7 +1,6 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { get } from '@ember/object';
 import { isEmpty } from '@ember/utils';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import getArrayItem from 'mdeditor/utils/get-array-item';
@@ -26,7 +25,7 @@ export default class IdentifierRoute extends Route.extend(ScrollTo) {
   setupModel() {
     let identifierId = this.identifierId;
     let model = this.modelFor('record.show.edit.metadata.alternate');
-    let identifiers = get(model, 'identifier');
+    let identifiers = model.identifier;
     let identifier = getArrayItem(identifiers, identifierId);
 
     //make sure the identifier exists

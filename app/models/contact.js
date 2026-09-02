@@ -39,9 +39,9 @@ const Validations = buildValidations({
         'model.json.name',
         function () {
           return (
-            this.get('model.json.isOrganization') ||
-            !isEmpty(this.get('model.json.positionName')) ||
-            !isEmpty(this.get('model.json.name'))
+            this.model?.json?.isOrganization ||
+            !isEmpty(this.model?.json?.positionName) ||
+            !isEmpty(this.model?.json?.name)
           );
         }
       ),

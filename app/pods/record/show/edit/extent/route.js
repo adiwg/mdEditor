@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import { get, set } from '@ember/object';
+import { set } from '@ember/object';
 
 export default class ExtentRoute extends Route {
   model() {
@@ -7,7 +7,7 @@ export default class ExtentRoute extends Route {
     let json = model.get('json');
     let resourceInfo = json.metadata.resourceInfo;
 
-    set(resourceInfo, 'extent', get(resourceInfo, 'extent') ?? []);
+    set(resourceInfo, 'extent', resourceInfo.extent ?? []);
 
     return model;
   }

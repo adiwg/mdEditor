@@ -1,6 +1,6 @@
 import Service, { inject as service } from '@ember/service';
 import { A } from '@ember/array';
-import EmberObject, { computed, get } from '@ember/object';
+import EmberObject, { computed } from '@ember/object';
 
 export default Service.extend({
   init() {
@@ -16,13 +16,13 @@ export default Service.extend({
   contacts: A(),
 
   organizations: computed('contacts.[]', function() {
-    let orgs = this.contacts.filter((contact) => get(contact, 'json.isOrganization'));
+    let orgs = this.contacts.filter((contact) => contact.json?.isOrganization);
 
     return orgs;
   }),
 
   individuals: computed('contacts.[]', function() {
-    let ind = this.contacts.filter((contact) => !get(contact, 'json.isOrganization'));
+    let ind = this.contacts.filter((contact) => !contact.json?.isOrganization);
 
     return ind;
   }),

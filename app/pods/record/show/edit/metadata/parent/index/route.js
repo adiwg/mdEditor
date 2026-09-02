@@ -2,7 +2,6 @@ import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { isNone } from '@ember/utils';
-import { get } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default class IndexRoute extends Route.extend(ScrollTo) {
@@ -11,7 +10,7 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
   afterModel(model) {
     super.afterModel(...arguments);
 
-    if(isNone(get(model, 'json.metadata.metadataInfo.parentMetadata'))) {
+    if(isNone(model.json?.metadata?.metadataInfo?.parentMetadata)) {
       this.flashMessages
         .warning('No Parent Citation found! Re-directing to Metadata...');
       this.router.replaceWith('record.show.edit.metadata', {

@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-import { action, get, set } from '@ember/object';
+import { action, set } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 const sliderColumns = [
@@ -29,7 +29,7 @@ export default class AssociatedResourceIndexController extends Controller {
     let rec = selected.get('firstObject');
 
     if (rec) {
-      set(this.model, 'mdRecordId', get(rec, 'recordId'));
+      set(this.model, 'mdRecordId', rec.recordId);
     }
 
     this.slider.toggleSlider(false);

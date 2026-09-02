@@ -143,7 +143,7 @@ const theComp = Model.extend(Validations, {
   }),
 
   validator: computed('isGlobal', 'customSchemas', function () {
-    if (!this.isGlobal && !this.get('customSchemas.length')) {
+    if (!this.isGlobal && !this.customSchemas?.length) {
       return;
     }
 

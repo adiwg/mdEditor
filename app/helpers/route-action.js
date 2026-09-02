@@ -1,6 +1,6 @@
 import { A as emberArray } from '@ember/array';
 import Helper from '@ember/component/helper';
-import { computed, get } from '@ember/object';
+import { computed } from '@ember/object';
 import { getOwner } from '@ember/application';
 import { ACTION } from 'ember-route-action-helper/-private/internals';
 
@@ -49,7 +49,7 @@ export default Helper.extend({
   }).readOnly(),
 
   compute([actionName, ...params]) {
-    let router = get(this, 'router');
+    let router = this.router;
 
     if (!router) {
       return noop;
