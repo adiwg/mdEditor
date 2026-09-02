@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 import { action, computed, set } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { alias } from '@ember/object/computed';

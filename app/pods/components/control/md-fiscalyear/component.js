@@ -1,4 +1,4 @@
-import { computed, get } from '@ember/object';
+import { computed } from '@ember/object';
 import { not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import classic from 'ember-classic-decorator';
@@ -32,7 +32,7 @@ class MdFiscalyearComponent extends Select {
 
   change() {
     const val = this.value;
-    const month = parseInt(get(this, 'settings.data.fiscalStartMonth'), 10) - 1;
+    const month = parseInt(this.settings.data?.fiscalStartMonth, 10) - 1;
     const dt =
       month <= 6
         ? moment(val, 'YYYY')
@@ -61,9 +61,7 @@ MdFiscalyearComponent.reopen({
     });
   }),
 
-  disabled: computed('settings.data.fiscalStartMonth', function () {
-    return not(this.get('settings.data.fiscalStartMonth'));
-  }),
+  disabled: not('settings.data.fiscalStartMonth'),
 });
 
 MdFiscalyearComponent.prototype.classNames = [

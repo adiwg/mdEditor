@@ -57,7 +57,7 @@ const JsonDefault = EmberObject.extend({
 });
 
 export default Model.extend(Validations, Copyable, {
-  pouchDictionary: belongsTo('pouch-dictionary', { async: false }),
+  pouchDictionary: belongsTo('pouch-dictionary', { async: false, inverse: null }),
 
   /**
    * Dictionary model
@@ -71,7 +71,7 @@ export default Model.extend(Validations, Copyable, {
 
   init() {
     this._super(...arguments);
-    // Note: didLoad event handling is now in base model via observeLoaded observer
+    // didLoad handling lives in the base model's observeLoaded observer.
   },
 
   profile: attr('string', {

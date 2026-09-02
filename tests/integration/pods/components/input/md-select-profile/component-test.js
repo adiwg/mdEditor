@@ -37,9 +37,9 @@ module('Integration | Component | input/md select profile', function (hooks) {
     this.set('updateProfile', () => {});
     this.set('profileId', config.APP.defaultProfileId);
 
-    await render(hbs `{{input/md-select-profile
-      value=profileId
-      updateProfile=updateProfile
+    await render(hbs`{{input/md-select-profile
+      value=this.profileId
+      updateProfile=this.updateProfile
       class="testme"
     }}`);
 
@@ -58,7 +58,7 @@ module('Integration | Component | input/md select profile', function (hooks) {
         'submitted value is passed to external action');
     });
 
-    await render(hbs `{{input/md-select-profile value=null updateProfile=(action updateProfile)}}`);
+    await render(hbs`{{input/md-select-profile value=null updateProfile=(action this.updateProfile)}}`);
 
     // select a value and force an onchange
     await clickTrigger();

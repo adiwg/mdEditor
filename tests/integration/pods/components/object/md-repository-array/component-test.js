@@ -22,7 +22,7 @@ module('Integration | Component | object/md repository array', function(hooks) {
       "repository": "data.gov"
     }];
 
-    await render(hbs`{{object/md-repository-array value=repo profilePath="foo"}}`);
+    await render(hbs`{{object/md-repository-array value=this.repo profilePath="foo"}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Metadata|Repositories|2|Add|#|Repository|Collection|Title|0|data.gov|?|×|Delete|1|data.gov|?|×|Delete|');

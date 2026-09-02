@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
-import { get, set } from '@ember/object';
+import { set } from '@ember/object';
 import { once } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 
@@ -10,10 +10,10 @@ export default class IndexRoute extends Route {
   afterModel(m) {
     super.afterModel(...arguments);
 
-    let model = get(m, 'json.dataDictionary');
+    let model = m.json.dataDictionary;
 
     once(this, () => {
-      set(model, 'entity', get(model, 'entity') ?? []);
+      set(model, 'entity', model.entity ?? []);
     });
   }
   setupController() {

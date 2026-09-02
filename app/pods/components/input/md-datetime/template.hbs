@@ -3,21 +3,63 @@
 {{/if}}
 
 <div class='md-input-input'>
-  {{bs-datetimepicker
-    date=this._date
-    format=this.format
-    extraFormats=this.extraFormats
-    dateIcon='fa fa-calendar'
-    timeIcon='fa fa-clock-o'
-    icons=this.calendarIcons
-    placeholder=this.placeholder
-    focusOnShow=false
-    showClear=this.showClear
-    useCurrent=this.useCurrent
-    textFieldRequired=this.required
-    showTodayButton=this.showTodayButton
-    change=this.handleChange
-  }}
+  <input
+    aria-label='datetime'
+    type={{this.htmlInputType}}
+    inputmode={{if this.isYearInput 'numeric'}}
+    class='form-control'
+    value={{this.nativeValue}}
+    placeholder={{this.placeholder}}
+    required={{this.required}}
+    {{on 'input' this.handleInput}}
+  />
+  {{#if this.isYearInput}}
+    <button
+      type='button'
+      class='md-datetime-year-toggle btn btn-link'
+      title='Choose year'
+      {{on 'click' this.toggleYearPicker}}
+    >
+      {{fa-icon 'calendar'}}
+    </button>
+  {{/if}}
+  {{#if this.showClear}}
+    <button
+      type='button'
+      class='md-datetime-clear btn btn-link'
+      title='Clear'
+      {{on 'click' this.clear}}
+    >
+      {{fa-icon 'times'}}
+    </button>
+  {{/if}}
+
+  {{#if (and this.isYearInput this.isYearPickerOpen)}}
+    <div class='md-year-picker'>
+      <div class='md-year-picker-header'>
+        <button
+          type='button'
+          class='btn btn-link'
+          {{on 'click' this.prevYearDecade}}
+        >&laquo;</button>
+        <span>{{this.yearGridStart}}-{{this.yearGridEnd}}</span>
+        <button
+          type='button'
+          class='btn btn-link'
+          {{on 'click' this.nextYearDecade}}
+        >&raquo;</button>
+      </div>
+      <div class='md-year-picker-grid'>
+        {{#each this.yearGridYears as |year|}}
+          <button
+            type='button'
+            class={{if (eq year this.selectedYear) 'active'}}
+            {{on 'click' (fn this.selectYear year)}}
+          >{{year}}</button>
+        {{/each}}
+      </div>
+    </div>
+  {{/if}}
 
   <span class='md-inputgroup-error'>
     {{#if this.showErrorMessage}}

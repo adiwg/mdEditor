@@ -16,7 +16,7 @@ module('Integration | Component | object/md bbox', function(hooks) {
       "northLatitude": 30.42485959910817
     });
 
-    await render(hbs`{{object/md-bbox profilePath="foobar" model=model}}`);
+    await render(hbs`{{object/md-bbox profilePath="foobar" model=this.model}}`);
 
     assert.equal(find('.form').textContent.replace(/[ \n]+/g, '|').trim(), '|North|East|South|West|Minimum|Altitude|Maximum|Altitude|Units|of|Altitude|');
 
@@ -28,7 +28,7 @@ module('Integration | Component | object/md bbox', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      <Object::MdBbox @profilePath="foobar" @model={{model}}>
+      <Object::MdBbox @profilePath="foobar" @model={{this.model}}>
         template block text
       </Object::MdBbox>
     `);

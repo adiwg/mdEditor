@@ -3,7 +3,6 @@ import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { once } from '@ember/runloop';
 import { getOwner } from '@ember/application';
-import { get } from '@ember/object';
 
 export default class EditRoute extends Route {
   /**
@@ -16,6 +15,7 @@ export default class EditRoute extends Route {
   @service pouch;
   @service hashPoll;
   @service flashMessages;
+  @service settings;
 
   /**
    * The route activate hook, sets the profile.
@@ -40,7 +40,7 @@ export default class EditRoute extends Route {
         !owner.isDestroying &&
         !owner.isDestroyed &&
         owner.lookup('controller:application').currentPath ===
-          get(controller, 'cancelScope.routeName'));
+          controller.cancelScope.routeName);
 
     if (controller.onCancel) {
       once(() => {
@@ -77,7 +77,7 @@ export default class EditRoute extends Route {
     let model = this.currentRouteModel();
     let message = `Cancelled changes to Dictionary: ${model.get('title')}`;
 
-    if (this.get('settings.data.autoSave')) {
+    if (this.settings.data?.autoSave) {
       let json = model.get('jsonRevert');
 
       if (json) {

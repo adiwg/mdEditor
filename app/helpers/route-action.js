@@ -1,8 +1,7 @@
 import { A as emberArray } from '@ember/array';
 import Helper from '@ember/component/helper';
-import { computed, get } from '@ember/object';
+import { computed } from '@ember/object';
 import { getOwner } from '@ember/application';
-import { run } from '@ember/runloop';
 import { ACTION } from 'ember-route-action-helper/-private/internals';
 
 function getCurrentInfos(router) {
@@ -50,7 +49,7 @@ export default Helper.extend({
   }).readOnly(),
 
   compute([actionName, ...params]) {
-    let router = get(this, 'router');
+    let router = this.router;
 
     if (!router) {
       return noop;
@@ -64,7 +63,7 @@ export default Helper.extend({
         }
 
         let args = params.concat(invocationArgs);
-        return run.join(handler, action, ...args);
+        return action.apply(handler, args);
       } catch {
         // Ignore teardown-time route action failures.
         return;

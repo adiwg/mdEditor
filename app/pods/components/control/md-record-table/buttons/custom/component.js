@@ -1,5 +1,6 @@
 import classic from 'ember-classic-decorator';
-import Component from '@ember/component';
+import Component, { setComponentTemplate } from '@ember/component';
+import layout from './template';
 
 /**
  * @property column.buttonConfig.style - Button style
@@ -15,6 +16,8 @@ import Component from '@ember/component';
  * @param {Object} record The row record
  */
 @classic
-export default class CustomComponent extends Component {
+class CustomComponent extends Component {
   action() {}
 }
+
+export default setComponentTemplate(layout, CustomComponent);

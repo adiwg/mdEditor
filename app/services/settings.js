@@ -1,5 +1,5 @@
 import Service, { inject as service } from '@ember/service';
-import EmberObject, { set, get } from '@ember/object';
+import EmberObject, { set } from '@ember/object';
 import config from 'mdeditor/config/environment';
 
 const {
@@ -11,6 +11,11 @@ export default Service.extend({
   store: service(),
   data: null,
   _setupPromise: null,
+
+  // Set just before an intentional, already-confirmed reload (e.g. Clear
+  // Storage Cache) so the application route's beforeunload guard doesn't
+  // show a second, redundant "leave site?" prompt.
+  bypassUnloadWarning: false,
 
   init() {
     this._super(...arguments);
@@ -28,7 +33,7 @@ export default Service.extend({
     let store = this.store;
 
     let promise = store.findAll('setting').then(function (s) {
-      let rec = s.get('firstObject');
+      let rec = s[0];
       let settings = rec ? rec : store.createRecord('setting');
 
       if (settings.get('lastVersion') !== version) {
@@ -39,7 +44,7 @@ export default Service.extend({
       set(
         settings,
         'repositoryDefaults',
-        get(settings, 'repositoryDefaults') ?? []
+        settings.repositoryDefaults ?? []
       );
 
       settings.notifyPropertyChange('hasDirtyAttributes');

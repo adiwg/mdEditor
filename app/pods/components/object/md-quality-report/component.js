@@ -1,6 +1,6 @@
 import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
-import { action } from '@ember/object';
+import { action, set } from '@ember/object';
 import { once } from '@ember/runloop';
 import { alias } from '@ember/object/computed';
 
@@ -67,33 +67,33 @@ export default class MdQualityReportComponent extends Component {
 
     if (model) {
       once(this, function () {
-        model.qualityMeasure = model.qualityMeasure ?? { name: [] };
-        model.evaluationMethod = model.evaluationMethod ?? { dateTime: [] };
-        model.quantitativeResult = model.quantitativeResult ?? [];
-        model.descriptiveResult = model.descriptiveResult ?? [];
-        model.conformanceResult = model.conformanceResult ?? [];
-        model.coverageResult = model.coverageResult ?? [];
+        set(model, 'qualityMeasure', model.qualityMeasure ?? { name: [] });
+        set(model, 'evaluationMethod', model.evaluationMethod ?? { dateTime: [] });
+        set(model, 'quantitativeResult', model.quantitativeResult ?? []);
+        set(model, 'descriptiveResult', model.descriptiveResult ?? []);
+        set(model, 'conformanceResult', model.conformanceResult ?? []);
+        set(model, 'coverageResult', model.coverageResult ?? []);
       });
     }
   }
 
   @action
   addEvaluationProcedure() {
-    this.model.evaluationMethod.evaluationProcedure = {};
+    set(this.model.evaluationMethod, 'evaluationProcedure', {});
   }
 
   @action
   deleteEvaluationProcedure() {
-    this.model.evaluationMethod.evaluationProcedure = undefined;
+    set(this.model.evaluationMethod, 'evaluationProcedure', undefined);
   }
 
   @action
   addQualityMeasureIdentifier() {
-    this.model.qualityMeasure.identifier = {};
+    set(this.model.qualityMeasure, 'identifier', {});
   }
 
   @action
   deleteQualityMeasureIdentifier() {
-    this.model.qualityMeasure.identifier = undefined;
+    set(this.model.qualityMeasure, 'identifier', undefined);
   }
 }

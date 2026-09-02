@@ -1,5 +1,4 @@
 import Route from '@ember/routing/route';
-import { get } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default class IndexRoute extends Route.extend(ScrollTo) {
@@ -10,10 +9,7 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
     this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
     this.controller.set(
       'lineageId',
-      get(
-        this.controllerFor('record.show.edit.lineage.lineageobject'),
-        'lineageId'
-      )
+      this.controllerFor('record.show.edit.lineage.lineageobject').lineageId
     );
   }
 }

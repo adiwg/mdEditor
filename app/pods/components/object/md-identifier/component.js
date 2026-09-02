@@ -1,7 +1,7 @@
 import { and } from '@ember/object/computed';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import { action, computed, get, set } from '@ember/object';
+import { action, computed, set } from '@ember/object';
 import { once } from '@ember/runloop';
 import { validator, buildValidations } from 'ember-cp-validations';
 
@@ -30,10 +30,10 @@ export default class MdIdentifierComponent extends Component.extend(Validations)
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
 
-    let model = get(this, 'model') || this._localModel;
+    let model = this.model || this._localModel;
 
     once(this, function () {
-      set(model, 'authority', get(model, 'authority') ?? {});
+      set(model, 'authority', model.authority ?? {});
     });
   }
 
@@ -47,12 +47,12 @@ MdIdentifierComponent.reopen({
   isCollapsed: and('collapsible', 'collapse'),
 
   effectiveModel: computed('model', '_localModel', function () {
-    return get(this, 'model') || this._localModel;
+    return this.model || this._localModel;
   }),
 
   identifier: computed('effectiveModel.identifier', {
     get() {
-      return get(this, 'effectiveModel.identifier');
+      return this.effectiveModel?.identifier;
     },
 
     set(key, value) {
@@ -62,7 +62,7 @@ MdIdentifierComponent.reopen({
 
   namespace: computed('effectiveModel.namespace', {
     get() {
-      return get(this, 'effectiveModel.namespace');
+      return this.effectiveModel?.namespace;
     },
 
     set(key, value) {

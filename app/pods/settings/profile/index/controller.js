@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import CellContentDisplay from 'mdeditor/pods/components/control/md-record-table/cell-content-display/component';
 
 export default class ProfileIndexController extends Controller {
   @service customProfile;
@@ -26,6 +27,7 @@ export default class ProfileIndexController extends Controller {
       title: 'Description',
       truncate: true,
       isHidden: false,
+      component: CellContentDisplay,
     },
   ];
 

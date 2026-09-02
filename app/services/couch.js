@@ -46,7 +46,7 @@ export default class CouchService extends Service {
           this.setLoggedInUser(session.userCtx);
         }
       }
-    } catch(e) {
+    } catch (e) {
       this.handleError(e);
     }
   }
@@ -54,7 +54,7 @@ export default class CouchService extends Service {
   // Take the raw pouchId (e.g. pouchRecord_2_USGS:ASC365)
   // and extract its id (e.g. 'USGS:ASC365')
   extractParsedIdAndType(rawId) {
-    const [ camelizedType ] = rawId.split('_');
+    const [camelizedType] = rawId.split('_');
     const dasherizedType = dasherize(camelizedType);
     const adapter = this.store.adapterFor(dasherizedType);
     const relationalPouch = adapter.db.rel;
@@ -72,7 +72,7 @@ export default class CouchService extends Service {
         this.setCouch(remoteUrl, remoteName);
         this.flashMessages.success(`Logged in as ${this.username}`);
       }
-    } catch(e) {
+    } catch (e) {
       this.handleError(e);
     }
   }
@@ -89,14 +89,14 @@ export default class CouchService extends Service {
       this.remoteUrl = null;
       this.remoteDb = null;
       this.couch = null;
-    } catch(e) {
+    } catch (e) {
       this.handleError(e);
     }
   }
 
   async getCouch() {
     const store = await this.store.findAll('couch');
-    const couch = store.get('firstObject');
+    const couch = store[0];
     return couch;
   }
 
@@ -107,14 +107,17 @@ export default class CouchService extends Service {
       if (couch) {
         couch.remoteUrl = remoteUrl;
         couch.remoteName = remoteName;
-        await couch.save()
+        await couch.save();
       }
       // Create
       else {
-        const couch = this.store.createRecord('couch', { remoteUrl, remoteName });
+        const couch = this.store.createRecord('couch', {
+          remoteUrl,
+          remoteName,
+        });
         await couch.save();
       }
-    } catch(e) {
+    } catch (e) {
       this.handleError(e);
     }
   }
@@ -146,39 +149,42 @@ export default class CouchService extends Service {
   @action
   push() {
     this.replicationState = 'Pushing';
-    this.localDb.replicate.to(this.remoteDb)
+    this.localDb.replicate
+      .to(this.remoteDb)
       .on('complete', (info) => {
         this.replicationState = null;
         this.replicationInfo = info;
       })
       .on('error', (err) => {
         this.handleError(err);
-      })
+      });
   }
 
   @action
   pull() {
     this.replicationState = 'Pulling';
-    this.localDb.replicate.from(this.remoteDb)
+    this.localDb.replicate
+      .from(this.remoteDb)
       .on('complete', (info) => {
         this.replicationState = null;
         this.replicationInfo = info;
       })
       .on('error', (err) => {
         this.handleError(err);
-      })
+      });
   }
 
   @action
   sync() {
     this.replicationState = 'Syncing';
-    this.localDb.sync(this.remoteDb)
+    this.localDb
+      .sync(this.remoteDb)
       .on('complete', (info) => {
         this.replicationState = null;
         this.replicationInfo = info;
       })
       .on('error', (err) => {
         this.handleError(err);
-      })
+      });
   }
 }

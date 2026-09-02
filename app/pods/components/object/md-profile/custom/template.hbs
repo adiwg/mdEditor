@@ -41,7 +41,7 @@
           <div class='list-group no-margin md-itis-taxalist'>
             {{#each this.notSelected as |schema|}}
               <LiquidUnless
-                @predicate={{contains schema this.selected}}
+                @predicate={{includes schema this.selected}}
                 @class='list-group-item {{if schema "md-itis-unselected"}}'
                 @enableGrowth={{true}}
                 @shrinkDelay={{500}}
@@ -99,7 +99,7 @@
           {{/liquid-if}} --}}
             {{#each this.selected as |schema|}}
               <LiquidIf
-                @predicate={{contains schema this.selected}}
+                @predicate={{includes schema this.selected}}
                 @class='list-group-item md-itis-selected'
                 @enableGrowth={{true}}
                 @shrinkDelay={{500}}

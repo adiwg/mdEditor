@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
+import { set } from '@ember/object';
 import { once } from '@ember/runloop';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
@@ -33,10 +34,18 @@ export default class MdSpatialInfoComponent extends Component {
     let model = this.model;
 
     once(this, function() {
-      model.spatialReferenceSystem = model.spatialReferenceSystem ?? [];
-      model.spatialRepresentationType = model.spatialRepresentationType ?? [];
-      model.spatialResolution = model.spatialResolution ?? [];
-      model.coverageDescription = model.coverageDescription ?? [];
+      if (!model.spatialReferenceSystem) {
+        set(model, 'spatialReferenceSystem', []);
+      }
+      if (!model.spatialRepresentationType) {
+        set(model, 'spatialRepresentationType', []);
+      }
+      if (!model.spatialResolution) {
+        set(model, 'spatialResolution', []);
+      }
+      if (!model.coverageDescription) {
+        set(model, 'coverageDescription', []);
+      }
     });
   }
 

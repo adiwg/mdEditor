@@ -99,14 +99,14 @@ module('Integration | Component | object/md spatial info', function(hooks) {
     }
 
 
-    await render(hbs`{{object/md-spatial-info profilePath="foobar" model=model}}`);
+    await render(hbs`{{object/md-spatial-info profilePath="foobar" model=this.model}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Spatial|Representation|Type|×|stereoModel|?|×|vector|?|Spatial|Reference|System|5|Add|OK|#|Reference|System|Type|Identifier|0|referenceSystemType|identifier|Edit|Delete|1|projected|Zone|10|Edit|Delete|2|geodeticGeographic2D|4326|Edit|Delete|3|projected|Not|Defined|Edit|Delete|4|geodeticGeographic2D|Not|Defined|Edit|Delete|Spatial|Resolution|6|Add|OK|#|Scale|Factor|Level|Of|Detail|Type|0|99999|Not|Defined|Not|Defined|Edit|Delete|1|Not|Defined|Not|Defined|distance|Edit|Delete|2|Not|Defined|levelOfDetail|Not|Defined|Edit|Delete|3|Not|Defined|Not|Defined|Not|Defined|Edit|Delete|4|Not|Defined|Not|Defined|Not|Defined|Edit|Delete|5|Not|Defined|Not|Defined|Not|Defined|Edit|Delete|Add|Spatial|Resolution|No|Raster|Description|found.|Add|Raster|Description|');
 
     // Template block usage:
     await render(hbs`
-      <Object::MdSpatialInfo @profilePath="foobar" @model={{hash}}>
+      <Object::MdSpatialInfo @profilePath="foobar" @model={{(hash)}}>
         template block text
       </Object::MdSpatialInfo>
     `);

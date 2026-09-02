@@ -24,6 +24,9 @@ export default class RowBodyComponent extends Component {
 
   collapse() {
     this.element.classList.add('fade-out-fast');
-    this.collapseRow(this.index, this.record);
+
+    if (typeof this.collapseRow === 'function') {
+      this.collapseRow(this.index, this.record);
+    }
   }
 }

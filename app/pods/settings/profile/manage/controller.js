@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { task } from 'ember-concurrency';
+import CellContentDisplay from 'mdeditor/pods/components/control/md-record-table/cell-content-display/component';
 
 export default class ProfileManageController extends Controller {
   @service profile;
@@ -23,12 +24,14 @@ export default class ProfileManageController extends Controller {
       propertyName: 'uri',
       title: 'URL',
       break: true,
+      component: CellContentDisplay,
     },
     {
       propertyName: 'description',
       title: 'Description',
       truncate: true,
       isHidden: true,
+      component: CellContentDisplay,
     },
   ];
 

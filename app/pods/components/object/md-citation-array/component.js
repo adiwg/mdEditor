@@ -1,8 +1,7 @@
-import EmberObject from '@ember/object';
+import EmberObject, { action, set } from '@ember/object';
 import { A } from '@ember/array';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 @classic
@@ -13,7 +12,7 @@ export default class MdCitationArrayComponent extends Component {
     super.init(...arguments);
 
     if (!this.model) {
-      this.model = A();
+      set(this, 'model', A());
     }
   }
 

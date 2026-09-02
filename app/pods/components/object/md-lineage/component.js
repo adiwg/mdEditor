@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import EmberObject from '@ember/object';
+import EmberObject, { set } from '@ember/object';
 import { once } from '@ember/runloop';
 
 @classic
@@ -50,10 +50,10 @@ export default class MdLineageComponent extends Component {
     let model = this.model;
 
     once(function() {
-      model.scope = model.scope ?? {};
-      model.citation = model.citation ?? [];
-      model.processStep = model.processStep ?? [];
-      model.source = model.source ?? [];
+      set(model, 'scope', model.scope ?? {});
+      set(model, 'citation', model.citation ?? []);
+      set(model, 'processStep', model.processStep ?? []);
+      set(model, 'source', model.source ?? []);
     });
   }
 }

@@ -51,7 +51,7 @@ module('Integration | Component | md-models-table/components/row-buttons', funct
       }]
     }]);
 
-    await render(hbs`{{md-models-table data=data columns=columns expandedRowComponent=(component "md-models-table/components/row-body" spotlighted=true)}}`);
+    await render(hbs`{{md-models-table data=this.data columns=this.columns expandedRowComponent=(component "md-models-table/components/row-body" spotlighted=true)}}`);
 
     assert.equal(findAll('.md-row-buttons .btn').length, 4);
     assert.equal(findAll('.md-row-buttons .btn-danger').length, 2);

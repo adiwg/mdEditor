@@ -8,8 +8,6 @@ export default class MdMonthComponent extends DateTimePicker {
   format = 'MMMM';
 
   showClear = false;
-  useCurrent = false;
-  showTodayButton = false;
 }
 
 MdMonthComponent.reopen({

@@ -2,22 +2,23 @@ import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import { next } from '@ember/runloop';
 
 export default class CouchLoginComponent extends Component {
   @service couch;
   @service settings;
 
-  // User data
   @tracked username = null;
   @tracked password = null;
-  // DB data
   @tracked remoteUrl = null;
   @tracked remoteName = null;
 
   constructor() {
     super(...arguments);
-    // Set up initial defaults
-    this.loadDefaults();
+    // Deferred: calling loadDefaults() directly can race Glimmer's own
+    // render-commit microtask and throw a backtracking-write assertion
+    // on the tracked fields it sets below.
+    next(this, this.loadDefaults);
   }
 
   async loadDefaults() {
@@ -79,7 +80,6 @@ export default class CouchLoginComponent extends Component {
   @action
   logout() {
     this.couch.logout();
-    // Fields are empty again after logout - refill them from settings
     this.loadDefaults();
   }
 

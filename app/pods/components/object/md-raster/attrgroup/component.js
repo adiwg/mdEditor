@@ -1,7 +1,7 @@
 import Table from '../../md-array-table/component';
 import { once } from '@ember/runloop';
 import { alias } from '@ember/object/computed';
-import { get, set } from '@ember/object';
+import { set } from '@ember/object';
 import classic from 'ember-classic-decorator';
 import { validator, buildValidations } from 'ember-cp-validations';
 
@@ -52,9 +52,9 @@ export default class MdRasterAttrgroupComponent extends Table.extend(Validations
         set(
           model,
           'attributeContentType',
-          get(model, 'attributeContentType') ?? []
+          model.attributeContentType ?? []
         );
-        set(model, 'attribute', get(model, 'attribute') ?? []);
+        set(model, 'attribute', model.attribute ?? []);
       });
     }
   }

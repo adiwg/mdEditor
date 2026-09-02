@@ -30,7 +30,7 @@ export default class ProfileService extends Service {
   }
 
   get profiles() {
-    return [...this.profileRecords.toArray(), ...this.coreProfiles];
+    return [...this.profileRecords, ...this.coreProfiles];
   }
 
   async loadCoreProfiles() {

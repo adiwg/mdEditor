@@ -7,10 +7,28 @@ import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import { isBlank } from '@ember/utils';
 import { set, computed, defineProperty, action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import { once } from '@ember/runloop';
 import { assert, debug } from '@ember/debug';
 import moment from 'moment';
 import dayjs from 'dayjs';
+
+const YEAR_GRID_SIZE = 12;
+
+/**
+ * Native HTML input[type] to use for a given dayjs/moment format string.
+ * Checked in order: a time token wins over date/month/year tokens since
+ * the format strings used in this app always combine them (e.g.
+ * 'YYYY-MM-DDTHH:mm:ssZ').
+ */
+function inputTypeForFormat(format) {
+  const fmt = format || '';
+  if (/[Hhms]/.test(fmt)) return 'datetime-local';
+  if (/D/.test(fmt)) return 'date';
+  if (/M/.test(fmt)) return 'month';
+  if (/Y/.test(fmt)) return 'number';
+  return 'datetime-local';
+}
 
 @classic
 export default class MdDatetimeComponent extends Component {
@@ -29,9 +47,13 @@ export default class MdDatetimeComponent extends Component {
   format = 'YYYY-MM-DDTHH:mm:ssZ';
   placeholder = 'Enter date and time';
   label = null;
-  useCurrent = 'day';
-  showTodayButton = true;
   showClear = true;
+
+  // Year precision has no native HTML input type, so a small custom
+  // year-grid popover restores the picker UX the old bootstrap
+  // datetimepicker gave for this case.
+  @tracked isYearPickerOpen = false;
+  @tracked _yearGridStart = null;
 
   init() {
     super.init(...arguments);
@@ -96,47 +118,121 @@ export default class MdDatetimeComponent extends Component {
     }
   }
 
-  get calendarIcons() {
-    return {
-      time: 'fa fa-clock-o',
-      date: 'fa fa-calendar',
-      up: 'fa fa-chevron-up',
-      down: 'fa fa-chevron-down',
-      previous: 'fa fa-angle-double-left',
-      next: 'fa fa-angle-double-right',
-      close: 'fa fa-times',
-      clear: 'fa fa-trash',
+  didInsertElement() {
+    super.didInsertElement(...arguments);
+
+    this._handleOutsideClick = (event) => {
+      if (this.isYearPickerOpen && !this.element.contains(event.target)) {
+        set(this, 'isYearPickerOpen', false);
+      }
     };
+    document.addEventListener('click', this._handleOutsideClick, true);
   }
 
-  get closesOnSelection() {
-    return !/[HhmsaAZz]/.test(this.format || '');
+  willDestroyElement() {
+    document.removeEventListener('click', this._handleOutsideClick, true);
+    super.willDestroyElement(...arguments);
   }
 
-  picker() {
-    const pickerElement = this.element?.querySelector('.input-group.date');
+  get inputType() {
+    return inputTypeForFormat(this.format);
+  }
 
-    if (!pickerElement) {
-      return null;
+  /**
+   * The actual `type` attribute rendered on the native input. Year
+   * precision uses 'text' rather than 'number' -- the up/down spinner a
+   * `number` input gets is not a usable substitute for picking a year,
+   * so a custom year-grid popover is offered alongside it instead.
+   */
+  get htmlInputType() {
+    return this.inputType === 'number' ? 'text' : this.inputType;
+  }
+
+  get isYearInput() {
+    return this.inputType === 'number';
+  }
+
+  get selectedYear() {
+    const date = this._date;
+    return date && date.isValid?.() ? date.year() : null;
+  }
+
+  get yearGridStart() {
+    if (this._yearGridStart !== null) {
+      return this._yearGridStart;
     }
 
-    const jq = globalThis?.jQuery;
-    if (typeof jq === 'function') {
-      return jq(pickerElement).data('DateTimePicker');
-    }
+    const year = this.selectedYear ?? new Date().getFullYear();
 
-    return pickerElement.DateTimePicker ?? null;
+    return year - 5;
+  }
+
+  get yearGridEnd() {
+    return this.yearGridStart + YEAR_GRID_SIZE - 1;
+  }
+
+  get yearGridYears() {
+    const start = this.yearGridStart;
+
+    return Array.from({ length: YEAR_GRID_SIZE }, (_, i) => start + i);
   }
 
   @action
-  handleChange(value) {
-    if (this.closesOnSelection && value) {
-      once(this, 'hidePicker');
+  toggleYearPicker() {
+    set(this, 'isYearPickerOpen', !this.isYearPickerOpen);
+  }
+
+  @action
+  prevYearDecade() {
+    set(this, '_yearGridStart', this.yearGridStart - YEAR_GRID_SIZE);
+  }
+
+  @action
+  nextYearDecade() {
+    set(this, '_yearGridStart', this.yearGridStart + YEAR_GRID_SIZE);
+  }
+
+  @action
+  selectYear(year) {
+    set(this, '_date', String(year));
+    set(this, 'isYearPickerOpen', false);
+  }
+
+  /**
+   * Value formatted for the native input[type] in `inputType` - the
+   * browser requires a specific format per input type, independent of
+   * `format`/`altFormat` (which only control the value written back to
+   * the model, via `formatValue`).
+   */
+  get nativeValue() {
+    const date = this._date;
+    if (!date || !date.isValid?.()) {
+      return '';
+    }
+
+    switch (this.inputType) {
+      case 'date':
+        return date.format('YYYY-MM-DD');
+      case 'month':
+        return date.format('YYYY-MM');
+      case 'number':
+        return date.format('YYYY');
+      case 'datetime-local':
+      default:
+        return date.format('YYYY-MM-DDTHH:mm');
     }
   }
 
-  hidePicker() {
-    this.picker()?.hide();
+  @action
+  handleInput(event) {
+    set(this, '_date', event.target.value);
+  }
+
+  @action
+  clear() {
+    set(this, '_date', null);
+    set(this, '_yearGridStart', null);
+    set(this, 'isYearPickerOpen', false);
   }
 
   formatValue(value, target) {
@@ -152,7 +248,6 @@ export default class MdDatetimeComponent extends Component {
       formattedDate = dayjs(value).format(this.altFormat || this.format);
     }
 
-    // Use bracket notation for dynamic property access
     let currentValue = target.includes('.')
       ? target.split('.').reduce((obj, key) => obj?.[key], this)
       : this[target];

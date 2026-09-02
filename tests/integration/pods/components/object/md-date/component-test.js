@@ -10,7 +10,7 @@ module('Integration | Component | object/md date', function(hooks) {
 
     // Set any properties with this.set('myProperty', 'value');
 
-    await render(hbs`<table><tr>{{object/md-date model=model profilePath="foobar"}}</tr></table>`);
+    await render(hbs`<table><tr>{{object/md-date model=this.model profilePath="foobar"}}</tr></table>`);
 
     assert.equal(find('table').textContent.replace(/[ \n]+/g, '|').trim(), "|Year|Choose|date|type|");
 

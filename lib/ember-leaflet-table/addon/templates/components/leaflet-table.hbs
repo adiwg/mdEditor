@@ -81,40 +81,8 @@
       @showGlobalFilter={{false}}
       @showColumnsDropdown={{false}}
       @pageSize={{10}}
-      as |ft|
-    >
-      {{#ft.Table as |table|}}
-        {{table.Header}}
-        {{#table.Body as |body|}}
-          {{#if body.allColumnsAreHidden}}
-            {{body.ColumnsHidden}}
-          {{else}}
-            {{#if body.visibleContent.length}}
-              {{#each body.visibleContent as |record index|}}
-                {{body.row
-                  record=record
-                  index=index
-                  showForm=this.showForm
-                  zoomTo=this.zoomTo
-                  deleteFeature=this.deleteFeature
-                }}
-                {{#if (exists-in body.expandedItems record)}}
-                  {{body.RowExpand
-                    expandedRowComponent=this.expandedRowComponent
-                    record=record
-                    index=index
-                  }}
-                {{/if}}
-              {{/each}}
-            {{else}}
-              {{body.no-data}}
-            {{/if}}
-          {{/if}}
-        {{/table.Body}}
-        {{table.Footer}}
-      {{/ft.Table}}
-      {{ft.Footer}}
-    </FeatureTable>
+      @onRowDoubleClick={{this.handleRowDoubleClick}}
+    />
   {{/if}}
   {{yield}}
 </FilePicker>

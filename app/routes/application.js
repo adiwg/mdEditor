@@ -22,21 +22,28 @@ export default class ApplicationRoute extends Route {
   @service profile;
   @service('custom-profile') customProfile;
   @service flashMessages;
+  @service settings;
 
   constructor() {
     super(...arguments);
 
     window.addEventListener('beforeunload', (evt) => {
-      let dirty = this.currentRouteModel().filter(function (itm) {
-        return itm.filterBy('hasDirtyHash').length;
-      }).length;
+      if (this.settings.bypassUnloadWarning) {
+        return undefined;
+      }
 
       let message = 'Are you sure you want to leave unsaved work?';
 
-      evt.returnValue = dirty ? message : undefined;
+      evt.returnValue = this.hasUnsavedChanges() ? message : undefined;
 
       return evt.returnValue;
     });
+  }
+
+  hasUnsavedChanges() {
+    return this.currentRouteModel().some(
+      (itm) => itm.filter((record) => record.hasDirtyHash).length
+    );
   }
 
   /**
@@ -80,7 +87,7 @@ export default class ApplicationRoute extends Route {
 
     let mapFn = function (item, id) {
       meta[id].set('listId', guidFor(item));
-      item.set('meta', meta[id]);
+      item.meta = meta[id];
 
       return item;
     };
@@ -121,9 +128,7 @@ export default class ApplicationRoute extends Route {
   }
 
   setupController(controller, model) {
-    // Call super for default behavior
     super.setupController(controller, model);
-    // Services are now injected directly in the controller
   }
 
   /**

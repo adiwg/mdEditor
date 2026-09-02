@@ -15,7 +15,7 @@ module('Integration | Component | object/md taxonomy/classification/taxon', func
         assert.ok(taxa, 'called delete');
     };
 
-    await render(hbs`{{object/md-taxonomy/classification/taxon model=model deleteTaxa=delete top=top profilePath="foobar"}}`);
+    await render(hbs`{{object/md-taxonomy/classification/taxon model=this.model deleteTaxa=this.delete top=this.top profilePath="foobar"}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Kingdom|Fungi|(555705)|Kingdom|Edit|Delete|Add|Child|Subkingdom|Dikarya|(936287)|Edit|Delete|Add|Child|Division|Basidiomycota|(623881)|Edit|Delete|Add|Child|No|Classification|found.|');

@@ -47,7 +47,7 @@ module('Integration | Component | object/md transfer', function(hooks) {
       ]
     };
 
-    await render(hbs`{{object/md-transfer profilePath="foobar" model=model}}`);
+    await render(hbs`{{object/md-transfer profilePath="foobar" model=this.model}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Transfer|Size|(MB)|Distribution|units|Online|Option|2|Add|OK|#|Name|Uri|0|Not|Defined|http://adiwg.org|Edit|Delete|1|Not|Defined|http://adiwg.org/|Edit|Delete|Offline|Option|2|Add|OK|#|Title|0|title0|Edit|Delete|1|title1|Edit|Delete|Distribution|Formats|2|Add|#|Format|Name|Version|Compression|Method|URL|0|Delete|1|Delete|Transfer|Frequency|Years|Months|Days|Hours|Minutes|Seconds|');
@@ -58,7 +58,7 @@ module('Integration | Component | object/md transfer', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      <Object::MdTransfer @profilePath="foobar" @model={{hash}}>
+      <Object::MdTransfer @profilePath="foobar" @model={{(hash)}}>
         template block text
       </Object::MdTransfer>
     `);

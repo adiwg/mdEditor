@@ -38,7 +38,7 @@ module('Integration | Component | object/md lineage/preview', function(hooks) {
       ]
     });
 
-    await render(hbs`<section>{{object/md-lineage/preview item=lineage}}</section>`);
+    await render(hbs`<section>{{object/md-lineage/preview item=this.lineage}}</section>`);
 
     assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Lineage|#|Statement|statement|Process|Step|No|process|steps|assigned.|');

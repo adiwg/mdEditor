@@ -12,7 +12,7 @@ module('Integration | Component | object/md attribute', function (hooks) {
     this.set('model', createAttribute(1)[0]);
 
     await render(
-      hbs `{{object/md-attribute model=model profilePath="foobar"}}`
+      hbs`{{object/md-attribute model=this.model profilePath="foobar"}}`
       );
 
     assert.equal(find('.md-card').textContent.replace(/[ \n]+/g, '|')
@@ -21,8 +21,8 @@ module('Integration | Component | object/md attribute', function (hooks) {
       );
 
     // Template block usage:
-    await render(hbs `
-      {{#object/md-attribute model=model profilePath="foobar"}}
+    await render(hbs`
+      {{#object/md-attribute model=this.model profilePath="foobar"}}
         template block text
       {{/object/md-attribute}}
     `);

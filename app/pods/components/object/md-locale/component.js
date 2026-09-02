@@ -1,6 +1,6 @@
 import { once } from '@ember/runloop';
 import { validator, buildValidations } from 'ember-cp-validations';
-import { setProperties, get } from '@ember/object';
+import { setProperties } from '@ember/object';
 import { copy } from 'ember-copy';
 import { isNone } from '@ember/utils';
 import { inject as service } from '@ember/service';
@@ -28,7 +28,7 @@ export default class MdLocaleComponent extends Component.extend(Validations) {
     super.didReceiveAttrs(...arguments);
 
     let model = this.model || {};
-    let settings = get(this, 'settings.data');
+    let settings = this.settings.data;
 
     assert('Model passed to md-locale must be an object', !isNone(model));
 

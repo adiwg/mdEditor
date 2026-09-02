@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { findAll, visit, currentURL, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import createContact from 'mdeditor/tests/helpers/create-contact';
+import createContact, { createContactRecord } from 'mdeditor/tests/helpers/create-contact';
 
 module('Acceptance | pods/contact copy', function (hooks) {
   setupApplicationTest(hooks);
@@ -12,7 +12,7 @@ module('Acceptance | pods/contact copy', function (hooks) {
     var store = this.owner.lookup('service:store');
 
     //make sure there's at least one record visible
-    var contact = store.createRecord('contact', createContact(1)[0]);
+    var contact = createContactRecord(store, createContact(1)[0]);
     //await visit('/contacts/');
     //await click('button.md-button-.btn-danger');
     await visit('/contact/' + contact.id);

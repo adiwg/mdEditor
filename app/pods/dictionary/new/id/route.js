@@ -63,19 +63,6 @@ export default class IdRoute extends Route {
       return this.noName || this.noType;
     });
   }
-  // serialize(model) {
-  //   // If we got here without an ID (and therefore without a model)
-  //   // Ensure that we leave the route param in the URL blank (not 'undefined')
-  //   if(!model) {
-  //     return {
-  //       dictionary_id: ''
-  //     };
-  //   }
-  //
-  //   // Otherwise, let Ember handle it as usual
-  //   return super.serialize.apply(this, arguments);
-  // }
-
   @action
   willTransition() {
     return true;

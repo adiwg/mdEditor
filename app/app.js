@@ -14,7 +14,27 @@ if (typeof Buffer === 'undefined') {
 import Route from '@ember/routing/route';
 import Component from '@ember/component';
 import Application from '@ember/application';
-import Resolver from 'ember-resolver';
+import { registerDeprecationHandler } from '@ember/debug';
+import Resolver from './resolver';
+
+// ember-tooltips@3.6.0 uses the deprecated @ember/string helpers internally.
+// There is no app-side fix available; silence this specific deprecation only.
+//
+// ember-cli-flash.deprecate-injection-factories: fires once at boot because we
+// set flashMessageDefaults.injectionFactories to [] (see config/environment.js)
+// to opt out of the addon's now-dead automatic `application.inject()` calls -
+// we already inject `@service flashMessages` explicitly everywhere it's used,
+// which is exactly what the addon is asking for.
+registerDeprecationHandler((message, options, next) => {
+  if (
+    options &&
+    (options.id === 'ember-string.add-package' ||
+      options.id === 'ember-cli-flash.deprecate-injection-factories')
+  ) {
+    return;
+  }
+  next(message, options);
+});
 import {
   computed,
   defineProperty,
@@ -28,7 +48,6 @@ import {
 import {
   assert
 } from '@ember/debug';
-// import Resolver from './resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';
 let events = {
@@ -49,7 +68,6 @@ export default class App extends Application {
 
 loadInitializers(App, config.modulePrefix);
 
-//for routes
 Route.reopen({
   //breadCrumb: null
   currentRouteModel: function () {

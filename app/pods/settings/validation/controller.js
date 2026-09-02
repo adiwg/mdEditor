@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { task } from 'ember-concurrency';
+import CellContentDisplay from 'mdeditor/pods/components/control/md-record-table/cell-content-display/component';
 
 export default class ValidationController extends Controller {
   @service schemas;
@@ -23,12 +24,14 @@ export default class ValidationController extends Controller {
   }, {
     propertyName: 'uri',
     title: 'URL',
-    break: true
+    break: true,
+    component: CellContentDisplay
   }, {
     propertyName: 'description',
     title: 'Description',
     truncate: true,
-    isHidden: true
+    isHidden: true,
+    component: CellContentDisplay
   }, {
     propertyName: 'formattedGlobal',
     title: 'Global?',

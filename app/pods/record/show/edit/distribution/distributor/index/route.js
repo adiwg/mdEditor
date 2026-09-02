@@ -1,6 +1,5 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
-import { get } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import { inject as service } from '@ember/service';
 
@@ -21,17 +20,13 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
     this.controller.set(
       'distributionId',
-      get(
-        this.controllerFor('record.show.edit.distribution.distributor'),
-        'distributionId'
-      )
+      this.controllerFor('record.show.edit.distribution.distributor')
+        .distributionId
     );
     this.controller.set(
       'distributorId',
-      get(
-        this.controllerFor('record.show.edit.distribution.distributor'),
-        'distributorId'
-      )
+      this.controllerFor('record.show.edit.distribution.distributor')
+        .distributorId
     );
   }
 

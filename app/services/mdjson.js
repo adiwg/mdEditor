@@ -53,25 +53,29 @@ export default Service.extend({
         return acc;
       }, []);
 
-      let records = this.store.peekAll('record').filterBy('recordId');
+      let records = this.store
+        .peekAll('record')
+        .filter((record) => record.recordId);
 
       refs.forEach((ref) => {
-        let record = records.findBy('recordId', ref.mdRecordId);
+        let record = records.find(
+          (record) => record.recordId === ref.mdRecordId
+        );
 
         if (record) {
-          let info = get(record, 'json.metadata.metadataInfo') || {};
+          let info = record.json?.metadata?.metadataInfo || {};
           let metadata = {
-            title: `Metadata for ${get(record, 'title')}`,
-            responsibleParty: get(info, 'metadataContact') ?? [],
-            date: get(info, 'metadataDate') ?? [],
-            onlineResource: get(info, 'metadataOnlineResource') ?? [],
-            identifier: [get(info, 'metadataIdentifier') ?? {}],
+            title: `Metadata for ${record.title}`,
+            responsibleParty: info.metadataContact ?? [],
+            date: info.metadataDate ?? [],
+            onlineResource: info.metadataOnlineResource ?? [],
+            identifier: [info.metadataIdentifier ?? {}],
           };
 
           let citation =
-            get(record, 'json.metadata.resourceInfo.citation') || {};
+            record.json?.metadata?.resourceInfo?.citation || {};
           let resourceType =
-            get(record, 'json.metadata.resourceInfo.resourceType') || [];
+            record.json?.metadata?.resourceInfo?.resourceType || [];
 
           set(
             ref,
@@ -98,9 +102,13 @@ export default Service.extend({
     let arr = [];
 
     if (ids.length) {
-      let dicts = this.store.peekAll('dictionary').filterBy('dictionaryId');
+      let dicts = this.store
+        .peekAll('dictionary')
+        .filter((dict) => dict.dictionaryId);
       ids.forEach((id) => {
-        let record = dicts.findBy('dictionaryId', id);
+        let record = dicts.find(
+          (dict) => dict.dictionaryId === id
+        );
 
         if (record) {
           arr.pushObject(record.get('json.dataDictionary'));
@@ -127,7 +135,9 @@ export default Service.extend({
       }
 
       if (check[key] && !_contacts.includes(value)) {
-        let contact = conts.get('contacts').findBy('contactId', value);
+        let contact = conts
+          .get('contacts')
+          .find((contact) => contact.contactId === value);
 
         if (!contact) {
           return null;
@@ -140,7 +150,9 @@ export default Service.extend({
 
         if (orgs && orgs.length) {
           orgs.forEach((itm) => {
-            let org = conts.get('contacts').findBy('contactId', itm);
+            let org = conts
+              .get('contacts')
+              .find((contact) => contact.contactId === itm);
 
             if (!org) {
               return;
@@ -167,7 +179,7 @@ export default Service.extend({
     };
 
     let cleaner = this.cleaner;
-    let clean = cleaner.clean(get(rec, 'json'));
+    let clean = cleaner.clean(rec.json);
 
     this.injectCitations(clean);
     if (includeDictionaries) {
@@ -180,10 +192,12 @@ export default Service.extend({
     }
 
     let json = JSON.parse(JSON.stringify(cleaner.clean(clean), _replacer));
-    let contacts = this.store.peekAll('contact').mapBy('json');
+    let contacts = this.store
+      .peekAll('contact')
+      .map((contact) => contact.json);
 
     json.contact = contacts.filter((item) => {
-      return _contacts.includes(get(item, 'contactId'));
+      return _contacts.includes(item.contactId);
     });
 
     if (unImplemented) {

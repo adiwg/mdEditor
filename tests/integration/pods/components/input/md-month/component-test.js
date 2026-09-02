@@ -11,7 +11,11 @@ module('Integration | Component | input/md month', function(hooks) {
 
     await render(hbs`{{input/md-month date=this.date}}`);
 
-    assert.equal(find('input').value, 'October');
+    // Native <input type="month"> reports its value as "YYYY-MM" -- the
+    // component's own `format` (MMMM) only controls what's written back
+    // to the bound model, not the native input's value attribute.
+    const currentYear = new Date().getFullYear();
+    assert.equal(find('input').value, `${currentYear}-10`);
 
     // Template block usage:
     await render(hbs`

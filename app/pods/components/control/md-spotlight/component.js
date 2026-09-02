@@ -32,7 +32,11 @@ export default class MdSpotlightComponent extends ModalDialog {
   overlayClass = 'md-spotlight-overlay fade-in-fast';
   targetAttachment = 'none';
   translucentOverlay = true;
-  clickOutsideToClose = true;
+  // Must stay false: the spotlighted element renders outside this dialog's
+  // own container (see .md-spotlight-target in _modal.scss), so
+  // clickOutsideToClose would treat every click on it as "outside" and
+  // close immediately. Overlay clicks still close via onClickOverlay.
+  clickOutsideToClose = false;
   attachment = 'middle center';
   tetherTarget = 'viewport';
 

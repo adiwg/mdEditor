@@ -26,14 +26,14 @@ module('Integration | Component | object/md medium', function(hooks) {
       }
     };
 
-    await render(hbs`{{object/md-medium profilePath="foobar" model=model}}`);
+    await render(hbs`{{object/md-medium profilePath="foobar" model=this.model}}`);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Medium|Title|Storage|Density|Density|Units|Number|Of|Volumes|Storage|Format|×|mediumFormat0|×|mediumFormat1|Identifier|Namespace|Select|or|type|a|namespace|for|the|identifier.|Version|Description|Description|Note|Note|');
 
     // Template block usage:
     await render(hbs`
-      <Object::MdMedium @profilePath="foobar" @model={{hash}}>
+      <Object::MdMedium @profilePath="foobar" @model={{(hash)}}>
         template block text
       </Object::MdMedium>
     `);

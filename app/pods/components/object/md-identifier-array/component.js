@@ -1,4 +1,4 @@
-import EmberObject from '@ember/object';
+import EmberObject, { set } from '@ember/object';
 import { A } from '@ember/array';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
@@ -13,7 +13,7 @@ export default class MdIdentifierArrayComponent extends Component {
     super.init(...arguments);
 
     if(!this.model) {
-      this.model = A();
+      set(this, 'model', A());
     }
   }
 

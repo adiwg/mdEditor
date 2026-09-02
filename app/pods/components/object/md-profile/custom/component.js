@@ -33,7 +33,7 @@ export default class CustomComponent extends Component {
     // item.set('_animate', true);
     // item.set('_selected', true);
     later(this, function () {
-      this.selected.pushObject(item);
+      this.selected.push(item);
       this.record.updateTimestamp();
       this.record.save();
     }, 250);
@@ -43,7 +43,11 @@ export default class CustomComponent extends Component {
   deselectItem(item) {
     // item.set('_selected', false);
     later(this, function () {
-      this.selected.removeObject(item);
+      let index = this.selected.indexOf(item);
+
+      if (index > -1) {
+        this.selected.splice(index, 1);
+      }
       this.record.updateTimestamp();
       this.record.save();
     }, 250);

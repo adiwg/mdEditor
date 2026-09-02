@@ -1,0 +1,48 @@
+diff --git a/addon/components/simple-mde.js b/addon/components/simple-mde.js
+index 5604af8d0d9b67eb8d4b527eae65a350d89a6e46..6ba42847dadca66ae0a0948e5caa0cb0f3856931 100644
+--- a/addon/components/simple-mde.js
++++ b/addon/components/simple-mde.js
+@@ -1,7 +1,12 @@
+ import { once } from '@ember/runloop';
+ import { getOwner } from '@ember/application';
+-import TextArea from '@ember/component/text-area';
+-import { assign, merge } from '@ember/polyfills';
++// `@ember/component/text-area` was removed in Ember 4.0. This addon only
++// used it to get a `<textarea>` element for SimpleMDE to mount onto -- all
++// actual editing happens through the wrapped SimpleMDE/codemirror instance,
++// not through TextArea's own value/event bindings -- so a plain Component
++// with `tagName: 'textarea'` plus the same attribute pass-through is
++// equivalent.
++import Component from '@ember/component';
+ import { get, computed } from '@ember/object';
+ import { typeOf, isEmpty } from '@ember/utils';
+ import Ember from 'ember';
+@@ -15,7 +20,9 @@ const {
+ 
+ const options = {};
+ 
+-export default TextArea.extend({
++export default Component.extend({
++  tagName: 'textarea',
++  attributeBindings: ['disabled', 'maxlength', 'spellcheck', 'placeholder'],
+   layout,
+ 
+   /**
+@@ -61,7 +68,7 @@ export default TextArea.extend({
+    * get the list of options to pass to init the SimpleMDE instance
+    */
+   buildSimpleMDEOptions: computed(function () {
+-    let builtOptions = assign({}, this.get('defaultSimpleMdeOptions'), this.get('globalSimpleMdeOptions'), this.get('options'));
++    let builtOptions = Object.assign({}, this.get('defaultSimpleMdeOptions'), this.get('globalSimpleMdeOptions'), this.get('options'));
+ 
+     if(builtOptions.toolbar && typeOf(builtOptions.toolbar) === 'array') {
+       builtOptions.toolbar.forEach(this.unpackToolbarOption);
+@@ -100,7 +107,7 @@ export default TextArea.extend({
+    */
+   didInsertElement () {
+     this.set('currentEditor', new SimpleMDE(
+-      merge({
++      Object.assign({
+         element: document.getElementById(this.elementId)
+       }, this.get('buildSimpleMDEOptions')
+       )

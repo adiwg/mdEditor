@@ -12,7 +12,7 @@ module('Integration | Component | object/md taxonomy/collection/system', functio
     // Handle any actions with this.on('myAction', function(val) { ... });
     this.model = createTaxonomy()[0].taxonomicSystem[0];
 
-    await render(hbs`{{object/md-taxonomy/collection/system model=model profilePath="foobar"}}`);
+    await render(hbs`{{object/md-taxonomy/collection/system model=this.model profilePath="foobar"}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Classification|Authority|Basic|Information|Title|No|Alternate|Title|found.|Add|Alternate|Title|Dates|1|Add|Date|#|Precision|Date|Date|Type|Description|0|Day|transmitted|?|×|Delete|Edition|Presentation|Form|×|webService|?|×|webSite|?|No|Responsible|Party|found.|Add|Responsible|Party|Online|Resource|1|Add|OK|#|Name|Uri|0|ITIS|website|https://www.itis.gov|Edit|Delete|No|Identifier|found.|Add|Identifier|No|Identifier|found.|Add|Identifier|No|Identifier|found.|Add|Identifier|Series|Name|Issue|Page|Other|Details|1|Add|0|Delete|Graphic|1|Add|OK|0|itis_logo.jpg:|Edit|Delete|Modifications|Modifications|');
@@ -23,7 +23,7 @@ module('Integration | Component | object/md taxonomy/collection/system', functio
 
     // Template block usage:
     await render(hbs`
-      <Object::MdTaxonomy::Collection::System @model={{hash}} @profilePath="foobar">
+      <Object::MdTaxonomy::Collection::System @model={{(hash)}} @profilePath="foobar">
         template block text
       </Object::MdTaxonomy::Collection::System>
     `);

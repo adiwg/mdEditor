@@ -7,6 +7,7 @@ export default class ContactShowRoute extends Route {
   @service flashMessages;
   @service pouch;
   @service router;
+  @service settings;
 
   queryParams = {
     scrollTo: true,
@@ -49,7 +50,7 @@ export default class ContactShowRoute extends Route {
     let model = this.currentRouteModel();
     let message = `Cancelled changes to Contact: ${model.get('title')}`;
 
-    if (this.get('settings.data.autoSave')) {
+    if (this.settings.data?.autoSave) {
       let json = model.get('jsonRevert');
 
       if (json) {

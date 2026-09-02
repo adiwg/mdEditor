@@ -77,7 +77,7 @@ const Base = Model.extend({
     }
 
     if (
-      this.get('settings.data.autoSave') &&
+      this.settings.data?.autoSave &&
       (this.hasDirtyHash || this.hasDirtyAttributes)
     ) {
       once(this, function () {
@@ -111,7 +111,6 @@ const Base = Model.extend({
     //let record = model.record || this;
     let json = JSON.parse(this.serialize().data.attributes.json);
 
-    // Clear any lingering dirty attributes state
     if (this.hasDirtyAttributes) {
       this.rollbackAttributes();
     }
@@ -119,7 +118,6 @@ const Base = Model.extend({
     this.setCurrentHash(json);
     this.set('jsonSnapshot', json);
 
-    // Notify property change to force hasDirtyHash recomputation
     this.notifyPropertyChange('currentHash');
     this.notifyPropertyChange('hasDirtyHash');
 
@@ -129,7 +127,7 @@ const Base = Model.extend({
 
   updateTimestamp() {
     // Update dateUpdated to current timestamp when record is manually saved
-    let current = this.get('dateUpdated');
+    let current = this.dateUpdated;
     let next = new Date();
 
     // Ensure monotonic timestamp progression so manual saves stay dirty even in fast successive edits.
@@ -148,14 +146,14 @@ const Base = Model.extend({
   // TODO: Clean this up when we move to upgraded Ember
   revertChanges() {
     // Temporarily disable auto-save behavior
-    let originalAutoSave = this.get('settings.data.autoSave');
+    let originalAutoSave = this.settings.data?.autoSave;
     this.set('settings.data.autoSave', false);
 
     // Store the original dateUpdated before any changes
-    let originalDateUpdated = this.get('dateUpdatedRevert');
+    let originalDateUpdated = this.dateUpdatedRevert;
 
     // Revert JSON content
-    let json = this.get('jsonRevert');
+    let json = this.jsonRevert;
     if (json) {
       this.set('json', EmberObject.create(JSON.parse(json)));
     }
@@ -240,7 +238,7 @@ const Base = Model.extend({
 
   canRevert: computed('hasDirtyHash', 'settings.data.autoSave', function () {
     let dirty = this.hasDirtyHash;
-    let autoSave = this.get('settings.data.autoSave');
+    let autoSave = this.settings.data?.autoSave;
 
     //no autoSave so just check if dirty
     if (!autoSave && dirty) {

@@ -19,13 +19,6 @@ export default class SchemasService extends Service {
   constructor() {
     super(...arguments);
 
-    /**
-     * Instance of JSON Schema $Ref Parser
-     *
-     * @method parser
-     * @protected
-     * @return {Object}
-     */
     this.schemas = this.store.peekAll('schema');
   }
 

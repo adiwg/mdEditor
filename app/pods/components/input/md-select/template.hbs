@@ -2,10 +2,84 @@
   <label>{{this.label}}</label>
 {{/if}}
 <div class='md-input-input'>
-  {{#if this.create}}
+  {{#if this.multiple}}
+    {{#if this.create}}
+      <PowerSelectMultipleWithCreate
+        @selected={{this.selectedItem}}
+        @options={{this.codelist}}
+        @disabled={{this.disabled}}
+        @placeholder={{this.placeholder}}
+        @searchField='codeName'
+        @searchEnabled={{this.searchEnabled}}
+        @matchTriggerWidth={{this.matchTriggerWidth}}
+        @calculatePosition={{this.calculatePosition}}
+        @allowClear={{this.allowClear}}
+        @closeOnSelect={{this.closeOnSelect}}
+        @onChange={{this.setValue}}
+        @onCreate={{this.handleCreate}}
+        @ariaLabel={{this.ariaLabel}}
+        as |code|
+      >
+        {{#unless this.filter}}
+          <span class='md-select-option {{if code.tooltip "with-tip"}}'>
+            {{#if this.icon}}
+              {{#if code.icon}}
+                <span class='fa fa-{{code.icon}}'> </span>
+              {{/if}}
+            {{/if}}
+            <span class='select-value'>{{code.codeName}}</span>
+            {{#if this.tooltip}}
+              {{#if code.tooltip}}
+                <span class='select-tip'>
+                  <span class='badge tooltip'>?
+                    {{ember-tooltip text=code.tooltip side='right'}}
+                  </span>
+                </span>
+              {{/if}}
+            {{/if}}
+          </span>
+        {{/unless}}
+      </PowerSelectMultipleWithCreate>
+    {{else}}
+      <PowerSelectMultiple
+        @selected={{this.selectedItem}}
+        @options={{this.codelist}}
+        @disabled={{this.disabled}}
+        @placeholder={{this.placeholder}}
+        @searchField='codeName'
+        @searchEnabled={{this.searchEnabled}}
+        @matchTriggerWidth={{this.matchTriggerWidth}}
+        @calculatePosition={{this.calculatePosition}}
+        @allowClear={{this.allowClear}}
+        @closeOnSelect={{this.closeOnSelect}}
+        @onChange={{this.setValue}}
+        @ariaLabel={{this.ariaLabel}}
+        as |code|
+      >
+        {{#unless this.filter}}
+          <span class='md-select-option {{if code.tooltip "with-tip"}}'>
+            {{#if this.icon}}
+              {{#if code.icon}}
+                <span class='fa fa-{{code.icon}}'> </span>
+              {{/if}}
+            {{/if}}
+            <span class='select-value'>{{code.codeName}}</span>
+            {{#if this.tooltip}}
+              {{#if code.tooltip}}
+                <span class='select-tip'>
+                  <span class='badge tooltip'>?
+                    {{ember-tooltip text=code.tooltip side='right'}}
+                  </span>
+                </span>
+              {{/if}}
+            {{/if}}
+          </span>
+        {{/unless}}
+      </PowerSelectMultiple>
+    {{/if}}
+  {{else if this.create}}
     <PowerSelectWithCreate
       @selected={{this.selectedItem}}
-      @multiple={{this.multiple}}
       @options={{this.codelist}}
       @disabled={{this.disabled}}
       @placeholder={{this.placeholder}}
@@ -43,7 +117,6 @@
   {{else}}
     <PowerSelect
       @selected={{this.selectedItem}}
-      @multiple={{this.multiple}}
       @options={{this.codelist}}
       @disabled={{this.disabled}}
       @placeholder={{this.placeholder}}

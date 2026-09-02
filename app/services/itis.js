@@ -1,5 +1,5 @@
 import Service, { inject as service } from '@ember/service';
-import EmberObject, { get, set, computed } from '@ember/object';
+import EmberObject, { set, computed } from '@ember/object';
 import titleize from 'ember-cli-string-helpers/utils/titleize';
 import {
   isAjaxError,
@@ -266,13 +266,13 @@ export default Service.extend({
   mergeTaxa(taxa, tree) {
     taxa.reduce((tree, taxon) => {
       let branch = this.getBranch(taxon, tree);
-      let sub = get(branch, 'subClassification');
+      let sub = branch.subClassification;
 
       if (!sub) {
         set(branch, 'subClassification', []);
       }
 
-      return get(branch, 'subClassification');
+      return branch.subClassification;
     }, tree);
   },
 });

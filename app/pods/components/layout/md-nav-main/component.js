@@ -4,16 +4,6 @@ import { action } from '@ember/object';
 
 @classic
 export default class MdNavMainComponent extends Component {
-  /*didInsertElement() {
-    super.didInsertElement(...arguments);
-
-    const tooltips = this.element.querySelectorAll('[data-toggle="tooltip"]');
-    tooltips.forEach((el) => {
-      // Initialize Bootstrap tooltips if needed
-      // bootstrap.Tooltip.getOrCreateInstance(el);
-    });
-  }*/
-
   @action
   toggleSidebar(event) {
     event?.preventDefault?.();
@@ -26,7 +16,6 @@ export default class MdNavMainComponent extends Component {
     const navList = document.querySelector('#md-navbar-main-collapse ul');
     if (navList) {
       navList.style.display = 'none';
-      // Force reflow
       navList.offsetHeight;
       navList.style.display = '';
     }

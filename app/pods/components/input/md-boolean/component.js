@@ -5,6 +5,7 @@
 
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
+import { computed } from '@ember/object';
 
 @classic
 export default class MdBooleanComponent extends Component {
@@ -73,7 +74,13 @@ export default class MdBooleanComponent extends Component {
    * @category computed
    * @requires showInfoText,infotip
    */
-  get showInfotip() {
-    return this.showInfoText && this.infotip;
-  }
+  @computed('showInfoText', 'infotip', {
+    get() {
+      return this.showInfoText && this.infotip;
+    },
+    set(key, value) {
+      return value;
+    },
+  })
+  showInfotip;
 }

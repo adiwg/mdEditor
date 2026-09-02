@@ -1,30 +1,37 @@
 import { inject as service } from '@ember/service';
-import { computed } from '@ember/object';
+import { action, computed } from '@ember/object';
 import classic from 'ember-classic-decorator';
-import Component from '@ember/component';
+import Component, { setComponentTemplate } from '@ember/component';
 import { once } from '@ember/runloop';
+import layout from './template';
 
+/**
+ * Rendered as the Actions column's filter-row cell (componentForFilterCell).
+ * Shows a "Delete Selected" button whenever one or more rows are selected.
+ */
 @classic
-export default class FilterComponent extends Component {
+class FilterComponent extends Component {
   @service flashMessages;
 
-  // `selectedItems` is a live array mutated in place (pushObject/removeObject)
-  // by ember-models-table, not replaced - so this must be a real computed
-  // property with an explicit '.[]' dependent key. A plain getter is never
-  // re-evaluated by classic (curly) components once mounted.
+  // `selectedItems` is mutated in place by ember-models-table, so this needs
+  // an explicit '.[]' dependent key - a plain getter won't re-evaluate. Hash
+  // args on this classic component land on `this` directly, not `this.args`.
   @computed('selectedItems.[]')
   get showButton() {
     return this.selectedItems?.length >= 1;
   }
 
-  init() {
-    super.init(...arguments);
-    if (!this.deleteSelected) {
-      this.deleteSelected = this._deleteSelected.bind(this);
-    }
-  }
+  @action
+  deleteSelected() {
+    const records = this.selectedItems;
 
-  _deleteSelected(records) {
+    // Named onDeleteSelected (not deleteSelected) to avoid colliding with
+    // this action's own name on `this`.
+    if (typeof this.onDeleteSelected === 'function') {
+      this.onDeleteSelected(records);
+      return;
+    }
+
     records.forEach((rec) => {
       const modelName = rec.constructor.modelName;
       const title = rec.get('title');
@@ -39,3 +46,5 @@ export default class FilterComponent extends Component {
     });
   }
 }
+
+export default setComponentTemplate(layout, FilterComponent);

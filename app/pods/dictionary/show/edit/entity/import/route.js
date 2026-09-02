@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { max, min, equal, not, gt } from '@ember/object/computed';
 import { typeOf, isPresent, isBlank } from '@ember/utils';
-import EmberObject, { get, set, computed } from '@ember/object';
+import EmberObject, { set, computed } from '@ember/object';
 import uuidV4 from 'uuid/v4';
 
 export default class ImportRoute extends Route {
@@ -64,11 +64,11 @@ export default class ImportRoute extends Route {
     );
   }
   createAttribute(columnName, column) {
-    let domain = get(column, 'hasDomain')
+    let domain = column.hasDomain
       ? EmberObject.create({
           domainId: uuidV4(),
           codeName: columnName,
-          domainItem: get(column, 'domain')
+          domainItem: column.domain
             .filter((i) => isPresent(i))
             .map((itm) => {
               return {
@@ -86,7 +86,7 @@ export default class ImportRoute extends Route {
       allowNull: column.allowNull,
       maxValue: column.get('range') ? column.get('max').toString() : null,
       minValue: column.get('range') ? column.get('min').toString() : null,
-      domainId: domain ? get(domain, 'domainId') : null,
+      domainId: domain ? domain.domainId : null,
     };
 
     return {
@@ -95,7 +95,7 @@ export default class ImportRoute extends Route {
     };
   }
   generateData() {
-    let columns = this.get('controller.columns');
+    let columns = this.controller.columns;
     let domains = [];
     let attributes = [];
 
@@ -135,26 +135,26 @@ export default class ImportRoute extends Route {
   @action
   doImport() {
     let data = this.generateData();
-    let entity = this.get('controller.entity');
-    let dataDictionary = this.get('controller.model.json.dataDictionary');
+    let entity = this.controller.entity;
+    let dataDictionary = this.controller.model.json.dataDictionary;
 
-    if (get(data, 'domains.length')) {
-      set(dataDictionary, 'domain', get(dataDictionary, 'domain'));
+    if (data.domains.length) {
+      set(dataDictionary, 'domain', dataDictionary.domain ?? []);
 
       set(
         dataDictionary,
         'domain',
-        get(dataDictionary, 'domain').concat(data.domains)
+        dataDictionary.domain.concat(data.domains)
       );
     }
 
-    set(dataDictionary, 'entity', get(dataDictionary, 'entity') ?? []);
+    set(dataDictionary, 'entity', dataDictionary.entity ?? []);
     set(entity, 'attribute', data.attributes);
-    get(dataDictionary, 'entity').push(entity);
+    dataDictionary.entity.push(entity);
 
     this.router.transitionTo(
       'dictionary.show.edit.entity.edit',
-      get(dataDictionary, 'entity.length') - 1
+      dataDictionary.entity.length - 1
     );
 
     this.flashMessages.success('Entity imported from CSV!');
@@ -188,7 +188,7 @@ export default class ImportRoute extends Route {
 
   @action
   reduceData(data) {
-    let columns = this.get('controller.columns');
+    let columns = this.controller.columns;
     let columnNames = Object.keys(columns);
 
     columnNames.forEach((columnName) => {
@@ -202,7 +202,7 @@ export default class ImportRoute extends Route {
 
   @action
   processComplete() {
-    let columns = this.get('controller.columns');
+    let columns = this.controller.columns;
     let columnNames = Object.keys(columns);
 
     columnNames.forEach((columnName) => {

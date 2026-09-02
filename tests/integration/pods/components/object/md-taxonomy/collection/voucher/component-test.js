@@ -12,7 +12,7 @@ module('Integration | Component | object/md taxonomy/collection/voucher', functi
     // Handle any actions with this.on('myAction', function(val) { ... });
     this.model = createTaxonomy()[0].voucher[0];
 
-    await render(hbs`{{object/md-taxonomy/collection/voucher profilePath="foobar" model=model}}`);
+    await render(hbs`{{object/md-taxonomy/collection/voucher profilePath="foobar" model=this.model}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Specimen|Specimen|Repository|Role|custodian|?|×|Contacts|');
 

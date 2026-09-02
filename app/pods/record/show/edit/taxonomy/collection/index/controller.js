@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-import { action, get } from '@ember/object';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 export default class TaxonomyCollectionIndexController extends Controller {
@@ -22,7 +22,7 @@ export default class TaxonomyCollectionIndexController extends Controller {
 
   @action
   addITIS() {
-    if (!get(this, 'settings.data.itisProxyUrl')) {
+    if (!this.settings.data?.itisProxyUrl) {
       this.set('showItisModal', true);
       return;
     }

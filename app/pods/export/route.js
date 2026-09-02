@@ -49,11 +49,13 @@ export default class ExportRoute extends Route.extend(ScrollTo) {
   model() {
     return EmObject.create({
       records: this.modelFor('application'),
-      settings: this.get('settings.data'),
+      settings: this.settings.data,
     });
   }
   setupController(controller, model) {
     super.setupController(controller, model);
+
+    const store = this.store;
 
     defineProperty(
       this.controller,
@@ -61,11 +63,13 @@ export default class ExportRoute extends Route.extend(ScrollTo) {
       computed(
         'model.{records.0.@each._selected,records.1.@each._selected,records.2.@each._selected,settings._selected}',
         function () {
+          const isSelected = (item) => item._selected;
+
           return (
-            this.store.peekAll('record').filterBy('_selected').length +
-              this.store.peekAll('contact').filterBy('_selected').length +
-              this.store.peekAll('dictionary').filterBy('_selected').length +
-              this.store.peekAll('setting').filterBy('_selected').length >
+            store.peekAll('record').filter(isSelected).length +
+              store.peekAll('contact').filter(isSelected).length +
+              store.peekAll('dictionary').filter(isSelected).length +
+              store.peekAll('setting').filter(isSelected).length >
             0
           );
         }
@@ -76,7 +80,9 @@ export default class ExportRoute extends Route.extend(ScrollTo) {
       this.controller,
       'hasSelectedRecords',
       computed('model.records.0.@each._selected', function () {
-        return this.store.peekAll('record').filterBy('_selected').length > 0;
+        return (
+          store.peekAll('record').filter((item) => item._selected).length > 0
+        );
       })
     );
   }
@@ -204,7 +210,7 @@ export default class ExportRoute extends Route.extend(ScrollTo) {
       if (asMdjson) {
         let records = this.store
           .peekAll('record')
-          .filterBy('_selected')
+          .filter((item) => item._selected)
           .map((item) => this.mdjson.formatRecord(item, false, true));
 
         window.saveAs(
@@ -220,17 +226,21 @@ export default class ExportRoute extends Route.extend(ScrollTo) {
           let singularType = singularize(type);
           filterIds[singularType] = this.store
             .peekAll(singularType)
-            .filterBy('_selected')
-            .mapBy('id');
+            .filter((item) => item._selected)
+            .map((item) => item.id);
         });
 
         // Export schemas with settings
         if (filterIds.setting.length) {
-          filterIds.schema = this.store.peekAll('schema').mapBy('id');
-          filterIds.profile = this.store.peekAll('profile').mapBy('id');
+          filterIds.schema = this.store
+            .peekAll('schema')
+            .map((item) => item.id);
+          filterIds.profile = this.store
+            .peekAll('profile')
+            .map((item) => item.id);
           filterIds['custom-profile'] = this.store
             .peekAll('custom-profile')
-            .mapBy('id');
+            .map((item) => item.id);
         }
         const modifiedSelectedData = this.processExportData(
           this.store.exportSelectedData(modelTypes, { filterIds })

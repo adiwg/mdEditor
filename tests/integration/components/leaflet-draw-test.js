@@ -18,7 +18,7 @@ module('Integration | Component | leaflet draw', function(hooks) {
       <LeafletDraw @lat={{0}} @lng={{0}} @zoom={{2}}>
         {{!-- Specify child layer components here --}}
         <LayerGroup @name="Terrain" @baselayer={{true}} @default={{true}}>
-          {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}
+          {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=this.mapAttribution}}
         </LayerGroup>
 
         {{layer-control}}

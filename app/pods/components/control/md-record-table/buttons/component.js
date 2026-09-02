@@ -1,16 +1,17 @@
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
+import { setComponentTemplate } from '@ember/component';
 import { action } from '@ember/object';
+import layout from './template';
 
-export default class ButtonsComponent extends Component {
+class ButtonsComponent extends Component {
   @service router;
-
-  classNames = ['md-dashboard-buttons'];
 
   get record() { return this.args.record; }
   get index() { return this.args.index; }
   get isSelected() { return this.args.isSelected; }
   get clickOnRow() { return this.args.clickOnRow; }
+  get column() { return this.args.column; }
 
   @action
   deleteItem(item, index, isSelected, clickOnRow) {
@@ -40,3 +41,5 @@ export default class ButtonsComponent extends Component {
     });
   }
 }
+
+export default setComponentTemplate(layout, ButtonsComponent);

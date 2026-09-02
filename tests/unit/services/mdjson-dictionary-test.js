@@ -44,14 +44,7 @@ module('Unit | Service | mdjson - Dictionary Export/Import', function (hooks) {
     // Mock store to return empty arrays
     service.store = {
       peekAll: function () {
-        return {
-          filterBy: function () {
-            return { findBy: function () { return null; } };
-          },
-          mapBy: function () {
-            return [];
-          },
-        };
+        return [];
       },
     };
 
@@ -117,14 +110,7 @@ module('Unit | Service | mdjson - Dictionary Export/Import', function (hooks) {
     // Mock store to return empty arrays
     service.store = {
       peekAll: function () {
-        return {
-          filterBy: function () {
-            return { findBy: function () { return null; } };
-          },
-          mapBy: function () {
-            return [];
-          },
-        };
+        return [];
       },
     };
 

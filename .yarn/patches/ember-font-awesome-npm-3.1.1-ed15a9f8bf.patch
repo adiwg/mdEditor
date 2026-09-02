@@ -1,0 +1,21 @@
+diff --git a/addon/components/fa-icon.js b/addon/components/fa-icon.js
+index f271c4db87d01d19efa41a42ff90e44177a3f035..9536a09f89ab4267493eafb50684a4aca6a4a6c7 100644
+--- a/addon/components/fa-icon.js
++++ b/addon/components/fa-icon.js
+@@ -5,7 +5,6 @@ const {
+   computed,
+   deprecate,
+   get,
+-  getWithDefault,
+   isArray
+ } = Ember;
+ 
+@@ -128,7 +127,7 @@ const FaIconComponent = Ember.Component.extend({
+       }
+     }
+ 
+-    const size = getWithDefault(this, 'size', '').toString();
++    const size = (get(this, 'size') || '').toString();
+     if (size.endsWith && size.endsWith('x')) {
+       const preferedSize = size.substring(0, size.length - 1);
+       deprecate(

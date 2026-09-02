@@ -3,7 +3,7 @@ import classic from 'ember-classic-decorator';
 import {
   A
 } from '@ember/array';
-import EmberObject, { set, get } from '@ember/object';
+import EmberObject, { set } from '@ember/object';
 import {
   alias
 } from '@ember/object/computed';
@@ -139,9 +139,9 @@ export default class MdEntityComponent extends Component.extend(Validations) {
     if(attr) {
       return A(attr.map((attr) => {
         return {
-          codeId: get(attr, 'codeName'),
-          codeName: get(attr, 'codeName'),
-          tooltip: get(attr, 'definition')
+          codeId: attr.codeName,
+          codeName: attr.codeName,
+          tooltip: attr.definition
         };
       }));
     }
@@ -151,11 +151,11 @@ export default class MdEntityComponent extends Component.extend(Validations) {
   get entityList() {
     return A((this.entities || [])
       .map((attr) => {
-        if(get(attr, 'entityId')) {
+        if(attr.entityId) {
           return {
-            codeId: get(attr, 'entityId'),
-            codeName: get(attr, 'codeName'),
-            tooltip: get(attr, 'definition')
+            codeId: attr.entityId,
+            codeName: attr.codeName,
+            tooltip: attr.definition
           };
         }
       }).filter(Boolean));
@@ -204,12 +204,12 @@ export default class MdEntityComponent extends Component.extend(Validations) {
       .findBy('entityId', id);
 
     if(entity) {
-      let a = get(entity, 'attribute')
+      let a = entity.attribute
         .map((attr) => {
           return {
-            codeId: get(attr, 'codeName'),
-            codeName: get(attr, 'codeName'),
-            tooltip: get(attr, 'definition')
+            codeId: attr.codeName,
+            codeName: attr.codeName,
+            tooltip: attr.definition
           };
         });
 

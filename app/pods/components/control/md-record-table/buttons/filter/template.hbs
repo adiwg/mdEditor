@@ -1,7 +1,7 @@
 {{#if this.showButton}}
   <Control::MdButtonConfirm
     class='btn btn-danger btn-block'
-    @onConfirm={{fn this.deleteSelected this.selectedItems}}
+    @onConfirm={{this.deleteSelected}}
   >
     <span class='fa fa-times'></span>
     Delete Selected

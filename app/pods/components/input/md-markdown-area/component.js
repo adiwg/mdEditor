@@ -156,7 +156,6 @@ export default class MdMarkdownAreaComponent extends Component {
       oldEditorSetOption.apply(this, arguments);
 
       if (option === 'fullScreen') {
-        // Find all parent elements matching the selectors
         let node = element.parentElement;
         while (node) {
           if (node.matches('.liquid-child, .liquid-container, .md-card')) {

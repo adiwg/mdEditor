@@ -5,12 +5,6 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
     hinting: false,
-    babel: {
-      plugins: [
-        // enable ember-concurrency async-arrow task transform
-        require.resolve('ember-concurrency/async-arrow-task-transform'),
-      ],
-    },
     // Add options here
     sassOptions: {
       includePaths: [

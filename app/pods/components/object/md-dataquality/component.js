@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import { action } from '@ember/object';
+import { action, set } from '@ember/object';
 import { once } from '@ember/runloop';
 import { v4 as uuidV4 } from 'uuid';
 
@@ -14,19 +14,19 @@ export default class MdDataqualityComponent extends Component {
     let model = this.model;
 
     once(function () {
-      model.scope = model.scope ?? {};
-      model.systemIdentifier = model.systemIdentifier ?? { uid: uuidV4() };
-      model.report = model.report ?? [];
+      set(model, 'scope', model.scope ?? {});
+      set(model, 'systemIdentifier', model.systemIdentifier ?? { uid: uuidV4() });
+      set(model, 'report', model.report ?? []);
     });
   }
 
   @action
   addStandaloneQualityReport() {
-    this.model.standaloneQualityReport = { abstract: '' };
+    set(this.model, 'standaloneQualityReport', { abstract: '' });
   }
 
   @action
   deleteStandaloneQualityReport() {
-    this.model.standaloneQualityReport = undefined;
+    set(this.model, 'standaloneQualityReport', undefined);
   }
 }

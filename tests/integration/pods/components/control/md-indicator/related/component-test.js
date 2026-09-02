@@ -39,13 +39,13 @@ module('Integration | Component | control/md-indicator/related', function (
     ));
     this.set('model', this.dictionary.entity[0].attribute[0]);
 
-    await render(hbs `{{control/md-indicator/related
-      model=model
+    await render(hbs`{{control/md-indicator/related
+      model=this.model
       icon="cog"
       note="The attribute \${foo} has an associated domain: \${bar}."
       route="dictionary.show.edit.domain.edit"
-      values=values
-      parent=dictionary
+      values=this.values
+      parent=this.dictionary
       relatedId="domainId"
       path="domain"
       title="Related Indicator Test"

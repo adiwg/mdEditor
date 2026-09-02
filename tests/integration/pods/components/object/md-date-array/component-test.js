@@ -11,7 +11,7 @@ module('Integration | Component | object/md date array', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs`{{object/md-date-array value=model profilePath="foobar"}}`);
+    await render(hbs`{{object/md-date-array value=this.model profilePath="foobar"}}`);
 
     assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(),
       '|Dates|Add|#|Precision|Date|Date|Type|Description|Add|Date|');
@@ -28,7 +28,7 @@ module('Integration | Component | object/md date array', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      <Object::MdDateArray @value={{model}} @profilePath="foobar">
+      <Object::MdDateArray @value={{this.model}} @profilePath="foobar">
         template block text
       </Object::MdDateArray>
     `);

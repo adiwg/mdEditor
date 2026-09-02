@@ -12,7 +12,7 @@ module('Integration | Component | object/md citation/preview/body', function(hoo
     // Set any properties with this.set('myProperty', 'value');
     this.set('citation', createCitation(1)[0]);
 
-    await render(hbs`{{object/md-citation/preview/body citation=citation}}`);
+    await render(hbs`{{object/md-citation/preview/body citation=this.citation}}`);
 
     assert.equal(find('.row').textContent.replace(/[ \n]+/g, '|').trim(),
       '|Title|title0|Alternate|Titles|alternateTitle0|alternateTitle1|Dates|2016-10-13|(dateType)|2016-10-22|(dateType)|Identifier|identifier0|identifier-0|Responsible|Party|role|(|individualId0|)|role|(|individualId0|)|');

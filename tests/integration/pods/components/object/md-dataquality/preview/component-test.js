@@ -18,7 +18,7 @@ module('Integration | Component | object/md dataquality/preview', function(hooks
       }
     });
 
-    await render(hbs`<section>{{object/md-dataquality/preview item=dq index=0}}</section>`);
+    await render(hbs`<section>{{object/md-dataquality/preview item=this.dq index=0}}</section>`);
 
     assert.ok(find('section'), 'component renders');
     assert.dom('section .text-info').hasText('Data Quality #0', 'renders index heading');
@@ -33,7 +33,7 @@ module('Integration | Component | object/md dataquality/preview', function(hooks
 
     // Template block usage:
     await render(hbs`<section>
-      <Object::MdDataquality::Preview @item={{hash}} @index={{1}}>
+      <Object::MdDataquality::Preview @item={{(hash)}} @index={{1}}>
         template block text
       </Object::MdDataquality::Preview></section>
     `);

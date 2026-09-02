@@ -108,9 +108,6 @@ export default class ExtentIndexController extends Controller {
 
   @action
   editFeatures(id) {
-    this.router.transitionTo({
-      queryParams: { scrollTo: 'extent-' + id },
-    });
     this.router.transitionTo('record.show.edit.extent.spatial', id);
   }
 

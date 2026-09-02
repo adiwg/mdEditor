@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import { A } from '@ember/array';
-import { get, set } from '@ember/object';
+import { set } from '@ember/object';
 
 export default class IndexRoute extends Route {
   model() {
@@ -16,21 +16,21 @@ export default class IndexRoute extends Route {
 
     //check to see if custom list
     info.keyword.forEach((k) => {
-      set(k, 'thesaurus', get(k, 'thesaurus') ?? {});
+      set(k, 'thesaurus', k.thesaurus ?? {});
       set(
         k,
         'thesaurus.identifier',
-        get(k, 'thesaurus.identifier') ?? [
+        k.thesaurus.identifier ?? [
           {
             identifier: 'custom',
           },
         ]
       );
-      set(k, 'thesaurus.date', get(k, 'thesaurus.date') ?? [{}]);
+      set(k, 'thesaurus.date', k.thesaurus.date ?? [{}]);
       set(
         k,
         'thesaurus.onlineResource',
-        get(k, 'thesaurus.onlineResource') ?? [{}]
+        k.thesaurus.onlineResource ?? [{}]
       );
     });
 

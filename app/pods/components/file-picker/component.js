@@ -55,7 +55,6 @@ export default class FilePickerComponent extends Component {
 
   @action
   handleClick(event) {
-    // Find the hidden file input and trigger a click
     const container = event.currentTarget;
     const input = container.querySelector('input[type="file"]');
     if (input) {
@@ -105,7 +104,6 @@ export default class FilePickerComponent extends Component {
     reader.onload = (event) => {
       const data = event.target.result;
 
-      // Call the fileLoaded action with file info
       // Match the ember-cli-file-picker API: { filename, type, data, file }
       if (this.args.fileLoaded) {
         this.args.fileLoaded({
@@ -124,7 +122,6 @@ export default class FilePickerComponent extends Component {
       console.error('FileReader error:', error);
     };
 
-    // Use the specified read method
     const method = this.readAs;
     if (typeof reader[method] === 'function') {
       reader[method](file);

@@ -27,7 +27,6 @@ export default class ShowRoute extends Route {
       return record;
     }
 
-    // Fallback to findRecord if not in cache
     return this.store.findRecord('record', params.record_id);
   }
 

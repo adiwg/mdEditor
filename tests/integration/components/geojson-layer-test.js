@@ -18,12 +18,12 @@ module('Integration | Component | geojson layer', function(hooks) {
       {{#leaflet-draw lat=0 lng=0 zoom=2}}
         {{!-- Specify child layer components here --}}
         {{#layer-group name="Terrain" baselayer=true default=true}}
-          {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}
+          {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=this.mapAttribution}}
         {{/layer-group}}
 
         {{#feature-group name="Extents" default=true}}
-          {{#each layers as |l|}}
-            {{geojson-layer geoJSON=l draw=true editLayers=layers}}
+          {{#each this.layers as |l|}}
+            {{geojson-layer geoJSON=l draw=true editLayers=this.layers}}
           {{/each}}
         {{/feature-group}}
 

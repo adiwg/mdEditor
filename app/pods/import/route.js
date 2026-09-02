@@ -1,7 +1,6 @@
 import { A, isArray } from '@ember/array';
-import EmObject, { get, set } from '@ember/object';
+import EmObject, { set } from '@ember/object';
 import { or } from '@ember/object/computed';
-import { assign } from '@ember/polyfills';
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
@@ -11,8 +10,10 @@ import { JsonDefault as Contact } from 'mdeditor/models/contact';
 import { Promise, allSettled } from 'rsvp';
 import { v4 as uuidv4 } from 'uuid';
 import { fixLiabilityTypo } from '../../utils/fix-liability-typo';
+import CustomButtonComponent from 'mdeditor/pods/components/control/md-record-table/buttons/custom/component';
 
 export default class ImportRoute extends Route.extend(ScrollTo) {
+  @service store;
   @service flashMessages;
   @service jsonvalidator;
   @service settings;
@@ -37,7 +38,7 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
     // Call super for default behavior
     super.setupController(controller, model);
     // Implement your custom setup after
-    controller.set('importUri', this.get('settings.data.importUriBase'));
+    controller.set('importUri', this.settings.data?.importUriBase);
     controller.set('apiURL', this.apiURL);
   }
 
@@ -54,12 +55,14 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
 
     switch (record.type) {
       case 'records':
-        return get(json, 'metadata.resourceInfo.citation.title') ?? 'NO TITLE';
+        return (
+          json?.metadata?.resourceInfo?.citation?.title ?? 'NO TITLE'
+        );
       case 'dictionaries':
         // Check both possible paths for the dictionary title
         return (
-          get(json, 'dataDictionary.citation.title') ??
-          get(json, 'citation.title') ??
+          json?.dataDictionary?.citation?.title ??
+          json?.citation?.title ??
           'NO TITLE'
         );
       case 'contacts':
@@ -142,7 +145,7 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
         data.pushObject(
           template.create({
             attributes: {
-              json: JSON.stringify(assign(Contact.create(), item)),
+              json: JSON.stringify(Object.assign(Contact.create(), item)),
             },
             type: 'contacts',
           })
@@ -150,7 +153,7 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
       });
     }
 
-    if (get(json, 'metadata.metadataInfo.metadataIdentifier') === undefined) {
+    if (json.metadata.metadataInfo.metadataIdentifier === undefined) {
       json.metadata.metadataInfo.metadataIdentifier = {
         identifier: uuidv4(),
         namespace: 'urn:uuid',
@@ -308,7 +311,7 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
       },
       {
         title: 'Actions',
-        component: 'control/md-record-table/buttons/custom',
+        component: CustomButtonComponent,
         disableFiltering: true,
         buttonConfig: {
           title: 'Preview JSON',
@@ -323,7 +326,7 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
 
   showPreview(model) {
     let json = {};
-    assign(json, model.attributes);
+    Object.assign(json, model.attributes);
 
     if (model.attributes.json) {
       json.json = JSON.parse(model.attributes.json);
@@ -438,7 +441,7 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
       })
       .catch((reason) => {
         //catch any errors
-        get(cmp, 'flashMessages').danger(reason);
+        cmp.flashMessages.danger(reason);
         return false;
       })
       .finally(() => {
@@ -458,7 +461,7 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
 
   @action
   readFromUri() {
-    let uri = this.controller.get('importUri');
+    let uri = this.controller.importUri;
     let controller = this.controller;
     let route = this;
 
@@ -494,7 +497,7 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
             })
             .catch((reason) => {
               //catch any errors
-              get(controller, 'flashMessages').danger(reason);
+              route.flashMessages.danger(reason);
               return false;
             })
             .finally(() => {
@@ -508,7 +511,7 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
             });
         } else {
           set(controller, 'errors', response.messages);
-          get(controller, 'flashMessages').danger('Import error!');
+          route.flashMessages.danger('Import error!');
         }
       })
       .catch((response) => {
@@ -516,7 +519,7 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
 
         set(controller, 'xhrError', error);
         set(controller, 'isLoading', false);
-        get(controller, 'flashMessages').danger(error);
+        route.flashMessages.danger(error);
       });
   }
 
@@ -563,7 +566,6 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
                   // Notify property change to force hasDirtyHash recomputation
                   record.notifyPropertyChange('currentHash');
                 } catch (e) {
-                  // Skip records that can't be serialized
                   console.warn('Could not reset hash for record:', e);
                 }
               }
@@ -593,23 +595,21 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
       let settings = {
         data: [newSettings],
       };
-      let destroys = [];
+      store.findAll('setting').then((settingRecords) => {
+        let destroys = settingRecords.map((rec) => rec.destroyRecord());
 
-      store.findAll('setting').forEach((rec) => {
-        destroys.pushObject(rec.destroyRecord());
-      });
-
-      allSettled(destroys).then(() => {
-        store
-          .importData(settings, {
-            json: false,
-          })
-          .then(() => {
-            settingService.setup();
-            this.flashMessages.success(`Imported Settings.`, {
-              extendedTimeout: 1500,
+        allSettled(destroys).then(() => {
+          store
+            .importData(settings, {
+              json: false,
+            })
+            .then(() => {
+              settingService.setup();
+              this.flashMessages.success(`Imported Settings.`, {
+                extendedTimeout: 1500,
+              });
             });
-          });
+        });
       });
     }
   }

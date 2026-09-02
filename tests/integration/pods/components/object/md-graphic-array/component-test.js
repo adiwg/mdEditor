@@ -26,14 +26,14 @@ module('Integration | Component | object/md graphic array', function(hooks) {
     }]);
 
 
-    await render(hbs`{{object/md-graphic-array model=graphic}}`);
+    await render(hbs`{{object/md-graphic-array model=this.graphic}}`);
 
     assert.equal(find('.md-object-table').textContent.replace(/[\s\n]+/g, '|').trim(), '|Graphic|2|Add|OK|0|fileName:|Edit|Delete|1|fileName1:|Edit|Delete|');
     assert.ok(find('.md-logo-preview').complete, 'loaded image');
 
     // Template block usage:
     await render(hbs`
-      <Object::MdGraphicArray @model={{graphic}}>
+      <Object::MdGraphicArray @model={{this.graphic}}>
         template block text
       </Object::MdGraphicArray>
     `);

@@ -65,6 +65,11 @@ export default class SpatialRoute extends Route {
   }
 
   @action
+  toList() {
+    this.router.transitionTo('record.show.edit.extent.index');
+  }
+
+  @action
   handleResize() {
       const mapContainer = document.querySelector('.map-file-picker .leaflet-container');
       const navbars = document.getElementById('md-navbars');

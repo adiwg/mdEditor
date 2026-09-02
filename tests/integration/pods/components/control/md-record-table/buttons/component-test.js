@@ -16,7 +16,7 @@ module('Integration | Component | control/md record table/buttons', function (
         });
         // Handle any actions with this.on('myAction', function(val) { ... });
 
-        await render(hbs `{{control/md-record-table/buttons record=model}}`);
+        await render(hbs`{{control/md-record-table/buttons record=this.model}}`);
 
         assert.equal(find('.md-dashboard-buttons').textContent.replace(
           /[ \n]+/g, '|').trim(), '|Show|Edit|Delete|Preview|JSON|');

@@ -36,7 +36,7 @@ module('Integration | Component | object/md distribution', function (hooks) {
       }]
     });
 
-    await render(hbs `{{object/md-distribution model=model profilePath="foobar"}}`);
+    await render(hbs`{{object/md-distribution model=this.model profilePath="foobar"}}`);
 
     assert.equal(find('section').textContent.replace(/[\s\n]+/g,
         '|')
@@ -45,8 +45,8 @@ module('Integration | Component | object/md distribution', function (hooks) {
     );
 
     // Template block usage:
-    await render(hbs `
-      {{#object/md-distribution model=model profilePath="foobar"}}
+    await render(hbs`
+      {{#object/md-distribution model=this.model profilePath="foobar"}}
         template block text
       {{/object/md-distribution}}
     `);

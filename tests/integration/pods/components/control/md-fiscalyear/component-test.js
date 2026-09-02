@@ -50,7 +50,7 @@ module('Integration | Component | control/md fiscalyear', function(hooks) {
         model=this
         label="End Date"
       }}
-      {{control/md-fiscalyear context=this settings=settings}}`);
+      {{control/md-fiscalyear context=this settings=this.settings}}`);
 
     await clickTrigger('.md-fiscalyear');
     await selectChoose('.md-fiscalyear', year);

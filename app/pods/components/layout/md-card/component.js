@@ -300,7 +300,6 @@ export default class MdCardComponent extends Component {
     let val = !this.fullScreen;
     this.fullScreen = val;
 
-    // Find and toggle all parent elements matching the selectors
     let node = this.element.parentElement;
     while (node) {
       if (node.matches('.liquid-child, .liquid-container, .md-card')) {
@@ -313,7 +312,6 @@ export default class MdCardComponent extends Component {
       node = node.parentElement;
     }
 
-    // Toggle body class
     if (val) {
       document.body.classList.add('slider');
     } else {

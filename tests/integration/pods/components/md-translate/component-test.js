@@ -34,12 +34,12 @@ module('Integration | Component | md translate', function(hooks) {
     }
 
     await render(hbs`{{md-translate
-      model=model
-      isLoading=isLoading
-      messages=messages
-      result=result
+      model=this.model
+      isLoading=this.isLoading
+      messages=this.messages
+      result=this.result
       errorLevel=2
-      writeObj=writer
+      writeObj=this.writer
     }}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),

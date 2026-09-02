@@ -44,7 +44,7 @@ export default class MdAssociatedComponent extends Component.extend(Validations)
     let store = this.store;
 
     return store.peekAll('record')
-      .filterBy('recordId', this.model?.mdRecordId)
+      .filter((item) => item.recordId === this.model?.mdRecordId)
       .get('firstObject');
   }
 
