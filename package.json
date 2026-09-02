@@ -195,7 +195,7 @@
     "ember-gestures@npm:^1.1.1": "patch:ember-gestures@npm%3A1.1.5#~/.yarn/patches/ember-gestures-npm-1.1.5-4c127a6766.patch"
   },
   "engines": {
-    "node": "18*"
+    "node": "20*"
   },
   "ember": {
     "edition": "octane"

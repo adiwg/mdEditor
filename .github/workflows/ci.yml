@@ -22,10 +22,10 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Use Node.js 18
+      - name: Use Node.js 20
         uses: actions/setup-node@v5
         with:
-          node-version: '18'
+          node-version: '20'
           package-manager-cache: false
 
       # Must run before the cache-enabled setup-node below: that action shells
@@ -37,7 +37,7 @@ jobs:
       - name: Restore Yarn cache
         uses: actions/setup-node@v5
         with:
-          node-version: '18'
+          node-version: '20'
           cache: 'yarn'
           package-manager-cache: false
 
@@ -60,10 +60,10 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Use Node.js 18
+      - name: Use Node.js 20
         uses: actions/setup-node@v5
         with:
-          node-version: '18'
+          node-version: '20'
           package-manager-cache: false
 
       # See note in the lint job: Corepack must be enabled before any
@@ -74,7 +74,7 @@ jobs:
       - name: Restore Yarn cache
         uses: actions/setup-node@v5
         with:
-          node-version: '18'
+          node-version: '20'
           cache: 'yarn'
           package-manager-cache: false
 
