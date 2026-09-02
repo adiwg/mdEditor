@@ -1,15 +1,12 @@
 import Component from '@ember/component';
-import {
-  set,
-  getWithDefault,
-  get
-} from '@ember/object';
+import classic from 'ember-classic-decorator';
 import {
   alias
 } from '@ember/object/computed';
 import {
   once
 } from '@ember/runloop';
+import { set } from '@ember/object';
 
 import {
   validator,
@@ -38,20 +35,8 @@ const Validations = buildValidations({
   ]
 });
 
-export default Component.extend(Validations, {
-  didReceiveAttrs() {
-    this._super(...arguments);
-
-    let model = this.model;
-
-    once(this, function () {
-      set(model, 'domainId', getWithDefault(model, 'domainId', uuidV4()));
-      set(model, 'domainItem', getWithDefault(model, 'domainItem', []));
-      set(model, 'domainReference', getWithDefault(model,
-        'domainReference', {}));
-    });
-  },
-
+@classic
+export default class MdDomainComponent extends Component.extend(Validations) {
   /**
    * The string representing the path in the profile object for the domain.
    *
@@ -85,16 +70,23 @@ export default Component.extend(Validations, {
     * @required
     */
 
-  tagName: 'form',
+  tagName = 'form';
+
+  didReceiveAttrs() {
+    super.didReceiveAttrs(...arguments);
+
+    let model = this.model;
+
+    once(this, function () {
+      set(model, 'domainId', model.domainId ?? uuidV4());
+      set(model, 'domainItem', model.domainItem ?? []);
+      set(model, 'domainReference', model.domainReference ?? {});
+    });
+  }
+}
+
+MdDomainComponent.reopen({
   domainId: alias('model.domainId'),
   codeName: alias('model.codeName'),
   description: alias('model.description'),
-  actions: {
-    editDomainItem(id){
-      this.editDomainItem(id);
-    },
-    editCitation(scrollTo){
-      this.editCitation(scrollTo);
-    }
-  }
 });

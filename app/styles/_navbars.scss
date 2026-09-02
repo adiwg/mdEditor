@@ -1,4 +1,4 @@
-%extend_1 {
+%extend-1 {
   font-size: 13px;
   height: 28px;
   padding: 4px;
@@ -68,11 +68,11 @@
     padding: 10px;
 
     .form-control {
-      @extend %extend_1;
+      @extend %extend-1;
     }
 
     .bootstrap-select button {
-      @extend %extend_1;
+      @extend %extend-1;
     }
   }
 

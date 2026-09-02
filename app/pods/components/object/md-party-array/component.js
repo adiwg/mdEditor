@@ -1,10 +1,12 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import {
   Template
 } from '../md-party/component';
 
-export default Component.extend({
-  attributeBindings: ['data-spy'],
+@classic
+export default class MdPartyArrayComponent extends Component {
+  attributeBindings = ['data-spy'];
 
   /**
    * See [md-array-table](md-array-table.html#property_templateClass).
@@ -12,5 +14,5 @@ export default Component.extend({
    * @property templateClass
    * @type Ember.Object
    */
-  templateClass: Template
-});
+  templateClass = Template;
+}

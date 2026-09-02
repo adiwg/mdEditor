@@ -1,34 +1,45 @@
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
+import { setComponentTemplate } from '@ember/component';
+import { action } from '@ember/object';
+import layout from './template';
 
-export default Component.extend({
-  router: service(),
-  classNames: ['md-dashboard-buttons'],
+class ButtonsComponent extends Component {
+  @service router;
 
-  actions: {
-    deleteItem(item, index, isSelected, clickOnRow) {
-      if(isSelected) {
-        clickOnRow(index, item);
-      }
+  get record() { return this.args.record; }
+  get index() { return this.args.index; }
+  get isSelected() { return this.args.isSelected; }
+  get clickOnRow() { return this.args.clickOnRow; }
+  get column() { return this.args.column; }
 
-      this._deleteItem(item);
-    },
-
-    editItem(item, evt) {
-      evt.stopPropagation();
-      this.router.transitionTo(`${item.constructor.modelName}.show.edit`, item);
-
-      return false;
-    },
-
-    showSlider(rec, evt) {
-      this.column.showSlider(rec, evt);
+  @action
+  deleteItem(item, index, isSelected, clickOnRow) {
+    if (isSelected) {
+      clickOnRow(index, item);
     }
-  },
+
+    this._deleteItem(item);
+  }
+
+  @action
+  editItem(item, evt) {
+    evt.stopPropagation();
+    this.router.transitionTo(`${item.constructor.modelName}.show.edit`, item);
+
+    return false;
+  }
+
+  @action
+  showSlider(rec, evt) {
+    this.column.showSlider(rec, evt);
+  }
 
   _deleteItem(item) {
     item.destroyRecord().then(() => {
       item.unloadRecord();
     });
   }
-});
+}
+
+export default setComponentTemplate(layout, ButtonsComponent);

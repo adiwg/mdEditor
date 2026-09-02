@@ -48,10 +48,10 @@ module('Integration | Component | input/md codelist multi', function(hooks) {
     this.set('fooVal', ['foo', 'bar']);
 
     // Template block usage:" + EOL +
-    await render(hbs `
+    await render(hbs`
       {{#input/md-codelist-multi
         mdCodeName="foobar"
-        value=fooVal
+        value=this.fooVal
       }}
         <p>template block text</p>
       {{/input/md-codelist-multi}}
@@ -72,18 +72,18 @@ module('Integration | Component | input/md codelist multi', function(hooks) {
         'submitted value is passed to external action');
     };
 
-    await render(hbs `{{input/md-codelist-multi
+    await render(hbs`{{input/md-codelist-multi
       create=false
-      value=value
+      value=this.value
       mdCodeName="foobar"
-      change=(action "update" value)}}`);
+      change=(action "update" this.value)}}`);
 
       await clickTrigger();
       await triggerEvent(find('.ember-power-select-option'),'mouseup');
 
       assert.equal(getRootElement()
         .textContent
-        .replace(/[ \n]+/g, '|'), '|×|bar|×|foo|bar|foo|',
+        .replace(/[ \n]+/g, '|'), '|×|bar|×|foo|',
         'value updated');
   });
 
@@ -97,11 +97,11 @@ module('Integration | Component | input/md codelist multi', function(hooks) {
         'submitted value is passed to external action');
     };
 
-    await render(hbs `{{input/md-codelist-multi
+    await render(hbs`{{input/md-codelist-multi
       create=true
-      value=value
+      value=this.value
       mdCodeName="foobar"
-      change=(action "update" value)}}`);
+      change=(action "update" this.value)}}`);
 
       await clickTrigger();
       await typeInSearch('biz');
@@ -109,7 +109,22 @@ module('Integration | Component | input/md codelist multi', function(hooks) {
 
       assert.equal(getRootElement()
         .textContent
-        .replace(/[ \n]+/g, '|'), '|×|foo|×|biz|bar|foo|biz|',
+        .replace(/[ \n]+/g, '|'), '|×|foo|×|biz|',
         'value updated');
+  });
+
+  test('selecting writes back through the two-way binding', async function(assert) {
+    this.set('resource', { status: ['foo'] });
+
+    await render(hbs`{{input/md-codelist-multi
+      create=false
+      value=this.resource.status
+      mdCodeName="foobar"}}`);
+
+    await clickTrigger();
+    await triggerEvent(find('.ember-power-select-option'), 'mouseup');
+
+    assert.deepEqual([...this.resource.status].sort(), ['bar', 'foo'],
+      'selection propagates to the bound property');
   });
 });

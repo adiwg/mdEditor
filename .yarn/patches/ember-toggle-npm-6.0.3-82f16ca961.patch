@@ -1,0 +1,23 @@
+diff --git a/addon/components/x-toggle/template.hbs b/addon/components/x-toggle/template.hbs
+index 1d8d1342e91bad85643748a6d2701411fdfb0a7d..fcfed3e2f67bb026d05b4ef759385deaf72d72ad 100644
+--- a/addon/components/x-toggle/template.hbs
++++ b/addon/components/x-toggle/template.hbs
+@@ -1,4 +1,4 @@
+-{{#if hasBlock}}
++{{#if (has-block)}}
+   {{yield
+     (hash
+       switch=(component 'x-toggle-switch'
+diff --git a/addon/components/x-toggle-label/template.hbs b/addon/components/x-toggle-label/template.hbs
+index dcc5822637ae4f9d1029b14fd68464c3376c85c8..505f4694ea88389d2f8401f9f76f31046400821d 100644
+--- a/addon/components/x-toggle-label/template.hbs
++++ b/addon/components/x-toggle-label/template.hbs
+@@ -5,7 +5,7 @@
+     onclick={{action 'clickLabel'}}
+     ...attributes
+   > 
+-    {{#if hasBlock}}
++    {{#if (has-block)}}
+       {{yield this.label}}
+     {{else}}
+       {{this.label}}

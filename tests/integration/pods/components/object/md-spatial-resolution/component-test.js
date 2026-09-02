@@ -10,7 +10,7 @@ module('Integration | Component | object/md spatial resolution', function(hooks)
 
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
-    this.model = {
+    this.set('model', {
       "scaleFactor": {
         scaleFactor: 99999
       },
@@ -48,50 +48,50 @@ module('Integration | Component | object/md spatial resolution', function(hooks)
           "unitOfMeasure": "unitOfMeasure"
         }
       }
-    };
+    });
 
     //Todo: Look into this
     //! this option was giving not working well with the regex experesson
     //var empty = "Scale|Factor|Level|Of|Detail|Measure|Measure|Type|The|type|of|measurement.|Value|Units|";
 
-    await render(hbs`{{object/md-spatial-resolution profilePath="foobar" model=model.scaleFactor}}`);
+    await render(hbs`{{object/md-spatial-resolution profilePath="foobar" model=this.model.scaleFactor}}`);
 
     assert.equal(findAll('.md-input-input input')[0].value, this.model.scaleFactor.scaleFactor, 'scaleFactor');
     assert.ok(findAll('.md-input-input input')[1].disabled, 'level disabled');
     assert.ok(findAll('.md-input-input input')[2].disabled, 'measure disabled');
 
-    await render(hbs`{{object/md-spatial-resolution profilePath="foobar" model=model.measure}}`);
+    await render(hbs`{{object/md-spatial-resolution profilePath="foobar" model=this.model.measure}}`);
 
     assert.equal(findAll('.md-input-input input')[2].value, this.model.measure.measure.value, 'measure');
     assert.ok(findAll('.md-input-input input')[1].disabled, 'level disabled');
     assert.ok(findAll('.md-input-input input')[0].disabled, 'scaleFactor disabled');
 
-    await render(hbs`{{object/md-spatial-resolution profilePath="foobar" model=model.levelOfDetail}}`);
+    await render(hbs`{{object/md-spatial-resolution profilePath="foobar" model=this.model.levelOfDetail}}`);
 
     assert.equal(findAll('.md-input-input input')[1].value, this.model.levelOfDetail.levelOfDetail, 'levelOfDetail');
     assert.ok(findAll('.md-input-input input')[2].disabled, 'measure disabled');
     assert.ok(findAll('.md-input-input input')[0].disabled, 'scaleFactor disabled');
 
-    await render(hbs`{{object/md-spatial-resolution profilePath="foobar" model=model.geographicResolution}}`);
+    await render(hbs`{{object/md-spatial-resolution profilePath="foobar" model=this.model.geographicResolution}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Scale|Factor|Level|Of|Detail|Measure|Measure|Type|The|type|of|measurement.|Value|Units|', 'geographicResolution');
 
-    await render(hbs`{{object/md-spatial-resolution profilePath="foobar" model=model.bearingDistanceResolution}}`);
+    await render(hbs`{{object/md-spatial-resolution profilePath="foobar" model=this.model.bearingDistanceResolution}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Scale|Factor|Level|Of|Detail|Measure|Measure|Type|The|type|of|measurement.|Value|Units|', 'bearingDistanceResolution');
 
-    await render(hbs`{{object/md-spatial-resolution profilePath="foobar" model=model.coordinateResolution}}`);
+    await render(hbs`{{object/md-spatial-resolution profilePath="foobar" model=this.model.coordinateResolution}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Scale|Factor|Level|Of|Detail|Measure|Measure|Type|The|type|of|measurement.|Value|Units|', 'coordinateResolution');
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-spatial-resolution model=(hash) profilePath="foobar"}}
+      <Object::MdSpatialResolution @model={{(hash)}} @profilePath="foobar">
         template block text
-      {{/object/md-spatial-resolution}}
+      </Object::MdSpatialResolution>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Scale|Factor|Level|Of|Detail|Measure|Measure|Type|The|type|of|measurement.|Value|Units|' + 'template|block|text|', 'block');

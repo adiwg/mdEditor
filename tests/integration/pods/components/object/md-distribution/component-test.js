@@ -36,17 +36,17 @@ module('Integration | Component | object/md distribution', function (hooks) {
       }]
     });
 
-    await render(hbs `{{object/md-distribution model=model profilePath="foobar"}}`);
+    await render(hbs`{{object/md-distribution model=this.model profilePath="foobar"}}`);
 
     assert.equal(find('section').textContent.replace(/[\s\n]+/g,
         '|')
       .trim(),
-      '|Distribution|#|Delete|Description|Liability|Statement|Distributors|2|Add|OK|#|Contacts|0|role|(|)|More...|Delete|1|role|(|)|More...|Delete|'
+      '|Distribution|#|Description|Description|Liability|Statement|Liability|Statement|Distributors|2|Add|OK|#|Contacts|0|role|(|individualId0|)|More...|Delete|1|role|(|individualId0|)|More...|Delete|'
     );
 
     // Template block usage:
-    await render(hbs `
-      {{#object/md-distribution model=model profilePath="foobar"}}
+    await render(hbs`
+      {{#object/md-distribution model=this.model profilePath="foobar"}}
         template block text
       {{/object/md-distribution}}
     `);
@@ -54,7 +54,7 @@ module('Integration | Component | object/md distribution', function (hooks) {
     assert.equal(find('section').textContent.replace(/[\s\n]+/g,
         '|')
       .trim(),
-      '|Distribution|#|Delete|Description|Liability|Statement|Distributors|2|Add|OK|#|Contacts|0|role|(|)|More...|Delete|1|role|(|)|More...|Delete|',
+      '|Distribution|#|Description|Description|Liability|Statement|Liability|Statement|Distributors|2|Add|OK|#|Contacts|0|role|(|individualId0|)|More...|Delete|1|role|(|individualId0|)|More...|Delete|',
       'block and list');
   });
 

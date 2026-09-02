@@ -16,11 +16,11 @@ module('Integration | Component | control/md-indicator', function (hooks) {
       bar: 'warning'
     })
 
-    await render(hbs `{{control/md-indicator
+    await render(hbs`{{control/md-indicator
       icon="sticky-note"
       title="Hello"
       note="\${foo} is a \${bar}"
-      values=values
+      values=this.values
       type="danger"}}
       `);
 

@@ -1,4 +1,4 @@
-import { computed, get } from '@ember/object';
+import { computed } from '@ember/object';
 import { map, union } from '@ember/object/computed';
 import Service, { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
@@ -18,6 +18,14 @@ const {
   APP: { defaultProfileId },
 } = config;
 
+const EMPTY_PROFILE = {
+  definition: {
+    components: {},
+    nav: {},
+  },
+  schemas: [],
+};
+
 /**
  * Custom Profile service
  *
@@ -30,7 +38,7 @@ const {
 export default Service.extend({
   init() {
     this._super(...arguments);
-    this.customProfiles = this.store.findAll('custom-profile');
+    this.set('customProfiles', this.store.peekAll('custom-profile'));
   },
   flashMessages: service(),
   store: service(),
@@ -97,7 +105,7 @@ export default Service.extend({
    */
   mapByAltId: computed('profiles.[]', function () {
     return this.profiles.reduce(function (map, profile) {
-      let alt = get(profile, 'definition.alternateId');
+      let alt = profile.definition?.alternateId;
       if (isEmpty(alt)) {
         return map;
       }
@@ -127,8 +135,9 @@ export default Service.extend({
    * @required active
    */
   activeComponents: computed('active', function () {
-    let comp = get(this.getActiveProfile(), 'definition.components');
-    return comp || this.defaultProfile.definition.components;
+    const profile = this.getActiveProfile(false);
+    let comp = profile ? profile.definition?.components : null;
+    return comp || this.defaultProfile?.definition?.components || {};
   }),
 
   /**
@@ -140,7 +149,8 @@ export default Service.extend({
    * @required active
    */
   activeSchemas: computed('active', function () {
-    return this.getActiveProfile().schemas;
+    const profile = this.getActiveProfile(false);
+    return (profile && profile.schemas) || [];
   }),
 
   /**
@@ -149,31 +159,41 @@ export default Service.extend({
    * @method getActiveProfile
    * @return {Object} The profile definition
    */
-  getActiveProfile() {
+  getActiveProfile(notify = true) {
     const active = this.active;
     const profile =
       active && typeof active === 'string' ? active : defaultProfileId;
-    const selected = this.mapById[profile];
+    const mapById = this.mapById || {};
+    const mapByAltId = this.mapByAltId || {};
+    const selected = mapById[profile];
     if (selected) {
       return selected;
     }
-    const alternate = this.mapById[this.mapByAltId[profile]];
+    const alternate = mapById[mapByAltId[profile]];
     if (alternate) {
-      this.flashMessages.info(
-        `"${active}" identified as an alternate profile. Using "${alternate.title}" profile. To make this permanent, select "${alternate.title}" from the Profile list.`,
+      if (notify) {
+        this.flashMessages.info(
+          `"${active}" identified as an alternate profile. Using "${alternate.title}" profile. To make this permanent, select "${alternate.title}" from the Profile list.`,
+          {
+            sticky: true,
+          }
+        );
+      }
+      return alternate;
+    }
+
+    const fallback = this.defaultProfile || EMPTY_PROFILE;
+
+    if (notify && !isEmpty(active) && active !== defaultProfileId) {
+      this.flashMessages.warning(
+        `Profile "${active}" not found. Using default profile.`,
         {
           sticky: true,
         }
       );
-      return alternate;
     }
-    this.flashMessages.warning(
-      `Profile "${active}" not found. Using default profile.`,
-      {
-        sticky: true,
-      }
-    );
-    return this.defaultProfile;
+
+    return fallback;
   },
 
   async createNewProfileDefinition(profileConfig, uri) {
@@ -207,22 +227,47 @@ export default Service.extend({
       existingCustomProfiles.map((p) => p.profileId)
     );
     const response = await axios.get(url);
-    const profilesList = response.data;
-    if (!profilesList) {
-      console.log('no data');
+    const responseData = response.data;
+
+    let resolvedItems; // [{ url: string, data: object }]
+
+    if (Array.isArray(responseData)) {
+      // Manifest — fetch each profile definition
+      resolvedItems = await Promise.all(
+        responseData.map(async (item) => {
+          const res = await axios.get(item.url);
+          return { url: item.url, data: res.data };
+        })
+      );
+    } else if (responseData?.identifier) {
+      // Direct single-profile definition
+      resolvedItems = [{ url, data: responseData }];
+    } else if (Array.isArray(responseData?.profiles)) {
+      // Wrapped manifest
+      resolvedItems = await Promise.all(
+        responseData.profiles.map(async (item) => {
+          const res = await axios.get(item.url);
+          return { url: item.url, data: res.data };
+        })
+      );
+    } else {
+      this.flashMessages.warning(
+        'No profiles found at the provided URL. Check that the URL points to a valid profile manifest or definition.'
+      );
       return;
     }
+
     const thesauri = [];
-    for (const profileItem of profilesList) {
-      const definitionResponse = await axios.get(profileItem.url);
-      const { data } = definitionResponse;
+    // eslint-disable-next-line no-unused-vars -- false positive: babel-eslint@8 mis-scopes for-of bindings
+    for (const profileItem of resolvedItems) {
+      const { url: itemUrl, data } = profileItem;
       if (data?.thesauri?.length > 0) {
         thesauri.push(...data.thesauri);
       }
       const profileDefinitionExists = existingIdentifiers.has(data.identifier);
       const customProfileExists = customIdentifiers.has(data.identifier);
       if (!profileDefinitionExists) {
-        await this.createNewProfileDefinition(data, profileItem.url);
+        await this.createNewProfileDefinition(data, itemUrl);
         existingIdentifiers.add(data.identifier);
       }
       if (!customProfileExists) {

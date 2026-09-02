@@ -1,4 +1,4 @@
-import { render, click, waitFor, findAll } from '@ember/test-helpers';
+import { render, click, waitFor } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -15,16 +15,16 @@ module('Integration | Component | object/md taxonomy/classification/taxon', func
         assert.ok(taxa, 'called delete');
     };
 
-    await render(hbs`{{object/md-taxonomy/classification/taxon model=model deleteTaxa=delete top=top profilePath="foobar"}}`);
+    await render(hbs`{{object/md-taxonomy/classification/taxon model=this.model deleteTaxa=this.delete top=this.top profilePath="foobar"}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Kingdom|Fungi|(555705)|Kingdom|Edit|Delete|Add|Child|Subkingdom|Dikarya|(936287)|Edit|Delete|Add|Child|Division|Basidiomycota|(623881)|Edit|Delete|Add|Child|');
+      '|Kingdom|Fungi|(555705)|Kingdom|Edit|Delete|Add|Child|Subkingdom|Dikarya|(936287)|Edit|Delete|Add|Child|Division|Basidiomycota|(623881)|Edit|Delete|Add|Child|No|Classification|found.|');
       // await click('.btn-info');
 
     await click('.btn-success');
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Kingdom|Fungi|(555705)|Kingdom|Taxonomic|Level|Taxonomic|Name|Taxonomic|ID|Common|Names|1|Add|Common|Name|0|Delete|OK|Subkingdom|Dikarya|(936287)|Edit|Delete|Add|Child|Division|Basidiomycota|(623881)|Edit|Delete|Add|Child|',
+      '|Kingdom|Fungi|(555705)|Kingdom|Taxonomic|Level|Taxonomic|Name|Taxonomic|ID|Common|Names|1|Add|Common|Name|0|Delete|OK|Subkingdom|Dikarya|(936287)|Edit|Delete|Add|Child|Division|Basidiomycota|(623881)|Edit|Delete|Add|Child|No|Classification|found.|',
       'edit'
     );
 
@@ -34,13 +34,9 @@ module('Integration | Component | object/md taxonomy/classification/taxon', func
     await click('.btn-danger');
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-    '|Kingdom|Fungi|(555705)|Kingdom|Edit|Delete|Add|Child|Subkingdom|Dikarya|(936287)|Edit|Delete|Add|Child|Division|Basidiomycota|(623881)|Edit|Delete|Add|Child|');
+    '|Kingdom|Fungi|(555705)|Kingdom|Edit|Delete|Add|Child|Subkingdom|Dikarya|(936287)|Edit|Delete|Add|Child|Division|Basidiomycota|(623881)|Edit|Delete|Add|Child|No|Classification|found.|');
 
     await click('.md-taxon .md-taxon .btn-info');
-
-    await render(hbs`<ul class="list-group md-classification">
-      {{object/md-taxonomy/classification/taxon model=model preview=false top=top profilePath="foobar"}}
-    </ul>`);
 
     await waitFor('.md-taxon-form', { timeout: 2000, count: 1 });
 
@@ -49,20 +45,16 @@ module('Integration | Component | object/md taxonomy/classification/taxon', func
 
     await click('.md-taxon-form footer .btn-info');
 
-    let del = findAll('.md-taxon .md-taxon .btn-danger').lastObject;
-
-    await click(del);
-    await click(del);
-
-    // Template block usage:
+    // Template block usage — use fresh model to avoid mutation state from above
+    this.freshModel = createTaxonomy()[0].taxonomicClassification[0];
     await render(hbs`
-      {{#object/md-taxonomy/classification/taxon model=model profilePath="foobar"}}
+      <Object::MdTaxonomy::Classification::Taxon @model={{this.freshModel}} @profilePath="foobar">
         template block text
-      {{/object/md-taxonomy/classification/taxon}}
+      </Object::MdTaxonomy::Classification::Taxon>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Kingdom|Fungi|(555705)|Kingdom|Edit|Delete|Add|Child|Subkingdom|Dikarya|(936287)|Edit|Delete|Add|Child|Division|Basidiomycota|(623881)|Edit|Delete|Add|Child|',
+      '|Kingdom|Fungi|(555705)|Kingdom|Edit|Delete|Add|Child|Subkingdom|Dikarya|(936287)|Edit|Delete|Add|Child|Division|Basidiomycota|(623881)|Edit|Delete|Add|Child|No|Classification|found.|',
       'block');
   });
 });

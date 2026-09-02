@@ -1,11 +1,13 @@
 {{object/md-objectroute-table
-  items=model
-  header=label
-  buttonText="Add Citation"
-  ellipsis=ellipsis
-  templateClass=templateClass
-  editItem=editItem
-  attributes=attributes
-  profilePath=profilePath
+  items=this.model
+  header=this.label
+  buttonText='Add Citation'
+  ellipsis=this.ellipsis
+  templateClass=this.templateClass
+  editItem=this.handleEditItem
+  attributes=this.attributes
+  profilePath=this.profilePath
+  scrollToId='citation'
+  editOnAdd=true
 }}
 {{yield}}

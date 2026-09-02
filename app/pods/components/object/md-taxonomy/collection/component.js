@@ -1,45 +1,31 @@
 import Component from '@ember/component';
-import EmberObject, { set, getWithDefault, get } from '@ember/object';
-import {
-  alias
-} from '@ember/object/computed';
-import {
-  once
-} from '@ember/runloop';
+import classic from 'ember-classic-decorator';
+import EmberObject, { set } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { once } from '@ember/runloop';
 
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
-import {
-  Template as Voucher
-} from './voucher/component';
+import { validator, buildValidations } from 'ember-cp-validations';
+import { Template as Voucher } from './voucher/component';
 
 const Validations = buildValidations({
-  'title': [
+  title: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'taxonomicSystem': [
+  taxonomicSystem: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  // 'identificationProcedure': [
-  //   validator('presence', {
-  //     presence: true,
-  //     ignoreBlank: true
-  //   })
-  // ],
-  'taxonomicClassification': [
+  taxonomicClassification: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 const TemplateClass = EmberObject.extend(Validations, {
@@ -51,61 +37,52 @@ const TemplateClass = EmberObject.extend(Validations, {
     set(this, 'observer', []);
     set(this, 'voucher', []);
     set(this, 'taxonomicClassification', []);
-  }
+  },
 });
 
-const theComp = Component.extend(Validations, {
+@classic
+export default class MdTaxonomyCollectionComponent extends Component.extend(
+  Validations
+) {
+  tagName = 'form';
+
+  voucherTemplate = Voucher;
+
+  systemTemplate = EmberObject.extend({
+    init() {
+      this._super(...arguments);
+      this.set('citation', {});
+    },
+  });
+
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
     once(this, function () {
-      set(model, 'taxonomicClassification', getWithDefault(model,
-        'taxonomicClassification', []));
-      set(model, 'taxonomicSystem', getWithDefault(model,
-        'taxonomicSystem', []));
-      set(model, 'identificationReference', getWithDefault(model,
-        'identificationReference', []));
-      set(model, 'observer', getWithDefault(model, 'observer', []));
-      set(model, 'voucher', getWithDefault(model, 'voucher', []));
+      set(
+        model,
+        'taxonomicClassification',
+        model.taxonomicClassification ?? []
+      );
+      set(model, 'taxonomicSystem', model.taxonomicSystem ?? []);
+      set(
+        model,
+        'identificationReference',
+        model.identificationReference ?? []
+      );
+      set(model, 'observer', model.observer ?? []);
+      set(model, 'voucher', model.voucher ?? []);
     });
-  },
-  voucherTemplate: Voucher,
+  }
+}
 
-  /**
-   * The string representing the path in the profile object for the collection.
-   *
-   * @property profilePath
-   * @type {String}
-   * @default 'false'
-   * @required
-   */
-
-  /**
-   * The object to use as the data model for the collection.
-   *
-   * @property model
-   * @type {Object}
-   * @required
-   */
-
-  tagName: 'form',
+MdTaxonomyCollectionComponent.reopen({
   taxonomicSystem: alias('model.taxonomicSystem'),
   title: alias('model.taxonomicSystem.firstObject.citation.title'),
   identificationProcedure: alias('model.identificationProcedure'),
   taxonomicClassification: alias('model.taxonomicClassification'),
-  systemTemplate: EmberObject.extend({
-    init() {
-      this._super(...arguments);
-      this.set('citation', {});
-    }
-  })
 });
 
-export {
-  Validations,
-  TemplateClass as Template,
-  theComp as
-  default
-};
+export { Validations, TemplateClass as Template };

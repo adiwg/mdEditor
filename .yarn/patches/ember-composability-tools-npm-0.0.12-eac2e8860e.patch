@@ -1,0 +1,38 @@
+diff --git a/addon/mixins/child.js b/addon/mixins/child.js
+index acfeb9cb64bc00e7bf6037720cda5c674cab839b..c829e3fb2dd8a8d0e1216bccb5467ed4138f6dd2 100644
+--- a/addon/mixins/child.js
++++ b/addon/mixins/child.js
+@@ -1,8 +1,14 @@
+ import Mixin from '@ember/object/mixin';
+ import { computed } from '@ember/object';
+-import { tryInvoke } from '@ember/utils';
+ import ParentMixin from './parent';
+ 
++// `tryInvoke` was removed from `@ember/utils` in Ember 4.0.
++function tryInvoke(obj, methodName, args) {
++  if (obj && typeof obj[methodName] === 'function') {
++    return obj[methodName].apply(obj, args || []);
++  }
++}
++
+ export default Mixin.create({
+ 
+   // This is intended as an escape hatch, but ideally you would
+diff --git a/addon/mixins/parent.js b/addon/mixins/parent.js
+index 8f8f27a96f1ae3d17e007db033faa5ed0268df13..26c990f7541bd0360fd15fcb7bf497ac5e358d87 100644
+--- a/addon/mixins/parent.js
++++ b/addon/mixins/parent.js
+@@ -1,6 +1,12 @@
+ import Mixin from '@ember/object/mixin';
+ import { A } from '@ember/array';
+-import { tryInvoke } from '@ember/utils';
++
++// `tryInvoke` was removed from `@ember/utils` in Ember 4.0.
++function tryInvoke(obj, methodName, args) {
++  if (obj && typeof obj[methodName] === 'function') {
++    return obj[methodName].apply(obj, args || []);
++  }
++}
+ 
+ export default Mixin.create({
+ 

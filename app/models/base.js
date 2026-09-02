@@ -19,13 +19,27 @@ const Base = Model.extend({
   init() {
     this._super(...arguments);
 
-    this.on('didUpdate', this, this.wasUpdated);
-    this.on('didCreate', this, this.wasUpdated);
-    this.on('didLoad', this, this.applyPatch);
-    this.on('ready', this, this.isReady);
     this.hasDirtyAttributes;
-    //this.on('didLoad', this, this.wasLoaded);
   },
+
+  // Replace deprecated this.on('didLoad', ...) with observer on isLoaded
+  observeLoaded: observer('isLoaded', function () {
+    if (this.isLoaded && !this._didLoadCalled) {
+      this._didLoadCalled = true;
+      this.applyPatch();
+      // Schedule isReady after applyPatch completes (applyPatch uses once())
+      scheduleOnce('afterRender', this, this.isReady);
+    }
+  }),
+
+  // Replace deprecated this.on('didUpdate/didCreate', ...) with observer on isSaving
+  observeSaving: observer('isSaving', function () {
+    // When isSaving transitions from true to false, the save completed
+    if (!this.isSaving && this._wasSaving) {
+      this.wasUpdated();
+    }
+    this._wasSaving = this.isSaving;
+  }),
 
   settings: service(),
   schemas: service(),
@@ -63,7 +77,7 @@ const Base = Model.extend({
     }
 
     if (
-      this.get('settings.data.autoSave') &&
+      this.settings.data?.autoSave &&
       (this.hasDirtyHash || this.hasDirtyAttributes)
     ) {
       once(this, function () {
@@ -86,11 +100,9 @@ const Base = Model.extend({
       true
     );
 
-    // if the currentHash is undefined, the record is either new or hasn't had the
-    // hash calculated yet
-    if (this.currentHash === undefined) {
-      this.set('currentHash', newHash);
-    }
+    // Always set the currentHash to ensure imported records get proper hash
+    this.set('currentHash', newHash);
+    this.set('jsonSnapshot', JSON.parse(this.serialize().data.attributes.json));
   },
 
   wasUpdated() {
@@ -99,8 +111,15 @@ const Base = Model.extend({
     //let record = model.record || this;
     let json = JSON.parse(this.serialize().data.attributes.json);
 
+    if (this.hasDirtyAttributes) {
+      this.rollbackAttributes();
+    }
+
     this.setCurrentHash(json);
     this.set('jsonSnapshot', json);
+
+    this.notifyPropertyChange('currentHash');
+    this.notifyPropertyChange('hasDirtyHash');
 
     // Pouch handling
     this.pouch.updatePouchRecord(this);
@@ -108,20 +127,33 @@ const Base = Model.extend({
 
   updateTimestamp() {
     // Update dateUpdated to current timestamp when record is manually saved
-    this.set('dateUpdated', new Date());
+    let current = this.dateUpdated;
+    let next = new Date();
+
+    // Ensure monotonic timestamp progression so manual saves stay dirty even in fast successive edits.
+    if (current instanceof Date) {
+      let currentSecond = Math.floor(current.getTime() / 1000);
+      let nextSecond = Math.floor(next.getTime() / 1000);
+
+      if (nextSecond <= currentSecond) {
+        next = new Date((currentSecond + 1) * 1000);
+      }
+    }
+
+    this.set('dateUpdated', next);
   },
 
   // TODO: Clean this up when we move to upgraded Ember
   revertChanges() {
     // Temporarily disable auto-save behavior
-    let originalAutoSave = this.get('settings.data.autoSave');
+    let originalAutoSave = this.settings.data?.autoSave;
     this.set('settings.data.autoSave', false);
 
     // Store the original dateUpdated before any changes
-    let originalDateUpdated = this.get('dateUpdatedRevert');
+    let originalDateUpdated = this.dateUpdatedRevert;
 
     // Revert JSON content
-    let json = this.get('jsonRevert');
+    let json = this.jsonRevert;
     if (json) {
       this.set('json', EmberObject.create(JSON.parse(json)));
     }
@@ -161,7 +193,7 @@ const Base = Model.extend({
   setCurrentHash(json) {
     let target = json || this.json;
 
-    set(this, 'currentHash', this.hashObject(target), true);
+    set(this, 'currentHash', this.hashObject(target, true));
   },
 
   /**
@@ -197,7 +229,7 @@ const Base = Model.extend({
     //   this.set('currentHash', newHash);
     // }
 
-    if (this.currentHash !== newHash || this.hasDirtyAttributes) {
+    if (this.currentHash !== newHash) {
       return true;
     }
 
@@ -206,7 +238,7 @@ const Base = Model.extend({
 
   canRevert: computed('hasDirtyHash', 'settings.data.autoSave', function () {
     let dirty = this.hasDirtyHash;
-    let autoSave = this.get('settings.data.autoSave');
+    let autoSave = this.settings.data?.autoSave;
 
     //no autoSave so just check if dirty
     if (!autoSave && dirty) {

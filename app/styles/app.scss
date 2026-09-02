@@ -58,6 +58,7 @@ $white: #fff;
 //modals
 @import 'ember-modal-dialog/ember-modal-structure';
 @import 'ember-modal-dialog/ember-modal-appearance';
+
 //simple-mde
 @import 'simple-mde';
 
@@ -65,4 +66,8 @@ $white: #fff;
 .liquid-child.full-screen,
 .liquid-container.full-screen {
   transform: none !important;
+}
+
+.md-profile-hidden {
+  display: none;
 }

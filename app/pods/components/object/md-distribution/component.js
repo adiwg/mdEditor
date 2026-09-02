@@ -1,7 +1,8 @@
 import Component from '@ember/component';
-import { once } from '@ember/runloop';
-import { set, getWithDefault } from '@ember/object';
+import classic from 'ember-classic-decorator';
+import { set } from '@ember/object';
 import { alias, notEmpty, not } from '@ember/object/computed';
+import { A } from '@ember/array';
 import {
   validator,
   buildValidations
@@ -25,16 +26,8 @@ const Validations = buildValidations({
   ]
 });
 
-export default Component.extend(Validations, {
-  didReceiveAttrs() {
-    this._super(...arguments);
-
-    once(this, function() {
-      set(this.model, 'distributor',
-        getWithDefault(this.model, 'distributor', []));
-    });
-  },
-
+@classic
+export default class MdDistributionComponent extends Component.extend(Validations) {
   /**
    * The string representing the path in the profile object for the resource.
    *
@@ -75,21 +68,25 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  attributeBindings: ['data-spy'],
-  tagName: 'section',
+  attributeBindings = ['data-spy'];
+  tagName = 'section';
+
+  // Passed-in actions
+  editDistributor = null;
+  deleteDistribution = null;
+  addDistribution = null;
+
+  didReceiveAttrs() {
+    super.didReceiveAttrs(...arguments);
+
+    if (!this.model.distributor) {
+      set(this.model, 'distributor', A([]));
+    }
+  }
+}
+
+MdDistributionComponent.reopen({
   distributor: alias('model.distributor'),
   description: alias('model.description'),
   distributorRequired: not('validations.attrs.distributor.options.array-required.disabled'),
-
-  actions: {
-    editDistributor(index){
-      this.editDistributor(index);
-    },
-    deleteDistribution(index){
-      this.deleteDistribution(index);
-    },
-    addDistribution(){
-      this.addDistribution();
-    },
-  }
 });

@@ -1,6 +1,8 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
+@classic
+export default class MdDefinitionComponent extends Component {
   /**
    * mdEditor Component that renders a definition
    *
@@ -10,7 +12,7 @@ export default Component.extend({
    * @constructor
    */
 
-  tagName: '',
+  tagName = '';
 
   /**
    * The definition title
@@ -41,5 +43,5 @@ export default Component.extend({
    * @type {String}
    * @default  'Not Defined'
    */
-  empty: 'Not Defined'
-});
+  empty = 'Not Defined';
+}

@@ -16,9 +16,9 @@ module('Integration | Component | control/md modal', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#control/md-modal isShowing=true}}
+      <Control::MdModal @isShowing={{true}}>
         template block text
-      {{/control/md-modal}}
+      </Control::MdModal>
     `);
 
     assert.equal(document.querySelector('.md-modal-container').textContent.trim(),

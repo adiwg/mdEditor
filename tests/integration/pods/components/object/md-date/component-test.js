@@ -10,9 +10,9 @@ module('Integration | Component | object/md date', function(hooks) {
 
     // Set any properties with this.set('myProperty', 'value');
 
-    await render(hbs`<table><tr>{{object/md-date model=model profilePath="foobar"}}</tr></table>`);
+    await render(hbs`<table><tr>{{object/md-date model=this.model profilePath="foobar"}}</tr></table>`);
 
-    assert.equal(find('table').textContent.replace(/[ \n]+/g, '|').trim(), "|Choose|date|type|");
+    assert.equal(find('table').textContent.replace(/[ \n]+/g, '|').trim(), "|Year|Choose|date|type|");
 
     this.set('model', {
       "date": "2016-10-12",
@@ -20,16 +20,16 @@ module('Integration | Component | object/md date', function(hooks) {
       description: 'description'
     })
 
-    assert.equal(find('table').textContent.replace(/[ \n]+/g, '|').trim(), "|dateType|×|");
+    assert.equal(find('table').textContent.replace(/[ \n]+/g, '|').trim(), "|Year|dateType|×|");
 
     // Template block usage:
     await render(hbs`<table><tr>
-      {{#object/md-date profilePath="foobar"}}
+      <Object::MdDate @profilePath="foobar">
         template block text
-      {{/object/md-date}}
+      </Object::MdDate>
     </tr></table>`);
 
     assert.equal(find('table').textContent.replace(/[ \n]+/g, '|').trim(),
-      "|Choose|date|type|template|block|text|");
+      "|Year|Choose|date|type|template|block|text|");
   });
 });

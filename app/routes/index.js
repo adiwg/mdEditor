@@ -1,8 +1,10 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
-export default Route.extend({
+export default class IndexRoute extends Route {
+  @service router;
   /** Redirect to dashboard route */
   redirect() {
-    this.transitionTo('dashboard');
+    this.router.transitionTo('dashboard');
   }
-});
+}

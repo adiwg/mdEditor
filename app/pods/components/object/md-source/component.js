@@ -1,20 +1,13 @@
 import Component from '@ember/component';
-import {
-  set,
-  getWithDefault,
-  get
-} from '@ember/object';
-import {
-  alias
-} from '@ember/object/computed';
-import {
-  once
-} from '@ember/runloop';
+import classic from 'ember-classic-decorator';
+import { set } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { once } from '@ember/runloop';
 import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-import uuidV4 from "uuid/v4";
+import { v4 as uuidV4 } from 'uuid';
 
 const Validations = buildValidations({
   'description': [
@@ -25,30 +18,25 @@ const Validations = buildValidations({
   ]
 });
 
-export default Component.extend(Validations, {
+@classic
+export default class MdSourceComponent extends Component.extend(Validations) {
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
     once(this, function () {
-      set(model, 'sourceId', getWithDefault(model, 'sourceId', uuidV4()));
-      set(model, 'sourceCitation', getWithDefault(model,
-        'sourceCitation', {}));
-      set(model, 'metadataCitation', getWithDefault(model,
-        'metadataCitation', []));
-      set(model, 'spatialResolution', getWithDefault(model,
-        'spatialResolution', {}));
-      set(model, 'referenceSystem', getWithDefault(model,
-        'referenceSystem', {}));
-      set(model, 'referenceSystem.referenceSystemIdentifier',
-        getWithDefault(model,
-          'referenceSystem.referenceSystemIdentifier', {}));
-      set(model, 'sourceProcessStep', getWithDefault(model,
-        'sourceProcessStep', []));
-      set(model, 'scope', getWithDefault(model, 'scope', {}));
+      set(model, 'sourceId', model.sourceId ?? uuidV4());
+      set(model, 'sourceCitation', model.sourceCitation ?? {});
+      set(model, 'metadataCitation', model.metadataCitation ?? []);
+      set(model, 'spatialResolution', model.spatialResolution ?? {});
+      set(model, 'referenceSystem', model.referenceSystem ?? {});
+      set(model.referenceSystem, 'referenceSystemIdentifier',
+        model.referenceSystem.referenceSystemIdentifier ?? {});
+      set(model, 'sourceProcessStep', model.sourceProcessStep ?? []);
+      set(model, 'scope', model.scope ?? {});
     });
-  },
+  }
 
   /**
    * The string representing the path in the profile object for the domain.
@@ -67,8 +55,11 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  tagName: 'form',
+  tagName = 'form';
+}
+
+MdSourceComponent.reopen({
   domainId: alias('model.domainId'),
   codeName: alias('model.codeName'),
-  description: alias('model.description')
+  description: alias('model.description'),
 });

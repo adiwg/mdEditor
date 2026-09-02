@@ -7,18 +7,21 @@ module('Integration | Component | input/md month', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('date', '10');
 
-    await render(hbs`{{input/md-month date="10"}}`);
+    await render(hbs`{{input/md-month date=this.date}}`);
 
-    assert.equal(find('input').value, 'October');
+    // Native <input type="month"> reports its value as "YYYY-MM" -- the
+    // component's own `format` (MMMM) only controls what's written back
+    // to the bound model, not the native input's value attribute.
+    const currentYear = new Date().getFullYear();
+    assert.equal(find('input').value, `${currentYear}-10`);
 
     // Template block usage:
     await render(hbs`
-      {{#input/md-month class="testme" date="10"}}
+      <Input::MdMonth @class="testme" @date="10">
         template block text
-      {{/input/md-month}}
+      </Input::MdMonth>
     `);
 
     assert.equal(find('.testme').textContent.trim(), '', 'no block');

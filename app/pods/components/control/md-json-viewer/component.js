@@ -1,8 +1,11 @@
 import $ from 'jquery';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
 import { typeOf } from '@ember/utils';
 
-export default Component.extend({
+@classic
+export default class MdJsonViewerComponent extends Component {
   /**
    * JSON viewer
    *
@@ -11,7 +14,7 @@ export default Component.extend({
    * @submodule components-control
    */
 
-  classNames: 'md-json-viewer',
+  classNames = ['md-json-viewer'];
 
   /**
    * True to render in modal dialog
@@ -19,7 +22,7 @@ export default Component.extend({
    * @property modal
    * @type {Boolean}
    */
-  modal: true,
+  modal = true;
 
   /**
    * Element selector or element that serves as the reference for modal position
@@ -27,7 +30,7 @@ export default Component.extend({
    * @property target
    * @type {String}
    */
-  target: 'html',
+  target = 'html';
 
   /**
    * Object or string to render as JSON in viewer
@@ -35,49 +38,66 @@ export default Component.extend({
    * @property json
    * @type {Object|String}
    */
-  json: 'No json supplied',
+  json = 'No json supplied';
 
   close() {
-    this.set('modal', false);
-  },
+    this.modal = false;
+  }
 
   setFontSize(el, factor) {
-    let currentFontSize = el.css('font-size');
+    let currentFontSize = window.getComputedStyle(el).fontSize;
     let currentFontSizeNum = parseFloat(currentFontSize, 10);
     let newFontSize = currentFontSizeNum * factor;
 
-    el.animate({
-      'font-size': `${newFontSize}px`
-    });
-  },
+    el.style.fontSize = `${newFontSize}px`;
+  }
 
   didInsertElement() {
+    super.didInsertElement(...arguments);
+
     let json = this.json;
     let out = typeOf(json) === 'string' ? json : JSON.stringify(json);
 
-    $('.md-viewer-body')
-      .JSONView(out);
-  },
-
-  actions: {
-    collapse() {
-      this.$('.md-viewer-body')
-        .JSONView('collapse');
-    },
-    expand() {
-      this.$('.md-viewer-body')
-        .JSONView('expand');
-    },
-    zoomin() {
-      let body = this.$('.md-viewer-body');
-      this.setFontSize(body, 1.1);
-    },
-    zoomout() {
-      let body = this.$('.md-viewer-body');
-      this.setFontSize(body, 0.9);
-    },
-    closeModal() {
-      this.close();
+    const viewerBody = document.querySelector('.md-viewer-body');
+    if (viewerBody) {
+      $(viewerBody).JSONView(out);
     }
   }
-});
+
+  @action
+  collapse() {
+    const viewerBody = this.element.querySelector('.md-viewer-body');
+    if (viewerBody) {
+      $(viewerBody).JSONView('collapse');
+    }
+  }
+
+  @action
+  expand() {
+    const viewerBody = this.element.querySelector('.md-viewer-body');
+    if (viewerBody) {
+      $(viewerBody).JSONView('expand');
+    }
+  }
+
+  @action
+  zoomin() {
+    const body = this.element.querySelector('.md-viewer-body');
+    if (body) {
+      this.setFontSize(body, 1.1);
+    }
+  }
+
+  @action
+  zoomout() {
+    const body = this.element.querySelector('.md-viewer-body');
+    if (body) {
+      this.setFontSize(body, 0.9);
+    }
+  }
+
+  @action
+  closeModal() {
+    this.close();
+  }
+}

@@ -1,68 +1,74 @@
-import { alias, and } from '@ember/object/computed';
+import { and } from '@ember/object/computed';
 import Component from '@ember/component';
-import { getWithDefault, set } from '@ember/object';
-import {
-  once
-} from '@ember/runloop';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import classic from 'ember-classic-decorator';
+import { action, computed, set } from '@ember/object';
+import { once } from '@ember/runloop';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'identifier': [
+  identifier: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
-const theComp = Component.extend(Validations, {
-  didReceiveAttrs() {
-    this._super(...arguments);
+@classic
+export default class MdIdentifierComponent extends Component.extend(Validations) {
+  classNames = ['md-identifier'];
+  attributeBindings = ['data-spy'];
 
-    let model = getWithDefault(this, 'model', {}) || {};
+  collapsible = false;
+  collapse = true;
+
+  init() {
+    super.init(...arguments);
+    this._localModel = {};
+  }
+
+  didReceiveAttrs() {
+    super.didReceiveAttrs(...arguments);
+
+    let model = this.model || this._localModel;
 
     once(this, function () {
-      set(model, 'authority', getWithDefault(model, 'authority',
-        {}));
+      set(model, 'authority', model.authority ?? {});
     });
-  },
+  }
 
-  classNames: ['md-identifier'],
-  attributeBindings: ['data-spy'],
+  @action
+  toggleCollapse() {
+    this.toggleProperty('collapse');
+  }
+}
 
-  /**
-   * The identifier object to render
-   *
-   * @property model
-   * @type {object}
-   * @required
-   */
-
-  /**
-   * Render short form of the identifier template, i.e. no authority
-   *
-   * @property short
-   * @type {Boolean}
-   */
-
-  /**
-   * Determines whether to render identifier field with confirmation button
-   *
-   * @property confirmIdentifier
-   * @type {Boolean}
-   */
-
-  identifier: alias('model.identifier'),
-  collapsible: false,
-  collapse: true,
+MdIdentifierComponent.reopen({
   isCollapsed: and('collapsible', 'collapse'),
+
+  effectiveModel: computed('model', '_localModel', function () {
+    return this.model || this._localModel;
+  }),
+
+  identifier: computed('effectiveModel.identifier', {
+    get() {
+      return this.effectiveModel?.identifier;
+    },
+
+    set(key, value) {
+      set(this, 'effectiveModel.identifier', value);
+    },
+  }),
+
+  namespace: computed('effectiveModel.namespace', {
+    get() {
+      return this.effectiveModel?.namespace;
+    },
+
+    set(key, value) {
+      set(this, 'effectiveModel.namespace', value);
+    },
+  }),
 });
 
-export {
-  Validations,
-  theComp as
-  default
-};
+export { Validations };

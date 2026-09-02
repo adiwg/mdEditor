@@ -36,12 +36,12 @@ module('Integration | Component | tree branch', function(hooks) {
       assert.ok(true, 'called select');
     });
 
-    await render(hbs `
-      {{tree-branch model=model
-          select=select
-          selected=selected
+    await render(hbs`
+      {{tree-branch model=this.model
+          select=this.select
+          selected=this.selected
           nodeDepth=3
-          path=path
+          path=this.path
       }}`);
 
     assert.expect(3);
@@ -50,12 +50,12 @@ module('Integration | Component | tree branch', function(hooks) {
       .trim(), 'foo1label');
 
     // Template block usage:
-    await render(hbs `
-      {{#tree-branch model=model
-        select=select
-        selected=selected
+    await render(hbs`
+      {{#tree-branch model=this.model
+        select=this.select
+        selected=this.selected
         nodeDepth=3
-        path=path
+        path=this.path
       }}
         template block text
       {{/tree-branch}}

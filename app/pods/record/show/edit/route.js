@@ -1,73 +1,110 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import EmberObject from '@ember/object';
-import { scheduleOnce } from '@ember/runloop';
-import HashPoll from 'mdeditor/mixins/hash-poll';
-import DoCancel from 'mdeditor/mixins/cancel';
+import { action } from '@ember/object';
+import { once } from '@ember/runloop';
+import { getOwner } from '@ember/application';
 
-export default Route.extend(HashPoll, DoCancel, {
-  init() {
-    this._super(...arguments);
+export default class EditRoute extends Route {
+  constructor() {
+    super(...arguments);
 
     this.breadCrumb = {
       title: 'Edit',
-      linkable: false
+      linkable: false,
     };
-  },
-
-  pouch: service(),
+  }
+  @service pouch;
+  @service hashPoll;
+  @service flashMessages;
+  @service settings;
 
   /**
    * The profile service
    * @property profile
    * @return {Ember.Service} profile
    */
-  profile: service('custom-profile'),
+  @service('custom-profile') profile;
+
+  model() {
+    return this.modelFor('record.show');
+  }
 
   /**
    * The route activate hook, sets the profile.
    */
   afterModel(model) {
-    this._super(...arguments);
+    super.afterModel(...arguments);
 
-    this.profile.set('active', model.get('profile'));
-  },
-
-  actions: {
-
-    saveRecord: async function () {
-      const model = this.currentRouteModel();
-      model.updateTimestamp();
-      await model.save();
-      this.flashMessages.success(`Saved Record: ${model.get('title')}`);
-    },
-
-    cancelRecord: function () {
-      let model = this.currentRouteModel();
-      let message = `Cancelled changes to Record: ${model.get('title')}`;
-
-      if(this.get('settings.data.autoSave')) {
-        let json = model.get('jsonRevert');
-
-        if(json) {
-          model.revertChanges();
-          this.doCancel();
-          this.flashMessages.warning(message);
-        }
-
-        return;
-      }
-
-      model
-        .reload()
-        .then(() => {
-          this.doCancel();
-          this.flashMessages.warning(message);
-        });
-    },
-
-    getContext() {
-      return this;
+    if (model) {
+      this.profile.set('active', model.get('profile'));
+      this.hashPoll.startPolling(model);
     }
   }
-});
+  deactivate() {
+    super.deactivate(...arguments);
+    this.hashPoll.stopPolling();
+  }
+  doCancel() {
+    let controller = this.controller;
+    let owner = getOwner(this);
+    let same =
+      !controller.cancelScope ||
+      (owner &&
+        !owner.isDestroying &&
+        !owner.isDestroyed &&
+        owner.lookup('controller:application').currentPath ===
+          controller.cancelScope.routeName);
+
+    if (controller.onCancel) {
+      once(() => {
+        if (same) {
+          controller.onCancel.call(controller.cancelScope || this);
+        } else {
+          controller.set('onCancel', null);
+          controller.set('cancelScope', null);
+        }
+        this.refresh();
+      });
+    }
+  }
+  @action
+  async saveRecord() {
+    const model = this.currentRouteModel();
+    model.updateTimestamp();
+    await model.save();
+    let json = JSON.parse(model.serialize().data.attributes.json);
+
+    model.setCurrentHash(json);
+    model.notifyPropertyChange('currentHash');
+    model.notifyPropertyChange('hasDirtyHash');
+    this.flashMessages.success(`Saved Record: ${model.get('title')}`);
+  }
+
+  @action
+  cancelRecord() {
+    let model = this.currentRouteModel();
+    let message = `Cancelled changes to Record: ${model.get('title')}`;
+
+    if (this.settings.data?.autoSave) {
+      let json = model.get('jsonRevert');
+
+      if (json) {
+        model.revertChanges();
+        this.doCancel();
+        this.flashMessages.warning(message);
+      }
+
+      return;
+    }
+
+    model.reload().then(() => {
+      this.doCancel();
+      this.flashMessages.warning(message);
+    });
+  }
+
+  @action
+  getContext() {
+    return this;
+  }
+}

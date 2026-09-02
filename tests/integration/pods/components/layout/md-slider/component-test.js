@@ -17,9 +17,9 @@ module('Integration | Component | layout/md slider', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#layout/md-slider fromName="slider"}}
+      <Layout::MdSlider @fromName="slider">
         template block text
-      {{/layout/md-slider}}
+      </Layout::MdSlider>
       {{to-elsewhere named="slider"
         send=(hash
           title="biz"

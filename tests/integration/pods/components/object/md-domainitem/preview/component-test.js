@@ -17,7 +17,7 @@ module('Integration | Component | object/md domainitem/preview', function(hooks)
       }
     });
 
-    await render(hbs`{{object/md-domainitem/preview profilePath="foobar" model=item tagName="table"}}`);
+    await render(hbs`{{object/md-domainitem/preview profilePath="foobar" model=this.item tagName="table"}}`);
 
     assert.equal(findAll('input').length, 3);
     assert.equal(findAll('input')[0].value, 'name0', 'name');
@@ -26,9 +26,9 @@ module('Integration | Component | object/md domainitem/preview', function(hooks)
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-domainitem/preview profilePath="foobar" model=item tagName="table"}}
+      <Object::MdDomainitem::Preview @profilePath="foobar" @model={{this.item}} @tagName="table">
         template block text
-      {{/object/md-domainitem/preview}}
+      </Object::MdDomainitem::Preview>
     `);
 
     assert.equal(find('table').textContent.replace(/[\s\n]+/g, '|').trim(), '|', 'block');

@@ -4,12 +4,13 @@
  */
 
 import Component from '@ember/component';
-
-import { set, get, computed } from '@ember/object';
+import classic from 'ember-classic-decorator';
 import { isNone } from '@ember/utils';
-import { run } from '@ember/runloop';
+import { once } from '@ember/runloop';
+import { action } from '@ember/object';
 
-export default Component.extend({
+@classic
+export default class MdMarkdownAreaComponent extends Component {
   /**
    * Component for markdown enabled text-area.
    *
@@ -19,49 +20,9 @@ export default Component.extend({
    *   {{md-markdown-editor value=value options=options}}
    */
 
-  /**
-   * Fix fullscreen render inside of liquid-outlet..
-   *
-   * @event didInsertElement
-   * @public
-   */
-  didInsertElement() {
-    this._super(...arguments);
-
-    let editor = this.editor;
-    let $el = this.$();
-
-    const oldEditorSetOption = editor.codemirror.setOption;
-
-    editor.codemirror.setOption = function(option, value) {
-      oldEditorSetOption.apply(this, arguments);
-
-      if(option === 'fullScreen') {
-        $el.parents('.liquid-child,.liquid-container, .md-card').toggleClass(
-          'full-screen', value);
-      }
-    };
-  },
-
-  /**
-   * Make sure the value is not null or undefined, for Simple MDE.
-   *
-   * @event didReceiveAttrs
-   * @public
-   */
-  didReceiveAttrs() {
-    this._super(...arguments);
-
-    run.once(this, () => {
-      if(isNone(this.value)) {
-        set(this, 'value', '');
-      }
-    });
-  },
-
-  classNames: ['md-markdown-editor'],
-  classNameBindings: ['label:form-group', 'required', 'errorClass'],
-  attributeBindings: ['data-spy'],
+  classNames = ['md-markdown-editor'];
+  classNameBindings = ['label:form-group', 'required', 'errorClass'];
+  attributeBindings = ['data-spy'];
 
   /**
    * The current simplemde editor instance.
@@ -93,7 +54,7 @@ export default Component.extend({
    * @type {Boolean}
    * @default true
    */
-  collapsible: true,
+  collapsible = true;
 
   /**
    * Placeholder string.
@@ -102,7 +63,7 @@ export default Component.extend({
    * @type {String}
    * @default Enter text, Markdown is supported.
    */
-  placeholder: 'Enter text, Markdown is supported.',
+  placeholder = 'Enter text, Markdown is supported.';
 
   /**
    * Options for markdown editor
@@ -112,22 +73,25 @@ export default Component.extend({
    * @category computed
    * @requires placeholder
    */
-  options: computed('placeholder', function() {
+  get options() {
     return {
       placeholder: this.placeholder,
-      status: [{
-        className: 'length',
-        defaultValue: (el) => {
-          el.innerHTML =
-            `<span class="length md-${this.errorClass}">length: ${this.length}</span>`;
+      status: [
+        {
+          className: 'length',
+          defaultValue: (el) => {
+            el.innerHTML = `<span class="length md-${this.errorClass}">length: ${this.length}</span>`;
+          },
+          onUpdate: (el) => {
+            el.innerHTML = `<span class="length md-${this.errorClass}">length: ${this.length}</span>`;
+          },
         },
-        onUpdate: (el) => {
-          el.innerHTML =
-            `<span class="length md-${this.errorClass}">length: ${this.length}</span>`;
-        }
-      }, 'lines', 'words', 'cursor']
+        'lines',
+        'words',
+        'cursor',
+      ],
     };
-  }),
+  }
 
   // fullscreen: Ember.observer('editor.codemirror.options.fullScreen', function(){
   //   console.info(this.get('editor.codemirror.options.fullScreen'));
@@ -141,11 +105,9 @@ export default Component.extend({
    * @category computed
    * @requires value
    */
-  length: computed('value', function() {
-      return this.value ? this.value
-        .length : 0;
-    })
-    .readOnly(),
+  get length() {
+    return this.value ? this.value.length : 0;
+  }
 
   /**
    * Returns string indicating error or warning based on maxlength.
@@ -155,23 +117,78 @@ export default Component.extend({
    * @category computed
    * @requires value|maxlength
    */
-  errorClass: computed('value', 'maxlength', function() {
+  get errorClass() {
     let length = this.length;
     let max = this.maxlength;
 
-    if(this.required && length < 1) {
+    if (this.required && length < 1) {
       return 'error';
     }
 
-    if(!max || length <= max - 25) {
+    if (!max || length <= max - 25) {
       return '';
     }
 
-    if(length > max) {
+    if (length > max) {
       return 'error';
-    } else if(length + 25 > max) {
+    } else if (length + 25 > max) {
       return 'warning';
     }
 
-  })
-});
+    return '';
+  }
+
+  /**
+   * Fix fullscreen render inside of liquid-outlet..
+   *
+   * @event didInsertElement
+   * @public
+   */
+  didInsertElement() {
+    super.didInsertElement(...arguments);
+
+    let editor = this.editor;
+    let element = this.element;
+
+    const oldEditorSetOption = editor.codemirror.setOption;
+
+    editor.codemirror.setOption = function (option, value) {
+      oldEditorSetOption.apply(this, arguments);
+
+      if (option === 'fullScreen') {
+        let node = element.parentElement;
+        while (node) {
+          if (node.matches('.liquid-child, .liquid-container, .md-card')) {
+            if (value) {
+              node.classList.add('full-screen');
+            } else {
+              node.classList.remove('full-screen');
+            }
+          }
+          node = node.parentElement;
+        }
+      }
+    };
+  }
+
+  /**
+   * Make sure the value is not null or undefined, for Simple MDE.
+   *
+   * @event didReceiveAttrs
+   * @public
+   */
+  didReceiveAttrs() {
+    super.didReceiveAttrs(...arguments);
+
+    once(this, () => {
+      if (isNone(this.value)) {
+        this.value = '';
+      }
+    });
+  }
+
+  @action
+  updateValue(value) {
+    this.set('value', value);
+  }
+}

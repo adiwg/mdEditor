@@ -14,10 +14,21 @@ module.exports = function (defaults) {
         // 'node_modules/select2-bootstrap-theme/src',
         'node_modules/jquery-jsonview/src',
       ],
+      silenceDeprecations: [
+        'import',
+        'global-builtin',
+        'color-functions',
+        'slash-div',
+        'mixed-decls',
+      ],
     },
 
     'ember-math-helpers': {
       only: ['round'],
+    },
+
+    'ember-composable-helpers': {
+      except: ['array'],
     },
 
     fingerprint: {
@@ -37,9 +48,9 @@ module.exports = function (defaults) {
       webpack: {
         resolve: {
           alias: {
-            'http': 'stream-http',
-            'https': 'https-browserify',
-            'path': 'path-browserify',
+            http: 'stream-http',
+            https: 'https-browserify',
+            path: 'path-browserify',
           },
         },
       },

@@ -38,16 +38,16 @@ module('Integration | Component | object/md lineage/preview', function(hooks) {
       ]
     });
 
-    await render(hbs`<section>{{object/md-lineage/preview item=lineage}}</section>`);
+    await render(hbs`<section>{{object/md-lineage/preview item=this.lineage}}</section>`);
 
     assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Lineage|#|Statement|statement|Process|Step|No|process|steps|assigned.|');
 
     // Template block usage:
     await render(hbs`<section>
-      {{#object/md-lineage/preview}}
+      <Object::MdLineage::Preview>
         template block text
-      {{/object/md-lineage/preview}}</section>
+      </Object::MdLineage::Preview></section>
     `);
 
     assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),

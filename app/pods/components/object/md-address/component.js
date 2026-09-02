@@ -4,11 +4,12 @@
  */
 
 import EmberObject from '@ember/object';
-
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import { A } from '@ember/array';
 
-export default Component.extend({
+@classic
+export default class MdAddressComponent extends Component {
   /**
    * mdEditor class for input and edit of mdJSON 'address' object
    * arrays. The class manages the maintenance of an array of address
@@ -19,7 +20,7 @@ export default Component.extend({
    * @requires md-object-table
    */
 
-  attributeBindings: ['data-spy'],
+  attributeBindings = ['data-spy'];
 
   /**
    * mdJSON object containing the 'address' array.
@@ -39,7 +40,7 @@ export default Component.extend({
    * @type String
    * @default ''
    */
-  attributes: '',
+  attributes = '';
 
   /**
    * Name to place on the mdEditor panel header for entry and edit of
@@ -50,14 +51,14 @@ export default Component.extend({
    * @type String
    * @default 'Address'
    */
-  label: 'Address',
+  label = 'Address';
 
-  templateClass: EmberObject.extend({
+  templateClass = EmberObject.extend({
     init() {
       this._super(...arguments);
 
       this.set('addressType', A());
       this.set('deliveryPoint', A());
     }
-  })
-});
+  });
+}

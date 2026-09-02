@@ -17,20 +17,20 @@ module('Integration | Component | object/md documentation/preview', function(hoo
       }],
       citation: createCitation(2)
     });
-    await render(hbs`{{object/md-documentation/preview item=doc}}`);
+    await render(hbs`{{object/md-documentation/preview item=this.doc}}`);
 
     assert.equal(find('.text-muted').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Document|#|Resource|Type(s)|foo:|bar|Title|title0|Alternate|Titles|alternateTitle0|alternateTitle1|Dates|October|13th|2016|(dateType)|October|22nd|2016|(dateType)|Identifier|identifier0|identifier-0|Responsible|Party|role|(|)|role|(|)|');
+      '|Document|#|Resource|Type(s)|foo:|bar|Title|title0|Alternate|Titles|alternateTitle0|alternateTitle1|Dates|2016-10-13|(dateType)|2016-10-22|(dateType)|Identifier|identifier0|identifier-0|Responsible|Party|role|(|individualId0|)|role|(|individualId0|)|');
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-documentation/preview class="testme" item=doc}}
+      <Object::MdDocumentation::Preview @class="testme" @item={{this.doc}}>
         template block text
-      {{/object/md-documentation/preview}}
+      </Object::MdDocumentation::Preview>
     `);
 
     assert.equal(find('.testme').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Document|#|Resource|Type(s)|foo:|bar|Title|title0|Alternate|Titles|alternateTitle0|alternateTitle1|Dates|October|13th|2016|(dateType)|October|22nd|2016|(dateType)|Identifier|identifier0|identifier-0|Responsible|Party|role|(|)|role|(|)|',
+      '|Document|#|Resource|Type(s)|foo:|bar|Title|title0|Alternate|Titles|alternateTitle0|alternateTitle1|Dates|2016-10-13|(dateType)|2016-10-22|(dateType)|Identifier|identifier0|identifier-0|Responsible|Party|role|(|individualId0|)|role|(|individualId0|)|',
       'block');
   });
 });
