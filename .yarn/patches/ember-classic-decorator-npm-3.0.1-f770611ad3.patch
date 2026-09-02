@@ -1,0 +1,104 @@
+diff --git a/vendor/classic-decorator/index.js b/vendor/classic-decorator/index.js
+index 5f5e8443597eea7bb3e2336aaac7e39f99fc215b..6dc6371cd698d1149b9ee7cd23d548465db5cf21 100644
+--- a/vendor/classic-decorator/index.js
++++ b/vendor/classic-decorator/index.js
+@@ -12,32 +12,38 @@
+ 
+   const _Ember = typeof require === 'function' && typeof require.has === 'function' && require.has('ember') ? require('ember').default : Ember;
+ 
+-  IS_PERMA_CLASSIC.set(_Ember.Object, true);
+-  IS_PERMA_CLASSIC.set(_Ember.Component, true);
+-
+-  IS_PERMA_CLASSIC.set(_Ember.ObjectProxy, false);
+-  IS_PERMA_CLASSIC.set(_Ember.Application, false);
+-  IS_PERMA_CLASSIC.set(_Ember.Controller, false);
+-  IS_PERMA_CLASSIC.set(_Ember.Router, false);
+-  IS_PERMA_CLASSIC.set(_Ember.Route, false);
+-  IS_PERMA_CLASSIC.set(_Ember.Service, false);
+-  IS_PERMA_CLASSIC.set(_Ember.Helper, false);
+-  IS_PERMA_CLASSIC.set(_Ember.Location, false);
+-  IS_PERMA_CLASSIC.set(_Ember.AutoLocation, false);
+-  IS_PERMA_CLASSIC.set(_Ember.HashLocation, false);
+-  IS_PERMA_CLASSIC.set(_Ember.HistoryLocation, false);
+-  IS_PERMA_CLASSIC.set(_Ember.NoneLocation, false);
+-
+-  BASE_CLASSES.set(_Ember.ObjectProxy, true);
+-  BASE_CLASSES.set(_Ember.CoreObject, true);
+-  BASE_CLASSES.set(_Ember.Object, true);
+-  BASE_CLASSES.set(_Ember.Application, true);
+-  BASE_CLASSES.set(_Ember.Controller, true);
+-  BASE_CLASSES.set(_Ember.Router, true);
+-  BASE_CLASSES.set(_Ember.Route, true);
+-  BASE_CLASSES.set(_Ember.Service, true);
+-  BASE_CLASSES.set(_Ember.Helper, true);
+-  BASE_CLASSES.set(_Ember.Location, true);
++  // Some of these Ember.* classes have been removed/relocated across Ember
++  // 5.x releases (e.g. AutoLocation/HashLocation/HistoryLocation/NoneLocation
++  // moved off the Location namespace). Guard each before using it as a
++  // WeakMap key, since `WeakMap.set(undefined, ...)` throws and this runs at
++  // top-level IIFE evaluation, which used to abort the rest of vendor.js.
++  if (_Ember.Object) IS_PERMA_CLASSIC.set(_Ember.Object, true);
++  if (_Ember.Component) IS_PERMA_CLASSIC.set(_Ember.Component, true);
++
++  if (_Ember.ObjectProxy) IS_PERMA_CLASSIC.set(_Ember.ObjectProxy, false);
++  if (_Ember.Application) IS_PERMA_CLASSIC.set(_Ember.Application, false);
++  if (_Ember.Controller) IS_PERMA_CLASSIC.set(_Ember.Controller, false);
++  if (_Ember.Router) IS_PERMA_CLASSIC.set(_Ember.Router, false);
++  if (_Ember.Route) IS_PERMA_CLASSIC.set(_Ember.Route, false);
++  if (_Ember.Service) IS_PERMA_CLASSIC.set(_Ember.Service, false);
++  if (_Ember.Helper) IS_PERMA_CLASSIC.set(_Ember.Helper, false);
++  if (_Ember.Location) IS_PERMA_CLASSIC.set(_Ember.Location, false);
++  if (_Ember.AutoLocation) IS_PERMA_CLASSIC.set(_Ember.AutoLocation, false);
++  if (_Ember.HashLocation) IS_PERMA_CLASSIC.set(_Ember.HashLocation, false);
++  if (_Ember.HistoryLocation)
++    IS_PERMA_CLASSIC.set(_Ember.HistoryLocation, false);
++  if (_Ember.NoneLocation) IS_PERMA_CLASSIC.set(_Ember.NoneLocation, false);
++
++  if (_Ember.ObjectProxy) BASE_CLASSES.set(_Ember.ObjectProxy, true);
++  if (_Ember.CoreObject) BASE_CLASSES.set(_Ember.CoreObject, true);
++  if (_Ember.Object) BASE_CLASSES.set(_Ember.Object, true);
++  if (_Ember.Application) BASE_CLASSES.set(_Ember.Application, true);
++  if (_Ember.Controller) BASE_CLASSES.set(_Ember.Controller, true);
++  if (_Ember.Router) BASE_CLASSES.set(_Ember.Router, true);
++  if (_Ember.Route) BASE_CLASSES.set(_Ember.Route, true);
++  if (_Ember.Service) BASE_CLASSES.set(_Ember.Service, true);
++  if (_Ember.Helper) BASE_CLASSES.set(_Ember.Helper, true);
++  if (_Ember.Location) BASE_CLASSES.set(_Ember.Location, true);
+ 
+   function getClassName(klass) {
+     var klassToString = klass.toString();
+@@ -167,17 +173,23 @@
+     }
+ 
+     if (DS) {
+-      BASE_CLASSES.set(DS.Store, true);
+-      BASE_CLASSES.set(DS.Model, true);
+-      BASE_CLASSES.set(DS.Adapter, true);
+-      BASE_CLASSES.set(DS.Serializer, true);
+-      BASE_CLASSES.set(DS.Transform, true);
+-
+-      IS_PERMA_CLASSIC.set(DS.Store, false);
+-      IS_PERMA_CLASSIC.set(DS.Model, false);
+-      IS_PERMA_CLASSIC.set(DS.Adapter, false);
+-      IS_PERMA_CLASSIC.set(DS.Serializer, false);
+-      IS_PERMA_CLASSIC.set(DS.Transform, false);
++      // ember-data 5.x's default export no longer carries Adapter/Serializer/
++      // Transform (moved to @ember-data/adapter, @ember-data/serializer,
++      // @ember-data/serializer/transform) - guard each before using it as a
++      // WeakMap key, since `WeakMap.set(undefined, ...)` throws and this
++      // whole function runs unconditionally on the first `require()` call,
++      // which used to abort the rest of vendor.js's top-level execution.
++      if (DS.Store) BASE_CLASSES.set(DS.Store, true);
++      if (DS.Model) BASE_CLASSES.set(DS.Model, true);
++      if (DS.Adapter) BASE_CLASSES.set(DS.Adapter, true);
++      if (DS.Serializer) BASE_CLASSES.set(DS.Serializer, true);
++      if (DS.Transform) BASE_CLASSES.set(DS.Transform, true);
++
++      if (DS.Store) IS_PERMA_CLASSIC.set(DS.Store, false);
++      if (DS.Model) IS_PERMA_CLASSIC.set(DS.Model, false);
++      if (DS.Adapter) IS_PERMA_CLASSIC.set(DS.Adapter, false);
++      if (DS.Serializer) IS_PERMA_CLASSIC.set(DS.Serializer, false);
++      if (DS.Transform) IS_PERMA_CLASSIC.set(DS.Transform, false);
+     }
+ 
+     window.require = require = window.requirejs;

@@ -85,11 +85,18 @@ export default class ApplicationRoute extends Route {
       }),
     ]);
 
+    // findAll()'s result is a reactive array that rejects arbitrary property
+    // writes (e.g. `item.meta = ...`), so the per-type nav metadata is
+    // carried alongside the list in a wrapper object instead of being glued
+    // onto the array itself. Consumers use `.list` for the record array and
+    // `.meta` for the {type, list, title, icon, listId} descriptor.
     let mapFn = function (item, id) {
       meta[id].set('listId', guidFor(item));
-      item.meta = meta[id];
 
-      return item;
+      return EmberObject.create({
+        list: item,
+        meta: meta[id],
+      });
     };
 
     return RSVP.map(promises, mapFn).then((result) => {

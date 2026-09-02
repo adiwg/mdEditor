@@ -72,14 +72,14 @@ export default class PouchService extends Service {
     const meta = new PouchMeta();
     meta.forEach(pm => pm.columns = COLUMNS);
 
+    // findAll()'s result is a reactive array that rejects arbitrary property
+    // writes (e.g. `item.meta = ...`), so the per-type metadata is carried
+    // alongside the list in a wrapper object instead of being glued onto the
+    // array itself.
     let mapFn = function (item, id) {
       meta[id].listId = guidFor(item);
-      // Avoid updating meta in case it's already set and being tracked
-      if (!item.meta) {
-        item.meta = meta[id];
-      }
 
-      return item;
+      return { list: item, meta: meta[id] };
     };
 
     return await RSVP.map(promises, mapFn);

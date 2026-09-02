@@ -29,10 +29,21 @@ export default Service.extend({
   },
 
   setup() {
+    if (this._setupPromise) {
+      return this._setupPromise;
+    }
+
     let me = this;
     let store = this.store;
 
-    let promise = store.findAll('setting').then(function (s) {
+    // Deferred to a microtask so `this._setupPromise` (set below, before
+    // this runs) is already in place if something reentrantly calls setup()
+    // while findAll's schema/adapter resolution is still on the stack -
+    // ember-pouch is a synchronous, local adapter, so that resolution can
+    // nest within a single call stack rather than crossing a real I/O wait.
+    let promise = Promise.resolve()
+      .then(() => store.findAll('setting'))
+      .then(function (s) {
       let rec = s[0];
       let settings = rec ? rec : store.createRecord('setting');
 
