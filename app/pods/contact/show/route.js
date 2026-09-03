@@ -5,7 +5,6 @@ import { action } from '@ember/object';
 export default class ContactShowRoute extends Route {
   @service store;
   @service flashMessages;
-  @service pouch;
   @service router;
   @service settings;
 
@@ -32,7 +31,6 @@ export default class ContactShowRoute extends Route {
     model.setCurrentHash(json);
     model.notifyPropertyChange('currentHash');
     model.notifyPropertyChange('hasDirtyHash');
-    await this.pouch.updatePouchRecord(model);
     this.flashMessages.success(`Saved Contact: ${model.get('title')}`);
   }
 

@@ -1,4 +1,5 @@
 import { Model } from 'ember-pouch';
+import { attr } from '@ember-data/model';
 import hash from 'object-hash';
 import { inject as service } from '@ember/service';
 import EmberObject, { computed, set, observer } from '@ember/object';
@@ -47,7 +48,16 @@ const Base = Model.extend({
   patch: service(),
   clean: service('cleaner'),
   mdjson: service('mdjson'),
-  pouch: service(),
+
+  /**
+   * Whether this record replicates to the remote CouchDB (see
+   * services/couch.js's filtered push/pull/sync). Every record already
+   * lives in the local Pouch db regardless of this flag.
+   *
+   * @property syncEnabled
+   * @type {Boolean}
+   */
+  syncEnabled: attr('boolean', { defaultValue: false }),
 
   /**
    * The hash for the clean record.
@@ -120,9 +130,6 @@ const Base = Model.extend({
 
     this.notifyPropertyChange('currentHash');
     this.notifyPropertyChange('hasDirtyHash');
-
-    // Pouch handling
-    this.pouch.updatePouchRecord(this);
   },
 
   updateTimestamp() {

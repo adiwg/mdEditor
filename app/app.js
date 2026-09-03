@@ -17,6 +17,11 @@ import Application from '@ember/application';
 import { registerDeprecationHandler } from '@ember/debug';
 import Resolver from './resolver';
 
+// ember-data 5.x's reactivity (used by Model/RecordArray/etc.) requires this
+// explicit install - the old implicit wiring via the now-deprecated
+// `@ember-data/tracking` package is gone.
+import '@warp-drive/ember/install';
+
 // ember-tooltips@3.6.0 uses the deprecated @ember/string helpers internally.
 // There is no app-side fix available; silence this specific deprecation only.
 //
