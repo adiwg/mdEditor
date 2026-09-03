@@ -75,11 +75,14 @@ export default class PouchService extends Service {
     // findAll()'s result is a reactive array that rejects arbitrary property
     // writes (e.g. `item.meta = ...`), so the per-type metadata is carried
     // alongside the list in a wrapper object instead of being glued onto the
-    // array itself.
+    // array itself. The sync/list table only shows records currently
+    // syncing (matching how this looked before the collapse, when it only
+    // ever saw the linked pouch-record/etc. docs); records not yet flagged
+    // stay in `options` below, for md-pouch-add's picker.
     let mapFn = function (item, id) {
       meta[id].listId = guidFor(item);
 
-      return { list: item, meta: meta[id] };
+      return { list: item.filter((record) => record.syncEnabled), meta: meta[id] };
     };
 
     return await RSVP.map(promises, mapFn);
@@ -128,46 +131,12 @@ export default class PouchService extends Service {
     record.syncEnabled = false;
     return await record.save();
   }
-
-  // --- Compatibility shims -------------------------------------------
-  // These four existed to reconcile drift between a `record` and its
-  // separately-saved `pouch-record` doc. There's only one doc now, so
-  // there's nothing left to reconcile. Kept as no-throw shims because
-  // control/md-pouch-record-table's buttons/pouch-buttons sub-components
-  // still call them - that table UI still assumes two comparable lists
-  // and needs its own follow-up pass, not fixed here.
-
-  async queryRelatedRecord(record) {
-    return record;
-  }
-
-  checkIfPouchRecordChanged() {
-    return false;
-  }
-
-  async updatePouchRecord(record) {
-    return await record.save();
-  }
-
-  async createRelatedRecord(record) {
-    return record;
-  }
-
-  async updateRelatedRecord(record, relatedRecord) {
-    return await (relatedRecord || record).save();
-  }
 }
 
 const ACTIONS_COLUMN = {
   title: 'Actions',
   className: 'md-actions-column',
-  component: 'control/md-pouch-record-table/buttons',
-}
-
-const POUCH_ACTIONS_COLUMN = {
-  title: 'Pouch Actions',
-  className: 'md-actions-column',
-  component: 'control/md-pouch-record-table/pouch-buttons',
+  component: 'control/md-pouch-record-table/remove-sync',
 }
 
 const COLUMNS = [{
@@ -178,7 +147,6 @@ const COLUMNS = [{
   title: 'ID'
 },
   ACTIONS_COLUMN,
-  POUCH_ACTIONS_COLUMN
 ]
 
 

@@ -558,9 +558,7 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
                 !record.isDeleted
               ) {
                 try {
-                  let json = JSON.parse(
-                    record.serialize().data.attributes.json
-                  );
+                  let json = record.cleanJson;
                   record.setCurrentHash(json);
                   record.set('jsonSnapshot', json);
                   // Notify property change to force hasDirtyHash recomputation

@@ -44,6 +44,18 @@ export default class IdRoute extends Route {
         return true;
       }
 
+      // A transition we triggered ourselves right after a successful save
+      // (see saveRecord() below) - skip the isNew check below entirely.
+      // model.isNew is backed by ember-data 5.x's warp-drive RecordState
+      // machinery, which can still read as true here even though the save
+      // already resolved (same root cause as the "memoSignal is not a
+      // function" bug elsewhere in this app - classic Ember .extend()
+      // breaks this decorator family). Trusting a stale isNew here was
+      // destroying the just-saved record and bouncing back to record.new.
+      if (this._justSaved) {
+        return true;
+      }
+
       // We grab the model loaded in this route
       var model = this.currentRouteModel();
       // If we are leaving the Route we verify if the model is in
@@ -72,6 +84,7 @@ export default class IdRoute extends Route {
       this.currentRouteModel()
         .save()
         .then((model) => {
+          this._justSaved = true;
           this.router.replaceWith('record.show.edit', model);
         });
     }

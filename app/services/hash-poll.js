@@ -25,7 +25,9 @@ export default class HashPollService extends Service {
     this.currentModel = model;
 
     if (this.settings.data?.autoSave) {
-      model.set('jsonRevert', model.serialize().data.attributes.json);
+      // jsonRevert is stored as a JSON string - base.js's revertChanges()
+      // does JSON.parse(this.jsonRevert) to restore it.
+      model.set('jsonRevert', JSON.stringify(model.cleanJson));
       model.set('dateUpdatedRevert', model.get('dateUpdated'));
     }
 

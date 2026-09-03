@@ -26,7 +26,7 @@ export default class ContactShowRoute extends Route {
     const model = this.currentRouteModel();
     model.updateTimestamp();
     await model.save();
-    let json = JSON.parse(model.serialize().data.attributes.json);
+    let json = model.cleanJson;
 
     model.setCurrentHash(json);
     model.notifyPropertyChange('currentHash');

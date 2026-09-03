@@ -20,7 +20,15 @@ const Base = Model.extend({
   init() {
     this._super(...arguments);
 
-    this.hasDirtyAttributes;
+    // Do NOT eagerly read this.hasDirtyAttributes here (as this line used
+    // to). ember-data 5.x's native hasDirtyAttributes is backed by
+    // @warp-drive/legacy's decorateMethodV2/@memoized machinery, which its
+    // own source acknowledges breaks under classic Ember .extend()/mixin
+    // merging ("lazy in prod and eager in dev" - see schema-provider's
+    // `currentState` getter comment). Reading it synchronously during
+    // record creation throws "memoSignal is not a function". This app's
+    // own hasDirtyHash (below) is the real dirty-tracking mechanism for
+    // record/dictionary/contact and doesn't touch this broken getter.
   },
 
   // Replace deprecated this.on('didLoad', ...) with observer on isLoaded
@@ -81,19 +89,20 @@ const Base = Model.extend({
     }
   }),
 
-  observeAutoSave: observer('hasDirtyAttributes', 'hasDirtyHash', function () {
-    if (this.isNew || this.isEmpty) {
-      return;
-    }
+  // Watches hasDirtyHash only, not ember-data's native hasDirtyAttributes -
+  // see init()'s comment above for why that one isn't safe to read. This
+  // app's own hasDirtyHash (a content-hash comparison against cleanJson,
+  // set up below) already captures "this record changed" independently.
+  observeAutoSave: observer('hasDirtyHash', function () {
+    once(this, function () {
+      if (this.isNew || this.isEmpty) {
+        return;
+      }
 
-    if (
-      this.settings.data?.autoSave &&
-      (this.hasDirtyHash || this.hasDirtyAttributes)
-    ) {
-      once(this, function () {
+      if (this.settings.data?.autoSave && this.hasDirtyHash) {
         this.save();
-      });
-    }
+      }
+    });
   }),
 
   applyPatch() {
@@ -105,24 +114,30 @@ const Base = Model.extend({
   },
 
   isReady() {
-    let newHash = this.hashObject(
-      JSON.parse(this.serialize().data.attributes.json),
-      true
-    );
+    let cleanJson = this.cleanJson;
+    let newHash = this.hashObject(cleanJson, true);
 
     // Always set the currentHash to ensure imported records get proper hash
     this.set('currentHash', newHash);
-    this.set('jsonSnapshot', JSON.parse(this.serialize().data.attributes.json));
+    this.set('jsonSnapshot', cleanJson);
   },
 
   wasUpdated() {
     this._super(...arguments);
 
     //let record = model.record || this;
-    let json = JSON.parse(this.serialize().data.attributes.json);
+    let json = this.cleanJson;
 
-    if (this.hasDirtyAttributes) {
-      this.rollbackAttributes();
+    try {
+      // See init()'s comment above - native hasDirtyAttributes can throw
+      // here. This is a defensive post-save cleanup; skipping it when
+      // unreadable is safe, rollbackAttributes() has nothing to fix if
+      // the save already succeeded.
+      if (this.hasDirtyAttributes) {
+        this.rollbackAttributes();
+      }
+    } catch (e) {
+      // ignore - see comment above
     }
 
     this.setCurrentHash(json);
@@ -179,7 +194,7 @@ const Base = Model.extend({
   wasLoaded() {
     this._super(...arguments);
 
-    let json = JSON.parse(this.serialize().data.attributes.json);
+    let json = this.cleanJson;
 
     this.setCurrentHash(json);
     this.set('jsonSnapshot', json);
@@ -225,10 +240,7 @@ const Base = Model.extend({
    * @return {Boolean} Boolean value indicating if hashes are equivalent
    */
   hasDirtyHash: computed('currentHash', function () {
-    let newHash = this.hashObject(
-      JSON.parse(this.serialize().data.attributes.json),
-      true
-    );
+    let newHash = this.hashObject(this.cleanJson, true);
 
     //if the currentHash is undefined, the record is either new or hasn't had the
     //hash calculated yet

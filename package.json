@@ -96,7 +96,7 @@
     "ember-composable-helpers": "^5.0.0",
     "ember-concurrency": "^3.1.1",
     "ember-copy": "^1.0.0",
-    "ember-cp-validations": "^5.0.0",
+    "ember-cp-validations": "patch:ember-cp-validations@npm%3A5.0.0#~/.yarn/patches/ember-cp-validations-npm-5.0.0-ce0e04d49a.patch",
     "ember-data": "~5.8.0",
     "ember-decorators": "^6.1.1",
     "ember-elsewhere": "^2.0.0",

@@ -9617,13 +9617,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-cp-validations@npm:^5.0.0":
+"ember-cp-validations@npm:5.0.0":
   version: 5.0.0
   resolution: "ember-cp-validations@npm:5.0.0"
   dependencies:
     ember-cli-babel: "npm:^7.26.10"
     ember-validators: "npm:^4.1.1"
   checksum: 10c0/ad9dc08e8c384e12efc61f639ebdf571c25112c9a0f45ee08f231fb2b2dcb0c496f79eb73b7096ee093c166222e5cd2a0371e74ee5a8b3d9862d3922bfed9ae4
+  languageName: node
+  linkType: hard
+
+"ember-cp-validations@patch:ember-cp-validations@npm%3A5.0.0#~/.yarn/patches/ember-cp-validations-npm-5.0.0-ce0e04d49a.patch":
+  version: 5.0.0
+  resolution: "ember-cp-validations@patch:ember-cp-validations@npm%3A5.0.0#~/.yarn/patches/ember-cp-validations-npm-5.0.0-ce0e04d49a.patch::version=5.0.0&hash=015640"
+  dependencies:
+    ember-cli-babel: "npm:^7.26.10"
+    ember-validators: "npm:^4.1.1"
+  checksum: 10c0/427e31e9d917b6683a9813fd0bf7e460f27a94a77ad2c1417d069a98155ff5b436cd5bb6ce5324e9348801e22ecb199798e584d72a33c7330cbc15b6137b0e81
   languageName: node
   linkType: hard
 
@@ -10210,7 +10220,7 @@ __metadata:
 
 "ember-pouch@patch:ember-pouch@npm%3A7.0.0#~/.yarn/patches/ember-pouch-npm-7.0.0-6972b5be0b.patch":
   version: 7.0.0
-  resolution: "ember-pouch@patch:ember-pouch@npm%3A7.0.0#~/.yarn/patches/ember-pouch-npm-7.0.0-6972b5be0b.patch::version=7.0.0&hash=775b0f"
+  resolution: "ember-pouch@patch:ember-pouch@npm%3A7.0.0#~/.yarn/patches/ember-pouch-npm-7.0.0-6972b5be0b.patch::version=7.0.0&hash=a1b8ac"
   dependencies:
     broccoli-file-creator: "npm:^2.1.1"
     broccoli-stew: "npm:^2.1.0"
@@ -10220,7 +10230,7 @@ __metadata:
     pouchdb-browser: "npm:^7.1.1"
     pouchdb-find: "npm:^7.1.1"
     relational-pouch: "npm:^4.0.0"
-  checksum: 10c0/fee1b54c7e3d582375410e3f3fe0374915e62c13b8e2745eda88f59441c77dd37fc41048a6cfd71d510dbeba96260cb7fd41523c64f3b45f59f31f1cf1a91669
+  checksum: 10c0/ef999392ccf2849f52c973c9b6cffdc987f59f7180774fccf312bc8fa1aecbb90c8c97b51c17e7cac986bff14e8c7b4a2d0ca4110418c727c726a6c6d394efc0
   languageName: node
   linkType: hard
 
@@ -16261,7 +16271,7 @@ __metadata:
     ember-composable-helpers: "npm:^5.0.0"
     ember-concurrency: "npm:^3.1.1"
     ember-copy: "npm:^1.0.0"
-    ember-cp-validations: "npm:^5.0.0"
+    ember-cp-validations: "patch:ember-cp-validations@npm%3A5.0.0#~/.yarn/patches/ember-cp-validations-npm-5.0.0-ce0e04d49a.patch"
     ember-data: "npm:~5.8.0"
     ember-decorators: "npm:^6.1.1"
     ember-elsewhere: "npm:^2.0.0"

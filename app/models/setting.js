@@ -110,12 +110,29 @@ const theModel = Model.extend({
   wasLoaded() {
     this.settings.setup();
   },
+  // ember-data 5.x's native hasDirtyAttributes is backed by
+  // @warp-drive/legacy's decorateMethodV2/@memoized machinery, which its
+  // own source acknowledges breaks under classic Ember .extend()/mixin
+  // merging ("lazy in prod and eager in dev" - see
+  // node_modules/@warp-drive/legacy/dist/schema-provider-*.js's
+  // `currentState` getter comment) - reading it here can throw
+  // "memoSignal is not a function". once() defers off the triggering
+  // notification, and the try/catch fails closed (skip the save) if the
+  // read is still unreadable, rather than crashing or save-looping.
   updateSettings: observer('hasDirtyAttributes', function () {
-    if (this.hasDirtyAttributes) {
-      once(this, function () {
+    once(this, function () {
+      let dirty = false;
+
+      try {
+        dirty = this.hasDirtyAttributes;
+      } catch (e) {
+        // ignore - see comment above
+      }
+
+      if (dirty) {
         this.save();
-      });
-    }
+      }
+    });
   }),
 });
 

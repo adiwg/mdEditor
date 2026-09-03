@@ -1,3 +1,35 @@
+diff --git a/addon/adapters/pouch.js b/addon/adapters/pouch.js
+index 91fc4f97b3b5b5fabac38c66b205cc557b968497..f939d68a21cdfc800c212640c46e8b655e7d40d5 100644
+--- a/addon/adapters/pouch.js
++++ b/addon/adapters/pouch.js
+@@ -223,7 +223,14 @@ export default DS.RESTAdapter.extend({
+         }
+         let options = Object.create(rel.options);
+         if (rel.kind === 'hasMany' && !shouldSaveRelationship(self, rel)) {
+-          let inverse = type.inverseFor(rel.key, store);
++          // `type.inverseFor` is classic-Model-only API; ember-data 5.x's
++          // legacy-compat layer hands adapter hooks a ShimModelClass that
++          // doesn't implement it. Treat a missing inverse the same as "no
++          // inverse found" (skips the belongsTo-index optimization below,
++          // which doesn't apply to hasMany<->hasMany relationships anyway).
++          let inverse = typeof type.inverseFor === 'function'
++            ? type.inverseFor(rel.key, store)
++            : null;
+           if (inverse) {
+             if (inverse.kind === 'belongsTo') {
+               indexPromises.push(self.get('db').createIndex({index: { fields: ['data.' + inverse.name, '_id'] }}));
+@@ -368,7 +375,10 @@ export default DS.RESTAdapter.extend({
+ 
+   findHasMany: async function(store, record, link, rel) {
+     await this._init(store, record.type);
+-    let inverse = record.type.inverseFor(rel.key, store);
++    // Same ShimModelClass gap as _init's inverseFor call above.
++    let inverse = typeof record.type.inverseFor === 'function'
++      ? record.type.inverseFor(rel.key, store)
++      : null;
+     if (inverse && inverse.kind === 'belongsTo') {
+       return this.get('db').rel.findHasMany(camelize(rel.type), inverse.name, record.id);
+     } else {
 diff --git a/addon/serializers/pouch.js b/addon/serializers/pouch.js
 index 2242f82c956cb63f60818cdb12c023a2b3c9c6e9..48d11f452fbe1ce83af3608751aa0f62d54e7f58 100644
 --- a/addon/serializers/pouch.js

@@ -6,6 +6,7 @@ import { guidFor } from '@ember/object/internals';
 import RSVP from 'rsvp';
 import { inject as service } from '@ember/service';
 import config from 'mdeditor/config/environment';
+import { runPouchMigration } from 'mdeditor/utils/pouch-migration';
 
 const {
   APP: { defaultProfileId },
@@ -118,7 +119,7 @@ export default class ApplicationRoute extends Route {
     });
   }
 
-  beforeModel() {
+  async beforeModel() {
     if (!defaultProfileId) {
       this.router.replaceWith('error').then(function (route) {
         route.controller.set(
@@ -129,6 +130,12 @@ export default class ApplicationRoute extends Route {
         );
       });
     }
+
+    // Must finish before model()'s findAll('record'/'contact'/'dictionary')
+    // calls below, since those now read straight from the Pouch db this
+    // migrates old localStorage-backed data into.
+    await runPouchMigration(this.store);
+
     const loadThesauriPromise = this.keyword.loadThesauri();
     const loadProfilesPromise = this.profile.loadCoreProfiles();
     return Promise.all([loadThesauriPromise, loadProfilesPromise]);

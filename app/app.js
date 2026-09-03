@@ -11,6 +11,17 @@ if (typeof Buffer === 'undefined') {
   window.Buffer = { isBuffer: () => false };
 }
 
+// @jsdevtools/ono (a dependency of json-schema-ref-parser, used by
+// services/schemas.js's fetchSchemas task) imports Node's `util` module,
+// whose browser polyfill references the bare global `process` at module
+// top level (`if (process.env.NODE_DEBUG)`), unguarded by a typeof check -
+// throws ReferenceError: process is not defined the instant it's
+// evaluated. Same root cause as the Buffer stub above, just the other
+// Node global this dependency chain expects to exist.
+if (typeof process === 'undefined') {
+  window.process = { env: {}, nextTick: (fn, ...args) => setTimeout(() => fn(...args), 0) };
+}
+
 import Route from '@ember/routing/route';
 import Component from '@ember/component';
 import Application from '@ember/application';
