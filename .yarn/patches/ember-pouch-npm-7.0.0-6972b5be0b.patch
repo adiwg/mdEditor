@@ -1,8 +1,40 @@
 diff --git a/addon/adapters/pouch.js b/addon/adapters/pouch.js
-index 91fc4f97b3b5b5fabac38c66b205cc557b968497..f939d68a21cdfc800c212640c46e8b655e7d40d5 100644
+index 91fc4f97b3b5b5fabac38c66b205cc557b968497..a90c36b69eee4fae668dbef1bded1a416238cb1c 100644
 --- a/addon/adapters/pouch.js
 +++ b/addon/adapters/pouch.js
-@@ -223,7 +223,14 @@ export default DS.RESTAdapter.extend({
+@@ -25,6 +25,22 @@ import {
+ //  }
+ //});
+ 
++// hasDirtyAttributes is backed by ember-data 5.x's warp-drive @memoized
++// decorator machinery, which can throw ("memoSignal is not a function")
++// under classic Ember .extend()/mixin-merged Model classes. onChange()
++// below reads it to decide whether it's safe to refresh a record after a
++// remote change (e.g. from replication) - an uncaught throw there skips
++// the refresh entirely, leaving the record's `rev` stale and causing the
++// next save to fail with a 409 conflict. Fail toward "not dirty" (i.e.
++// still safe to refresh) rather than let the exception block the refresh.
++function safeHasDirtyAttributes(record) {
++  try {
++    return record.get('hasDirtyAttributes');
++  } catch (e) {
++    return false;
++  }
++}
++
+ export default DS.RESTAdapter.extend({
+   fixDeleteBug: true,
+   coalesceFindRequests: false,
+@@ -113,7 +129,7 @@ export default DS.RESTAdapter.extend({
+       }
+       return;
+     }
+-    if (!recordInStore.get('isLoaded') || recordInStore.get('rev') === change.changes[0].rev || recordInStore.get('hasDirtyAttributes')) {
++    if (!recordInStore.get('isLoaded') || recordInStore.get('rev') === change.changes[0].rev || safeHasDirtyAttributes(recordInStore)) {
+       // The record either hasn't loaded yet or has unpersisted local changes.
+       // In either case, we don't want to refresh it in the store
+       // (and for some substates, attempting to do so will result in an error).
+@@ -223,7 +239,14 @@ export default DS.RESTAdapter.extend({
          }
          let options = Object.create(rel.options);
          if (rel.kind === 'hasMany' && !shouldSaveRelationship(self, rel)) {
@@ -18,7 +50,7 @@ index 91fc4f97b3b5b5fabac38c66b205cc557b968497..f939d68a21cdfc800c212640c46e8b65
            if (inverse) {
              if (inverse.kind === 'belongsTo') {
                indexPromises.push(self.get('db').createIndex({index: { fields: ['data.' + inverse.name, '_id'] }}));
-@@ -368,7 +375,10 @@ export default DS.RESTAdapter.extend({
+@@ -368,7 +391,10 @@ export default DS.RESTAdapter.extend({
  
    findHasMany: async function(store, record, link, rel) {
      await this._init(store, record.type);

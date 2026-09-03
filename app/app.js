@@ -41,11 +41,24 @@ import '@warp-drive/ember/install';
 // to opt out of the addon's now-dead automatic `application.inject()` calls -
 // we already inject `@service flashMessages` explicitly everywhere it's used,
 // which is exactly what the addon is asking for.
+//
+// warp-drive:deprecate-legacy-request-methods: ember-pouch's adapter calls
+// the deprecated store.modelFor(type) in two hot paths - onChange() (fires
+// on every local db write and every replication event) and _init() (fires
+// on every findAll/createRecord/updateRecord) - see
+// node_modules/ember-pouch/addon/adapters/pouch.js. Not fixable app-side:
+// the suggested replacement, store.schema.fields({type}), returns a fields
+// map, not a Model class, and ember-pouch's code needs the actual class
+// (eachRelationship, existence-checking) - a real fix means rewriting
+// ember-pouch's internals against warp-drive's modern schema API, not a
+// like-for-like swap. Silencing only this one; not removed until
+// @warp-drive/core 6.0, so no functional risk today.
 registerDeprecationHandler((message, options, next) => {
   if (
     options &&
     (options.id === 'ember-string.add-package' ||
-      options.id === 'ember-cli-flash.deprecate-injection-factories')
+      options.id === 'ember-cli-flash.deprecate-injection-factories' ||
+      options.id === 'warp-drive:deprecate-legacy-request-methods')
   ) {
     return;
   }

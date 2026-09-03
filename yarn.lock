@@ -10220,7 +10220,7 @@ __metadata:
 
 "ember-pouch@patch:ember-pouch@npm%3A7.0.0#~/.yarn/patches/ember-pouch-npm-7.0.0-6972b5be0b.patch":
   version: 7.0.0
-  resolution: "ember-pouch@patch:ember-pouch@npm%3A7.0.0#~/.yarn/patches/ember-pouch-npm-7.0.0-6972b5be0b.patch::version=7.0.0&hash=a1b8ac"
+  resolution: "ember-pouch@patch:ember-pouch@npm%3A7.0.0#~/.yarn/patches/ember-pouch-npm-7.0.0-6972b5be0b.patch::version=7.0.0&hash=203d1f"
   dependencies:
     broccoli-file-creator: "npm:^2.1.1"
     broccoli-stew: "npm:^2.1.0"
@@ -10230,7 +10230,7 @@ __metadata:
     pouchdb-browser: "npm:^7.1.1"
     pouchdb-find: "npm:^7.1.1"
     relational-pouch: "npm:^4.0.0"
-  checksum: 10c0/ef999392ccf2849f52c973c9b6cffdc987f59f7180774fccf312bc8fa1aecbb90c8c97b51c17e7cac986bff14e8c7b4a2d0ca4110418c727c726a6c6d394efc0
+  checksum: 10c0/3708c06af0bea20019ba99a53791b12fffde08ed0c64ce23860ae870c7ffcba78d96d2e6b4d65a8b5807ff3e33a7204e943dc9683fd84547e442a362e15647cd
   languageName: node
   linkType: hard
 
