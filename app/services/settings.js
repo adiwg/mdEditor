@@ -50,6 +50,18 @@ export default Service.extend({
       if (settings.get('lastVersion') !== version) {
         settings.set('showSplash', environment !== 'test');
         settings.set('lastVersion', version);
+
+        // Explicit save, matching settings/route.js's own save action
+        // (this.settings.data.save()) - don't rely on setting.js's
+        // updateSettings observer to auto-detect and save this via
+        // hasDirtyAttributes. That property is backed by ember-data 5.x's
+        // warp-drive machinery, which can throw under classic Ember
+        // .extend() (see models/setting.js's updateSettings for the full
+        // writeup); the observer fails closed on that throw, so this
+        // write was silently never persisting - showSplash reverting to
+        // true and the Update Alert reappearing on every fresh boot,
+        // forever, since lastVersion never actually committed either.
+        settings.save();
       }
 
       set(
@@ -57,8 +69,6 @@ export default Service.extend({
         'repositoryDefaults',
         settings.repositoryDefaults ?? []
       );
-
-      settings.notifyPropertyChange('hasDirtyAttributes');
 
       if (!(me.get('isDestroyed') || me.get('isDestroying'))) {
         me.set('data', settings);

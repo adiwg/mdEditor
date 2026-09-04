@@ -63,7 +63,7 @@
   @isShowing={{this.settings.data.showSplash}}
   @showConfirm={{true}}
   @confirmLabel='OK'
-  @confirm={{fn (mut this.settings.data.showSplash) false}}
+  @confirmAction={{this.dismissSplash}}
 >
   <div class='alert alert-info' role='alert'>{{fa-icon 'exclamation-triangle'}}
     Update Alert</div>

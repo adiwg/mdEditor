@@ -42,8 +42,13 @@ export default class ApplicationRoute extends Route {
   }
 
   hasUnsavedChanges() {
+    // model() wraps each section as {list, meta} (see model()'s own
+    // comment above) - itm.filter() was calling .filter() on the wrapper
+    // object itself, not the record array, throwing "itm.filter is not a
+    // function" on every single beforeunload event and silently
+    // preventing the "unsaved changes" warning from ever showing.
     return this.currentRouteModel().some(
-      (itm) => itm.filter((record) => record.hasDirtyHash).length
+      (itm) => itm.list.filter((record) => record.hasDirtyHash).length
     );
   }
 
