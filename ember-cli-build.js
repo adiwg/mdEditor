@@ -51,6 +51,7 @@ module.exports = function (defaults) {
             http: 'stream-http',
             https: 'https-browserify',
             path: 'path-browserify',
+            util: 'util',
           },
         },
       },

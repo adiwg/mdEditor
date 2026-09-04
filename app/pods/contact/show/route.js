@@ -5,7 +5,6 @@ import { action } from '@ember/object';
 export default class ContactShowRoute extends Route {
   @service store;
   @service flashMessages;
-  @service pouch;
   @service router;
   @service settings;
 
@@ -27,12 +26,11 @@ export default class ContactShowRoute extends Route {
     const model = this.currentRouteModel();
     model.updateTimestamp();
     await model.save();
-    let json = JSON.parse(model.serialize().data.attributes.json);
+    let json = model.cleanJson;
 
     model.setCurrentHash(json);
     model.notifyPropertyChange('currentHash');
     model.notifyPropertyChange('hasDirtyHash');
-    await this.pouch.updatePouchRecord(model);
     this.flashMessages.success(`Saved Contact: ${model.get('title')}`);
   }
 

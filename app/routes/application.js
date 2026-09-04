@@ -6,6 +6,7 @@ import { guidFor } from '@ember/object/internals';
 import RSVP from 'rsvp';
 import { inject as service } from '@ember/service';
 import config from 'mdeditor/config/environment';
+import { runPouchMigration } from 'mdeditor/utils/pouch-migration';
 
 const {
   APP: { defaultProfileId },
@@ -41,8 +42,13 @@ export default class ApplicationRoute extends Route {
   }
 
   hasUnsavedChanges() {
+    // model() wraps each section as {list, meta} (see model()'s own
+    // comment above) - itm.filter() was calling .filter() on the wrapper
+    // object itself, not the record array, throwing "itm.filter is not a
+    // function" on every single beforeunload event and silently
+    // preventing the "unsaved changes" warning from ever showing.
     return this.currentRouteModel().some(
-      (itm) => itm.filter((record) => record.hasDirtyHash).length
+      (itm) => itm.list.filter((record) => record.hasDirtyHash).length
     );
   }
 
@@ -85,11 +91,18 @@ export default class ApplicationRoute extends Route {
       }),
     ]);
 
+    // findAll()'s result is a reactive array that rejects arbitrary property
+    // writes (e.g. `item.meta = ...`), so the per-type nav metadata is
+    // carried alongside the list in a wrapper object instead of being glued
+    // onto the array itself. Consumers use `.list` for the record array and
+    // `.meta` for the {type, list, title, icon, listId} descriptor.
     let mapFn = function (item, id) {
       meta[id].set('listId', guidFor(item));
-      item.meta = meta[id];
 
-      return item;
+      return EmberObject.create({
+        list: item,
+        meta: meta[id],
+      });
     };
 
     return RSVP.map(promises, mapFn).then((result) => {
@@ -111,7 +124,7 @@ export default class ApplicationRoute extends Route {
     });
   }
 
-  beforeModel() {
+  async beforeModel() {
     if (!defaultProfileId) {
       this.router.replaceWith('error').then(function (route) {
         route.controller.set(
@@ -122,6 +135,12 @@ export default class ApplicationRoute extends Route {
         );
       });
     }
+
+    // Must finish before model()'s findAll('record'/'contact'/'dictionary')
+    // calls below, since those now read straight from the Pouch db this
+    // migrates old localStorage-backed data into.
+    await runPouchMigration(this.store);
+
     const loadThesauriPromise = this.keyword.loadThesauri();
     const loadProfilesPromise = this.profile.loadCoreProfiles();
     return Promise.all([loadThesauriPromise, loadProfilesPromise]);

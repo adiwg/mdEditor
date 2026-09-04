@@ -1,3 +1,4 @@
+import { isArray } from '@ember/array';
 import BaseValidator from 'ember-cp-validations/validators/base';
 
 const ArrayValid = BaseValidator.extend({
@@ -12,6 +13,14 @@ const ArrayValid = BaseValidator.extend({
   *   validator('array-valid')
   */
   validate(value /*, options, model, attribute*/ ) {
+    // array-required (this validator's usual sibling) already handles the
+    // "must have at least one item" case - a missing/non-array value here
+    // has no items to be invalid, so it's trivially valid from this
+    // validator's perspective, matching array-required.js's isArray guard.
+    if (!isArray(value)) {
+      return true;
+    }
+
     let check = value.some((itm) => {
       return itm.validations?.isInvalid;
     });

@@ -26,6 +26,10 @@ module.exports = function (environment) {
     policy['img-src'].push('https:', 'http:', 'blob:');
     policy['font-src'].push("'unsafe-inline'");
     if (API_HOST) policy['connect-src'].push(API_HOST);
+    // Local CouchDB (docker-compose.couchdb.yml) for testing services/couch.js's
+    // Pouch <-> Couch sync - plain http, so not covered by the broad `https:`
+    // entry above.
+    policy['connect-src'].push('http://localhost:5984');
   }
 
   //enable csp meta tag only in dev env

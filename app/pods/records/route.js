@@ -23,7 +23,7 @@ export default class RecordsRoute extends Route {
 
   model() {
     //return this.store.peekAll('contact');
-    return this.modelFor('application').findBy('modelName', 'record');
+    return this.modelFor('application').findBy('meta.type', 'record').list;
   }
 
   setupController(controller, model) {

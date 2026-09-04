@@ -27,8 +27,24 @@ export default class MdLocaleComponent extends Component.extend(Validations) {
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
 
-    let model = this.model || {};
+    let model = this.model;
     let settings = this.settings.data;
+
+    if (!model) {
+      // this.model can be undefined here even though record.js's default
+      // json shape has e.g. `defaultResourceLocale: {}` - cleaner.js's
+      // clean() (run on every save, via transforms/json.js) strips empty
+      // nested objects from the persisted json entirely, so after a
+      // save+reload the path is genuinely gone, not just empty. Assigning
+      // through this.set() (this is a classic, curly-invoked component,
+      // so `model=` is two-way bound) propagates the new object back onto
+      // the caller's path - without it, this.model stays undefined and
+      // the language/characterSet alias('model.*') setters below throw
+      // "object in path 'model' could not be found" the moment either
+      // field is touched.
+      model = {};
+      this.set('model', model);
+    }
 
     assert('Model passed to md-locale must be an object', !isNone(model));
 
