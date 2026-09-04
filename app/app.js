@@ -53,12 +53,27 @@ import '@warp-drive/ember/install';
 // ember-pouch's internals against warp-drive's modern schema API, not a
 // like-for-like swap. Silencing only this one; not removed until
 // @warp-drive/core 6.0, so no functional risk today.
+//
+// ember-data:deprecate-non-strict-types: app/utils/pouch-migration.js
+// registers a relational-pouch schema (`db.setSchema()`) using
+// 'pouchRecord'/'pouchContact'/'pouchDictionary' as the type marker for the
+// pre-collapse pouch-record/pouch-contact/pouch-dictionary docs a real
+// upgrading install may still have - camelCase because that's genuinely
+// what's stored in those documents (relational-pouch's per-doc type field,
+// produced by the old, now-deleted adapter's `camelize(modelName)`). Not a
+// mistake to "fix": `db.rel.find()` has to be called with the exact string
+// already on disk to find those docs at all, and this was never a real
+// ember-data model name - `setSchema()` just happens to run every type
+// through ember-data's naming-convention check regardless. Message-matched
+// (not id-only) so a genuine non-normalized type elsewhere still surfaces.
 registerDeprecationHandler((message, options, next) => {
   if (
     options &&
     (options.id === 'ember-string.add-package' ||
       options.id === 'ember-cli-flash.deprecate-injection-factories' ||
-      options.id === 'warp-drive:deprecate-legacy-request-methods')
+      options.id === 'warp-drive:deprecate-legacy-request-methods' ||
+      (options.id === 'ember-data:deprecate-non-strict-types' &&
+        /'pouchRecord'|'pouchContact'|'pouchDictionary'/.test(message)))
   ) {
     return;
   }
