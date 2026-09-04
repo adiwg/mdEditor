@@ -34,6 +34,17 @@ const OLD_POUCH_SCHEMA = Object.values(TYPES).map(({ pouchType }) => ({
   plural: `${pouchType}s`,
 }));
 
+// The new-format record/contact/dictionary schema, registered here too so
+// `alreadyMigrated` can query it directly through relational-pouch. The
+// real per-model adapters register this same schema (singular = camelized
+// modelName, see ember-pouch's `getRecordTypeName`) on their own separate
+// PouchDB handle - schema is bookkeeping local to whichever JS `db` object
+// it's set on, not something persisted, so it has to be repeated here.
+const NEW_POUCH_SCHEMA = Object.keys(TYPES).map((type) => ({
+  singular: type,
+  plural: `${type}s`,
+}));
+
 // ember-local-storage's JSONAPI adapter dasherizes attribute keys on write.
 // `date-updated` is the only multi-word attribute any of these models has;
 // `rev` is deliberately dropped - it was never a meaningful PouchDB
@@ -93,13 +104,20 @@ async function readSyncedDocs(db, pouchType) {
   }
 }
 
-async function alreadyMigrated(store, type, id) {
-  try {
-    await store.findRecord(type, id);
-    return true;
-  } catch (e) {
-    return false;
-  }
+// Deliberately bypasses `store.findRecord()`: ember-pouch's adapter treats
+// a not-found result as possibly-still-replicating and waits indefinitely
+// for the doc to eventually show up (its `eventuallyConsistent` option,
+// which this app never disables) rather than rejecting. That's fine for
+// normal app usage, which only ever calls `findRecord` for ids it already
+// knows exist, but it hangs this migration forever on the first
+// not-yet-migrated record. `db.rel.find` gives the same existence check
+// `readSyncedDocs` above already relies on, without that wrapper.
+async function alreadyMigrated(db, type, id) {
+  const payload = await db.rel.find(type, id);
+  const key = Object.keys(payload)[0];
+  const results = key ? payload[key] : [];
+
+  return results.length > 0;
 }
 
 async function migrateType(store, db, type, { storagePrefix, pouchType }) {
@@ -114,7 +132,7 @@ async function migrateType(store, db, type, { storagePrefix, pouchType }) {
   for (let i = 0; i < localRecords.length; i++) {
     const { id, attributes } = localRecords[i];
 
-    if (await alreadyMigrated(store, type, id)) {
+    if (await alreadyMigrated(db, type, id)) {
       migratedIds.add(String(id));
       continue;
     }
@@ -137,7 +155,7 @@ async function migrateType(store, db, type, { storagePrefix, pouchType }) {
   for (let i = 0; i < syncedEntries.length; i++) {
     const [id, doc] = syncedEntries[i];
 
-    if (migratedIds.has(id) || (await alreadyMigrated(store, type, id))) {
+    if (migratedIds.has(id) || (await alreadyMigrated(db, type, id))) {
       continue;
     }
 
@@ -158,9 +176,23 @@ export async function runPouchMigration(store) {
 
   const db = initDb();
 
-  db.setSchema(OLD_POUCH_SCHEMA);
+  db.setSchema([...OLD_POUCH_SCHEMA, ...NEW_POUCH_SCHEMA]);
 
   const typeEntries = Object.entries(TYPES);
+
+  // `runPouchMigration` runs in `beforeModel`, before anything else has
+  // touched the store - so `store.createRecord(type, ...)` below would be
+  // the very first ember-data interaction for these types. Warp-drive's
+  // schema provider asserts a model has been "looked up via the store"
+  // (i.e. `store.modelFor()` called at least once, which tags the class
+  // with its modelName) before allowing schema/attribute access, and
+  // `createRecord` needs that access immediately to normalize the
+  // properties hash - so an unwarmed type throws synchronously. Normal
+  // app code never hits this because a list route's `findAll` always
+  // warms a type long before a user could create a record of it.
+  for (let i = 0; i < typeEntries.length; i++) {
+    store.modelFor(typeEntries[i][0]);
+  }
 
   for (let i = 0; i < typeEntries.length; i++) {
     const [type, config] = typeEntries[i];
