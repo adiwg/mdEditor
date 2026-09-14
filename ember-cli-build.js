@@ -19,7 +19,10 @@ module.exports = function (defaults) {
         'global-builtin',
         'color-functions',
         'slash-div',
-        'mixed-decls',
+        // 'mixed-decls' was retired by Dart Sass (as of sass@1.98.0) - it's
+        // no longer a silenceable deprecation ID, and passing it now emits
+        // its own "deprecation is obsolete" warning instead.
+        'if-function',
       ],
     },
 
