@@ -4,9 +4,9 @@
 
 - **Source LTS**: Ember 4.12
 - **Target LTS**: 5.8 (`ember-cli`/`ember-data`/`ember-source` all `~5.8.0`)
-- **Branch**: `dvonanderson/spike/liquid-fire-ember-5-4`
-- **Status**: Substantially complete on this branch, not yet merged to `develop`
-- **Prerequisite**: `ember-3.28-to-4.0.md` upgrade complete
+- **Branch**: `dvonanderson/spike/liquid-fire-ember-5-4`, branched off `ember-migration` (13 commits ahead of it)
+- **Status**: Substantially complete on this branch. Neither this branch nor its parent is merged yet — `ember-migration` (the 4.0 upgrade this leg builds on) is itself still unmerged into `develop` (118 commits ahead of it as of this writing), so this branch is 131 commits ahead of `develop` in total. Landing this work means sequencing two merges, not one: `ember-migration` → `develop` first, then this branch (rebased onto `develop`, or onto `ember-migration` if that lands first and this branch is retargeted) → `develop`.
+- **Prerequisite**: `ember-3.28-to-4.0.md` upgrade complete (on `ember-migration`, not yet merged)
 
 This leg started as a narrow spike — does `liquid-fire` survive an Ember 5.x bump? — but grew into a real architecture change once that investigation surfaced that the app's actual persistence was plain browser `localStorage` (via `ember-local-storage`) the whole time; PouchDB was only ever a secondary "linked copy" created on explicit opt-in. See [Storage Architecture Change](#storage-architecture-change-record-contact-dictionary-now-live-directly-in-pouch) below for that part.
 

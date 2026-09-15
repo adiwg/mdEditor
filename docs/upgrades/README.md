@@ -14,7 +14,7 @@ One file per upgrade leg. Each file records the target versions, every breaking 
 | File | From | To | Status |
 |---|---|---|---|
 | [ember-3.28-to-4.0.md](ember-3.28-to-4.0.md) | 3.28 LTS | 4.12 LTS | In progress |
-| [ember-4.12-to-5.x.md](ember-4.12-to-5.x.md) | 4.12 LTS | 5.8 LTS | Substantially complete on `dvonanderson/spike/liquid-fire-ember-5-4`, not yet merged to `develop` |
+| [ember-4.12-to-5.x.md](ember-4.12-to-5.x.md) | 4.12 LTS | 5.8 LTS | Substantially complete on `dvonanderson/spike/liquid-fire-ember-5-4` (branched off `ember-migration`) — depends on `ember-migration` landing on `develop` first, which hasn't happened yet either |
 
 ## Tools
 
