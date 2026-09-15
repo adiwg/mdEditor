@@ -21,7 +21,9 @@ const { dismissSplashIfPresent } = require('../helpers/dismiss-splash');
  */
 function toggleLocator(page, fieldLabel) {
   return page
-    .locator('.form-group', { has: page.getByText(fieldLabel, { exact: true }) })
+    .locator('.form-group', {
+      has: page.getByText(fieldLabel, { exact: true }),
+    })
     .getByRole('checkbox');
 }
 
@@ -40,7 +42,9 @@ function waitForAutoSave(page, expected) {
 }
 
 test.describe('settings persistence', () => {
-  test('Auto Save survives a reload after being toggled on', async ({ page }) => {
+  test('Auto Save survives a reload after being toggled on', async ({
+    page,
+  }) => {
     await page.goto('/settings/main');
     await dismissSplashIfPresent(page);
 
