@@ -1,7 +1,8 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
-import { PouchMeta, pouchPrefix } from 'mdeditor/services/pouch';
+import { PouchMeta } from 'mdeditor/services/pouch';
 
 export default class SyncImportRoute extends Route {
   @service store;
@@ -9,18 +10,19 @@ export default class SyncImportRoute extends Route {
 
   async model(params) {
     const type = params.import_id;
-    await this.store.findAll(pouchPrefix(type), { reload: true });
     const options = await this.pouch.loadFilteredOptions(type);
     const meta = new PouchMeta().find(m => m.type === type);
     meta.columns = COLUMNS;
     return { meta, options };
   }
 
+  @action
   importAllData(model) {
     const { meta, options } = model;
     this.pouch.bulkCreatePouchRecords(meta, options);
   }
 
+  @action
   async importSelectedData(model) {
     const { meta, options } = model;
     const selected = options.filter(o => !!o._selected);

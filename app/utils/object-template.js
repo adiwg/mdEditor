@@ -96,7 +96,23 @@ export function applyObjectTemplateArray(
   let property = context.get(propertyName);
 
   if (isArray(property)) {
-    if (templateClass) {
+    // Only proceed if some item still needs templateClass applied.
+    // didReceiveAttrs() (this function's only caller) fires on every
+    // parent re-render, not just once - unconditionally replacing every
+    // item here regardless of whether it already had the template
+    // applied turns into a self-sustaining loop: replace ->
+    // notifyPropertyChange -> re-render -> didReceiveAttrs fires again ->
+    // replace again, forever. With no consumer passing an explicit
+    // {{#each ... key=}}, Ember's default identity-based keying then
+    // tears down and recreates every child component bound to a row on
+    // every single pass - which made it impossible to keep focus/an
+    // in-progress selection in an input inside one of those rows (e.g.
+    // input/md-select-contacts inside object/md-party-array's rows), since
+    // the DOM was being destroyed out from under the interaction.
+    let needsTemplate =
+      templateClass && property.some((item) => !(item instanceof templateClass));
+
+    if (needsTemplate) {
       let owner = getOwner(context);
 
       once(context, () => {
@@ -105,6 +121,10 @@ export function applyObjectTemplateArray(
         }
 
         property.forEach((item, idx, items) => {
+          if (item instanceof templateClass) {
+            return;
+          }
+
           let newItem = Object.assign(
             templateClass.create(owner.ownerInjection(), defaults || {}),
             item

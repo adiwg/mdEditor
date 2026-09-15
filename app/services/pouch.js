@@ -2,7 +2,6 @@ import Service, { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import RSVP from 'rsvp';
 import { guidFor } from '@ember/object/internals';
-import { camelize } from '@ember/string';
 
 export const POUCH_TYPES = {
   RECORD: 'record',
@@ -27,14 +26,15 @@ export const ID_KEYS = {
   [POUCH_TYPES.CONTACT]: 'contactId',
   [POUCH_TYPES.DICTIONARY]: 'dictionaryId'
 }
-export const POUCH_PREFIX = 'pouch-';
 
-export const pouchPrefix = (type) => `${POUCH_PREFIX}${type}`;
-
-export const camelizedPouchPrefix = (type) => camelize(pouchPrefix(type));
-
-export const unPouchPrefix = (pouchType) => pouchType.replace(POUCH_PREFIX, '');
-
+/**
+ * record/contact/dictionary all live directly in the local Pouch db now
+ * (see app/adapters/{record,contact,dictionary}.js) - there's no separate
+ * pouch-record/pouch-contact/pouch-dictionary doc to keep in sync with.
+ * This service's job is now just: which records are flagged with
+ * `syncEnabled` (replicated to a remote CouchDB by services/couch.js), and
+ * driving the sync/list & sync/import UI off of that flag.
+ */
 export default class PouchService extends Service {
   @service store;
   @service flashMessages;
@@ -58,13 +58,13 @@ export default class PouchService extends Service {
 
   async loadPouchModels() {
     let promises = [
-      this.store.findAll('pouch-record', {
+      this.store.findAll('record', {
         reload: true
       }),
-      this.store.findAll('pouch-contact', {
+      this.store.findAll('contact', {
         reload: true
       }),
-      this.store.findAll('pouch-dictionary', {
+      this.store.findAll('dictionary', {
         reload: true
       })
     ];
@@ -72,14 +72,17 @@ export default class PouchService extends Service {
     const meta = new PouchMeta();
     meta.forEach(pm => pm.columns = COLUMNS);
 
+    // findAll()'s result is a reactive array that rejects arbitrary property
+    // writes (e.g. `item.meta = ...`), so the per-type metadata is carried
+    // alongside the list in a wrapper object instead of being glued onto the
+    // array itself. The sync/list table only shows records currently
+    // syncing (matching how this looked before the collapse, when it only
+    // ever saw the linked pouch-record/etc. docs); records not yet flagged
+    // stay in `options` below, for md-pouch-add's picker.
     let mapFn = function (item, id) {
       meta[id].listId = guidFor(item);
-      // Avoid updating meta in case it's already set and being tracked
-      if (!item.meta) {
-        item.meta = meta[id];
-      }
 
-      return item;
+      return { list: item.filter((record) => record.syncEnabled), meta: meta[id] };
     };
 
     return await RSVP.map(promises, mapFn);
@@ -87,24 +90,14 @@ export default class PouchService extends Service {
 
   async loadFilteredOptions(type) {
     const storeData = await this.store.findAll(type, { reload: true });
-    // Filter out records that don't have associated pouch records
-    return storeData
-      .filter((record) => !record[camelizedPouchPrefix(type)])
+    // Records not yet flagged for sync
+    return storeData.filter((record) => !record.syncEnabled);
   }
 
   async createPouchRecord(type, id) {
     const record = await this.store.findRecord(type, id);
-    const objId = record[ID_KEYS[type]];
-    const pouchObjToSave = {
-      id: objId,
-      json: record.cleanJson
-    };
-    // First save related record
-    const pouchModel = this.store.createRecord(pouchPrefix(type), pouchObjToSave);
-    record[camelizedPouchPrefix(type)] = pouchModel;
-    await record.save();
-    // Then save pouch record
-    return await pouchModel.save();
+    record.syncEnabled = true;
+    return await record.save();
   }
 
   async bulkCreatePouchRecords(meta, records) {
@@ -134,80 +127,16 @@ export default class PouchService extends Service {
     }
   }
 
-  async updatePouchRecord(relatedRecord) {
-    let pouchRecord;
-    switch(relatedRecord.constructor.modelName) {
-      case POUCH_TYPES.RECORD:
-        await this.store.findAll('pouch-record');
-        pouchRecord = relatedRecord.pouchRecord;
-        break;
-      case POUCH_TYPES.CONTACT:
-        await this.store.findAll('pouch-contact');
-        pouchRecord = relatedRecord.pouchContact;
-        break;
-      case POUCH_TYPES.DICTIONARY:
-        await this.store.findAll('pouch-dictionary');
-        pouchRecord = relatedRecord.pouchDictionary;
-        break;
-    }
-    // Only update the pouch record if one exists
-    if (pouchRecord) {
-      pouchRecord.json = relatedRecord.cleanJson;
-      return await pouchRecord.save();
-    }
-  }
-
-  async deletePouchRecord(pouchRecord) {
-    // First delete pouch record
-    await pouchRecord.destroyRecord();
-    // Then remove related pouch record
-    const relatedRecord = await this.queryRelatedRecord(pouchRecord);
-    if (relatedRecord) {
-      relatedRecord[camelize(pouchRecord.constructor.modelName)] = null;
-      await relatedRecord.save();
-    }
-    return await pouchRecord.unloadRecord();
-  }
-
-  async queryRelatedRecord(pouchRecord) {
-    const unPouchedType = unPouchPrefix(pouchRecord.constructor.modelName);
-    const camelizedRel = camelize(pouchRecord.constructor.modelName);
-    return await this.store.queryRecord(unPouchedType, { filter: { [camelizedRel]: pouchRecord.id } });
-  }
-
-  async createRelatedRecord(pouchRecord) {
-    // First create the related record
-    const unPouchedType = unPouchPrefix(pouchRecord.constructor.modelName);
-    const relatedRecord = this.store.createRecord(unPouchedType, { json: pouchRecord.json });
-    // Then add the related pouch record
-    relatedRecord[camelize(pouchRecord.constructor.modelName)] = pouchRecord;
-    return await relatedRecord.save();
-  }
-
-  async updateRelatedRecord(pouchRecord, relatedRecord) {
-    relatedRecord.json = pouchRecord.json;
-    return await relatedRecord.save();
-  }
-
-  checkIfPouchRecordChanged(pouchRecord, relatedRecord) {
-    // Pouch record stores data as a JSON object, so needs to be stringified
-    const stringifiedPouchRecord = JSON.stringify(pouchRecord.serialize().json);
-    // Related record stores data as a stringified JSON object, so compare it directly
-    const stringifiedRelatedRecord = relatedRecord.serialize().data.attributes.json;
-    return stringifiedPouchRecord === stringifiedRelatedRecord;
+  async deletePouchRecord(record) {
+    record.syncEnabled = false;
+    return await record.save();
   }
 }
 
 const ACTIONS_COLUMN = {
   title: 'Actions',
   className: 'md-actions-column',
-  component: 'control/md-pouch-record-table/buttons',
-}
-
-const POUCH_ACTIONS_COLUMN = {
-  title: 'Pouch Actions',
-  className: 'md-actions-column',
-  component: 'control/md-pouch-record-table/pouch-buttons',
+  component: 'control/md-pouch-record-table/remove-sync',
 }
 
 const COLUMNS = [{
@@ -218,7 +147,6 @@ const COLUMNS = [{
   title: 'ID'
 },
   ACTIONS_COLUMN,
-  POUCH_ACTIONS_COLUMN
 ]
 
 

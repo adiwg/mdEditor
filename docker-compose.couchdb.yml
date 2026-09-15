@@ -1,0 +1,39 @@
+
+# Local CouchDB for testing mdEditor's Pouch <-> Couch sync (services/couch.js).
+# Not part of the app build - dev convenience only.
+#
+# CORS is pre-configured via couchdb/local.d/cors.ini (mounted below), so it
+# survives container/volume recreation on its own. The databases themselves
+# (_users, _replicator, _global_changes, mdeditor) are actual data, not
+# config, so they still need creating after a fresh volume - see the curl
+# commands in the project chat history, or just re-run them:
+#   AUTH=admin:password
+#   for db in _users _replicator _global_changes mdeditor; do
+#     curl -X PUT "$AUTH@localhost:5984/$db"
+#   done
+#
+# Usage:
+#   docker compose -f docker-compose.couchdb.yml up -d
+#   docker compose -f docker-compose.couchdb.yml down        # stop
+#   docker compose -f docker-compose.couchdb.yml down -v     # stop + wipe data
+services:
+  couchdb:
+    image: couchdb:3
+    container_name: mdeditor-couchdb
+    ports:
+      - "5984:5984"
+    environment:
+      COUCHDB_USER: admin
+      COUCHDB_PASSWORD: password
+    volumes:
+      - couchdb-data:/opt/couchdb/data
+      # CORS config baked in so it survives container/volume recreation -
+      # see couchdb/local.d/cors.ini. NOT mounted :ro - the official image's
+      # entrypoint chmod-normalizes everything under /opt/couchdb/etc on
+      # boot (`find ... -exec chmod -f 0644`); under `set -e`, chmod
+      # failing against a read-only mount silently kills the entrypoint
+      # before CouchDB logs anything at all.
+      - ./couchdb/local.d/cors.ini:/opt/couchdb/etc/local.d/cors.ini
+
+volumes:
+  couchdb-data:

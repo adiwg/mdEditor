@@ -13,6 +13,7 @@ Web application for writing metadata. Built using [ember.js](http://emberjs.com/
   - [Branching](#branching)
   - [Building ToC](#building-toc)
 - [Running / Development](#running--development)
+  - [Local CouchDB (for testing sync)](#local-couchdb-for-testing-sync)
   - [Building Application for Production](#building-application-for-production)
   - [Running Tests](#running-tests)
   - [Deploying](#deploying)
@@ -80,6 +81,16 @@ of README.
 * `ember serve`
 * Visit your app at [http://localhost:4200](http://localhost:4200).
 * Visit your tests at [http://localhost:4200/tests](http://localhost:4200/tests).
+
+### Local CouchDB (for testing sync)
+
+To test the Push/Pull/Sync features against a real CouchDB instance locally:
+
+```bash
+docker compose -f docker-compose.couchdb.yml up -d
+```
+
+Then, on the app's Sync page, log in with URL `http://localhost:5984`, database name `mdeditor`, and the admin credentials from `docker-compose.couchdb.yml`. See `docs/upgrades/ember-4.12-to-5.x.md` for details, including a gotcha around the CORS config file's mount mode.
 
 ### Building Application for Production
 

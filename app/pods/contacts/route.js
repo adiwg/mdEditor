@@ -28,7 +28,7 @@ export default class ContactsRoute extends Route {
 
   model() {
     //return this.store.peekAll('contact');
-    return this.modelFor('application').findBy('modelName','contact');
+    return this.modelFor('application').findBy('meta.type', 'contact').list;
   }
 
   setupController(controller, model) {

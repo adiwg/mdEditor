@@ -85,18 +85,27 @@ export default Model.extend(Validations, {
   updateSettings: observer('hasDirtyAttributes', 'alias', 'uri',
     'altDescription', 'remoteVersion',
     'config',
+    // See setting.js's updateSettings for why this is deferred + guarded
+    // (native hasDirtyAttributes can throw under classic Ember .extend()).
     function () {
-      if(this.isNew || this.isEmpty || this.isDeleted) {
-        return;
-      }
+      once(this, function () {
+        if(this.isNew || this.isEmpty || this.isDeleted) {
+          return;
+        }
 
-      if(this.hasDirtyAttributes) {
-        this.set('dateUpdated', new Date());
+        let dirty = false;
 
-        once(this, function () {
+        try {
+          dirty = this.hasDirtyAttributes;
+        } catch (e) {
+          // ignore - see setting.js's updateSettings
+        }
+
+        if(dirty) {
+          this.set('dateUpdated', new Date());
           this.save();
-        });
-      }
+        }
+      });
     })
   /* eslint-enable ember/no-observers */
 });
