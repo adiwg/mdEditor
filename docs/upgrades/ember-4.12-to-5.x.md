@@ -178,9 +178,19 @@ Grew out of the real-data migration test — since this app has no HTTP data lay
 
 ---
 
+## E2E Testing (Playwright)
+
+Scaffolding pulled into this branch 2026-09-15 from a separate, never-merged `dvonanderson/feature/playwright-e2e-setup` branch (also off `ember-migration`) — deliberately folded into this PR rather than kept separate, since most of the bugs found across this leg were *silent* failures (the Settings-page-persistence bug being the sharpest example) that manual review alone won't catch on the next pass.
+
+- `playwright.config.js` + `e2e/smoke.spec.js` (2 tests: dashboard loads, top nav renders) — verified working end-to-end against this branch's actual app (`yarn test:e2e`).
+- `@playwright/test` added as a dependency; run `npx playwright install chromium` once to fetch the browser binary.
+- The original scaffolding's config comment about needing a separate Node 20+ toolchain from the rest of the app no longer applies — this branch's `engines.node` is already `"20*"`.
+- **Not yet done**: real scenario coverage. Smoke tests only prove the app boots. Still need E2E specs for: create/edit/save a record/contact/dictionary, autosave on/off, Settings fields persisting, Sync push/pull against local CouchDB, and a basic real-boot pass through the migration script.
+
 ## What's Next
 
-- Open a PR / plan how to land this branch — currently 130+ commits ahead of `develop`, never opened for review. Given how much is now verified end-to-end, worth deciding scope (squash the exploratory history or keep it) and what review it needs.
+- Open a PR / plan how to land this branch. It's off `ember-migration`, which is itself not yet merged to `develop` (currently in team testing, close to wrapping up) — landing the spike means sequencing two merges: `ember-migration` → `develop` first, then this branch → `develop`.
+- Write the real E2E scenario coverage above before presenting this as a PR.
 - `tests/unit/models/setting-test.js`'s `it exists` fails in isolation — pre-existing (confirmed via `git stash` against the untouched original `setting.js`), same unwarmed-store family as bug #7's downstream consequence. Needs the same `store.modelFor('setting')` warm-up pattern already used in the migration script/dev-seed/test-fixture code.
 - `Integration | Component | sb publisher` render-crash noticed alongside the above, in the same test run — not investigated, doesn't touch any code this leg changed.
 - Autosave (`observeAutoSave`/`hasDirtyHash`) re-verified working end-to-end 2026-09-14; no known gaps.
