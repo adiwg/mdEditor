@@ -7,6 +7,7 @@ import RSVP from 'rsvp';
 import { inject as service } from '@ember/service';
 import config from 'mdeditor/config/environment';
 import { runPouchMigration } from 'mdeditor/utils/pouch-migration';
+import { seedSampleDataIfEmpty } from 'mdeditor/utils/dev-seed-data';
 
 const {
   APP: { defaultProfileId },
@@ -140,6 +141,13 @@ export default class ApplicationRoute extends Route {
     // calls below, since those now read straight from the Pouch db this
     // migrates old localStorage-backed data into.
     await runPouchMigration(this.store);
+
+    // Dev convenience only: gives a freshly-cloned/reset dev environment
+    // something realistic to look at without a manual import. No-ops once
+    // the db has any records at all - see dev-seed-data.js.
+    if (config.environment === 'development') {
+      await seedSampleDataIfEmpty(this.store);
+    }
 
     const loadThesauriPromise = this.keyword.loadThesauri();
     const loadProfilesPromise = this.profile.loadCoreProfiles();

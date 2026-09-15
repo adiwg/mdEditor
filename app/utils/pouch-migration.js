@@ -57,7 +57,28 @@ function denormalizeAttributes(attributes = {}) {
     result.profile = attributes.profile;
   }
   if (attributes.json !== undefined) {
-    result.json = attributes.json;
+    // `json`'s own transform (app/transforms/json.js) always serializes to a
+    // JSON-encoded *string* - that's what the old adapter actually wrote to
+    // localStorage. `store.createRecord()` bypasses the transform entirely
+    // (it only runs on data coming back from the adapter/serializer), so
+    // without parsing here the raw string lands directly on the record's
+    // `json` property. The record still creates and saves without error,
+    // but next time the *transform's own* serialize() re-stringifies that
+    // already-a-string value, double-encoding it - deserializing later
+    // then leaves a string one JSON.parse short of the real object, and
+    // `EmberObject.create(thatString)` throws "only accepts objects".
+    // Only reproduces against real pre-collapse data (a genuine JSON
+    // string); hand-built test fixtures that pass a plain object here
+    // never exercised this path.
+    try {
+      result.json =
+        typeof attributes.json === 'string'
+          ? JSON.parse(attributes.json)
+          : attributes.json;
+    } catch (e) {
+      // Malformed json string - skip the field entirely rather than fail
+      // the whole record; the model's own `json` defaultValue fills in.
+    }
   }
   if (attributes['date-updated'] !== undefined) {
     result.dateUpdated = new Date(attributes['date-updated']);
