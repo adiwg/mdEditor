@@ -27,6 +27,17 @@ export default class IdRoute extends Route {
   breadCrumb = null;
 
   deactivate() {
+    // Post-save navigation - model.isDeleted/isNew can't be trusted here,
+    // both are backed by ember-data 5.x's warp-drive RecordState/@gate
+    // machinery, which breaks under classic Ember .extend() (same root
+    // cause as the "memoSignal is not a function" bug elsewhere in this
+    // app - see record/new/id/route.js's willTransition for the fuller
+    // writeup). Without this, a successful save could still get its own
+    // record unloaded right as this route deactivates.
+    if (this._justSaved) {
+      return;
+    }
+
     // We grab the model loaded in this route
     let model = this.currentRouteModel();
 
@@ -75,6 +86,7 @@ export default class IdRoute extends Route {
     this.currentRouteModel()
       .save()
       .then((model) => {
+        this._justSaved = true;
         this.router.replaceWith('dictionary.show.edit', model);
       });
   }

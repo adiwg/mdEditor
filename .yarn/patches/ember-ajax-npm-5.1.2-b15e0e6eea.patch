@@ -1,0 +1,19 @@
+diff --git a/addon/mixins/ajax-request.js b/addon/mixins/ajax-request.js
+index 04a60d3906a977f1964834fad8269b699c581ccc..9f8f6d00ba8568d552724bc31c455a673c76c7cc 100644
+--- a/addon/mixins/ajax-request.js
++++ b/addon/mixins/ajax-request.js
+@@ -1,5 +1,4 @@
+ import { A } from '@ember/array';
+-import EmberError from '@ember/error';
+ import Mixin from '@ember/object/mixin';
+ import { get } from '@ember/object';
+ import { isEmpty } from '@ember/utils';
+@@ -301,7 +300,7 @@ export default Mixin.create({
+      */
+     get(url) {
+         if (arguments.length > 1 || url.indexOf('/') !== -1) {
+-            throw new EmberError('It seems you tried to use `.get` to make a request! Use the `.request` method instead.');
++            throw new Error('It seems you tried to use `.get` to make a request! Use the `.request` method instead.');
+         }
+         return this._super(...arguments);
+     },

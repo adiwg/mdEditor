@@ -47,10 +47,10 @@ export default class MdRepoLinkComponent extends Component {
    * @return string
    */
   get hash() {
-    let idx = this.version
-      .indexOf('+') + 1;
+    let ver = this.version || '';
+    let idx = ver.indexOf('+') + 1;
 
-    return version.substring(idx);
+    return ver.substring(idx);
   }
 
   /**

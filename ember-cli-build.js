@@ -1,6 +1,7 @@
 'use strict';
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const Funnel = require('broccoli-funnel');
 
 module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
@@ -19,7 +20,10 @@ module.exports = function (defaults) {
         'global-builtin',
         'color-functions',
         'slash-div',
-        'mixed-decls',
+        // 'mixed-decls' was retired by Dart Sass (as of sass@1.98.0) - it's
+        // no longer a silenceable deprecation ID, and passing it now emits
+        // its own "deprecation is obsolete" warning instead.
+        'if-function',
       ],
     },
 
@@ -51,6 +55,7 @@ module.exports = function (defaults) {
             http: 'stream-http',
             https: 'https-browserify',
             path: 'path-browserify',
+            util: 'util',
           },
         },
       },
@@ -60,6 +65,19 @@ module.exports = function (defaults) {
       includeDefaultCss: true,
     },
   });
+
+  // public/dev-fixtures/ is real (if old/semi-public) FWS test data, used
+  // by app/utils/dev-seed-data.js (gated to the development environment)
+  // and tests/helpers/seed-sample-data.js (used during `ember test` runs)
+  // - but ember-cli copies the whole public/ tree into every build's
+  // dist/ output regardless of environment, so without this the file
+  // would still ship as a publicly-downloadable static asset on
+  // staging/production even though no app code there ever fetches it.
+  if (!['development', 'test'].includes(process.env.EMBER_ENV)) {
+    app.trees.public = new Funnel(app.trees.public, {
+      exclude: ['dev-fixtures/**'],
+    });
+  }
 
   // Use `app.import` to add additional libraries to the generated
   // output files.
