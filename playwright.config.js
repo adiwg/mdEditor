@@ -1,13 +1,5 @@
 const { defineConfig, devices } = require('@playwright/test');
 
-/**
- * Playwright requires Node 20+. The rest of this app's toolchain (ember-cli,
- * the existing QUnit suite) is pinned to Node 18 - see package.json's
- * "engines" field - so run e2e commands under a separate Node 20+ version
- * (e.g. `nvm exec 20 yarn test:e2e`). This is a separate process from the
- * Ember build either way, so the two toolchains don't need to share a
- * Node version.
- */
 module.exports = defineConfig({
   testDir: './e2e',
   fullyParallel: true,
@@ -15,6 +7,16 @@ module.exports = defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
+  // All specs share one dev server and PouchDB-backed persistence, so
+  // running the suite with multiple workers creates real resource
+  // contention (rebuild/serve CPU, concurrent IndexedDB activity) -
+  // e2e/record/persistence.spec.js only needs ~12s in isolation but can
+  // brush past Playwright's 30s default when running alongside the
+  // autosave specs' sustained churn (see the autosave-churn finding in the
+  // playwright-e2e-scaffolding memory). Specs with unusually heavy load of
+  // their own (e2e/record/autosave.spec.js) still set a larger explicit
+  // override on top of this.
+  timeout: 60 * 1000,
   use: {
     baseURL: 'http://localhost:4200',
     trace: 'on-first-retry',

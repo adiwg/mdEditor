@@ -1,5 +1,6 @@
 const { test, expect } = require('@playwright/test');
 const { dismissSplashIfPresent } = require('../helpers/dismiss-splash');
+const { autoSaveToggle, readAutoSave } = require('../helpers/settings');
 
 /**
  * Regression coverage for a real bug found in this branch: `Setting`'s
@@ -9,30 +10,7 @@ const { dismissSplashIfPresent } = require('../helpers/dismiss-splash');
  * (reading it doesn't throw, it just silently never triggers). Every field
  * on /settings/main silently failed to persist until fixed. See
  * app/models/setting.js and docs/upgrades/ember-4.12-to-5.x.md.
- *
- * ember-toggle's actual checkbox input is `display: none` (see
- * node_modules/ember-toggle/vendor/ember-toggle/base.css) - it renders
- * *three* separate <label for="..."> elements pointing at that one input
- * (the On text, the Off text, and the switch itself), so a plain `label`
- * selector is ambiguous. The switch itself carries `role="checkbox"`
- * (node_modules/ember-toggle/addon/components/x-toggle-switch/template.hbs)
- * - target that directly instead, which is also the semantically correct
- * accessible name for what a real user perceives as "the toggle."
  */
-function toggleLocator(page, fieldLabel) {
-  return page
-    .locator('.form-group', {
-      has: page.getByText(fieldLabel, { exact: true }),
-    })
-    .getByRole('checkbox');
-}
-
-function readAutoSave(page) {
-  return page.evaluate(
-    () =>
-      window.Mdeditor.__container__.lookup('service:settings').data?.autoSave
-  );
-}
 
 // After a reload the settings service has to re-fetch its record from
 // PouchDB before `.data` reflects the persisted value - reading it
@@ -48,7 +26,7 @@ test.describe('settings persistence', () => {
     await page.goto('/settings/main');
     await dismissSplashIfPresent(page);
 
-    const toggle = toggleLocator(page, 'Auto Save');
+    const toggle = autoSaveToggle(page);
 
     // Establish a known baseline - don't assume Off going in.
     const initiallyOn = await readAutoSave(page);

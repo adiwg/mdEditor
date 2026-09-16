@@ -18,10 +18,16 @@ async function dismissSplashIfPresent(page) {
 
   // The modal renders asynchronously after the settings record loads, so an
   // immediate isVisible() check can race it and return false just before it
-  // appears. Give it a short window to show up; if it never does (already
-  // dismissed in an earlier navigation this test), move on.
+  // appears. On a fresh browser context this also waits behind
+  // seedSampleDataIfEmpty() seeding 12 fixture documents (see
+  // app/utils/dev-seed-data.js) before the settings record itself is even
+  // available - a short window here can expire before the modal shows up
+  // at all, after which nothing dismisses it and a later click on the page
+  // gets blocked by its overlay. Give it a generous window; if it never
+  // appears (already dismissed in an earlier navigation this test), move
+  // on well before the test's own timeout.
   const appeared = await okButton
-    .waitFor({ state: 'visible', timeout: 5000 })
+    .waitFor({ state: 'visible', timeout: 20000 })
     .then(() => true)
     .catch(() => false);
 
