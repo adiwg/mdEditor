@@ -1,0 +1,23 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mdeditor",
+  "compatibility_date": "2026-09-22",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "dist",
+    "not_found_handling": "single-page-application"
+  },
+  "compatibility_flags": ["nodejs_compat"],
+  "env": {
+    "staging": {
+      "name": "mdeditor-staging",
+      "assets": {
+        "directory": "dist",
+        "not_found_handling": "single-page-application"
+      },
+      "compatibility_flags": ["nodejs_compat"]
+    }
+  }
+}

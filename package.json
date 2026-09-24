@@ -22,6 +22,7 @@
     "doc:toc": "doctoc README.md",
     "build:development": "ember build",
     "build": "ember build --environment=production && cp dist/index.html dist/404.html",
+    "build:staging": "ember build --environment=staging",
     "lint": "concurrently \"yarn:lint:*(!fix)\" --names \"lint:\"",
     "lint:fix": "concurrently \"yarn:lint:*:fix\" --names \"fix:\"",
     "lint:hbs": "DISABLE_V8_COMPILE_CACHE=1 ember-template-lint .",
