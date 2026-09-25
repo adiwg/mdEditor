@@ -1,4 +1,3 @@
-import { get } from '@ember/object';
 import BaseValidator from 'ember-cp-validations/validators/base';
 
 const ArrayValid = BaseValidator.extend({
@@ -14,7 +13,7 @@ const ArrayValid = BaseValidator.extend({
   */
   validate(value /*, options, model, attribute*/ ) {
     let check = value.some((itm) => {
-      return get(itm, 'validations.isInvalid');
+      return itm.validations?.isInvalid;
     });
     return check ? 'At least one item is invalid.' : true;
   }

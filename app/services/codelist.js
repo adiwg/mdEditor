@@ -1,4 +1,5 @@
 import { computed } from '@ember/object';
+import { A } from '@ember/array';
 import Service, { inject as service } from '@ember/service';
 import codes from 'mdcodes/resources/js/mdcodes.js';
 
@@ -29,9 +30,9 @@ export default Service.extend({
         const list = codes[key];
         const name = key.replace(/^iso_|adiwg_/, '');
 
-        codelist[name] = list;
-        //remove deprecated codes
-        codelist[name]['codelist'] = list.codelist.rejectBy('deprecated');
+        codelist[name] = Object.assign({}, list, {
+          codelist: A(list.codelist).rejectBy('deprecated')
+        });
       });
   },
 

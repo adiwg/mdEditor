@@ -1,0 +1,43 @@
+diff --git a/addon/-private/create-string-helper.js b/addon/-private/create-string-helper.js
+index e9451973afab2c4663b150da826e4a203e0494cc..213b0b34026797fdad1e9c0958a86971c6d10cd6 100644
+--- a/addon/-private/create-string-helper.js
++++ b/addon/-private/create-string-helper.js
+@@ -1,4 +1,4 @@
+-import { isHTMLSafe } from '@ember/string';
++import { isHTMLSafe } from '@ember/template';
+ 
+ export default function(stringFunction) {
+   return function([string]) {
+diff --git a/addon/helpers/html-safe.js b/addon/helpers/html-safe.js
+index 9fcabb9b1d49d6b15d046f23b038b9dfaed59af3..7c25dad7757795b9f6e1dc2f7c7446c116caf476 100644
+--- a/addon/helpers/html-safe.js
++++ b/addon/helpers/html-safe.js
+@@ -1,5 +1,5 @@
+ import { helper } from '@ember/component/helper';
+-import { htmlSafe as _htmlSafe } from '@ember/string';
++import { htmlSafe as _htmlSafe } from '@ember/template';
+ import createStringHelperFunction from '../-private/create-string-helper';
+ 
+ export const htmlSafe = createStringHelperFunction(_htmlSafe);
+diff --git a/addon/helpers/humanize.js b/addon/helpers/humanize.js
+index 343caab301aeb10cff158252ed31b418c1964531..f9f05c7a7264b369f45580ddb5b23cb600b17ab4 100644
+--- a/addon/helpers/humanize.js
++++ b/addon/helpers/humanize.js
+@@ -1,5 +1,5 @@
+ import { helper } from '@ember/component/helper';
+-import { isHTMLSafe } from '@ember/string';
++import { isHTMLSafe } from '@ember/template';
+ 
+ const regex = /_+|-+/g;
+ const replacement = ' ';
+diff --git a/addon/helpers/truncate.js b/addon/helpers/truncate.js
+index 5210c4b8597821d58b8936dce9f19d339c95d4bf..1f442a6c0aea6f325c1015f3505ae974bb3c919f 100644
+--- a/addon/helpers/truncate.js
++++ b/addon/helpers/truncate.js
+@@ -1,5 +1,5 @@
+ import { helper } from '@ember/component/helper';
+-import { isHTMLSafe } from '@ember/string';
++import { isHTMLSafe } from '@ember/template';
+ 
+ export function truncate([string, characterLimit = 140, useEllipsis = true]) {
+   let limit = useEllipsis ? characterLimit - 3 : characterLimit;

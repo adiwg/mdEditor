@@ -35,13 +35,13 @@ module('Integration | Component | tree search', function(hooks) {
     });
 
     this.set('searchString', 'foo');
-    await render(hbs `
+    await render(hbs`
       {{tree-search
-        model=model
-        selected=selected
-        select=select
-        searchString=searchString
-        exactMatch=exactMatch
+        model=this.model
+        selected=this.selected
+        select=this.select
+        searchString=this.searchString
+        exactMatch=this.exactMatch
       }}`);
 
     assert.equal(find('.tree-search').innerText
@@ -59,11 +59,11 @@ module('Integration | Component | tree search', function(hooks) {
     );
 
     // Template block usage:
-    await render(hbs `
+    await render(hbs`
       {{#tree-search
-        model=model
-        selected=selected
-        select=select
+        model=this.model
+        selected=this.selected
+        select=this.select
       }}
         template block text
       {{/tree-search}}

@@ -18,9 +18,9 @@ module('Integration | Component | ember-tooltip', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#ember-tooltip isShown="true"}}
+      <EmberTooltip @isShown="true">
         template block text
-      {{/ember-tooltip}}
+      </EmberTooltip>
     `);
 
     assertTooltipContent(assert, {

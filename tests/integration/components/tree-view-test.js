@@ -35,7 +35,7 @@ module('Integration | Component | tree view', function(hooks) {
     // Handle any actions with this.on('myAction', function(val) { ... });
     assert.expect(7);
 
-    await render(hbs `{{tree-view model=model selected=selected}}`);
+    await render(hbs`{{tree-view model=this.model selected=this.selected}}`);
 
     assert.equal(find('.tree-trunk').innerText
       .replace(/[\s\n]+/g, '|'), '|bar1label|foo1label');
@@ -51,8 +51,8 @@ module('Integration | Component | tree view', function(hooks) {
     assert.equal(findAll('.tree-leaf').length, 3, 'node expanded');
 
     // Template block usage:
-    await render(hbs `
-      {{#tree-view model=model select=select}}
+    await render(hbs`
+      {{#tree-view model=this.model select=this.select}}
         template block text
       {{/tree-view}}
     `);

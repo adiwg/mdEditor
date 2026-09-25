@@ -1,12 +1,18 @@
 import Route from '@ember/routing/route';
-import { get, set, getWithDefault } from '@ember/object';
+import { set } from '@ember/object';
+import { A } from '@ember/array';
 
-export default Route.extend({
+export default class DistributionRoute extends Route {
   afterModel(m) {
-    this._super(...arguments);
+    super.afterModel(...arguments);
 
-    let model = get(m, 'json.metadata');
-    set(model, 'resourceDistribution', getWithDefault(model,
-      'resourceDistribution', []));
-  },
-});
+    let model = m.json.metadata;
+    let distributions = model.resourceDistribution;
+
+    if (!distributions) {
+      set(model, 'resourceDistribution', A([]));
+    } else if (typeof distributions.pushObject !== 'function') {
+      set(model, 'resourceDistribution', A(distributions));
+    }
+  }
+}

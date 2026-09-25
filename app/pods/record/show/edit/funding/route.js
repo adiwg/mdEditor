@@ -1,8 +1,10 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 
-export default Route.extend({
-  actions: {
-    deleteAllocation(){},
-    editAllocation(){}
-  }
-});
+export default class FundingRoute extends Route {
+  @action
+  deleteAllocation(){}
+
+  @action
+  editAllocation(){}
+}

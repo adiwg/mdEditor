@@ -1,29 +1,30 @@
 import Route from '@ember/routing/route';
-import {
-  get
-} from '@ember/object';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-export default Route.extend({
+export default class ItisRoute extends Route {
+  @service router;
+
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.breadCrumb = {
-      "title": "ITIS"
+      title: 'ITIS',
     };
-  },
-  setupController: function () {
-    // Call _super for default behavior
-    this._super(...arguments);
-
-    this.controller.set('parentModel', this.modelFor(
-      'record.show.edit'));
-    this.controller.set('collectionId', get(this.controllerFor(
-        'record.show.edit.taxonomy.collection'),
-      'collectionId'));
-  },
-  actions: {
-    toCollection() {
-      this.transitionTo('record.show.edit.taxonomy.collection');
-    }
   }
-});
+  setupController() {
+    // Call super for default behavior
+    super.setupController(...arguments);
+
+    this.controller.set('parentModel', this.modelFor('record.show.edit'));
+    this.controller.set(
+      'collectionId',
+      this.controllerFor('record.show.edit.taxonomy.collection').collectionId
+    );
+  }
+
+  @action
+  toCollection() {
+    this.router.transitionTo('record.show.edit.taxonomy.collection');
+  }
+}

@@ -1,0 +1,48 @@
+diff --git a/addon/services/flash-messages.js b/addon/services/flash-messages.js
+index 98c34574f755afaef66c4372ec175c95ed444c97..5772794cbd34b9ea97747f6706e818c3544f27e0 100644
+--- a/addon/services/flash-messages.js
++++ b/addon/services/flash-messages.js
+@@ -4,7 +4,6 @@ import { typeOf, isNone } from '@ember/utils';
+ import { warn, assert } from '@ember/debug';
+ import { set, get, setProperties, computed } from '@ember/object';
+ import { classify } from '@ember/string';
+-import { assign } from '@ember/polyfills';
+ import { A as emberArray } from '@ember/array';
+ import FlashMessage from 'ember-cli-flash/flash/object';
+ import objectWithout from '../utils/object-without';
+@@ -98,7 +97,7 @@ export default class FlashMessagesService extends Service {
+       'preventDuplicates',
+     ]);
+ 
+-    const flashMessageOptions = assign({}, defaults, { flashService });
++    const flashMessageOptions = Object.assign({}, defaults, { flashService });
+ 
+     for (let key in options) {
+       const value = get(options, key);
+@@ -145,7 +144,7 @@ export default class FlashMessagesService extends Service {
+     assert('The flash type cannot be undefined', type);
+ 
+     this[type] = (message, options = {}) => {
+-      const flashMessageOptions = assign({}, options);
++      const flashMessageOptions = Object.assign({}, options);
+       setProperties(flashMessageOptions, { message, type });
+ 
+       return this.add(flashMessageOptions);
+diff --git a/addon/utils/flash-message-options.js b/addon/utils/flash-message-options.js
+index 00f7e58918b8239f9700725d2dfa5c1afb5d6041..b9b44cb5a118a94068d657a541a21555a956eb8d 100644
+--- a/addon/utils/flash-message-options.js
++++ b/addon/utils/flash-message-options.js
+@@ -1,6 +1,3 @@
+-/* eslint-disable ember/new-module-imports */
+-import { assign } from '@ember/polyfills';
+-
+ export default function (configOverrides) {
+   const addonDefaults = {
+     timeout: 3000,
+@@ -13,5 +10,5 @@ export default function (configOverrides) {
+     injectionFactories: ['route', 'controller', 'view', 'component'],
+     preventDuplicates: false,
+   };
+-  return assign(addonDefaults, configOverrides);
++  return Object.assign(addonDefaults, configOverrides);
+ }

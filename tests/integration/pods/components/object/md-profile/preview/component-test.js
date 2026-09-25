@@ -8,24 +8,29 @@ module('Integration | Component | object/md-profile/preview', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function (assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
     this.model = createProfile(1)[0];
 
-    await render(hbs `{{object/md-profile/preview  record=model}}`);
+    await render(hbs`
+      <Object::MdProfile::Preview @record={{this.model}} />
+    `);
 
-    assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(),
+    assert.dom('.text-muted').exists('applies muted styling on the wrapper');
+    assert.equal(
+      this.element.textContent.replace(/[ \n]+/g, '|').trim(),
       '|Title|Minimal|Description|A|Minimalist|Profile|Identifier|minimal|Namespace|org.adiwg.profile|'
     );
 
-    // Template block usage:
-    await render(hbs `
-      {{#object/md-profile/preview record=model}}
+    await render(hbs`
+      <Object::MdProfile::Preview @record={{this.model}} class='list-group-item-text'>
         template block text
-      {{/object/md-profile/preview}}
+      </Object::MdProfile::Preview>
     `);
 
-    assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(),
+    assert.dom('.text-muted.list-group-item-text').exists(
+      'merges caller class with muted wrapper'
+    );
+    assert.equal(
+      this.element.textContent.replace(/[ \n]+/g, '|').trim(),
       '|Title|Minimal|Description|A|Minimalist|Profile|Identifier|minimal|Namespace|org.adiwg.profile|template|block|text|'
     );
   });

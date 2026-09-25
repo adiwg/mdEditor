@@ -3,8 +3,14 @@
   padding-right: 0.3em;
 }
 
+%sup-placeholder {
+  font-size: smaller;
+  line-height: 0;
+  vertical-align: super;
+}
+
 a.external::after {
-  @extend sup;
+  @extend %sup-placeholder;
 
   content: '\f08e';
   font-family: FontAwesome;

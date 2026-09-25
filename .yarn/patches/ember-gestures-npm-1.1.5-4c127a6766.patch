@@ -1,0 +1,92 @@
+diff --git a/addon/event_dispatcher.js b/addon/event_dispatcher.js
+index 4c04e4d53ad000257620e57a4822f5214e82c0c8..005b9030c786d86c2f343dbb5921e164809c13b6 100644
+--- a/addon/event_dispatcher.js
++++ b/addon/event_dispatcher.js
+@@ -1,5 +1,4 @@
+ import { getOwner } from '@ember/application';
+-import { merge, assign as _assign } from '@ember/polyfills';
+ import { get, set } from '@ember/object';
+ import Ember from 'ember';
+ import defaultHammerEvents from './hammer-events';
+@@ -21,8 +20,6 @@ const eventEndings = {
+   tap: []
+ };
+ 
+-const assign = _assign || merge;
+-
+ const notFocusableTypes = ['submit', 'file', 'button', 'hidden', 'reset', 'range', 'radio', 'image', 'checkbox'];
+ 
+ const fastFocusEvents = ['click', 'touchend'];
+@@ -42,7 +39,7 @@ export default EventDispatcher.extend({
+   _gestures: null,
+   _initializeGestures() {
+     const list = getModuleList();
+-    const events = assign({}, defaultHammerEvents);
++    const events = Object.assign({}, defaultHammerEvents);
+ 
+     list.forEach((name) => {
+       const recognizer = getOwner(this).factoryFor('ember-gesture:recognizers/' + name);
+@@ -120,7 +117,7 @@ export default EventDispatcher.extend({
+ 
+   setup(addedEvents, rootElement) {
+     this._initializeGestures();
+-    let events = assign({}, get(this, 'events'));
++    let events = Object.assign({}, get(this, 'events'));
+ 
+     // remove undesirable events from Ember's Eventing
+     if (this.get('removeTracking')) {
+@@ -157,8 +154,8 @@ export default EventDispatcher.extend({
+     this.set('events', events);
+ 
+     // add our events to addition events
+-    let additionalEvents = assign({}, addedEvents);
+-    additionalEvents = assign(additionalEvents, this.get('_gestures'));
++    let additionalEvents = Object.assign({}, addedEvents);
++    additionalEvents = Object.assign(additionalEvents, this.get('_gestures'));
+ 
+     if (!isNone(rootElement)) {
+       set(this, 'rootElement', rootElement);
+diff --git a/app/event_dispatcher.js b/app/event_dispatcher.js
+index fe0faeb2f7459d456ff5fc5cb35409ba63baed9c..8291bac43273b622cec7809cc35edc3c310dc85a 100644
+--- a/app/event_dispatcher.js
++++ b/app/event_dispatcher.js
+@@ -1,17 +1,12 @@
+-import { merge, assign as _assign } from '@ember/polyfills';
+-
+-
+ import EventDispatcher from 'ember-gestures/event_dispatcher';
+ import config from './config/environment';
+ 
+-const assign = _assign || merge;
+-
+-let gestures = assign({}, {
++let gestures = Object.assign({}, {
+     emberUseCapture: false,
+     removeTracking: false,
+     useFastPaths: false
+   });
+-gestures = assign(gestures, config.gestures);
++gestures = Object.assign(gestures, config.gestures);
+ 
+ export default EventDispatcher.extend({
+   useCapture: gestures.emberUseCapture,
+diff --git a/app/services/-gestures.js b/app/services/-gestures.js
+index 46b21f060f04e4e34f49fff130d08817a62c45d6..bb763fb1a7e4dcc107eeae2b554fd95ca233ff58 100644
+--- a/app/services/-gestures.js
++++ b/app/services/-gestures.js
+@@ -1,13 +1,10 @@
+-import { merge, assign as _assign } from '@ember/polyfills';
+ import config from '../config/environment';
+ import Service from 'ember-gestures/services/-gestures';
+ 
+-const assign = _assign || merge;
+-
+-let gestures = assign({}, {
++let gestures = Object.assign({}, {
+   useCapture: false
+ });
+-gestures = assign(gestures, config.gestures);
++gestures = Object.assign(gestures, config.gestures);
+ 
+ export default Service.extend({
+   useCapture: gestures.useCapture

@@ -2,6 +2,7 @@ import { find, render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import EmberObject from '@ember/object';
 
 module('Integration | Component | input/md input', function(hooks) {
   setupRenderingTest(hooks);
@@ -12,7 +13,6 @@ module('Integration | Component | input/md input', function(hooks) {
       {{input/md-input
         label="Foo"
         value="Bar"
-        showInfoTip="true"
         maxlength=100
         required="true"
         inputClass="test"
@@ -21,13 +21,13 @@ module('Integration | Component | input/md input', function(hooks) {
 
     assert.equal(find('label').textContent.trim(), 'Foo', 'labeled OK');
 
-    const input = this.$('input');
+    const input = find('input');
     const props = [
-      input.prop('required'),
-      input.prop('maxlength'),
-      input.val(),
-      input.prop('placeholder'),
-      input.hasClass('test')
+      input.required,
+      input.maxLength,
+      input.value,
+      input.placeholder,
+      input.classList.contains('test')
     ];
     assert.deepEqual(props, [true, 100, 'Bar', 'Enter FooBar', true],
       'properties set OK');
@@ -40,5 +40,21 @@ module('Integration | Component | input/md input', function(hooks) {
     `);
 
     assert.equal(find('.help-block').textContent, 'help text', 'block renders');
+  });
+
+  test('it accepts required when bound to a model', async function(assert) {
+    this.set('model', EmberObject.create({ title: 'Hello' }));
+
+    await render(hbs`
+      {{input/md-input
+        model=this.model
+        valuePath="title"
+        label="Title"
+        required=true
+      }}
+    `);
+
+    assert.dom('input').hasAttribute('required');
+    assert.dom('.md-input').hasClass('required');
   });
 });

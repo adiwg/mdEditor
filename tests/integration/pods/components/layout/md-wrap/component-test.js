@@ -17,9 +17,9 @@ module('Integration | Component | layout/md wrap', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#layout/md-wrap class="testme"}}
+      <Layout::MdWrap @class="testme">
         template block text
-      {{/layout/md-wrap}}
+      </Layout::MdWrap>
     `);
 
     assert.equal(find('.testme').textContent.trim(), 'template block text');

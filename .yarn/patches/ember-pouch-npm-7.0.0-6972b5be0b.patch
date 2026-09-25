@@ -1,0 +1,13 @@
+diff --git a/index.js b/index.js
+index f763e582dba8cc47693636e0e49a7228fde6432a..85445a3d1988d4cd6db091ccd296a3e14bb7b2d8 100644
+--- a/index.js
++++ b/index.js
+@@ -29,7 +29,7 @@ module.exports = {
+   },
+ 
+   treeForVendor: function() {
+-    var content = "Ember.libraries.register('Ember Pouch', '" + version + "');";
++    var content = "if (typeof Ember !== 'undefined') { Ember.libraries.register('Ember Pouch', '" + version + "'); }";
+     var registerVersionTree = writeFile(
+       'ember-pouch/register-version.js',
+       content

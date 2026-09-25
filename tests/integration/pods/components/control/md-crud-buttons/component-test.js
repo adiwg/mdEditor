@@ -12,14 +12,14 @@ module('Integration | Component | control/md crud buttons', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
-    await render(hbs `{{control/md-crud-buttons allowCopy=true allowDelete=true}}`);
+    await render(hbs`{{control/md-crud-buttons allowCopy=true allowDelete=true}}`);
     await triggerEvent('.md-crud-buttons', 'mouseenter');
 
     assert.equal(find('.md-crud-buttons').textContent
       .replace(/[ \n]+/g, '|'), '|Copy|Delete|');
 
     // Template block usage:" + EOL +
-    await render(hbs `
+    await render(hbs`
       {{#control/md-crud-buttons doSave=true allowCopy=true}}
         template block text
       {{/control/md-crud-buttons}}
@@ -46,9 +46,9 @@ module('Integration | Component | control/md crud buttons', function(hooks) {
       canRevert: true
     });
 
-    await render(hbs `{{control/md-crud-buttons model=model doSave=(action externalAction
-  'doSave') doCancel=(action externalAction 'doCancel') doCopy=(action
-  externalAction 'doCopy') doDelete=(action externalAction 'doDelete') allowCopy=true allowDelete=true}}`);
+    await render(hbs`{{control/md-crud-buttons model=this.model doSave=(action this.externalAction
+  'doSave') doCancel=(action this.externalAction 'doCancel') doCopy=(action
+  this.externalAction 'doCopy') doDelete=(action this.externalAction 'doDelete') allowCopy=true allowDelete=true}}`);
 
     // click the buttons
     await click('.md-crud-buttons .btn-success');

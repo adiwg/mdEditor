@@ -7,11 +7,11 @@ module('Integration | Component | sb settings', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('model', { publisherEndpoint: '', 'sb-defaultParent': '' });
+    this.set('save', () => {});
 
-    await render(hbs`{{sb-settings}}`);
+    await render(hbs`{{sb-settings model=this.model save=this.save}}`);
 
-    assert.equal(findAll('input').length, 1);
+    assert.equal(findAll('input').length, 2);
   });
 });

@@ -22,18 +22,18 @@ module('Integration | Component | control/subbar importcsv', function(hooks) {
 
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs`{{control/subbar-importcsv class="importcsv" actionContext=foo}}`);
+    await render(hbs`{{control/subbar-importcsv class="importcsv" actionContext=this.foo}}`);
 
     assert.equal(find('.importcsv').textContent.replace(/[ \n]+/g, '|').trim(),
       '|Do|Import|Cancel|Import|');
 
-    click('.importcsv .btn-info');
+    await click('.importcsv .btn-info');
 
     // Template block usage:
     await render(hbs`
-      {{#control/subbar-importcsv class="importcsv"}}
+      <Control::SubbarImportcsv @class="importcsv">
         template block text
-      {{/control/subbar-importcsv}}
+      </Control::SubbarImportcsv>
     `);
 
     assert.equal(find('.importcsv').textContent.replace(/[ \n]+/g, '|').trim(),

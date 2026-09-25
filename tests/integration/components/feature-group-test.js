@@ -15,23 +15,23 @@ module('Integration | Component | feature group', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#leaflet-draw lat=0 lng=0 zoom=2}}
+      <LeafletDraw @lat={{0}} @lng={{0}} @zoom={{2}}>
         {{!-- Specify child layer components here --}}
-        {{#layer-group name="Terrain" baselayer=true default=true}}
-          {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}
-        {{/layer-group}}
+        <LayerGroup @name="Terrain" @baselayer={{true}} @default={{true}}>
+          {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=this.mapAttribution}}
+        </LayerGroup>
 
-        {{#feature-group name="Extents" default=true}}
-          {{#each layers as |l|}}
+        <FeatureGroup @name="Extents" @default={{true}}>
+          {{#each this.layers as |l|}}
             {{geojson-layer geoJSON=l draw=true}}
           {{/each}}
-        {{/feature-group}}
+        </FeatureGroup>
 
         {{layer-control}}
-      {{/leaflet-draw}}
+      </LeafletDraw>
     `);
 
     assert.equal(find('.leaflet-container').innerText.trim().replace(/\n/g,'|'),
-     '+|−|Draw a polyline|Draw a polygon|Draw a rectangle|Draw a marker|3000 km|2000 mi|Leaflet');
+     '+|-|Draw a polyline|Draw a polygon|Draw a rectangle|Draw a marker|3000 km|2000 mi|Leaflet');
   });
 });

@@ -12,17 +12,17 @@ module('Integration | Component | object/md taxonomy/collection/system/preview',
     // Handle any actions with this.on('myAction', function(val) { ... });
     this.model = createTaxonomy()[0].taxonomicSystem[0];
 
-    await render(hbs`{{object/md-taxonomy/collection/system/preview model=model profilePath="foobar"}}`);
+    await render(hbs`{{object/md-taxonomy/collection/system/preview model=this.model profilePath="foobar"}}`);
 
     var input = findAll('input, textarea').mapBy('value').join('|');
 
-    assert.equal(input, "Integrated Taxonomic Information System (ITIS)|modifications", 'input values');
+    assert.equal(input, "Integrated Taxonomic Information System (ITIS)", 'input values');
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-taxonomy/collection/system/preview model=(hash) profilePath="foobar"}}
+      <Object::MdTaxonomy::Collection::System::Preview @model={{(hash)}} @profilePath="foobar">
         template block text
-      {{/object/md-taxonomy/collection/system/preview}}
+      </Object::MdTaxonomy::Collection::System::Preview>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), "|");

@@ -1,5 +1,4 @@
 import { assert } from '@ember/debug';
-import { get } from '@ember/object';
 import { isArray } from '@ember/array';
 import BaseValidator from 'ember-cp-validations/validators/base';
 
@@ -56,7 +55,7 @@ ArrayRequired.reopenClass({
   getDependentsFor(attribute, options) {
     //return[];
     let track = [];
-    let opts = get(options, 'track');
+    let opts = options.track;
 
     assert(
       `[validator:array-valid] [${attribute}] option 'track' must be an array`,

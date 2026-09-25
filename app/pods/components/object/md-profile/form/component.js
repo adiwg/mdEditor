@@ -1,5 +1,7 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 
-export default Component.extend({
-  tagName: 'form'
-});
+export default class MdProfileFormComponent extends Component {
+  get record() {
+    return this.args.record;
+  }
+}

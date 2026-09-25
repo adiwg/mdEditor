@@ -13,13 +13,13 @@ module('Integration | Component | control/md json button', function(hooks) {
       foo: 'bar'
     });
 
-    await render(hbs `{{control/md-json-button}}`);
+    await render(hbs`{{control/md-json-button}}`);
 
     assert.equal(find('button').textContent
       .trim(), 'Preview JSON');
 
     // Template block usage:
-    await render(hbs `
+    await render(hbs`
       {{#control/md-json-button}}
         template block text
       {{/control/md-json-button}}
@@ -36,7 +36,7 @@ module('Integration | Component | control/md json button', function(hooks) {
       foo: 'bar'
     });
 
-    await render(hbs `{{control/md-json-button json=json preview=true}}`);
+    await render(hbs`{{control/md-json-button json=this.json preview=true}}`);
 
     await click('button.btn');
 
@@ -52,7 +52,7 @@ module('Integration | Component | control/md json button', function(hooks) {
       foo: 'bar'
     });
 
-    await render(hbs `{{control/md-json-button json=json title="foobar"}}
+    await render(hbs`{{control/md-json-button json=this.json title="foobar"}}
       <div class="slider">
         {{#from-elsewhere name="md-slider-json" as |slider|}}
           <h3 class="text-info">{{slider.title}}</h3>

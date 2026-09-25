@@ -3,9 +3,18 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { createRecord } from 'mdeditor/tests/helpers/create-record';
+import Service from '@ember/service';
+
+const MockApiValidator = Service.extend({
+  isApiConfigured() { return true; }
+});
 
 module('Integration | Component | md translate', function(hooks) {
   setupRenderingTest(hooks);
+
+  hooks.beforeEach(function() {
+    this.owner.register('service:api-validator', MockApiValidator);
+  });
 
   test('it renders', async function(assert) {
 
@@ -25,13 +34,12 @@ module('Integration | Component | md translate', function(hooks) {
     }
 
     await render(hbs`{{md-translate
-      model=model
-      isLoading=isLoading
-      messages=messages
-      result=result
+      model=this.model
+      isLoading=this.isLoading
+      messages=this.messages
+      result=this.result
       errorLevel=2
-      isJson=true
-      writeObj=writer
+      writeObj=this.writer
     }}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
@@ -61,9 +69,9 @@ module('Integration | Component | md translate', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#md-translate}}
+      <MdTranslate>
         template block text
-      {{/md-translate}}
+      </MdTranslate>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
