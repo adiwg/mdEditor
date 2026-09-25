@@ -10,9 +10,9 @@
 - [GitHub and Workflows](#github-and-workflows)
   - [Git Workflow: Branching model](#git-workflow-branching-model)
     - [Creating new branches](#creating-new-branches)
-    - [Develop, Release, and Master](#develop-release-and-master)
+    - [Develop, Staging, and Master](#develop-staging-and-master)
       - [Develop](#develop)
-      - [Release](#release)
+      - [Staging](#staging)
       - [Master](#master)
     - [Unit Tests](#unit-tests)
     - [Deleting branches](#deleting-branches)
@@ -74,17 +74,16 @@ The mdEditor project uses a workflow based on the *branching model*.
 
 This model distinguishes four types of branches:
 
-**master** – main branch: only fully stable, working releases. **Exception**: releases in the 0.0.x series are subject to breaking changes and **should not** be considered stable.
+**master** – main branch: only fully stable, working releases, deployed to production (GitHub Pages). Protected; only *staging* may be merged in, except for critical hotfixes. **Exception**: releases in the 0.0.x series are subject to breaking changes and **should not** be considered stable.
 
-**release** – branch serving as a testing space before releases
+**staging** – pre-production branch, deployed live to a separate staging environment (currently Cloudflare) so changes can be validated against a real deployment before release, without requiring a local dev environment. Normally mirrors *master*. Feature/migration branches that need live validation may be merged into *staging* directly, ahead of or independent from *develop*.
 
-**develop** – this is the place where all development happens
+**develop** – this is the place where all regular development happens
 
 **feature/fix/hotfix-branches** – a single branch which can be created by any developer, which is responsible for new features, fixes or reported bugs. Every feature branch name should start with the proper prefix *and* be named after the corresponding issue with the appropriate label. Branch names should follow the following format: `{prefix}-{issue number}-{descriptive-name}`. The `{descriptive-name}` doesn't need to match the issue name exactly(keep it short), but I should convey the purpose of the branch.
 
 Examples:
 
- - release: release-v0.9.1
  - feature: feature-11-contact-component
  - fix: fix-12-new-contact-action
  - docs: docs-15-update-readme
@@ -92,18 +91,18 @@ Examples:
 
 ### Creating new branches
 
-New branches ***must*** be created from *develop*. Branches may be created either by forking, or in the main repo (if you have permissions). Forking is recommended, especially for minor or experimental features. Core feature branches may be created in the main repo to ease collaboration. **NOTE**: An exception is made for ***critical*** hotfix branches - they may be diverged from master, but must be merged into both master *and* develop.
+New branches ***must*** be created from *develop*. Branches may be created either by forking, or in the main repo (if you have permissions). Forking is recommended, especially for minor or experimental features. Core feature branches may be created in the main repo to ease collaboration. **NOTE**: An exception is made for ***critical*** hotfix branches - they may be diverged from master, but must be merged into master, staging, *and* develop.
 
-### Develop, Release, and Master
+### Develop, Staging, and Master
 
 #### Develop
 Branch on which the main development happens. New feature/fix branches must be created from *develop*. Feature branch pull requests must be made against *develop*. It is recommended to rebase the feature branch to clean/fix/squash unnecessary commits prior to any pull request. Merge conflicts must be resolved by the branch owner (or person issuing pull request).
 
-#### Release
-Branches used for testing before releasing. Release branches are diverged from the develop branch. Release branches constitute a "feature-freeze". Any bugs may be fixed via pull request using fix branches created from the newest release branch. However, changes must be synced back to develop.
+#### Staging
+Pre-production branch, deployed live to a separate environment so changes can be validated against a real deployment before release. Feature or migration branches that need this kind of validation (not just local/dev testing) may be merged into *staging* directly via pull request. Any bugs found must be fixed via pull request against *staging* (or against the original branch, then re-merged). Changes merged into *staging* from outside *develop* should be synced back to *develop* separately once validated, so the two don't silently drift apart.
 
 #### Master
-The main branch that contains only fully stable, already released iterations of project. Accepts merges from the latest release branch only. Every merge to master must be properly tagged.
+The main branch that contains only fully stable, already-deployed-to-production iterations of the project. Accepts merges from *staging* only, except for critical hotfixes (see "Creating new branches" above), which branch from and merge directly into *master* and must also be merged back into *staging* and *develop*. Every merge to master must be properly tagged.
 
 ### Unit Tests
 Branches must include tests for new functionality and pass(or update) existing tests before Pull Requests will be accepted.
