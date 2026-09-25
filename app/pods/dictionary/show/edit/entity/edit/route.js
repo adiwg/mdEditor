@@ -1,24 +1,26 @@
 import Route from '@ember/routing/route';
-import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { isArray } from '@ember/array';
 import { isEmpty } from '@ember/utils';
 
-export default Route.extend({
+export default class EditRoute extends Route {
+  @service flashMessages;
+  @service router;
   model(params) {
     this.set('entityId', params.entity_id);
 
     return this.setupModel();
-  },
+  }
 
-  breadCrumb: computed('entityId', function () {
+  get breadCrumb() {
     return {
       title: this.entityId
     };
-  }),
+  }
 
-  setupController: function () {
+  setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set('setupModel', this.setupModel);
     this.controller.set('entityId', this.entityId);
@@ -27,8 +29,7 @@ export default Route.extend({
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
-
+  }
   setupModel() {
     let entityId = this.entityId;
     let model = this.modelFor('dictionary.show.edit');
@@ -40,11 +41,11 @@ export default Route.extend({
     if(isEmpty(resource)) {
       this.flashMessages
         .warning('No Entity object found! Re-directing to list...');
-      this.replaceWith('dictionary.show.edit.entity');
+      this.router.replaceWith('dictionary.show.edit.entity');
 
       return;
     }
 
     return resource;
   }
-});
+}

@@ -1,24 +1,26 @@
 'use strict';
 
-const browsers = [
-  'last 1 Chrome versions',
-  'last 1 Firefox versions',
-  'last 1 Safari versions'
-];
-
-const isCI = !!process.env.CI;
-const isProduction = process.env.EMBER_ENV === 'production';
-
-if (isCI || isProduction) {
-  browsers.push('ie 11');
-}
+/**
+ * Browser targets for Ember 4.x
+ *
+ * Updated to remove IE11 support and target modern browsers.
+ * This enables better performance and smaller bundle sizes.
+ *
+ * See: https://github.com/browserslist/browserslist
+ */
 
 module.exports = {
   browsers: [
-    //'ie 9',
-    'last 1 edge versions',
-    'last 1 Chrome versions',
-    'last 1 Firefox versions',
-    'last 1 Safari versions'
+    // Modern browsers - last 2 versions for better compatibility
+    'last 2 Chrome versions',
+    'last 2 Firefox versions',
+    'last 2 Safari versions',
+    'last 2 Edge versions',
+
+    // Minimum browser versions for ES2017+ support
+    'Chrome >= 90',
+    'Firefox >= 88',
+    'Safari >= 14',
+    'Edge >= 90'
   ]
 };

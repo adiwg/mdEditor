@@ -14,20 +14,23 @@ module('Integration | Component | object/md keyword citation', function(hooks) {
       thesaurus: createCitation(1)[0]
     });
 
-    await render(hbs`{{object/md-keyword-citation model=keyword profilePath="foobar"}}`);
+    await render(hbs`{{object/md-keyword-citation model=this.keyword profilePath="foobar"}}`);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Title|Date|Date|Type|Choose|date|type|Type|theme|?|Edition|URL|');
 
     var input = findAll('form input').mapBy('value').join('|');
 
-    assert.equal(input, "title0|2016-10-13|edition|http://adiwg.org", 'input values');
+    // Native <input type="datetime-local"> reports its value as
+    // "YYYY-MM-DDTHH:mm" (no seconds, no timezone offset) regardless of
+    // the model's stored format.
+    assert.equal(input, "title0|2016-10-13T00:00|edition|http://adiwg.org", 'input values');
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-keyword-citation model=(hash thesaurus=(hash)) profilePath="foobar"}}
+      <Object::MdKeywordCitation @model={{hash thesaurus=(hash)}} @profilePath="foobar">
         template block text
-      {{/object/md-keyword-citation}}
+      </Object::MdKeywordCitation>
     `);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),

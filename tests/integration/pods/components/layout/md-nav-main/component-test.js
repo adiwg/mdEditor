@@ -16,7 +16,7 @@ module('Integration | Component | md nav main', function(hooks) {
 
     assert.equal(find('nav').innerText
       .replace(/[ \n]+/g, '|'),
-      '|Dashboard|Export|Import|Publish|Settings');
+      '|Dashboard|Export|Import|Publish|Sync|Settings');
 
     // Template block usage:
     await render(hbs `
@@ -27,7 +27,7 @@ module('Integration | Component | md nav main', function(hooks) {
 
     assert.equal(find('nav').innerText
       .replace(/[ \n]+/g, '|'),
-      '|Dashboard|Export|Import|Publish|template|block|text|Settings'
+      '|Dashboard|Export|Import|Publish|Sync|template|block|text|Settings'
     );
   });
 });

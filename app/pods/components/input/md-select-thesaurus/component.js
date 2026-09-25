@@ -3,13 +3,15 @@
  * @submodule components-input
  */
 
-import EmberObject, { computed } from '@ember/object';
+import EmberObject from '@ember/object';
 
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 
-export default Component.extend({
-
+@classic
+export default class MdSelectThesaurusComponent extends Component {
   /**
    * A select list control for displaying and selecting thesaurus entries from
    * the keyword service.
@@ -17,8 +19,8 @@ export default Component.extend({
    * @class md-select-thesaurus
    * @constructor
    */
-  profile: service(),
-  keyword: service(),
+  @service profile;
+  @service keyword;
 
   /**
    * This method is called after the thesaurus selection is updated. It should be
@@ -28,21 +30,25 @@ export default Component.extend({
    * @param  {Object} selected  The selected thesaurus from the keyword service
    * @param  {Object} thesaurus The thesaurus for the keyword record
    */
-  selectThesaurus() {},
+  selectThesaurus() {}
 
-  thesaurusList: computed('keyword.thesaurus.[]', 'profile.profiles', 'recordProfile', function () {
-    const profileConfig = this.profile.profiles.find((p) => {
+  get thesaurusList() {
+    const profiles = this.profile?.profiles || [];
+    const profileConfig = profiles.find((p) => {
       return p.id === this.recordProfile;
     });
-    const profileThesauri = profileConfig.thesauri;
-    const list = this.keyword
-      .thesaurus
+    const profileThesauri = profileConfig?.thesauri || [];
+    const keywordThesaurus = this.keyword?.thesaurus || [];
+    const keywordManifest = this.keyword?.manifest || [];
+
+    const list = keywordThesaurus
       .filter((k) => {
         if (profileThesauri && profileThesauri.length > 0) {
           return profileThesauri.some((v) => {
-            const manifestEntry = this.keyword.manifest.find((t) => t.url === v.url);
+            const manifestEntry = keywordManifest.find((t) => t.url === v.url);
             if (!manifestEntry) return false;
-            return manifestEntry.identifier === k.citation.identifier[0].identifier;
+            const thesaurusId = k?.citation?.identifier?.[0]?.identifier;
+            return manifestEntry.identifier === thesaurusId;
           });
         } else {
           return k.isDefault;
@@ -50,27 +56,39 @@ export default Component.extend({
       })
       .map((k) => {
         return EmberObject.create({
-          id: k.citation.identifier[0].identifier,
+          id: k?.citation?.identifier?.[0]?.identifier,
           label: k.label || k.citation.title || 'Keywords',
           tooltipText: k.citation.description || 'No description available.',
         });
       })
+      .filter((k) => !!k.id)
       .sort((a, b) => {
         return a.label.localeCompare(b.label);
       });
 
-    list.unshift(EmberObject.create({
-      id: 'custom',
-      label: 'Custom Thesaurus',
-      tooltipText: "Select this option to use a custom thesaurus that you define yourself. This allows you to use your own set of keywords and categories that are specific to your project."
-    }));
+    list.unshift(
+      EmberObject.create({
+        id: 'custom',
+        label: 'Custom Thesaurus',
+        tooltipText:
+          'Select this option to use a custom thesaurus that you define yourself. This allows you to use your own set of keywords and categories that are specific to your project.',
+      })
+    );
     return list;
-  }),
-
-  actions: {
-    update(id, thesaurus) {
-      let selected = this.keyword.findById(id);
-      this.selectThesaurus(selected, thesaurus);
-    }
   }
-});
+
+  @action
+  update(id) {
+    let selectedId = id ?? this.value;
+    let selectedThesaurus = this.thesaurus;
+
+    if (selectedId === 'custom') {
+      this.selectThesaurus(null, selectedThesaurus);
+      return;
+    }
+
+    let resolved = selectedId ? this.keyword.findById(selectedId) : null;
+
+    this.selectThesaurus(resolved, selectedThesaurus);
+  }
+}

@@ -2,7 +2,7 @@ import Service, { inject as service } from '@ember/service';
 import $RefParser from "@apidevtools/json-schema-ref-parser";
 import request from 'ember-ajax/request';
 import { task, all, timeout } from 'ember-concurrency';
-import { filterBy } from '@ember/object/computed';
+import { tracked } from '@glimmer/tracking';
 import {
   // isAjaxError,
   isNotFoundError,
@@ -10,28 +10,42 @@ import {
 } from 'ember-ajax/errors';
 import semver from 'semver';
 
-export default Service.extend({
-  init() {
-    this._super(...arguments);
+export default class SchemasService extends Service {
+  @service store;
+  @service flashMessages;
 
-    /**
-     * Instance of JSON Schema $Ref Parser
-     *
-     * @method parser
-     * @protected
-     * @return {Object}
-     */
+  @tracked schemas = [];
+
+  constructor() {
+    super(...arguments);
+
     this.schemas = this.store.peekAll('schema');
-  },
-  store: service(),
-  flashMessages: service(),
-  globalSchemas: filterBy('schemas','isGlobal'),
-  fetchSchemas: task(function* (url) {
-    yield timeout(1000);
+  }
 
-    const parser = new $RefParser(); // Use $RefParser directly here
+  get globalSchemas() {
+    return this.schemas.filter(schema => schema.isGlobal);
+  }
 
-    return yield parser.resolve(url).then($refs => {
+  fetchSchemas = task({ drop: true }, async (url) => {
+    await timeout(1000);
+
+    const parser = new $RefParser();
+
+    // Override the default HTTP resolver to use fetch() and return text.
+    // The default resolver uses Buffer.from() which is a Node.js global not
+    // available in the browser. Returning a string bypasses all Buffer usage.
+    const browserHttpResolver = {
+      read(file) {
+        return fetch(file.url).then(res => {
+          if (!res.ok) {
+            throw new Error(`HTTP ${res.status}: ${file.url}`);
+          }
+          return res.text();
+        });
+      }
+    };
+
+    return await parser.resolve(url, { resolve: { http: browserHttpResolver } }).then($refs => {
       let paths = $refs.paths();
       let values = parser.$refs.values();
 
@@ -42,7 +56,7 @@ export default Service.extend({
         }
       });
     })
-  }).drop(),
+  });
 
   // compileSchemas(schemas) {
   //   let ajv = ajvErrors(new Ajv(options));
@@ -54,10 +68,10 @@ export default Service.extend({
   //   return ajv;
   // },
 
-  checkForUpdates: task(function* (records) {
-    yield timeout(1000);
+  checkForUpdates = task({ drop: true }, async (records) => {
+    await timeout(1000);
 
-    yield all(records.map(itm => {
+    await all(records.map(itm => {
       if(itm.validations.attrs.uri.isInvalid) {
         this.flashMessages
           .warning(
@@ -89,6 +103,6 @@ export default Service.extend({
         }
       });
     }));
-  }).drop(),
+  });
 
-});
+}

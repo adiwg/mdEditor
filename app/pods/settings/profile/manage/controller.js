@@ -1,40 +1,55 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 import { task } from 'ember-concurrency';
-import { or } from '@ember/object/computed';
+import CellContentDisplay from 'mdeditor/pods/components/control/md-record-table/cell-content-display/component';
 
-export default Controller.extend({
-  profile: service(),
-  flashMessages: service(),
+export default class ProfileManageController extends Controller {
+  @service profile;
+  @service flashMessages;
+  @service router;
+  @service store;
+
+  @tracked definition = null;
+  @tracked fetchTask;
 
   /* eslint-disable ember/avoid-leaking-state-in-ember-objects */
-  columns: [{
-    propertyName: 'title',
-    title: 'Title'
-  }, {
-    propertyName: 'uri',
-    title: 'URL',
-    break: true
-  }, {
-    propertyName: 'description',
-    title: 'Description',
-    truncate: true,
-    isHidden: true
-  }],
+  columns = [
+    {
+      propertyName: 'title',
+      title: 'Title',
+    },
+    {
+      propertyName: 'uri',
+      title: 'URL',
+      break: true,
+      component: CellContentDisplay,
+    },
+    {
+      propertyName: 'description',
+      title: 'Description',
+      truncate: true,
+      isHidden: true,
+      component: CellContentDisplay,
+    },
+  ];
 
-  columnSets: [{
-    label: 'URL',
-    showColumns: ['title', 'uri']
-  }],
+  columnSets = [
+    {
+      label: 'URL',
+      showColumns: ['title', 'uri'],
+    },
+  ];
 
-  badges: [{
-    type: 'info',
-    icon: 'info-circle',
-    tip: 'Update available.',
-    isVisible: 'hasUpdate'
-  }],
-
-  definition: null,
+  badges = [
+    {
+      type: 'info',
+      icon: 'info-circle',
+      tip: 'Update available.',
+      isVisible: 'hasUpdate',
+    },
+  ];
 
   /**
    * Indicates whether the save button should be disabled
@@ -43,54 +58,66 @@ export default Controller.extend({
    * @type {Boolean}
    * @readOnly
    * @category computed
-   * @requires definition.validations.isInvalid,task.isRunning
+   * @requires definition.validations.isInvalid,fetchTask.isRunning
    */
-  disableSave: or('definition.validations.attrs.uri.isInvalid',
-    'task.isRunning'),
+  get disableSave() {
+    return (
+      this.definition?.validations?.attrs?.uri?.isInvalid ||
+      this.fetchTask?.isRunning
+    );
+  }
 
-  checkForUpdates: task(function* () {
-    yield this.profile.checkForUpdates.perform(this.model);
-  }),
+  checkForUpdates = task(async () => {
+    await this.profile.checkForUpdates.perform(this.model);
+  });
 
-  actions: {
-    addDefinition() {
-      this.set('definition', this.store.createRecord('profile'));
-    },
-    editDefinition(index, record) {
-      this.set('definition', record);
-    },
-    saveDefinition() {
-      let definition = this.definition;
+  @action
+  addDefinition() {
+    this.definition = this.store.createRecord('profile');
+  }
 
-      return definition.save().then(rec => {
+  @action
+  editDefinition(col, index, record) {
+    this.definition = record;
+  }
+
+  @action
+  saveDefinition() {
+    let definition = this.definition;
+
+    return definition
+      .save()
+      .then((rec) => {
         let fetched = this.profile.fetchDefinition.perform(rec.uri);
 
-        this.set('task', fetched);
+        this.fetchTask = fetched;
 
-        fetched.then(val => {
-          if(val) {
+        fetched.then((val) => {
+          if (val) {
             definition.set('config', val);
             definition.set('remoteVersion', val.version);
 
             this.flashMessages.success(
-              `Downloaded profile definition: ${val.title}.`);
+              `Downloaded profile definition: ${val.title}.`
+            );
           }
         });
-      }).catch(e => {
+      })
+      .catch((e) => {
         this.flashMessages.warning(e.message);
       });
-
-    },
-
-    cancelEdit() {
-      let record = this.definition;
-
-      this.set('definition', null);
-      record.rollbackAttributes();
-    },
-
-    toProfile() {
-      this.transitionToRoute('settings.profile');
-    }
   }
-});
+
+  @action
+  cancelEdit() {
+    let record = this.definition;
+
+    this.definition = null;
+    record.rollbackAttributes();
+  }
+
+  @action
+  toProfile() {
+    this.router.transitionTo('settings.profile');
+  }
+}

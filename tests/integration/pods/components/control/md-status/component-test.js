@@ -15,7 +15,7 @@ module('Integration | Component | control/md status', function(hooks) {
     })
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs`{{control/md-status model=model}}`);
+    await render(hbs`{{control/md-status model=this.model}}`);
     assert.dom('.md-status-icon .md-error').isVisible();
 
     this.set('model.hasDirtyHash', false);
@@ -24,9 +24,9 @@ module('Integration | Component | control/md status', function(hooks) {
     assert.dom('.md-status-icon .md-error').isNotVisible();
     // Template block usage:
     await render(hbs`
-      {{#control/md-status model=model}}
+      <Control::MdStatus @model={{this.model}}>
         template block text
-      {{/control/md-status}}
+      </Control::MdStatus>
     `);
 
     assert.dom('.md-status-icon .md-warning').isVisible();

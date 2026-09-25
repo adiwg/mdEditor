@@ -1,4 +1,4 @@
-import { find, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -13,22 +13,22 @@ module('Integration | Component | control/md definition', function(hooks) {
 
     await render(hbs`{{control/md-definition title="foobar" text="bizbaz"}}`);
 
-    assert.equal(find('.ember-view').textContent.replace(/[ \n]+/g, '|').trim(),
+    assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(),
       'foobar|bizbaz|');
 
     await render(hbs`{{control/md-definition title="foobar"}}`);
 
-    assert.equal(find('.ember-view').textContent.replace(/[ \n]+/g, '|').trim(),
+    assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(),
      'foobar|Not|Defined|', 'no text');
 
     // Template block usage:
     await render(hbs`
-      {{#control/md-definition title="foobar"}}
+      <Control::MdDefinition @title="foobar">
         template block text
-      {{/control/md-definition}}
+      </Control::MdDefinition>
     `);
 
-    assert.equal(find('.ember-view').textContent.replace(/[ \n]+/g, '|').trim(),
+    assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(),
      '|foobar|template|block|text|');
   });
 });

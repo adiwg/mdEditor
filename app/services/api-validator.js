@@ -9,7 +9,7 @@ export default Service.extend({
    * @returns {Boolean} true if API is configured, false otherwise
    */
   isApiConfigured() {
-    const apiUrl = this.get('settings.data.mdTranslatorAPI');
+    const apiUrl = this.settings.data?.mdTranslatorAPI;
     return !!(apiUrl && apiUrl.trim() !== '');
   },
 
@@ -32,6 +32,6 @@ export default Service.extend({
    */
   getApiUrl() {
     this.validateApiConfiguration();
-    return this.get('settings.data.mdTranslatorAPI');
+    return this.settings.data?.mdTranslatorAPI;
   },
 });
