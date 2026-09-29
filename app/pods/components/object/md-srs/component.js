@@ -1,41 +1,56 @@
 import Component from '@ember/component';
-import { alias, notEmpty } from '@ember/object/computed';
+import classic from 'ember-classic-decorator';
+import { alias } from '@ember/object/computed';
+import { set } from '@ember/object';
 import { once } from '@ember/runloop';
-import { set, getWithDefault, get } from '@ember/object';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'refType': [
+  refType: [
     validator('presence', {
       presence: true,
       ignoreBlank: true,
-      disabled: notEmpty('model.model.referenceSystemIdentifier.identifier')
-    })
+      disabled: alias(
+        'model.model.referenceSystemIdentifier.identifier'
+      ).readOnly(),
+    }),
   ],
-  'refSystem': [
+  refSystem: [
     validator('presence', {
       presence: true,
       ignoreBlank: true,
-      disabled: notEmpty('model.model.referenceSystemType')
-    })
-  ]
+      disabled: alias('model.model.referenceSystemType').readOnly(),
+    }),
+  ],
 });
 
-export default Component.extend(Validations, {
+@classic
+export default class MdSrsComponent extends Component.extend(Validations) {
+  classNames = ['form'];
+
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
-    if(model){
-    once(this, function() {
-      set(model, 'referenceSystemIdentifier', getWithDefault(model, 'referenceSystemIdentifier', {}));
-    });
+    if (model) {
+      once(this, function () {
+        if (!model.referenceSystemIdentifier) {
+          set(model, 'referenceSystemIdentifier', {});
+        }
+      });
+    }
   }
-  },
+
+  init() {
+    super.init(...arguments);
+
+    let model = this.model;
+    if (model && !model.referenceSystemIdentifier) {
+      set(model, 'referenceSystemIdentifier', {});
+    }
+  }
+
   /**
    * The string representing the path in the profile object for the resource.
    *
@@ -53,7 +68,9 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  classNames: ['form'],
+}
+
+MdSrsComponent.reopen({
   refSystem: alias('model.referenceSystemIdentifier.identifier'),
-  refType: alias('model.referenceSystemType')
+  refType: alias('model.referenceSystemType'),
 });

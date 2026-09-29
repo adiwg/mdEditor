@@ -10,24 +10,24 @@
   path='scopeCode'
   model=this
   placeholder='Select Scope'
-  profilePath=(concat profilePath '.scopeCode')
+  profilePath=(concat this.profilePath '.scopeCode')
   class=(if (v-get this 'isInvalid') 'required')
 }}
 
-{{input/md-input value=model.name label='Name' placeholder='Enter name'}}
+{{input/md-input value=this.model.name label='Name' placeholder='Enter name'}}
 
 <div class='row'>
   {{input/md-datetime
-    date=model.dateTime
+    date=this.model.dateTime
     class='col-xxl-4 col-md-10 col-sm-4'
-    profilePath=(concat profilePath '.dateTime')
+    profilePath=(concat this.profilePath '.dateTime')
     label='Date'
   }}
 </div>
 
 {{input/md-input
   type='number'
-  value=quantitativeValue
+  value=this.quantitativeValue
   label='Value'
   required=true
 }}
@@ -44,12 +44,12 @@
   path='units'
   model=this
   placeholder='Select Units'
-  profilePath=(concat profilePath '.valueUnits')
+  profilePath=(concat this.profilePath '.valueUnits')
   class=(if (v-get this 'isInvalid') 'required')
 }}
 
 {{input/md-input
-  value=model.valueRecordType
+  value=this.model.valueRecordType
   label='Value Record Type'
   placeholder='Enter record type'
 }}

@@ -1,6 +1,9 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
 
-export default Component.extend({
+@classic
+export default class MdButtonModalComponent extends Component {
   /**
    * mdEditor Component that renders a button which displays a modal
    * dialog when clicked.
@@ -11,9 +14,9 @@ export default Component.extend({
    * @constructor
    */
 
-  tagName: 'button',
-  classNames: 'md-button-modal',
-  attributeBindings: ['type'],
+  tagName = 'button';
+  classNames = ['md-button-modal'];
+  attributeBindings = ['type'];
 
   /**
    * Element selector or element that serves as the reference for modal position
@@ -21,7 +24,7 @@ export default Component.extend({
    * @property target
    * @type {String}
    */
-  target: 'html',
+  target = 'html';
 
   /**
    * A boolean, when true renders the modal without wormholing or tethering
@@ -29,7 +32,7 @@ export default Component.extend({
    * @property renderInPlace
    * @type {Boolean}
    */
-  renderInPlace: false,
+  renderInPlace = false;
 
   /**
    * Indicates whether the modal dialog is being displayed.
@@ -37,38 +40,41 @@ export default Component.extend({
    * @property isShowingModal
    * @type {Boolean}
    */
-  isShowingModal: false,
+  isShowingModal = false;
 
   /**
    * The function to call when action is cancelled.
    *
    * @method onCancel
    */
-  onCancel() {},
+  onCancel() {}
 
   /**
    * The function to call when action is confirmed.
    *
    * @method onConfirm
    */
-  onConfirm() {},
+  onConfirm() {}
 
   //click handler, sets modal state
   click() {
     this.toggleProperty('isShowingModal');
-  },
-
-  actions: {
-    toggleModal() {
-      this.toggleProperty('isShowingModal');
-    },
-    cancel() {
-      this.onCancel();
-      this.toggleProperty('isShowingModal');
-    },
-    confirm() {
-      this.onConfirm();
-      this.toggleProperty('isShowingModal');
-    }
   }
-});
+
+  @action
+  toggleModal() {
+    this.toggleProperty('isShowingModal');
+  }
+
+  @action
+  cancel() {
+    this.onCancel();
+    this.toggleProperty('isShowingModal');
+  }
+
+  @action
+  confirm() {
+    this.onConfirm();
+    this.toggleProperty('isShowingModal');
+  }
+}

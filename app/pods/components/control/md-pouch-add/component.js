@@ -18,7 +18,7 @@ export default class MdPouchAddComponent extends Component {
   }
 
   @action
-  addNew(type) {
+  addNew() {
     this.adding = true;
   }
 

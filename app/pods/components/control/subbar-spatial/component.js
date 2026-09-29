@@ -1,21 +1,11 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 
-export default Component.extend({
-  actions: {
-    zoomAll() {
-      this.zoomAll();
-    },
-    deleteAllFeatures() {
-      this.deleteAllFeatures();
-    },
-    exportGeoJSON() {
-      this.exportGeoJSON();
-    },
-    uploadData() {
-      this.uploadData();
-    },
-    toList() {
-      this.toList();
-    },
-  }
-});
+@classic
+export default class SubbarSpatialComponent extends Component {
+  zoomAll() {}
+  uploadData() {}
+  exportGeoJSON() {}
+  deleteAllFeatures() {}
+  toList() {}
+}

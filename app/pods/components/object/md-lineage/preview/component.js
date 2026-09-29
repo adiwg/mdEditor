@@ -1,10 +1,18 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import { action } from '@ember/object';
 
-export default Component.extend({
-  showMore: false,
-  limit:1,
-  showLimit: computed('limit','showMore', function() {
-    return this.showMore ? 100: this.limit;
-  }),
-});
+@classic
+export default class PreviewComponent extends Component {
+  showMore = false;
+  limit = 1;
+
+  get showLimit() {
+    return this.showMore ? 100 : this.limit;
+  }
+
+  @action
+  toggleShowMore() {
+    this.showMore = !this.showMore;
+  }
+}

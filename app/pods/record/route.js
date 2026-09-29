@@ -1,12 +1,12 @@
 import Route from '@ember/routing/route';
 
-export default Route.extend({
+export default class RecordRoute extends Route {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.breadCrumb = {
       title: 'Record',
       linkable: false
     }
-  },
-});
+  }
+}

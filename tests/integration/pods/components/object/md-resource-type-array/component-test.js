@@ -17,16 +17,16 @@ module('Integration | Component | object/md resource type array', function(hooks
       "type": "map"
     }];
 
-    await render(hbs`{{object/md-resource-type-array value=rt profilePath="foobar"}}`);
+    await render(hbs`{{object/md-resource-type-array value=this.rt profilePath="foobar"}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Resource|Types|2|Add|#|Type|Name|0|project|?|×|Delete|1|map|?|×|Delete|');
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-resource-type-array profilePath="foobar"}}
+      <Object::MdResourceTypeArray @profilePath="foobar">
         template block text
-      {{/object/md-resource-type-array}}
+      </Object::MdResourceTypeArray>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),

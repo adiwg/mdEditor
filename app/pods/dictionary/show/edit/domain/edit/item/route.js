@@ -1,7 +1,6 @@
 import Route from '@ember/routing/route';
-import {
-  computed
-} from '@ember/object';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import {
   isArray
 } from '@ember/array';
@@ -10,26 +9,28 @@ import {
 } from '@ember/utils';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
-export default Route.extend(ScrollTo, {
+export default class ItemRoute extends Route.extend(ScrollTo) {
+  @service flashMessages;
+  @service router;
   beforeModel() {
     this.set('domainId', this.paramsFor(
       'dictionary.show.edit.domain.edit').domain_id);
-  },
+  }
   model(params) {
     this.set('itemId', params.item_id);
 
     return this.setupModel();
-  },
+  }
 
-  breadCrumb: computed('itemId', function () {
+  get breadCrumb() {
     return {
       title: 'Item ' + this.itemId
     };
-  }),
+  }
 
-  setupController: function () {
-    // Call _super for default behavior
-    this._super(...arguments);
+  setupController() {
+    // Call super for default behavior
+    super.setupController(...arguments);
 
     //let parent = this.controllerFor('dictionary.show.edit.domain.edit.index');
 
@@ -42,8 +43,7 @@ export default Route.extend(ScrollTo, {
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
-
+  }
   setupModel() {
     let itemId = this.itemId;
     let model = this.modelFor('dictionary.show.edit');
@@ -55,18 +55,17 @@ export default Route.extend(ScrollTo, {
     if(isEmpty(resource)) {
       this.flashMessages
         .warning('No Domain Item found! Re-directing to list...');
-      this.replaceWith('dictionary.show.edit.domain');
+      this.router.replaceWith('dictionary.show.edit.domain');
 
       return;
     }
 
     return resource;
-  },
-
-  actions: {
-    backToDomain() {
-      this.transitionTo('dictionary.show.edit.domain.edit',
-        this.domainId);
-    }
   }
-});
+
+  @action
+  backToDomain() {
+    this.router.transitionTo('dictionary.show.edit.domain.edit',
+      this.domainId);
+  }
+}

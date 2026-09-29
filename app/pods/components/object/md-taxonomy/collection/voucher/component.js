@@ -1,25 +1,23 @@
-import EmberObject, { getWithDefault, set } from '@ember/object';
+import EmberObject, { set } from '@ember/object';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import { alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'specimen': [
+  specimen: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'repository': [
+  repository: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 const Template = EmberObject.extend(Validations, {
@@ -27,31 +25,30 @@ const Template = EmberObject.extend(Validations, {
     this._super(...arguments);
     this.set('repository', {});
     this.set('specimen', null);
-  }
+  },
 });
 
-const theComp = Component.extend(Validations, {
-  classNames: ['form'],
-  specimen: alias('model.specimen'),
-  repository: alias('model.repository'),
+@classic
+export default class MdVoucherComponent extends Component.extend(Validations) {
+  classNames = ['form'];
+
+  templateClass = Template;
+
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
     once(this, function () {
-      set(model, 'repository', getWithDefault(model, 'repository', {}));
-      set(model, 'specimen', getWithDefault(model, 'specimen', null));
+      set(model, 'repository', model.repository ?? {});
+      set(model, 'specimen', model.specimen ?? null);
     });
-  },
+  }
+}
 
-  //attributeBindings: ['data-spy'],
-  templateClass: Template
+MdVoucherComponent.reopen({
+  specimen: alias('model.specimen'),
+  repository: alias('model.repository'),
 });
 
-export {
-  Validations,
-  Template,
-  theComp as
-  default
-};
+export { Validations, Template };

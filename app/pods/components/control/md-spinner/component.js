@@ -1,22 +1,15 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
-  classNames:['text-center', 'md-spinner']
-
-  /**
-  * The size of the FontAwesome icon.
-  *
-  * @property size
-  * @type {String}
-  * @default "false"
-  * @optional
-  */
-
-  /**
-  * The the text to show below the spinner.
-  *
-  * @property text
-  * @type {String}
-  * @optional
-  */
-});
+/**
+ * @property size - The size of the FontAwesome icon (optional)
+ * @type {String}
+ * @default "false"
+ *
+ * @property text - The text to show below the spinner (optional)
+ * @type {String}
+ */
+@classic
+export default class MdSpinnerComponent extends Component {
+  classNames = ['text-center', 'md-spinner'];
+}

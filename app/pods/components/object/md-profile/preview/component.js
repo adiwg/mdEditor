@@ -1,8 +1,11 @@
-import Component from '@ember/component';
-import { or } from '@ember/object/computed';
+import Component from '@glimmer/component';
 
-export default Component.extend({
-  classNameBindings: ['textMuted'],
-  textMuted: true,
-  config: or('record.config', 'record')
-});
+export default class MdProfilePreviewComponent extends Component {
+  get config() {
+    return this.args.record?.config || this.args.record;
+  }
+
+  get textMutedClass() {
+    return this.args.textMuted !== false ? 'text-muted' : '';
+  }
+}

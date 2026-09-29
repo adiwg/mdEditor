@@ -5,28 +5,51 @@
  * @category docs
  */
 
-import LinkComponent from '@ember/routing/link-component';
+// @apidevtools/json-schema-ref-parser references Buffer as a global in browser builds.
+// Provide a minimal stub so isBuffer() checks pass without error.
+if (typeof Buffer === 'undefined') {
+  window.Buffer = { isBuffer: () => false };
+}
+
 import Route from '@ember/routing/route';
 import Component from '@ember/component';
 import Application from '@ember/application';
-import Resolver from 'ember-resolver';
+import { registerDeprecationHandler } from '@ember/debug';
+import Resolver from './resolver';
+
+// ember-tooltips@3.6.0 uses the deprecated @ember/string helpers internally.
+// There is no app-side fix available; silence this specific deprecation only.
+//
+// ember-cli-flash.deprecate-injection-factories: fires once at boot because we
+// set flashMessageDefaults.injectionFactories to [] (see config/environment.js)
+// to opt out of the addon's now-dead automatic `application.inject()` calls -
+// we already inject `@service flashMessages` explicitly everywhere it's used,
+// which is exactly what the addon is asking for.
+registerDeprecationHandler((message, options, next) => {
+  if (
+    options &&
+    (options.id === 'ember-string.add-package' ||
+      options.id === 'ember-cli-flash.deprecate-injection-factories')
+  ) {
+    return;
+  }
+  next(message, options);
+});
 import {
   computed,
   defineProperty,
-  getWithDefault,
   get,
   //set
 } from '@ember/object';
+import { inject as service } from '@ember/service';
 import {
   isNone
 } from '@ember/utils';
 import {
   assert
 } from '@ember/debug';
-// import Resolver from './resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';
-
 let events = {
   // add support for the blur event
   blur: 'blur'
@@ -45,11 +68,6 @@ export default class App extends Application {
 
 loadInitializers(App, config.modulePrefix);
 
-//for bootstrap
-LinkComponent.reopen({
-  attributeBindings: ['data-toggle', 'data-placement']
-});
-//for crumbly
 Route.reopen({
   //breadCrumb: null
   currentRouteModel: function () {
@@ -58,39 +76,34 @@ Route.reopen({
 });
 //for profiles
 Component.reopen({
+  profile: service('custom-profile'),
+
   init() {
     this._super(...arguments);
 
     let profile = this.profile;
     let path = this.profilePath;
     let visibility = this.visibility;
-    let isVisible = isNone(visibility) ? true : visibility;
+    let defaultVisible = isNone(visibility) ? true : visibility;
 
     if(path !== undefined) {
       assert(`${path} is not a profile path!`, path.charAt(0) !== '.');
 
-      // generate profile definition
-      // path.split('.').reduce((acc, curr, idx) => {
-      //   let pp = idx ? `${acc}.${curr}` : curr;
-      //   window.console.log(pp);
-      //   if(!get(window.mdProfile, pp)) {
-      //     set(window.mdProfile, pp, {
-      //       //visible: true
-      //     });
-      //   }
-      //   return pp;
-      // }, '');
-
-      defineProperty(this, 'isVisible', computed(
+      defineProperty(this, '_profileHidden', computed(
         'profile.active',
         function () {
-          if(!profile.activeComponents) {
-            return isVisible;
+          if(!profile || !profile.activeComponents) {
+            return !defaultVisible;
           }
 
-          return getWithDefault(profile.activeComponents, path,
-            isVisible);
+          let visible = get(profile.activeComponents, path) ?? defaultVisible;
+          return !visible;
         }));
+
+      // Only add classNameBindings for components with a wrapper element
+      if(this.tagName !== '') {
+        this.classNameBindings = [...(this.classNameBindings || []), '_profileHidden:md-profile-hidden'];
+      }
     }
   }
 });

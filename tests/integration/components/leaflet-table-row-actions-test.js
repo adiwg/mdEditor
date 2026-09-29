@@ -13,10 +13,10 @@ module('Integration | Component | leaflet table row actions', function (hooks) {
     this.showForm = function () {};
     this.deleteFeature = function () {};
 
-    await render(hbs `{{leaflet-table-row-actions
-      zoomTo=zoomTo
-      showForm=showForm
-      deleteFeature=deleteFeature
+    await render(hbs`{{leaflet-table-row-actions
+      zoomTo=this.zoomTo
+      showForm=this.showForm
+      deleteFeature=this.deleteFeature
     }}`);
     assert.equal(findAll('button').length, 3);
   });

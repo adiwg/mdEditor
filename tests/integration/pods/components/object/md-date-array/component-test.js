@@ -11,10 +11,10 @@ module('Integration | Component | object/md date array', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs`{{object/md-date-array value=model profilePath="foobar"}}`);
+    await render(hbs`{{object/md-date-array value=this.model profilePath="foobar"}}`);
 
     assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(),
-      '|No|Date|found.|Add|Date|');
+      '|Dates|Add|#|Precision|Date|Date|Type|Description|Add|Date|');
 
     this.set('model', [{
       "date": "2016-10-12",
@@ -23,18 +23,18 @@ module('Integration | Component | object/md date array', function(hooks) {
     }]);
 
     assert.equal(find('.panel').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Dates|1|Add|#|Date|Date|Type|Description|0|dateType|×|Delete|',
+      '|Dates|1|Add|#|Precision|Date|Date|Type|Description|0|Day|dateType|×|Delete|',
       'item');
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-date-array value=model profilePath="foobar"}}
+      <Object::MdDateArray @value={{this.model}} @profilePath="foobar">
         template block text
-      {{/object/md-date-array}}
+      </Object::MdDateArray>
     `);
 
     assert.equal(find('.panel').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Dates|1|Add|#|Date|Date|Type|Description|0|dateType|×|template|block|text|Delete|',
+      '|Dates|1|Add|#|Precision|Date|Date|Type|Description|0|Day|dateType|×|template|block|text|Delete|',
       'block');
   });
 });

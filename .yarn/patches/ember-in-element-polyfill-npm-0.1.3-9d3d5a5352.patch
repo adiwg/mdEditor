@@ -1,0 +1,13 @@
+diff --git a/index.js b/index.js
+index fd97ba9ebe2e2cc5721e8059b54bed205252da11..0d5243c9b02bb826fa439f0db415fd80caf026c0 100644
+--- a/index.js
++++ b/index.js
+@@ -6,7 +6,7 @@ const InElementWormholeTransform = require('./lib/in-element-wormhole-transform'
+ const debug = require('debug')('ember-in-element-polyfill');
+ 
+ const MINIMUM_PRIVATE_IN_ELEMENT_EMBER_VERSION = '2.10.0';
+-const MINIMUM_PUBLIC_IN_ELEMENT_EMBER_VERSION = '10.0.0'; // t.b.d
++const MINIMUM_PUBLIC_IN_ELEMENT_EMBER_VERSION = '3.20.0';
+ 
+ module.exports = {
+   name: 'ember-in-element-polyfill',

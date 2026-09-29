@@ -1,6 +1,6 @@
 import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
-import { getWithDefault, get, set, computed } from '@ember/object';
+import classic from 'ember-classic-decorator';
 import { once } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import {
@@ -17,25 +17,11 @@ const Validations = buildValidations({
   ]
 });
 
-export default Component.extend(Validations, {
-  store: service(),
+@classic
+export default class MdAssociatedComponent extends Component.extend(Validations) {
+  @service store;
 
-  didReceiveAttrs() {
-    this._super(...arguments);
-
-    let model = this.model;
-
-    once(this, function() {
-      set(model, 'scope', getWithDefault(model, 'scope', {}));
-      set(model, 'resourceType', getWithDefault(model, 'resourceType', []));
-      set(model, 'resourceCitation', getWithDefault(model,
-        'resourceCitation', {}));
-      set(model, 'metadataCitation', getWithDefault(model,
-        'metadataCitation', {}));
-    });
-  },
-
-  tagName: 'form',
+  tagName = 'form';
 
   /**
    * The string representing the path in the profile object for the resource.
@@ -54,59 +40,68 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  associationType: alias('model.associationType'),
-
-  linkedRecord: computed('model.mdRecordId', function() {
+  get linkedRecord() {
     let store = this.store;
 
     return store.peekAll('record')
-      .filterBy('recordId', get(this, 'model.mdRecordId'))
+      .filter((item) => item.recordId === this.model?.mdRecordId)
       .get('firstObject');
-  }),
+  }
 
-  linkedAssociation: computed(
-    'linkedRecord.json.metadata.associatedResource.[]',
-    function() {
-      let ar = this.get('linkedRecord.json.metadata.associatedResource');
+  get linkedAssociation() {
+    let ar = this.linkedRecord?.json?.metadata?.associatedResource;
 
-      if(!ar) {
-        return null;
-      }
+    if(!ar) {
+      return null;
+    }
 
-      return ar.findBy(
-        'mdRecordId', this.recordId);
-    }),
+    return ar.findBy(
+      'mdRecordId', this.recordId);
+  }
 
-  linkedAssociationType: computed('linkedAssociation.associationType', {
-    get() {
-      return this.get('linkedAssociation.associationType');
-    },
-    set(key, value) {
-      let assoc = this.linkedAssociation;
-      let model = this.linkedRecord;
+  get linkedAssociationType() {
+    return this.linkedAssociation?.associationType;
+  }
 
-      if(!assoc) {
-        set(model, 'json.metadata.associatedResource', getWithDefault(model,
-          'json.metadata.associatedResource', []));
+  set linkedAssociationType(value) {
+    let assoc = this.linkedAssociation;
+    let model = this.linkedRecord;
 
-        model.get('json.metadata.associatedResource').pushObject({
-          mdRecordId: this.recordId,
-          associationType: value
-        });
+    if(!assoc) {
+      model.json.metadata.associatedResource = model.json.metadata.associatedResource ?? [];
 
-        model.notifyPropertyChange('hasDirtyHash');
+      model.get('json.metadata.associatedResource').pushObject({
+        mdRecordId: this.recordId,
+        associationType: value
+      });
 
-        return value;
-      }
-
-      set(assoc, 'associationType', value);
       model.notifyPropertyChange('hasDirtyHash');
 
-      return value;
     }
-  }),
+
+    assoc.associationType = value;
+    model.notifyPropertyChange('hasDirtyHash');
+
+  }
 
   editLinked(record) {
     return record;
   }
+
+  didReceiveAttrs() {
+    super.didReceiveAttrs(...arguments);
+
+    let model = this.model;
+
+    once(this, function() {
+      model.scope = model.scope ?? {};
+      model.resourceType = model.resourceType ?? [];
+      model.resourceCitation = model.resourceCitation ?? {};
+      model.metadataCitation = model.metadataCitation ?? {};
+    });
+  }
+}
+
+MdAssociatedComponent.reopen({
+  associationType: alias('model.associationType'),
 });

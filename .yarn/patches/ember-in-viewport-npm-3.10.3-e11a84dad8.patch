@@ -1,0 +1,112 @@
+diff --git a/addon/initializers/viewport-config.js b/addon/initializers/viewport-config.js
+index 9c17f6a684eb186b52d9d4bfff1a1503c461e789..b5e20c225fdd914303f8a18bac2211242626b0c9 100644
+--- a/addon/initializers/viewport-config.js
++++ b/addon/initializers/viewport-config.js
+@@ -1,4 +1,3 @@
+-import { assign } from '@ember/polyfills';
+ import canUseDOM from 'ember-in-viewport/utils/can-use-dom';
+ 
+ const defaultConfig = {
+@@ -32,7 +31,7 @@ export function initialize() {
+   const application = arguments[1] || arguments[0];
+   const config = application.resolveRegistration('config:environment');
+   const { viewportConfig = {} } = config;
+-  const mergedConfig = assign({}, defaultConfig, viewportConfig);
++  const mergedConfig = Object.assign({}, defaultConfig, viewportConfig);
+ 
+   application.register('config:in-viewport', mergedConfig, {
+     instantiate: false,
+diff --git a/addon/mixins/in-viewport.js b/addon/mixins/in-viewport.js
+index da7f22682abdb9b35f1a1b3a0d74a73dcde031d4..245c8c8658a751a4554ab1f251790ce97182edf4 100644
+--- a/addon/mixins/in-viewport.js
++++ b/addon/mixins/in-viewport.js
+@@ -1,5 +1,4 @@
+ /* eslint-disable ember/no-new-mixins, ember/no-get, ember/no-observers, ember/no-incorrect-calls-with-inline-anonymous-functions */
+-import { assign } from '@ember/polyfills';
+ import Mixin from '@ember/object/mixin';
+ import { typeOf } from '@ember/utils';
+ import { assert, debug, deprecate } from '@ember/debug';
+@@ -45,7 +44,7 @@ export default Mixin.create({
+     // ensure this mixin runs first, then your component can override the options
+     this._super(...arguments);
+ 
+-    let options = assign(
++    let options = Object.assign(
+       {
+         viewportUseRAF: canUseRAF(),
+         viewportEntered: false,
+@@ -55,7 +54,7 @@ export default Mixin.create({
+     );
+ 
+     // set viewportUseIntersectionObserver after merging users config to avoid errors in browsers that lack support (https://github.com/DockYard/ember-in-viewport/issues/146)
+-    options = assign(options, {
++    options = Object.assign(options, {
+       viewportUseIntersectionObserver: canUseIntersectionObserver(),
+     });
+ 
+@@ -96,7 +95,7 @@ export default Mixin.create({
+     const owner = getOwner(this);
+ 
+     if (owner) {
+-      return assign(defaultOptions, owner.lookup('config:in-viewport'));
++      return Object.assign(defaultOptions, owner.lookup('config:in-viewport'));
+     }
+   },
+ 
+diff --git a/addon/services/in-viewport.js b/addon/services/in-viewport.js
+index 73f145343800360ff5ee911df1aee10482448fd3..4dd595afa744c57cdd1ec323b122d2f633c5eccc 100644
+--- a/addon/services/in-viewport.js
++++ b/addon/services/in-viewport.js
+@@ -1,6 +1,5 @@
+ import Service from '@ember/service';
+ import { set, setProperties } from '@ember/object';
+-import { assign } from '@ember/polyfills';
+ import { getOwner } from '@ember/application';
+ import { warn } from '@ember/debug';
+ import { schedule } from '@ember/runloop';
+@@ -25,7 +24,7 @@ export default class InViewport extends Service {
+ 
+     set(this, 'registry', new WeakMap());
+ 
+-    let options = assign(
++    let options = Object.assign(
+       {
+         viewportUseRAF: canUseRAF(),
+       },
+@@ -33,7 +32,7 @@ export default class InViewport extends Service {
+     );
+ 
+     // set viewportUseIntersectionObserver after merging users config to avoid errors in browsers that lack support (https://github.com/DockYard/ember-in-viewport/issues/146)
+-    options = assign(options, {
++    options = Object.assign(options, {
+       viewportUseIntersectionObserver: canUseIntersectionObserver(),
+     });
+ 
+@@ -239,7 +238,7 @@ export default class InViewport extends Service {
+     const owner = getOwner(this);
+ 
+     if (owner) {
+-      return assign(defaultOptions, owner.lookup('config:in-viewport'));
++      return Object.assign(defaultOptions, owner.lookup('config:in-viewport'));
+     }
+   }
+ 
+diff --git a/addon/utils/is-in-viewport.js b/addon/utils/is-in-viewport.js
+index 84efa971839d5656ecccb53b794a3a0e5e22d4b9..c0ed46fc8bf8e4f3c362f003d065c5d1f32b018d 100644
+--- a/addon/utils/is-in-viewport.js
++++ b/addon/utils/is-in-viewport.js
+@@ -1,5 +1,3 @@
+-import { assign } from '@ember/polyfills';
+-
+ const defaultTolerance = {
+   top: 0,
+   left: 0,
+@@ -14,7 +12,7 @@ export default function isInViewport(
+   tolerance = defaultTolerance
+ ) {
+   const { top, left, bottom, right, height: h, width: w } = boundingClientRect;
+-  const tolerances = assign(assign({}, defaultTolerance), tolerance);
++  const tolerances = Object.assign({}, defaultTolerance, tolerance);
+   const {
+     top: topTolerance,
+     left: leftTolerance,

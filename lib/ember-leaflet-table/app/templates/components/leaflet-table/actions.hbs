@@ -1,3 +1,18 @@
-<button type="button" class="btn btn-xs btn-success" {{action "zoomTo" record}} title="Zoom to Feature">{{fa-icon "search"}}</button>
-<button type="button" class="btn btn-xs btn-info" {{action showForm record}} title="Edit Properties">{{fa-icon "pencil"}}</button>
-<button type="button" class="btn btn-xs btn-danger" {{action "deleteFeature" record}} title="Delete Feature">{{fa-icon "times"}}</button>
+<button
+  type='button'
+  class='btn btn-xs btn-success'
+  {{on 'click' (fn this.zoomTo this.record)}}
+  title='Zoom to Feature'
+>{{fa-icon 'search'}}</button>
+<button
+  type='button'
+  class='btn btn-xs btn-info'
+  {{on 'click' (fn this.showForm this.record)}}
+  title='Edit Properties'
+>{{fa-icon 'pencil'}}</button>
+<button
+  type='button'
+  class='btn btn-xs btn-danger'
+  {{on 'click' (fn this.deleteFeature this.record)}}
+  title='Delete Feature'
+>{{fa-icon 'times'}}</button>

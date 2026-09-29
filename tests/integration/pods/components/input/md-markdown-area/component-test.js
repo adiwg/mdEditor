@@ -1,4 +1,4 @@
-import { find, render } from '@ember/test-helpers';
+import { find, render, settled } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -19,18 +19,30 @@ module('Integration | Component | input/md markdown area', function(hooks) {
 
     this.set('markdownValue', 'This is foobar.');
 
-    await render(hbs`{{input/md-markdown-area value=markdownValue maxlength=10 required=false}}`);
+    await render(hbs`{{input/md-markdown-area value=this.markdownValue maxlength=10 required=false}}`);
 
     assert.equal(find('.md-markdown-editor .length.md-error').textContent, 'length: 15', 'maxlength ok');
 
     // Template block usage:
     await render(hbs`
-      {{#input/md-markdown-area}}
+      <Input::MdMarkdownArea>
         template block text
-      {{/input/md-markdown-area}}
+      </Input::MdMarkdownArea>
     `);
 
     assert.equal(find('.md-markdown-editor').innerText.replace(/[ \n\s]+/g, '').trim(),
      '||||Entertext,Markdownissupported.​length:0100:0templateblocktext', 'block');
+  });
+
+  test('editing writes back through the two-way binding', async function(assert) {
+    this.set('description', { abstract: '' });
+
+    await render(hbs`{{input/md-markdown-area value=this.description.abstract}}`);
+
+    find('.CodeMirror').CodeMirror.setValue('I am the abstract');
+    await settled();
+
+    assert.equal(this.description.abstract, 'I am the abstract',
+      'edited value propagates to the bound property');
   });
 });

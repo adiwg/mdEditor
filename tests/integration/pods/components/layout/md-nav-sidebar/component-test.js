@@ -13,6 +13,7 @@ module('Integration | Component | md nav sidebar', function(hooks) {
     assert.expect(1);
 
     const contacts = createContact(2);
+    contacts.forEach(c => c.set('isNew', true));
     contacts.meta = {
       type: 'contact',
       list: 'contacts',
@@ -20,6 +21,7 @@ module('Integration | Component | md nav sidebar', function(hooks) {
     };
 
     const records = createRecord(2);
+    records.forEach(r => r.set('isNew', true));
     records.meta = {
       type: 'record',
       list: 'records',
@@ -27,18 +29,16 @@ module('Integration | Component | md nav sidebar', function(hooks) {
     };
 
     const dicts = createDictionary(2);
+    dicts.forEach(d => d.set('isNew', true));
     dicts.meta = {
       type: 'dictionary',
       list: 'dictionaries',
       title: 'Dictionaries'
     };
 
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
-
     this.set('model', [records, contacts, dicts]);
 
-    await render(hbs `{{layout/md-nav-sidebar items=model version="test"}}`);
+    await render(hbs`{{layout/md-nav-sidebar items=this.model version="test"}}`);
 
     assert.equal(find('.sidebar-nav').textContent
       .replace(/[ \n]+/g, '|'),
@@ -47,13 +47,13 @@ module('Integration | Component | md nav sidebar', function(hooks) {
   });
 
   test('toggle help action', async function(assert) {
-    await render(hbs `{{layout/md-nav-sidebar}}`);
+    await render(hbs`{{layout/md-nav-sidebar}}`);
     await click('.md-btn-help');
     assert.ok(find('.md-sidebar-wrapper').classList.contains('help'));
   });
 
   test('toggle sidebar action', async function(assert) {
-    await render(hbs `<div id="md-wrapper">{{layout/md-nav-sidebar}}</div>`);
+    await render(hbs`<div id="md-wrapper">{{layout/md-nav-sidebar}}</div>`);
     await click('.sidebar-brand-link');
     assert.ok(find('#md-wrapper').classList.contains('toggled'));
   });

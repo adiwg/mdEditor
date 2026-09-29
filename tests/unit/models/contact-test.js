@@ -35,4 +35,42 @@ module('Unit | Model | contact', function(hooks) {
     me.set('json.isOrganization', false);
     assert.equal(me.get('icon'), 'user');
   });
+
+  test('should correctly compute defaultOrganization', function(assert) {
+    const me = run(() => this.owner.lookup('service:store').createRecord('contact'));
+
+    assert.expect(2);
+    assert.equal(me.get('defaultOrganization'), null);
+    me.set('json.memberOfOrganization', ['org-1']);
+    assert.equal(me.get('defaultOrganization'), 'org-1');
+  });
+
+  test('should correctly compute combinedName from a member organization', function(assert) {
+    const store = this.owner.lookup('service:store');
+    run(() => store.createRecord('contact', {
+      json: { contactId: 'org-1', isOrganization: true, name: 'Acme Org' },
+    }));
+    const me = run(() => store.createRecord('contact', {
+      json: {
+        contactId: 'person-1',
+        isOrganization: false,
+        name: 'Jane Doe',
+        memberOfOrganization: ['org-1'],
+      },
+    }));
+
+    assert.expect(1);
+    assert.equal(me.get('combinedName'), 'Acme Org: Jane Doe');
+  });
+
+  test('should correctly compute defaultLogo from the logo graphic', function(assert) {
+    const me = run(() => this.owner.lookup('service:store').createRecord('contact'));
+
+    assert.expect(2);
+    assert.equal(me.get('defaultLogo'), null);
+    me.set('json.logoGraphic', [
+      { fileUri: [{ uri: 'https://example.com/logo.png' }] },
+    ]);
+    assert.equal(me.get('defaultLogo'), 'https://example.com/logo.png');
+  });
 });

@@ -1,0 +1,62 @@
+diff --git a/addon/components/draggable-object-target.js b/addon/components/draggable-object-target.js
+index 97c2c8de5cb2aec6e790c81ba439b0ba35aaeff0..d5c9f7f0bf4dce9e237a1cd3be8b0a77fc7d7427 100644
+--- a/addon/components/draggable-object-target.js
++++ b/addon/components/draggable-object-target.js
+@@ -1,10 +1,18 @@
+ import Component from '@ember/component';
++import { getOwner } from '@ember/application';
++import { computed } from '@ember/object';
+ import Droppable from 'ember-drag-drop/mixins/droppable';
+ 
+ export default Component.extend(Droppable, {
+   classNameBindings: ['overrideClass'],
+   overrideClass: 'draggable-object-target',
+   isOver: false,
++  // `coordinator` used to be auto-injected by app/initializers/coordinator-setup.js
++  // via application.inject(), which has been a no-op since Ember 4.0. Look it up
++  // explicitly instead.
++  coordinator: computed(function() {
++    return getOwner(this).lookup('drag:coordinator');
++  }),
+ 
+   handlePayload(payload, event) {
+     let obj = this.get('coordinator').getObject(payload,{target: this});
+diff --git a/addon/components/draggable-object.js b/addon/components/draggable-object.js
+index 8a32d24b48ed2cd7be8d15be9a6827a6b63a7888..ed162c94e3030804b18646c47358f42e0850bcf4 100644
+--- a/addon/components/draggable-object.js
++++ b/addon/components/draggable-object.js
+@@ -1,5 +1,6 @@
+ import Component from '@ember/component';
+ import { inject as service} from '@ember/service';
++import { getOwner } from '@ember/application';
+ import { alias } from '@ember/object/computed';
+ import { computed } from '@ember/object';
+ import { scheduleOnce, next } from '@ember/runloop';
+@@ -8,6 +9,12 @@ import { wrapper } from 'ember-drag-drop/utils/proxy-unproxy-objects';
+ 
+ export default Component.extend({
+   dragCoordinator: service(),
++  // `coordinator` used to be auto-injected by app/initializers/coordinator-setup.js
++  // via application.inject(), which has been a no-op since Ember 4.0. Look it up
++  // explicitly instead.
++  coordinator: computed(function() {
++    return getOwner(this).lookup('drag:coordinator');
++  }),
+   overrideClass: 'draggable-object',
+   classNameBindings: [':js-draggableObject','isDraggingObject:is-dragging-object:', 'overrideClass'],
+   attributeBindings: ['dragReady:draggable'],
+diff --git a/app/initializers/coordinator-setup.js b/app/initializers/coordinator-setup.js
+index cf82f8c4a086f0bb9a9033dea7f6448970d01aff..03ed120e6a2139f9a136a9dfc1df95e8df333116 100644
+--- a/app/initializers/coordinator-setup.js
++++ b/app/initializers/coordinator-setup.js
+@@ -6,6 +6,9 @@ export default {
+   initialize: function() {
+     let app = arguments[1] || arguments[0];
+     app.register("drag:coordinator",Coordinator);
+-    app.inject("component","coordinator","drag:coordinator");
++    // application.inject/owner.inject has been a no-op since Ember 4.0 (it no
++    // longer injects into resolved instances), so this call was dead code that
++    // only produced deprecation noise. draggable-object(-target) now look up
++    // `drag:coordinator` themselves via getOwner(this).lookup(...).
+   }
+ };

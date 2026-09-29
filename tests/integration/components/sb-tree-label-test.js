@@ -1,6 +1,7 @@
 import {
   find,
-  render
+  render,
+  triggerEvent
 } from '@ember/test-helpers';
 import {
   module,
@@ -36,8 +37,25 @@ module('Integration | Component | sb tree label', function (hooks) {
       type: 'application',
       uuid: '4ebb8fe5-f88f-49a4-9964-ff5395e234b8'
     })
-    await render(hbs `{{sb-tree-label model=model}}`);
+    await render(hbs`{{sb-tree-label model=this.model}}`);
 
     assert.equal(find('.tree-cell').innerText.trim(), 'Data Management Strategy : test Parent Id: None --');
+  });
+
+  test('mouseEnter does not crash when model._record is absent', async function (assert) {
+    // A real SbTreeNode (lib/mdeditor-sciencebase/addon/utils/sb-tree-node.js)
+    // defaults `_record: null` until its ScienceBase XHR resolves, so
+    // model._record can be null/undefined when the user hovers a still-loading
+    // row - matching this plain-object model, which has no `_record` key at
+    // all.
+    this.set('model', {
+      label: 'Loading row',
+      sbId: 'test',
+    });
+
+    await render(hbs`{{sb-tree-label model=this.model}}`);
+    await triggerEvent('.tree-cell', 'mouseenter');
+
+    assert.equal(find('.tree-cell').innerText.trim(), 'Loading row : test Parent Id: None --');
   });
 });

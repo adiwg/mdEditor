@@ -1,4 +1,5 @@
-import Application from '@ember/application';
+import Application from 'mdeditor/app';
+import config from 'mdeditor/config/environment';
 import { run } from '@ember/runloop';
 import LeafletInitializer from 'mdeditor/initializers/leaflet';
 import { module, test } from 'qunit';
@@ -8,7 +9,7 @@ let application;
 module('Unit | Initializer | leaflet', function(hooks) {
   hooks.beforeEach(function() {
     run(function() {
-      application = Application.create();
+      application = Application.create(config.APP);
       application.deferReadiness();
     });
   });

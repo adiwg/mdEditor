@@ -19,16 +19,16 @@ module('Integration | Component | control/md scroll spy', function(hooks) {
 
     await render(hbs`<div data-spy="Foo" id="foo1">Foo</div>
       <div data-spy="Bar" id="bar1">Bar</div>
-      {{control/md-scroll-spy setScrollTo=setScrollTo}}`);
+      {{control/md-scroll-spy setScrollTo=this.setScrollTo}}`);
 
     assert.equal(find('ul').textContent.replace(/[ \n\t\s]+/g,'|').trim(), '|Foo|Bar|');
 
     await click('ul a');
     // Template block usage:
     await render(hbs`
-      {{#control/md-scroll-spy setScrollTo=setScrollTo}}
+      <Control::MdScrollSpy @setScrollTo={{this.setScrollTo}}>
         template block text
-      {{/control/md-scroll-spy}}
+      </Control::MdScrollSpy>
     `);
 
     assert.equal(find('ul').textContent.trim(), 'template block text');

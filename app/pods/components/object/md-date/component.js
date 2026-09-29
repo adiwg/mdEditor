@@ -1,5 +1,6 @@
 import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { observer } from '@ember/object';
 import dayjs from 'dayjs';
@@ -15,43 +16,19 @@ const Validations = buildValidations({
   }),
 });
 
-export default Component.extend(Validations, {
-  init() {
-    this._super(...arguments);
+@classic
+export default class MdDateComponent extends Component.extend(Validations) {
+  tagName = '';
+  selectedPrecision = null;
 
-    this.set('precisionOptions', [
-      { value: 'Year', name: 'Year' },
-      { value: 'Month', name: 'Month' },
-      { value: 'Day', name: 'Day' },
-      { value: 'Time', name: 'Time' },
-    ]);
-  },
+  selectedPrecisionChanged = observer('selectedPrecision', function () {
+    const date = this.model?.date;
+    if (!date) return;
 
-  didReceiveAttrs() {
-    this._super(...arguments);
-    this._suppressReformat = true;
-    this.setPrecisionBasedOnDate();
-    this._suppressReformat = false;
-  },
-
-  selectedPrecision: null,
-  selectedFormat: 'YYYY-MM-DDTHH:mm:ssZ',
-
-  tagName: '',
-  date: alias('model.date'),
-  dateType: alias('model.dateType'),
-
-  selectedPrecisionChanged: observer('selectedPrecision', function () {
-    if (this._suppressReformat) return;
-
-    const dateObj = this.get('model.date');
+    const dateObj = this.model?.date;
     let newDate;
 
     switch (this.selectedPrecision) {
-      case 'Year':
-        this.set('selectedFormat', 'YYYY');
-        if (dateObj) newDate = dayjs(dateObj).format('YYYY');
-        break;
       case 'Month':
         this.set('selectedFormat', 'YYYY-MM');
         if (dateObj) newDate = dayjs(dateObj).format('YYYY-MM');
@@ -67,29 +44,45 @@ export default Component.extend(Validations, {
         break;
     }
 
-    if (newDate !== dateObj) {
-      this.set('model.date', newDate);
+    if (newDate !== date) {
+      this.model.date = newDate;
     }
-  }),
+  });
 
   setPrecisionBasedOnDate() {
-    const date = this.get('model.date');
+    const date = this.model?.date;
     if (!date) {
-      this.set('selectedPrecision', 'Year');
+      this.selectedPrecision = 'Year';
       return;
     }
-    if (/^\d{4}$/.test(date)) {
-      this.set('selectedPrecision', 'Year');
-      this.set('selectedFormat', 'YYYY');
-    } else if (/^\d{4}-\d{2}$/.test(date)) {
-      this.set('selectedPrecision', 'Month');
-      this.set('selectedFormat', 'YYYY-MM');
-    } else if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
-      this.set('selectedPrecision', 'Day');
-      this.set('selectedFormat', 'YYYY-MM-DD');
+    if (/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/.test(date)) {
+      this.selectedPrecision = 'Time';
+    } else if (/\d{4}-\d{2}-\d{2}/.test(date)) {
+      this.selectedPrecision = 'Day';
+    } else if (/\d{4}-\d{2}/.test(date)) {
+      this.selectedPrecision = 'Month';
+    } else if (/\d{4}/.test(date)) {
+      this.selectedPrecision = 'Year';
     } else {
-      this.set('selectedPrecision', 'Time');
-      this.set('selectedFormat', 'YYYY-MM-DDTHH:mm:ssZ');
+      this.selectedPrecision = 'Time';
     }
-  },
+  }
+
+  init() {
+    super.init(...arguments);
+
+    this.precisionOptions = [
+      { value: 'Year', name: 'Year' },
+      { value: 'Month', name: 'Month' },
+      { value: 'Day', name: 'Day' },
+      { value: 'Time', name: 'Time' },
+    ];
+
+    this.setPrecisionBasedOnDate();
+  }
+}
+
+MdDateComponent.reopen({
+  date: alias('model.date'),
+  dateType: alias('model.dateType'),
 });

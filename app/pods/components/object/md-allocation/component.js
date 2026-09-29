@@ -1,7 +1,8 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import { alias } from '@ember/object/computed';
+import { set } from '@ember/object';
 import { once } from '@ember/runloop';
-import { set, getWithDefault, get } from '@ember/object';
 import {
   validator,
   buildValidations
@@ -22,18 +23,8 @@ const Validations = buildValidations({
   ]
 });
 
-export default Component.extend(Validations, {
-  didReceiveAttrs() {
-    this._super(...arguments);
-
-    let model = this.model;
-
-    once(this, function() {
-      set(model, 'currency', getWithDefault(model, 'currency', 'USD'));
-      set(model, 'onlineResource', getWithDefault(model, 'onlineResource', []));
-      set(model, 'responsibleParty', getWithDefault(model, 'responsibleParty', []));
-    });
-  },
+@classic
+export default class MdAllocationComponent extends Component.extend(Validations) {
   /**
    * The string representing the path in the profile object for the resource.
    *
@@ -51,9 +42,24 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  attributeBindings: ['data-spy'],
-  'data-spy': 'Allocation',
-  tagName: 'form',
+  attributeBindings = ['data-spy'];
+  'data-spy' = 'Allocation';
+  tagName = 'form';
+
+  didReceiveAttrs() {
+    super.didReceiveAttrs(...arguments);
+
+    let model = this.model;
+
+    once(this, function() {
+      set(model, 'currency', model.currency ?? 'USD');
+      set(model, 'onlineResource', model.onlineResource ?? []);
+      set(model, 'responsibleParty', model.responsibleParty ?? []);
+    });
+  }
+}
+
+MdAllocationComponent.reopen({
   amount: alias('model.amount'),
-  currency: alias('model.currency')
+  currency: alias('model.currency'),
 });

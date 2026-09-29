@@ -11,7 +11,7 @@ module('helper:present', function(hooks) {
   test('it renders', async function(assert) {
     this.set('inputValue', '1234');
 
-    await render(hbs`<section>{{present inputValue}}</section>`);
+    await render(hbs`<section>{{present this.inputValue}}</section>`);
 
     assert.equal(find('section').textContent.trim(), 'true');
   });

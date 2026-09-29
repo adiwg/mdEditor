@@ -3,96 +3,84 @@
  * @submodule components-input
  */
 
-import { isArray } from '@ember/array';
-
-import { computed } from '@ember/object';
+import { isArray, A } from '@ember/array';
+import { computed, set } from '@ember/object';
+import classic from 'ember-classic-decorator';
 import MdCodelist from '../md-codelist/component';
 
-export default MdCodelist.extend({
-  classNames: ['md-codelist-multi'],
-  /**
-   * Specialized select list control for displaying and selecting options in
-   * mdCodes codelists. Extends md-codelist. Allows selection of multiple
-   * options.
-   *
-   * ```handlebars
-   * \{{input/md-codelist-multi
-   *   value=array
-   *   create=true
-   *   tooltip=true
-   *   icon=false
-   *   mdCodeName="codeName"
-   *   closeOnSelect=false
-   *   placeholder="Select or enter one or more"
-   * }}
-   * ```
-   *
-   * @class md-codelist-multi
-   * @constructor
-   * @extends md-codelist
-   */
+/**
+ * Specialized select list control for displaying and selecting options in
+ * mdCodes codelists. Extends md-codelist. Allows selection of multiple
+ * options.
+ *
+ * ```handlebars
+ * {{input/md-codelist-multi
+ *   value=array
+ *   create=true
+ *   tooltip=true
+ *   icon=false
+ *   mdCodeName="codeName"
+ *   closeOnSelect=false
+ *   placeholder="Select or enter one or more"
+ * }}
+ * ```
+ *
+ * @class md-codelist-multi
+ * @extends md-codelist
+ */
+@classic
+class MdCodelistMultiComponent extends MdCodelist {
+  init() {
+    super.init(...arguments);
 
-  /**
-   * Initial value, returned value.
-   * Accepts an Array of strings.
-   *
-   * Example: `["foo","bar"]`
-   *
-   * @property value
-   * @type Array
-   * @return Array
-   * @required
-   */
+    this.setValue = this.setValue.bind(this);
 
-  /**
-   * The multiple property for power-select-with-create
-   *
-   * @property multiple
-   * @private
-   * @type Boolean
-   * @default true
-   */
+    if (!(this.model && this.path)) {
+      set(this, 'localValue', this.value || []);
+    }
+  }
+
+  setValue(selected) {
+    let sel;
+
+    if (this.create && !isArray(selected)) {
+      sel = this.selectedItem.compact();
+      sel.pushObject(selected);
+    } else {
+      sel = selected;
+    }
+
+    let nextValue = (sel || []).mapBy('codeId');
+
+    if (this.model && this.path) {
+      set(this, 'value', nextValue);
+    } else {
+      set(this, 'localValue', nextValue);
+      set(this, 'value', nextValue);
+    }
+
+    this.change();
+  }
+}
+
+MdCodelistMultiComponent.reopen({
+  localValue: null,
   multiple: true,
-
-  /**
-   * The component to render
-   *
-   * @property theComponent
-   * @type Ember.computed
-   * @return String
-   */
-  theComponent: computed('create', function() {
-    return this.create ? 'power-select-multiple-with-create' :
-      'power-select-multiple';
-  }),
-
-  /**
-   * Whether to close the selection list after a selection has been made.
-   *
-   * @property closeOnSelect
-   * @type Boolean
-   * @default false
-   */
   closeOnSelect: false,
-
-  /**
-   * The string to display when no option is selected.
-   *
-   * @property placeholder
-   * @type String
-   * @default 'Select one or more options'
-   */
   placeholder: 'Select one or more options',
 
-  /**
-   * The currently selected item in the codelist
-   *
-   * @property selectedItem
-   * @type Ember.computed
-   * @return PromiseObject
-   */
-  selectedItem: computed('value', function() {
-    let value = this.value;
+  theComponent: computed('create', function () {
+    return this.create
+      ? 'power-select-multiple-with-create'
+      : 'power-select-multiple';
+  }),
+
+  effectiveValue: computed('value', 'localValue', 'model', 'path', function () {
+    return this.model && this.path ? this.value : this.localValue;
+  }),
+
+  selectedItem: computed('effectiveValue', 'codelist.[]', function () {
+    let value = this.effectiveValue;
     let codelist = this.codelist;
 
     if (value) {
@@ -100,59 +88,33 @@ export default MdCodelist.extend({
         return value.includes(item['codeId']);
       });
     }
+
     return null;
   }),
 
-  /**
-   * If a value is provided by the user which is not in the codelist and 'create=true'
-   * the new value will be added into the codelist array
-   *
-   * @property codelist
-   * @type Ember.computed
-   * @return Array
-   */
-  codelist: computed('value', 'filterId', 'mapped', function() {
-    let codelist = this.mapped;
-    let value = this.value;
+  codelist: computed('effectiveValue', 'filterId', 'mapped', function () {
+    let existing = this.mapped || A([]);
+    let value = this.effectiveValue;
     let create = this.create;
     let filter = this.filterId;
+    let extra = [];
 
-    if (value) {
-      if (create) {
-        value.forEach((val) => {
-          let found = codelist.findBy('codeId', val);
-          if (found === undefined) {
-            let newObject = this.createCode(val);
-            codelist.pushObject(newObject);
-          }
-        });
-      }
+    if (value && create) {
+      value.forEach((val) => {
+        let found = existing.findBy('codeId', val);
+        if (found === undefined) {
+          extra.push(this.createCode(val));
+        }
+      });
     }
 
-    return codelist.rejectBy('codeId', filter);
+    return A([...existing, ...extra]).rejectBy('codeId', filter);
   }),
-
-  /**
-   * Set the value on the select.
-   *
-   * @method setValue
-   * @param {Array|Object} selected The value to set. Generally, an array of
-   * selected objects, unless using the create option.
-   */
-  setValue(selected) {
-    let sel;
-
-    //power-select-with-create always sends a single object onCreate
-    //we need to add that object to the selectedItem array
-    if (this.create && !isArray(selected)) {
-      sel = this.selectedItem
-        .compact();
-      sel.pushObject(selected);
-    } else {
-      sel = selected;
-    }
-
-    this.set('value', sel.mapBy('codeId'));
-    this.change();
-  }
 });
+
+MdCodelistMultiComponent.prototype.classNames = [
+  ...MdCodelist.prototype.classNames,
+  'md-codelist-multi',
+];
+
+export default MdCodelistMultiComponent;

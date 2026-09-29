@@ -1,22 +1,23 @@
 import Component from '@ember/component';
-import { getWithDefault, get, set } from '@ember/object';
+import classic from 'ember-classic-decorator';
 import { once } from '@ember/runloop';
 import { alias } from '@ember/object/computed';
 
-export default Component.extend({
+@classic
+export default class MdMediumComponent extends Component {
+  tagName = 'form';
+
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
     once(function() {
-      set(model, 'mediumSpecification', getWithDefault(model,
-        'mediumSpecification', {}));
-      set(model, 'identifier', getWithDefault(model, 'identifier', {}));
-      set(model, 'mediumFormat', getWithDefault(model, 'mediumFormat', []));
+      model.mediumSpecification = model.mediumSpecification ?? {};
+      model.identifier = model.identifier ?? {};
+      model.mediumFormat = model.mediumFormat ?? [];
     });
-  },
-  tagName: 'form',
+  }
 
   /**
    * The profile path for the component
@@ -25,5 +26,5 @@ export default Component.extend({
    * @type {String}
    */
 
-  title: alias('model.mediumSpecification.title')
-});
+  @alias('model.mediumSpecification.title') title;
+}

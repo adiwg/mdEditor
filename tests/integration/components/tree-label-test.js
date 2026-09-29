@@ -21,14 +21,14 @@ module('Integration | Component | tree label', function(hooks) {
     });
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs `{{tree-label model=model}}`);
+    await render(hbs`{{tree-label model=this.model}}`);
 
     assert.equal(find('.tree-label-text').innerText
       .trim(), 'foo1label');
 
     // Template block usage:
-    await render(hbs `
-      {{#tree-label model=model}}
+    await render(hbs`
+      {{#tree-label model=this.model}}
         template block text
       {{/tree-label}}
     `);

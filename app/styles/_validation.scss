@@ -1,8 +1,15 @@
+%sup-placeholder {
+  font-size: smaller;
+  line-height: 0;
+  vertical-align: super;
+}
+
 .required > .card-header .card-title::after,
 form .required > label::after,
 label.required::after,
 span.required::after {
-  @extend sup;
+  @extend %sup-placeholder;
+
   color: $brand-danger;
   content: '\f069';
   font-family: FontAwesome;
@@ -16,6 +23,7 @@ span.required::after {
   position: absolute;
   right: 20px;
   top: 7px;
+
   //font-size: 12px;
 }
 

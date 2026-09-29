@@ -1,6 +1,7 @@
 import PouchDB from 'ember-pouch/pouchdb';
 import auth from 'pouchdb-authentication';
 import { Adapter } from 'ember-pouch';
+import classic from 'ember-classic-decorator';
 
 PouchDB.plugin(auth);
 
@@ -24,6 +25,7 @@ export function unloadedDocumentChanged(obj) {
  *
  * Instead, use the initDb function for assigning the correct PouchDB
  */
+@classic
 export default class PouchBaseAdapter extends Adapter {
   db = initDb();
 }

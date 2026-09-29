@@ -8,24 +8,25 @@ module('Integration | Component | object/md-profile/form', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function (assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
     this.model = createProfile(1)[0];
 
-    await render(hbs `{{object/md-profile/form record=model}}`);
+    await render(hbs`
+      <Object::MdProfile::Form @record={{this.model}} />
+    `);
 
-    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+    assert.equal(
+      this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       '|URL|Alias|Version|0.0.0|Update|Available|(0.0.1)|Title|Minimal|Description|A|Minimalist|Profile|Identifier|minimal|Namespace|org.adiwg.profile|'
     );
 
-    // Template block usage:
-    await render(hbs `
-      {{#object/md-profile/form record=model}}
+    await render(hbs`
+      <Object::MdProfile::Form @record={{this.model}}>
         template block text
-      {{/object/md-profile/form}}
+      </Object::MdProfile::Form>
     `);
 
-    assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(),
+    assert.equal(
+      this.element.textContent.replace(/[ \n]+/g, '|').trim(),
       '|URL|Alias|Version|0.0.0|Update|Available|(0.0.1)|Title|Minimal|Description|A|Minimalist|Profile|Identifier|minimal|Namespace|org.adiwg.profile|template|block|text|'
     );
   });

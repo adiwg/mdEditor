@@ -8,4 +8,63 @@ module('Unit | Route | record/edit', function(hooks) {
     var route = this.owner.lookup('route:record/show/edit');
     assert.ok(route);
   });
+
+  test('cancelRecord reverts locally when autoSave is on and a revert snapshot exists', function (assert) {
+    const route = this.owner.lookup('route:record/show/edit');
+    let reverted = false;
+    let reloaded = false;
+    const model = {
+      title: 'My Record',
+      get(key) {
+        if (key === 'title') return this.title;
+        if (key === 'jsonRevert') return '{"foo":"bar"}';
+        return undefined;
+      },
+      revertChanges() {
+        reverted = true;
+      },
+      reload() {
+        reloaded = true;
+        return Promise.resolve();
+      },
+    };
+
+    route.currentRouteModel = () => model;
+    route.settings = { data: { autoSave: true } };
+    route.doCancel = () => {};
+    route.flashMessages = { warning() {}, success() {} };
+
+    route.cancelRecord();
+
+    assert.true(reverted, 'reverts locally instead of reloading');
+    assert.false(
+      reloaded,
+      'does not reload when autoSave is on with a revert snapshot'
+    );
+  });
+
+  test('cancelRecord reloads from the store when autoSave is off', function (assert) {
+    const route = this.owner.lookup('route:record/show/edit');
+    let reloaded = false;
+    const model = {
+      title: 'My Record',
+      get(key) {
+        if (key === 'title') return this.title;
+        return undefined;
+      },
+      reload() {
+        reloaded = true;
+        return Promise.resolve();
+      },
+    };
+
+    route.currentRouteModel = () => model;
+    route.settings = { data: { autoSave: false } };
+    route.doCancel = () => {};
+    route.flashMessages = { warning() {}, success() {} };
+
+    route.cancelRecord();
+
+    assert.true(reloaded, 'falls back to a full reload when autoSave is off');
+  });
 });

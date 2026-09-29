@@ -28,16 +28,16 @@ module('Integration | Component | object/md party', function(hooks) {
 
     cs.set('contacts', contacts);
 
-    await render(hbs`{{object/md-party model=party}}`);
+    await render(hbs`{{object/md-party model=this.party}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Role|author|?|×|Contacts|×|Contact0|');
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-party model=(hash)}}
+      <Object::MdParty @model={{(hash)}}>
         template block text
-      {{/object/md-party}}
+      </Object::MdParty>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),

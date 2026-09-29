@@ -1,26 +1,28 @@
-{{#each sorted as |child|}}
+{{#each this.sorted as |child|}}
   {{#unless child.invisible}}
-    {{tree-branch model=child
-      select=select
-      selected=selected
-      nodeDepth=nodeDepth
-      sortKeys=sortKeys
-      path=parentPath
-      disableCheck=disableCheck
-      validateDrag=validateDrag
-      labelComponent=labelComponent
-      tree=tree
-      handleDrop=handleDrop
+    {{tree-branch
+      model=child
+      select=this.select
+      selected=this.selected
+      nodeDepth=this.nodeDepth
+      sortKeys=this.sortKeys
+      path=this.parentPath
+      disableCheck=this.disableCheck
+      validateDrag=this.validateDrag
+      labelComponent=this.labelComponent
+      tree=this.tree
+      handleDrop=this.handleDrop
     }}
   {{/unless}}
 {{else}}
-  {{#if emptyMessage}}
-    <div class="card card-inverse card-warning">
-      <div class="card-block">
-        <h4 class="card-title">
-          {{fa-icon "exclamation-triangle"}} {{if emptyTitle emptyTitle "No items found."}}
+  {{#if this.emptyMessage}}
+    <div class='card card-inverse card-warning'>
+      <div class='card-block'>
+        <h4 class='card-title'>
+          {{fa-icon 'exclamation-triangle'}}
+          {{if this.emptyTitle this.emptyTitle 'No items found.'}}
         </h4>
-        <p class="text-white">{{emptyMessage}}</p>
+        <p class='text-white'>{{this.emptyMessage}}</p>
       </div>
     </div>
   {{/if}}

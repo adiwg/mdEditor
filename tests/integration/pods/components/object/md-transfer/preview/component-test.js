@@ -45,14 +45,14 @@ module('Integration | Component | object/md-transfer/preview', function (hooks) 
       ]
     };
 
-    await render(hbs `{{object/md-transfer/preview item=model}}`);
+    await render(hbs`{{object/md-transfer/preview item=this.model}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       '|9.9|yes(2)|yes(2)|yes(2)|');
 
     // Template block usage:
-    await render(hbs `
-      {{#object/md-transfer/preview isTable=false item=model as |t|}}
+    await render(hbs`
+      {{#object/md-transfer/preview isTable=false item=this.model as |t|}}
         transferSize: {{t.transferSize}}
       {{/object/md-transfer/preview}}
     `);

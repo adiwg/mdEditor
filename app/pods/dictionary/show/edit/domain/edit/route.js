@@ -1,24 +1,26 @@
 import Route from '@ember/routing/route';
-import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { isArray } from '@ember/array';
 import { isEmpty } from '@ember/utils';
 
-export default Route.extend({
+export default class EditRoute extends Route {
+  @service flashMessages;
+  @service router;
   model(params) {
     this.set('domainId', params.domain_id);
 
     return this.setupModel();
-  },
+  }
 
-  breadCrumb: computed('domainId', function () {
+  get breadCrumb() {
     return {
       title: this.domainId
     };
-  }),
+  }
 
-  setupController: function () {
-    // Call _super for default behavior
-    this._super(...arguments);
+  setupController() {
+    // Call super for default behavior
+    super.setupController(...arguments);
 
     this.controller.set('setupModel', this.setupModel);
     this.controller.set('domainId', this.domainId);
@@ -27,8 +29,7 @@ export default Route.extend({
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
-
+  }
   setupModel() {
     let domainId = this.domainId;
     let model = this.modelFor('dictionary.show.edit');
@@ -40,11 +41,11 @@ export default Route.extend({
     if(isEmpty(resource)) {
       this.flashMessages
         .warning('No Domain object found! Re-directing to list...');
-      this.replaceWith('dictionary.show.edit.domain');
+      this.router.replaceWith('dictionary.show.edit.domain');
 
       return;
     }
 
     return resource;
-  },
-});
+  }
+}

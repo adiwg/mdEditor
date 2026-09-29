@@ -236,6 +236,7 @@
 
 .ember-popover {
   @include text-overflow;
+
   max-width: 300px;
 
   hr {

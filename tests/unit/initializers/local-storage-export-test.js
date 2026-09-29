@@ -1,4 +1,5 @@
-import Application from '@ember/application';
+import Application from 'mdeditor/app';
+import config from 'mdeditor/config/environment';
 import { run } from '@ember/runloop';
 import { initialize } from 'mdeditor/initializers/local-storage-export';
 import { module, test } from 'qunit';
@@ -7,7 +8,7 @@ import destroyApp from '../../helpers/destroy-app';
 module('Unit | Initializer | local storage export', function(hooks) {
   hooks.beforeEach(function() {
     run(() => {
-      this.application = Application.create();
+      this.application = Application.create(config.APP);
       this.application.deferReadiness();
     });
   });

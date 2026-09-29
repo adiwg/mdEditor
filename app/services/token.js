@@ -50,18 +50,18 @@ export default class TokenService extends Service {
     const { access_token, refresh_token } = parsedToken;
     if (access_token) {
       const parsedAccess = this.parseTokenPayload(access_token);
-      if (!!parsedAccess) {
+      if (parsedAccess) {
         const userName = parsedAccess.preferred_username || parsedAccess.email;
-        if (!!userName) {
+        if (userName) {
           parsedValues.userName = userName;
         }
       }
     }
     if (refresh_token) {
       const parsedRefresh = this.parseTokenPayload(refresh_token);
-      if (!!parsedRefresh) {
+      if (parsedRefresh) {
         const expiry = parsedRefresh.exp;
-        if (!!expiry) {
+        if (expiry) {
           parsedValues.expiry = new Date(expiry * 1000);
           parsedValues.token = refresh_token;
         }
@@ -80,7 +80,7 @@ export default class TokenService extends Service {
 
   parseTokenPayload(token) {
     const payload = token.split('.')[1]; // JWT payload is second dot-delimited item
-    if (!!payload) {
+    if (payload) {
       try {
         return JSON.parse(atob(payload));
       } catch(e) {

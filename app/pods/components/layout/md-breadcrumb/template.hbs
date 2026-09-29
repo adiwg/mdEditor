@@ -1,2 +1,20 @@
-{{bread-crumbs tagName="ol" linkable=true}}
+<ol class='breadcrumb'>
+  {{#each this.routeHierarchy as |crumb|}}
+    <li class='breadcrumb-item {{if crumb.isTail "active"}}'>
+      {{#if (and crumb.linkable (not crumb.isTail))}}
+        {{#if crumb.model}}
+          <LinkTo @route={{crumb.path}} @model={{crumb.model}}>
+            {{crumb.title}}
+          </LinkTo>
+        {{else}}
+          <LinkTo @route={{crumb.path}}>
+            {{crumb.title}}
+          </LinkTo>
+        {{/if}}
+      {{else}}
+        {{crumb.title}}
+      {{/if}}
+    </li>
+  {{/each}}
+</ol>
 {{yield}}

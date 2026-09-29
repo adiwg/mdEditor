@@ -61,15 +61,15 @@ module('Integration | Component | layout/nav/dictionary/nav-main', function (
   test('it renders', async function (assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
-    await render(hbs `{{layout/nav/dictionary/nav-main model=model}}
+    await render(hbs`{{layout/nav/dictionary/nav-main model=this.model}}
       {{to-elsewhere named="dictionary-nav" send=(component "control/md-button" text="testme")}}
       `);
 
     assert.equal(this.element.textContent.trim(), 'testme');
 
     // Template block usage:
-    await render(hbs `
-      {{#layout/nav/dictionary/nav-main model=model}}
+    await render(hbs`
+      {{#layout/nav/dictionary/nav-main model=this.model}}
         template block text
       {{/layout/nav/dictionary/nav-main}}
       {{to-elsewhere named="dictionary-nav" send=(component "control/md-button" text="testme")}}

@@ -1,5 +1,10 @@
-import Component from '@ember/component';
+import Component, { setComponentTemplate } from '@ember/component';
+import classic from 'ember-classic-decorator';
+import layout from './template';
 
-export default Component.extend({
-  tagName:''
-});
+@classic
+class ShowComponent extends Component {
+  tagName = '';
+}
+
+export default setComponentTemplate(layout, ShowComponent);

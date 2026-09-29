@@ -14,7 +14,7 @@ module('Integration | Component | control/md json viewer', function(hooks) {
       foo: 'bar'
     });
 
-    await render(hbs `{{control/md-json-viewer json=json}}`);
+    await render(hbs`{{control/md-json-viewer json=this.json}}`);
 
     assert.equal($('.md-jsmodal-container')
       .text()
@@ -28,7 +28,7 @@ module('Integration | Component | control/md json viewer', function(hooks) {
       foo: 'bar'
     });
 
-    await render(hbs `{{control/md-json-viewer json=json modal=false}}`);
+    await render(hbs`{{control/md-json-viewer json=this.json modal=false}}`);
 
     assert.equal(find('.md-json-viewer').textContent
       .trim(), '{"foo": "bar"}');

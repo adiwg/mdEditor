@@ -23,10 +23,10 @@ module('Integration | Component | input/md select', function(hooks) {
       tip: 'bar'
     })]);
 
-    await render(hbs `
+    await render(hbs`
       {{input/md-select
         value=1
-        objectArray=objArray
+        objectArray=this.objArray
         valuePath="id"
         namePath="name"
         tooltipPath="tip"
@@ -54,10 +54,10 @@ module('Integration | Component | input/md select', function(hooks) {
 
     this.set('value', 1);
 
-    await render(hbs `
+    await render(hbs`
       {{input/md-select
-        value=value
-        objectArray=objArray
+        value=this.value
+        objectArray=this.objArray
         valuePath="id"
         namePath="name"}}
     `);
@@ -91,11 +91,11 @@ module('Integration | Component | input/md select', function(hooks) {
 
     this.set('value', 1);
 
-    await render(hbs `
+    await render(hbs`
       {{input/md-select
-        value=value
+        value=this.value
         create=true
-        objectArray=objArray
+        objectArray=this.objArray
         valuePath="id"
         namePath="name"}}
     `);

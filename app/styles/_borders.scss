@@ -7,7 +7,6 @@ $border-radius: 0.25rem !default;
 $border-radius-lg: 0.3rem !default;
 $border-radius-sm: 0.2rem !default;
 $rounded-pill: 50rem !default;
-
 $theme-colors: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
 $theme-colors: map-merge(
@@ -23,9 +22,9 @@ $theme-colors: map-merge(
   ),
   $theme-colors
 );
-//
+
+
 // Border
-//
 
 .border {
   border: $border-width solid $border-color !important;
@@ -81,9 +80,7 @@ $theme-colors: map-merge(
   border-color: transparent;
 }
 
-//
 // Border-radius
-//
 
 .rounded-sm {
   border-radius: $border-radius-sm !important;

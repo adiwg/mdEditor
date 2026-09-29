@@ -18,9 +18,9 @@ module('Integration | Component | control/subbar citation', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#control/subbar-citation}}
+      <Control::SubbarCitation>
         template block text
-      {{/control/subbar-citation}}
+      </Control::SubbarCitation>
     `);
 
     assert.equal(find('.btn-group-vertical').textContent.replace(/[ \n\t\s]+/g, '|').trim(),

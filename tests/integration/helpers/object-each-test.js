@@ -10,7 +10,7 @@ module('Integration | Helper | object-each', function(hooks) {
   test('it renders', async function(assert) {
     this.set('inputValue', '1234');
 
-    await render(hbs`{{object-each inputValue}}`);
+    await render(hbs`{{object-each this.inputValue}}`);
 
     assert.equal(this.element.textContent.trim(), '1234');
   });

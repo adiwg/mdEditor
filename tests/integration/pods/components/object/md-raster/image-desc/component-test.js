@@ -32,7 +32,7 @@ module('Integration | Component | object/md-raster/image-desc', function(hooks) 
 
     let input = nestedValues(this.model).join('|')
 
-    await render(hbs`{{object/md-raster/image-desc profilePath="foobar" model=model}}`);
+    await render(hbs`{{object/md-raster/image-desc profilePath="foobar" model=this.model}}`);
 
     assert.equal(formatContent(this.element).trim(),
       '|Image|Quality|Code|Identifier|Namespace|namespace|×|More|Illumination|Elevation|Angle|Illumination|Azimuth|Angle|Imaging|Condition|Cloud|Cover|Percent|Compression|Quantity|Triangulation|Indicator|Radiometric|Calibration|Available|Camera|Calibration|Available|Film|Distortion|Available|Lens|Distortion|Available|', 'md-raster/image-desc component renders'

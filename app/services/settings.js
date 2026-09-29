@@ -1,8 +1,6 @@
 import Service, { inject as service } from '@ember/service';
-import EmberObject, { set, getWithDefault } from '@ember/object';
+import EmberObject, { set } from '@ember/object';
 import config from 'mdeditor/config/environment';
-import { defaultValues } from 'mdeditor/models/setting';
-import { isEmpty } from '@ember/utils';
 
 const {
   APP: { version },
@@ -11,22 +9,32 @@ const {
 
 export default Service.extend({
   store: service(),
-  data: 'null',
+  data: null,
+  _setupPromise: null,
+
+  // Set just before an intentional, already-confirmed reload (e.g. Clear
+  // Storage Cache) so the application route's beforeunload guard doesn't
+  // show a second, redundant "leave site?" prompt.
+  bypassUnloadWarning: false,
 
   init() {
     this._super(...arguments);
 
     this.setup();
   },
+
+  // Resolves once the initial settings record has loaded (or been created)
+  get ready() {
+    return this._setupPromise;
+  },
+
   setup() {
     let me = this;
-    let settings;
     let store = this.store;
 
-    store.findAll('setting').then(function (s) {
-      let rec = s.get('firstObject');
-
-      settings = rec ? rec : store.createRecord('setting');
+    let promise = store.findAll('setting').then(function (s) {
+      let rec = s[0];
+      let settings = rec ? rec : store.createRecord('setting');
 
       if (settings.get('lastVersion') !== version) {
         settings.set('showSplash', environment !== 'test');
@@ -36,7 +44,7 @@ export default Service.extend({
       set(
         settings,
         'repositoryDefaults',
-        getWithDefault(settings, 'repositoryDefaults', [])
+        settings.repositoryDefaults ?? []
       );
 
       settings.notifyPropertyChange('hasDirtyAttributes');
@@ -44,7 +52,12 @@ export default Service.extend({
       if (!(me.get('isDestroyed') || me.get('isDestroying'))) {
         me.set('data', settings);
       }
+
+      return settings;
     });
+
+    this.set('_setupPromise', promise);
+    return promise;
   },
   repositoryTemplate: EmberObject.extend({
     init() {
