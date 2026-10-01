@@ -36,7 +36,7 @@
       <button
         type='button'
         class='btn btn-lg btn-primary md-btn-responsive'
-        {{on 'click' (fn this.importSelectedData @model)}}
+        {{on 'click' (route-action 'importSelectedData' @model)}}
         disabled={{this.pouch.bulkAdding}}
       >
         {{fa-icon 'check-square-o'}}

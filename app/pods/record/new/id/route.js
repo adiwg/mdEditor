@@ -24,6 +24,16 @@ export default class IdRoute extends Route {
   @service router;
 
   deactivate() {
+    // Post-save navigation, same as willTransition's _justSaved check
+    // below - model.isDeleted can't be trusted here either, it's backed
+    // by the same broken RecordState/@gate property family as isNew (see
+    // willTransition's comment). Without this, deactivate() was unloading
+    // the just-saved record on every exit from this route, independent of
+    // (and bypassing) the willTransition fix.
+    if (this._justSaved) {
+      return;
+    }
+
     // We grab the model loaded in this route
     let model = this.currentRouteModel();
 
@@ -41,6 +51,18 @@ export default class IdRoute extends Route {
     willTransition(transition) {
       if (transition.targetName === 'record.new.index') {
         transition.abort();
+        return true;
+      }
+
+      // A transition we triggered ourselves right after a successful save
+      // (see saveRecord() below) - skip the isNew check below entirely.
+      // model.isNew is backed by ember-data 5.x's warp-drive RecordState
+      // machinery, which can still read as true here even though the save
+      // already resolved (same root cause as the "memoSignal is not a
+      // function" bug elsewhere in this app - classic Ember .extend()
+      // breaks this decorator family). Trusting a stale isNew here was
+      // destroying the just-saved record and bouncing back to record.new.
+      if (this._justSaved) {
         return true;
       }
 
@@ -68,10 +90,20 @@ export default class IdRoute extends Route {
     }
 
     @action
-    saveRecord() {
+    saveRecord(event) {
+      // The template's Save button is a `type='submit'` inside a <form>
+      // with no `action` attribute - without preventDefault(), the
+      // browser's own native form submission fires alongside this action
+      // and reloads the current page (a real browser reload, not an
+      // Ember transition), racing against and clobbering the
+      // .save().then(replaceWith(...)) below. Matches dictionary/contact's
+      // saveDictionary/saveContact, which already do this correctly.
+      event?.preventDefault();
+
       this.currentRouteModel()
         .save()
         .then((model) => {
+          this._justSaved = true;
           this.router.replaceWith('record.show.edit', model);
         });
     }

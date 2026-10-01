@@ -1,0 +1,22 @@
+diff --git a/addon/utils/utils.js b/addon/utils/utils.js
+index f6fecc71beb94c3812d34174846a6d441a9b924f..cab40b127d27469f62b49981f4a20b079bbd8353 100644
+--- a/addon/utils/utils.js
++++ b/addon/utils/utils.js
+@@ -47,11 +47,16 @@ export function isDsModel(o) {
+ }
+ 
+ export function isDSManyArray(o) {
++  // ember-data 5.x's `DS` compat namespace no longer exports `ManyArray`
++  // (only `PromiseManyArray` survived) - `o instanceof undefined` throws
++  // "Right-hand side of 'instanceof' is not an object" rather than just
++  // being false, so each constructor needs its own existence check.
+   return !!(
+     DS &&
+     o &&
+     isArray(o) &&
+-    (o instanceof DS.PromiseManyArray || o instanceof DS.ManyArray)
++    ((DS.PromiseManyArray && o instanceof DS.PromiseManyArray) ||
++      (DS.ManyArray && o instanceof DS.ManyArray))
+   );
+ }
+ 

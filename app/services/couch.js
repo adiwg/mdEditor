@@ -3,6 +3,11 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { dasherize } from '@ember/string';
 import PouchDB from 'ember-pouch/pouchdb';
+import { initDb } from 'mdeditor/adapters/pouch-base';
+
+// Only records/contacts/dictionaries flagged for sync (see models/base.js's
+// `syncEnabled`) replicate to the remote CouchDB.
+const SYNC_FILTER = (doc) => doc.data?.syncEnabled === true;
 
 export default class CouchService extends Service {
   @service store;
@@ -30,8 +35,7 @@ export default class CouchService extends Service {
   }
 
   async setup() {
-    const adapter = this.store.adapterFor('pouch-base');
-    this.localDb = adapter.db;
+    this.localDb = initDb();
 
     try {
       // Check to see if they have a remote name and url saved
@@ -150,7 +154,7 @@ export default class CouchService extends Service {
   push() {
     this.replicationState = 'Pushing';
     this.localDb.replicate
-      .to(this.remoteDb)
+      .to(this.remoteDb, { filter: SYNC_FILTER })
       .on('complete', (info) => {
         this.replicationState = null;
         this.replicationInfo = info;
@@ -164,7 +168,7 @@ export default class CouchService extends Service {
   pull() {
     this.replicationState = 'Pulling';
     this.localDb.replicate
-      .from(this.remoteDb)
+      .from(this.remoteDb, { filter: SYNC_FILTER })
       .on('complete', (info) => {
         this.replicationState = null;
         this.replicationInfo = info;
@@ -178,7 +182,7 @@ export default class CouchService extends Service {
   sync() {
     this.replicationState = 'Syncing';
     this.localDb
-      .sync(this.remoteDb)
+      .sync(this.remoteDb, { filter: SYNC_FILTER })
       .on('complete', (info) => {
         this.replicationState = null;
         this.replicationInfo = info;

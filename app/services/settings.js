@@ -29,16 +29,39 @@ export default Service.extend({
   },
 
   setup() {
+    if (this._setupPromise) {
+      return this._setupPromise;
+    }
+
     let me = this;
     let store = this.store;
 
-    let promise = store.findAll('setting').then(function (s) {
+    // Deferred to a microtask so `this._setupPromise` (set below, before
+    // this runs) is already in place if something reentrantly calls setup()
+    // while findAll's schema/adapter resolution is still on the stack -
+    // ember-pouch is a synchronous, local adapter, so that resolution can
+    // nest within a single call stack rather than crossing a real I/O wait.
+    let promise = Promise.resolve()
+      .then(() => store.findAll('setting'))
+      .then(function (s) {
       let rec = s[0];
       let settings = rec ? rec : store.createRecord('setting');
 
       if (settings.get('lastVersion') !== version) {
         settings.set('showSplash', environment !== 'test');
         settings.set('lastVersion', version);
+
+        // Explicit save, matching settings/route.js's own save action
+        // (this.settings.data.save()) - don't rely on setting.js's
+        // updateSettings observer to auto-detect and save this via
+        // hasDirtyAttributes. That property is backed by ember-data 5.x's
+        // warp-drive machinery, which can throw under classic Ember
+        // .extend() (see models/setting.js's updateSettings for the full
+        // writeup); the observer fails closed on that throw, so this
+        // write was silently never persisting - showSplash reverting to
+        // true and the Update Alert reappearing on every fresh boot,
+        // forever, since lastVersion never actually committed either.
+        settings.save();
       }
 
       set(
@@ -46,8 +69,6 @@ export default Service.extend({
         'repositoryDefaults',
         settings.repositoryDefaults ?? []
       );
-
-      settings.notifyPropertyChange('hasDirtyAttributes');
 
       if (!(me.get('isDestroyed') || me.get('isDestroying'))) {
         me.set('data', settings);

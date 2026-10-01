@@ -61,7 +61,7 @@ export default class ExportRoute extends Route.extend(ScrollTo) {
       this.controller,
       'hasSelected',
       computed(
-        'model.{records.0.@each._selected,records.1.@each._selected,records.2.@each._selected,settings._selected}',
+        'model.{records.0.list.@each._selected,records.1.list.@each._selected,records.2.list.@each._selected,settings._selected}',
         function () {
           const isSelected = (item) => item._selected;
 
@@ -79,7 +79,7 @@ export default class ExportRoute extends Route.extend(ScrollTo) {
     defineProperty(
       this.controller,
       'hasSelectedRecords',
-      computed('model.records.0.@each._selected', function () {
+      computed('model.records.0.list.@each._selected', function () {
         return (
           store.peekAll('record').filter((item) => item._selected).length > 0
         );

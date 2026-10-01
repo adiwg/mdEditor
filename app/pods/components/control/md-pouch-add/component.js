@@ -31,6 +31,7 @@ export default class MdPouchAddComponent extends Component {
   @action
   async saveNew(type) {
     await this.pouch.createPouchRecord(type, this.value);
+    await this.pouch.setup();
     this.close();
   }
 }
