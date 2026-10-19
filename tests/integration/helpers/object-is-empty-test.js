@@ -10,7 +10,7 @@ module('Integration | Helper | object-is-empty', function(hooks) {
   test('it renders', async function(assert) {
     this.set('inputValue', '1234');
 
-    await render(hbs`{{object-is-empty inputValue}}`);
+    await render(hbs`{{object-is-empty this.inputValue}}`);
 
     assert.equal(this.element.textContent.trim(), "false");
   });

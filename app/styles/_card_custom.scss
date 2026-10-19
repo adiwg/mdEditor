@@ -7,6 +7,7 @@
     &.card-block::before,
     &.card-block::after {
       content: none;
+
       // display: table;
     }
 
@@ -72,6 +73,7 @@
 
     &:hover {
       color: darken($body-bg, 10);
+
       //font-weight: 900;
     }
   }

@@ -1,8 +1,10 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
-  tagName: 'ul',
-  classNames: ['list-group', 'md-classification'],
-  dragging: null,
-  preview: false
-});
+@classic
+export default class MdTaxonomyClassificationComponent extends Component {
+  tagName = 'ul';
+  classNames = ['list-group', 'md-classification'];
+  dragging = null;
+  preview = false;
+}

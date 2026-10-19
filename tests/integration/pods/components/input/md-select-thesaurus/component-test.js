@@ -18,13 +18,13 @@ module('Integration | Component | input/md select thesaurus', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs `{{input/md-select-thesaurus}}`);
+    await render(hbs`{{input/md-select-thesaurus}}`);
 
     assert.equal(find('.md-select').textContent
       .replace(/[ \n]+/g, '|'), '|Pick|a|thesaurus|');
 
     // Template block usage:
-    await render(hbs `
+    await render(hbs`
       {{#input/md-select-thesaurus}}
         template block text
       {{/input/md-select-thesaurus}}
@@ -45,7 +45,7 @@ module('Integration | Component | input/md select thesaurus', function(hooks) {
         'submitted value is passed to external action');
     });
 
-    await render(hbs `{{input/md-select-thesaurus selectThesaurus=selectThesaurus}}`);
+    await render(hbs`{{input/md-select-thesaurus selectThesaurus=this.selectThesaurus}}`);
 
     // select a value and force an onchange
     await clickTrigger();

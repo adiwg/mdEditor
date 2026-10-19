@@ -1,0 +1,19 @@
+diff --git a/app/initializers/export-application-global.js b/app/initializers/export-application-global.js
+index f93357493487e0eaf5c9f6815d93d45cf87dcfe2..0d84ca5723f054a78d82bc73b124820894c8fb91 100644
+--- a/app/initializers/export-application-global.js
++++ b/app/initializers/export-application-global.js
+@@ -1,4 +1,4 @@
+-import Ember from 'ember';
++import { classify } from '@ember/string';
+ import config from '../config/environment';
+ 
+ export function initialize() {
+@@ -22,7 +22,7 @@ export function initialize() {
+     if (typeof value === 'string') {
+       globalName = value;
+     } else {
+-      globalName = Ember.String.classify(config.modulePrefix);
++      globalName = classify(config.modulePrefix);
+     }
+ 
+     if (!theGlobal[globalName]) {

@@ -1,3 +1,6 @@
+@use "sass:color";
+@use "variables" as *;
+
 @keyframes fp-pulse {
   0% {
     box-shadow: 0 0 0 0 rgba($green, .7);
@@ -77,7 +80,7 @@
 
   .feature-table {
     .hover {
-      background-color: lighten($orange, 30);
+      background-color: color.adjust($orange, $lightness: 30%);
 
       &:hover {
         cursor: pointer;
@@ -85,16 +88,16 @@
     }
 
     .edit {
-      background-color: lighten($light-blue, 30);
+      background-color: color.adjust($light-blue, $lightness: 30%);
 
       &:hover {
-        background-color: lighten($light-blue, 27);
+        background-color: color.adjust($light-blue, $lightness: 27%);
         cursor: pointer;
       }
     }
 
     .remove {
-      background-color: lighten($red, 36);
+      background-color: color.adjust($red, $lightness: 36%);
     }
   }
 }

@@ -1,54 +1,85 @@
-{{#if inTree}}
-{{#unless model.isRoot}}
-  <span class="tree-cell text-nowrap">
-    {{#each (range 1 nodeDepth)}}
-      <span class="tree-indent"></span>
-    {{/each}}
-  </span>
-{{/unless}}
-
-<span class="tree-cell tree-icon" role="button" {{action "toggleCheck" bubbles=false}}>
-  {{#if model.draggable}}
-  {{fa-icon "ellipsis-v" fixedWidth=false}}
-  {{/if}}
-</span>
-
-{{#unless disableCheck}}
-  {{#unless model.hideCheck}}
-  <span class="tree-cell tree-icon" role="button" {{action "toggleCheck" bubbles=false}}>
-      {{#if model.checkable}}
-        {{fa-icon (if model.isChecked "check-square-o" "square-o") fixedWidth=true}}
-      {{else}}
-        <span class="icon fa fa-fw"></span>
-      {{/if}}
-  </span>
+{{#if this.inTree}}
+  {{#unless this.model.isRoot}}
+    <span class='tree-cell text-nowrap'>
+      {{#each (range 1 this.nodeDepth)}}
+        <span class='tree-indent'></span>
+      {{/each}}
+    </span>
   {{/unless}}
-{{/unless}}
 
-{{#unless model.hideToggle}}
-<span class="tree-cell tree-icon">
-  <span class="toggle-icon" role="button" {{action "toggleExpand" bubbles=false}}>
-    {{#if model.children.length}}
-      {{fa-icon (if model.isExpanded "minus" "plus") fixedWidth=true class="icon expand-icon"}}
-    {{else}}
-      <span class="icon fa fa-fw"></span>
+  <span
+    class='tree-cell tree-icon'
+    role='button'
+    {{on 'click' this.toggleCheck}}
+  >
+    {{#if this.model.draggable}}
+      {{fa-icon 'ellipsis-v' fixedWidth=false}}
     {{/if}}
   </span>
-</span>
-{{/unless}}
 
-<span class="tree-cell tree-fill">
-  <span class="tree-cell">
-    {{tree-label model=model labelComponent=labelComponent nodePath=nodePath selected=selected}}
+  {{#unless this.disableCheck}}
+    {{#unless this.model.hideCheck}}
+      <span
+        class='tree-cell tree-icon'
+        role='button'
+        {{on 'click' this.toggleCheck}}
+      >
+        {{#if this.model.checkable}}
+          {{fa-icon
+            (if this.model.isChecked 'check-square-o' 'square-o')
+            fixedWidth=true
+          }}
+        {{else}}
+          <span class='icon fa fa-fw'></span>
+        {{/if}}
+      </span>
+    {{/unless}}
+  {{/unless}}
+
+  {{#unless this.model.hideToggle}}
+    <span class='tree-cell tree-icon'>
+      <span class='toggle-icon' role='button' {{on 'click' this.toggleExpand}}>
+        {{#if this.model.children.length}}
+          {{fa-icon
+            (if this.model.isExpanded 'minus' 'plus')
+            fixedWidth=true
+            class='icon expand-icon'
+          }}
+        {{else}}
+          <span class='icon fa fa-fw'></span>
+        {{/if}}
+      </span>
+    </span>
+  {{/unless}}
+
+  <span class='tree-cell tree-fill'>
+    <span class='tree-cell'>
+      {{tree-label
+        model=this.model
+        labelComponent=this.labelComponent
+        nodePath=this.nodePath
+        selected=this.selected
+      }}
+    </span>
   </span>
-</span>
-{{#if model.definition}}
-   <span class="tree-cell">
-     <span class="badge">?
-       {{ember-tooltip text=model.definition side="right"}}
-     </span>
-   </span>
-{{/if}}
+  {{#if this.model.definition}}
+    <span class='tree-cell'>
+      <span class='badge'>?
+        {{ember-tooltip text=this.model.definition side='right'}}
+      </span>
+    </span>
+  {{/if}}
+  {{#if this.model._isDragTarget}}
+    <span class='tree-cell'>
+      <span class='tree-drop-indicator'>DROP TARGET</span>
+    </span>
+  {{/if}}
 {{else}}
-  {{tree-label labelComponent=labelComponent model=model nodePath=nodePath selected=selected highlight=highlight}}
+  {{tree-label
+    labelComponent=this.labelComponent
+    model=this.model
+    nodePath=this.nodePath
+    selected=this.selected
+    highlight=this.highlight
+  }}
 {{/if}}

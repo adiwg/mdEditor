@@ -36,12 +36,12 @@ module('Integration | Component | tree leaf', function(hooks) {
       assert.ok(true, 'called select');
     });
 
-    await render(hbs`{{tree-leaf model=model
+    await render(hbs`{{tree-leaf model=this.model
       inTree=true
-      select=select
-      selected=selected
+      select=this.select
+      selected=this.selected
       nodeDepth=3
-      nodePath=nodePath
+      nodePath=this.nodePath
     }}`);
 
     await click('.toggle-icon');
@@ -50,13 +50,9 @@ module('Integration | Component | tree leaf', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#tree-leaf model=model
-        inTree=false
-        select=select
-        selected=selected
-      }}
+      <TreeLeaf @model={{this.model}} @inTree={{false}} @select={{this.select}} @selected={{this.selected}}>
         template block text
-      {{/tree-leaf}}
+      </TreeLeaf>
     `);
 
     assert.equal(find('.tree-leaf').innerText.trim(), 'foo1label');

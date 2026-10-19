@@ -6,6 +6,6 @@ module('Unit | Helper | md markdown', function() {
   // Replace this with your real tests.
   test('it works', function(assert) {
     let result = mdMarkdown('# Test');
-    assert.equal(result.string.trim(), '<p>#</p>');
+    assert.equal(result.toString().trim(), '<p>#</p>');
   });
 });

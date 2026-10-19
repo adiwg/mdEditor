@@ -1,16 +1,22 @@
 import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import Setting from 'mdeditor/models/setting';
-import { get, set, action } from '@ember/object';
+import { set, action } from '@ember/object';
+import { schedule } from '@ember/runloop';
 
 @classic
 export default class SettingsRoute extends Route {
+  @service
+  store;
+
   @service
   settings;
 
   @service
   publish;
+
+  @service
+  flashMessages;
 
   /**
    * The profile service
@@ -19,6 +25,10 @@ export default class SettingsRoute extends Route {
    */
   @service
   profile;
+
+  beforeModel() {
+    return this.settings._setupPromise;
+  }
 
   setupController(controller, model) {
     super.setupController(controller, model);
@@ -47,6 +57,10 @@ export default class SettingsRoute extends Route {
   clearLocalStorage() {
     let data = this.settings.data.serialize({ includeId: true });
 
+    // Already confirmed via the "Are you sure?" modal - suppress the
+    // separate beforeunload "leave site?" prompt so reload isn't blocked.
+    this.settings.set('bypassUnloadWarning', true);
+
     window.localStorage.clear();
 
     if (this.settings.data.keepSettings) {
@@ -57,11 +71,20 @@ export default class SettingsRoute extends Route {
       this.store.pushPayload('setting', data);
 
       let rec = this.store.peekRecord('setting', data.data.id);
-      rec.save().then(() => window.location.reload());
+      rec
+        .save()
+        .catch((error) => {
+          // Storage is already cleared, so reload regardless of save
+          // outcome - just surface the failure first.
+          this.flashMessages.danger(
+            'Failed to save settings before reload: ' + error.message
+          );
+        })
+        .finally(() => window.location.reload());
+      return;
     }
 
     window.location.reload();
-    //this.transitionTo('application');
   }
 
   @action
@@ -71,19 +94,20 @@ export default class SettingsRoute extends Route {
 
   @action
   catalogs() {
-    return this.get('publish.catalogs');
+    return this.publish.catalogs;
   }
 
   @action
   deriveItisProxyUrl() {
     let model = this.modelFor('settings.main');
+    if (!model || typeof model.get !== 'function') {
+      return;
+    }
     const mdTranslatorAPI = model.get('mdTranslatorAPI');
-    console.log(mdTranslatorAPI);
     if (mdTranslatorAPI) {
-      // Extract the base URL by removing the API path
-      // This will convert https://api.sciencebase.gov/mdTranslator/api/v3/translator
-      // to https://api.sciencebase.gov/mdTranslator
-      const baseUrl = mdTranslatorAPI.replace(/\/api\/v\d+\/translator$/, '');
+      // e.g. https://api.sciencebase.gov/mdTranslator/api/v3/translator
+      // -> https://api.sciencebase.gov/mdTranslator
+      const baseUrl = mdTranslatorAPI.replace(/\/api\/v\d+(\/translator)?$/, '');
 
       model.set('itisProxyUrl', baseUrl);
     }
@@ -92,107 +116,134 @@ export default class SettingsRoute extends Route {
   @action
   getPublishOptions(catalogName) {
     let model = this.modelFor('settings.main');
-    let publishOptions = model.get('publishOptions') || [];
-
-    // Ensure publishOptions is always an array
+    if (!model || typeof model.get !== 'function') {
+      return {};
+    }
+    let publishOptions = model.get('publishOptions');
     if (!Array.isArray(publishOptions)) {
       publishOptions = [];
-      model.set('publishOptions', publishOptions);
     }
 
-    // Find existing settings for this catalog
     // Support both legacy 'catalog' field and new 'publisher' field
     let catalogSettings = publishOptions.find(
       (options) =>
         options.catalog === catalogName || options.publisher === catalogName
     );
 
-    // If no settings exist for this catalog, create a default entry
-    if (!catalogSettings) {
-      catalogSettings = {
-        publisher: catalogName, // Use new 'publisher' field
-        publisherEndpoint: '', // Add new 'publisherEndpoint' field
-      };
+    if (catalogSettings) {
+      // Mutating model state synchronously while it's being read during a
+      // render caused an intermittent "must supply both model and
+      // valuePath" crash in couchdb-settings/sb-settings - defer instead.
+      schedule(
+        'afterRender',
+        this,
+        this._migratePublishOptions,
+        model,
+        catalogSettings
+      );
 
-      // Initialize default properties based on catalog type
-      if (catalogName === 'CouchDB') {
-        catalogSettings.publisherEndpoint = '';
-        catalogSettings['couchdb-database'] = '';
-        catalogSettings['couchdb-username'] = '';
-      } else if (catalogName === 'ScienceBase') {
-        catalogSettings['sb-defaultParent'] = '';
-        catalogSettings.publisherEndpoint =
-          'https://api.sciencebase.gov/sbmd-service/';
-      }
-
-      publishOptions.pushObject(catalogSettings);
-      model.set('publishOptions', publishOptions);
-    } else if (catalogSettings.catalog && !catalogSettings.publisher) {
-      // Migrate legacy 'catalog' field to new 'publisher' field
-      set(catalogSettings, 'publisher', catalogSettings.catalog);
-      delete catalogSettings.catalog;
-
-      // Migrate legacy endpoint fields to publisherEndpoint
-      if (!catalogSettings.publisherEndpoint) {
-        if (catalogSettings['sb-publishEndpoint']) {
-          // Migrate ScienceBase endpoint
-          set(
-            catalogSettings,
-            'publisherEndpoint',
-            catalogSettings['sb-publishEndpoint']
-          );
-          delete catalogSettings['sb-publishEndpoint'];
-        } else if (catalogSettings['couchdb-url']) {
-          // Migrate CouchDB endpoint
-          set(
-            catalogSettings,
-            'publisherEndpoint',
-            catalogSettings['couchdb-url']
-          );
-          delete catalogSettings['couchdb-url'];
-        } else {
-          // Set default based on publisher type
-          set(
-            catalogSettings,
-            'publisherEndpoint',
-            catalogName === 'ScienceBase'
-              ? 'https://api.sciencebase.gov/sbmd-service/'
-              : ''
-          );
-        }
-      }
-
-      model.set('publishOptions', publishOptions);
-    } else {
-      // Handle cases where publisher exists but we need to migrate endpoint fields
-      if (catalogSettings.publisher && !catalogSettings.publisherEndpoint) {
-        if (catalogSettings['sb-publishEndpoint']) {
-          set(
-            catalogSettings,
-            'publisherEndpoint',
-            catalogSettings['sb-publishEndpoint']
-          );
-          delete catalogSettings['sb-publishEndpoint'];
-        } else if (catalogSettings['couchdb-url']) {
-          set(
-            catalogSettings,
-            'publisherEndpoint',
-            catalogSettings['couchdb-url']
-          );
-          delete catalogSettings['couchdb-url'];
-        } else {
-          set(
-            catalogSettings,
-            'publisherEndpoint',
-            catalogSettings.publisher === 'ScienceBase'
-              ? 'https://api.sciencebase.gov/sbmd-service/'
-              : ''
-          );
-        }
-        model.set('publishOptions', publishOptions);
-      }
+      return catalogSettings;
     }
 
-    return catalogSettings;
+    // No settings exist yet - same render-safety concern as above.
+    let defaults = this._buildDefaultPublishOptions(catalogName);
+
+    schedule(
+      'afterRender',
+      this,
+      this._addDefaultPublishOptions,
+      model,
+      catalogName,
+      defaults
+    );
+
+    return defaults;
+  }
+
+  _buildDefaultPublishOptions(catalogName) {
+    let defaults = {
+      publisher: catalogName,
+      publisherEndpoint: '',
+    };
+
+    if (catalogName === 'CouchDB') {
+      defaults['couchdb-database'] = '';
+      defaults['couchdb-username'] = '';
+    } else if (catalogName === 'ScienceBase') {
+      defaults['sb-defaultParent'] = '';
+      defaults.publisherEndpoint = 'https://api.sciencebase.gov/sbmd-service/';
+    }
+
+    return defaults;
+  }
+
+  _addDefaultPublishOptions(model, catalogName, defaults) {
+    if (model.isDestroyed || model.isDestroying) {
+      return;
+    }
+
+    let publishOptions = model.get('publishOptions');
+    if (!Array.isArray(publishOptions)) {
+      publishOptions = [];
+    }
+
+    let exists = publishOptions.find(
+      (options) =>
+        options.catalog === catalogName || options.publisher === catalogName
+    );
+
+    if (exists) {
+      return;
+    }
+
+    publishOptions.pushObject(defaults);
+    model.set('publishOptions', publishOptions);
+  }
+
+  _migratePublishOptions(model, catalogSettings) {
+    if (model.isDestroyed || model.isDestroying) {
+      return;
+    }
+
+    let mutated = false;
+
+    // Migrate legacy 'catalog' field to new 'publisher' field
+    if (catalogSettings.catalog && !catalogSettings.publisher) {
+      set(catalogSettings, 'publisher', catalogSettings.catalog);
+      delete catalogSettings.catalog;
+      mutated = true;
+    }
+
+    // Migrate legacy endpoint fields to publisherEndpoint
+    if (catalogSettings.publisher && !catalogSettings.publisherEndpoint) {
+      if (catalogSettings['sb-publishEndpoint']) {
+        set(
+          catalogSettings,
+          'publisherEndpoint',
+          catalogSettings['sb-publishEndpoint']
+        );
+        delete catalogSettings['sb-publishEndpoint'];
+      } else if (catalogSettings['couchdb-url']) {
+        set(
+          catalogSettings,
+          'publisherEndpoint',
+          catalogSettings['couchdb-url']
+        );
+        delete catalogSettings['couchdb-url'];
+      } else {
+        set(
+          catalogSettings,
+          'publisherEndpoint',
+          catalogSettings.publisher === 'ScienceBase'
+            ? 'https://api.sciencebase.gov/sbmd-service/'
+            : ''
+        );
+      }
+      mutated = true;
+    }
+
+    if (mutated) {
+      model.set('publishOptions', model.get('publishOptions'));
+    }
   }
 }

@@ -1,34 +1,32 @@
 import Component from '@ember/component';
-import { getWithDefault, get, set } from '@ember/object';
+import classic from 'ember-classic-decorator';
+import { action, set } from '@ember/object';
 import { once } from '@ember/runloop';
-import uuidV4 from 'uuid/v4';
+import { v4 as uuidV4 } from 'uuid';
 
-export default Component.extend({
+@classic
+export default class MdDataqualityComponent extends Component {
+  tagName = 'form';
+
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
-    let model = get(this, 'model');
+    let model = this.model;
 
     once(function () {
-      set(model, 'scope', getWithDefault(model, 'scope', {}));
-      set(
-        model,
-        'systemIdentifier',
-        getWithDefault(model, 'systemIdentifier', { uid: uuidV4() })
-      );
-      set(model, 'report', getWithDefault(model, 'report', []));
+      set(model, 'scope', model.scope ?? {});
+      set(model, 'systemIdentifier', model.systemIdentifier ?? { uid: uuidV4() });
+      set(model, 'report', model.report ?? []);
     });
-  },
+  }
 
-  tagName: 'form',
+  @action
+  addStandaloneQualityReport() {
+    set(this.model, 'standaloneQualityReport', { abstract: '' });
+  }
 
-  actions: {
-    addStandaloneQualityReport() {
-      set(this.model, 'standaloneQualityReport', { abstract: '' });
-    },
-
-    deleteStandaloneQualityReport() {
-      set(this.model, 'standaloneQualityReport', undefined);
-    },
-  },
-});
+  @action
+  deleteStandaloneQualityReport() {
+    set(this.model, 'standaloneQualityReport', undefined);
+  }
+}

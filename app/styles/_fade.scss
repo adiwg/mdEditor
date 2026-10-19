@@ -8,6 +8,7 @@ $prefix: '-moz-', '-webkit-', '-o-', '-ms-', '';
     opacity: 0;
     visibility: hidden;
   }
+
   100% {
     opacity: 1;
     visibility: visible;
@@ -29,7 +30,7 @@ $prefix: '-moz-', '-webkit-', '-o-', '-ms-', '';
   @include keyframe-fadeIn;
 }
 @mixin fadeIn( $arg ) {
-  $keyframe-name: fadeIn;
+  $keyframe-name: fadein;
   $duration: $arg;
   @each $p in $prefix {
     #{$p}animation: $keyframe-name $duration;
@@ -44,6 +45,7 @@ $prefix: '-moz-', '-webkit-', '-o-', '-ms-', '';
     opacity: 1;
     visibility: visible;
   }
+
   100% {
     opacity: 0;
     visibility: hidden;
@@ -65,21 +67,22 @@ $prefix: '-moz-', '-webkit-', '-o-', '-ms-', '';
   @include keyframe-fadeOut;
 }
 @mixin fadeOut( $arg ) {
-  $keyframe-name: fadeOut;
+  $keyframe-name: fadeout;
   $duration: $arg;
   @each $p in $prefix {
     #{$p}animation: $keyframe-name $duration;
+
     //display: none;
     visibility: hidden;
   }
 }
 
 // e.g. @include fadeOut( 2s );
-.fadeIn {
+.fade-in {
   @include fadeIn(1s);
 }
 
-.fadeOut {
+.fade-out {
   @include fadeOut(1s);
 }
 

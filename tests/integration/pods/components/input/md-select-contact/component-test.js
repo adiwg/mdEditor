@@ -22,9 +22,9 @@ module('Integration | Component | input/md select contact', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#input/md-select-contact}}
+      <Input::MdSelectContact>
         template block text
-      {{/input/md-select-contact}}
+      </Input::MdSelectContact>
     `);
 
     assert.equal(find('.md-select-contact').textContent.trim(), 'Select one option');

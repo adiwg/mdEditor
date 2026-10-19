@@ -1,43 +1,88 @@
-{{#if label}}
-  <label>{{label}}</label>
+{{#if this.label}}
+  <label>{{this.label}}</label>
 {{/if}}
 
 <div class='md-input-input'>
-  {{bs-datetimepicker
-    date=_date
-    format=format
-    extraFormats=extraFormats
-    dateIcon='fa fa-calendar'
-    timeIcon='fa fa-clock-o'
-    icons=calendarIcons
-    placeholder=placeholder
-    showClear=showClear
-    useCurrent=useCurrent
-    textFieldRequired=required
-    showTodayButton=showTodayButton
-    change=change
-  }}
+  <input
+    aria-label='datetime'
+    type={{this.htmlInputType}}
+    inputmode={{if this.isYearInput 'numeric'}}
+    class='form-control'
+    value={{this.nativeValue}}
+    placeholder={{this.placeholder}}
+    required={{this.required}}
+    {{on 'input' this.handleInput}}
+  />
+  {{#if this.isYearInput}}
+    <button
+      type='button'
+      class='md-datetime-year-toggle btn btn-link'
+      title='Choose year'
+      {{on 'click' this.toggleYearPicker}}
+    >
+      {{fa-icon 'calendar'}}
+    </button>
+  {{/if}}
+  {{#if this.showClear}}
+    <button
+      type='button'
+      class='md-datetime-clear btn btn-link'
+      title='Clear'
+      {{on 'click' this.clear}}
+    >
+      {{fa-icon 'times'}}
+    </button>
+  {{/if}}
+
+  {{#if (and this.isYearInput this.isYearPickerOpen)}}
+    <div class='md-year-picker'>
+      <div class='md-year-picker-header'>
+        <button
+          type='button'
+          class='btn btn-link'
+          {{on 'click' this.prevYearDecade}}
+        >&laquo;</button>
+        <span>{{this.yearGridStart}}-{{this.yearGridEnd}}</span>
+        <button
+          type='button'
+          class='btn btn-link'
+          {{on 'click' this.nextYearDecade}}
+        >&raquo;</button>
+      </div>
+      <div class='md-year-picker-grid'>
+        {{#each this.yearGridYears as |year|}}
+          <button
+            type='button'
+            class={{if (eq year this.selectedYear) 'active'}}
+            {{on 'click' (fn this.selectYear year)}}
+          >{{year}}</button>
+        {{/each}}
+      </div>
+    </div>
+  {{/if}}
 
   <span class='md-inputgroup-error'>
-    {{#if showErrorMessage}}
+    {{#if this.showErrorMessage}}
       <span class='md-error'>
         {{fa-icon 'exclamation-circle'}}
-        {{#ember-tooltip
-          side='right' tooltipClass='ember-tooltip md-tooltip danger'
-        }}
-          {{v-get model valuePath 'message'}}
-        {{/ember-tooltip}}
+        <EmberTooltip
+          @side='right'
+          @tooltipClass='ember-tooltip md-tooltip danger'
+        >
+          {{v-get this.model this.valuePath 'message'}}
+        </EmberTooltip>
       </span>
     {{/if}}
 
-    {{#if showWarningMessage}}
+    {{#if this.showWarningMessage}}
       <span class='md-warning'>
         {{fa-icon 'exclamation-triangle'}}
-        {{#ember-tooltip
-          side='right' tooltipClass='ember-tooltip md-tooltip warning'
-        }}
-          {{v-get model valuePath 'warningMessage'}}
-        {{/ember-tooltip}}
+        <EmberTooltip
+          @side='right'
+          @tooltipClass='ember-tooltip md-tooltip warning'
+        >
+          {{v-get this.model this.valuePath 'warningMessage'}}
+        </EmberTooltip>
       </span>
     {{/if}}
   </span>

@@ -4,11 +4,12 @@
  */
 
 import EmberObject from '@ember/object';
-
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import { A } from '@ember/array';
 
-export default Component.extend({
+@classic
+export default class MdGraphicArrayComponent extends Component {
   /**
    * mdEditor class for input and edit of mdJSON 'graphic' object arrays. The
    * class manages the maintenance of an array of graphic objects using the
@@ -27,7 +28,7 @@ export default Component.extend({
    * @constructor
    */
 
-  attributeBindings: ['data-spy'],
+  attributeBindings = ['data-spy'];
 
   /**
    * mdJSON object containing the 'graphic' array.
@@ -47,7 +48,7 @@ export default Component.extend({
    * @type String
    * @default 'name, uri'
    */
-  attributes: 'fileName,fileDescription',
+  attributes = 'fileName,fileDescription';
 
   /**
    * Name to place on the mdEditor panel header for entry and edit of
@@ -58,7 +59,7 @@ export default Component.extend({
    * @type String
    * @default 'Graphic'
    */
-  label: 'Graphic',
+  label = 'Graphic';
 
   /**
    * Label for the 'add item' button.
@@ -68,16 +69,16 @@ export default Component.extend({
    * @type String
    * @default 'Graphic'
    */
-  buttonText: 'Add Graphic',
+  buttonText = 'Add Graphic';
 
-  previewTemplate: 'object/md-graphic-array/md-graphic-preview',
+  previewTemplate = 'object/md-graphic-array/md-graphic-preview';
 
-  templateClass: EmberObject.extend({
+  templateClass = EmberObject.extend({
     init() {
       this._super(...arguments);
-      
+
       this.set('fileConstraint', A());
       this.set('fileUri', A());
     }
-  })
-});
+  });
+}

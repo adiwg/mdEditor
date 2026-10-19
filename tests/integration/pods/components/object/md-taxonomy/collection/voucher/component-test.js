@@ -12,9 +12,9 @@ module('Integration | Component | object/md taxonomy/collection/voucher', functi
     // Handle any actions with this.on('myAction', function(val) { ... });
     this.model = createTaxonomy()[0].voucher[0];
 
-    await render(hbs`{{object/md-taxonomy/collection/voucher profilePath="foobar" model=model}}`);
+    await render(hbs`{{object/md-taxonomy/collection/voucher profilePath="foobar" model=this.model}}`);
 
-    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Specimen|Repository|Role|custodian|?|×|Contacts|');
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Specimen|Specimen|Repository|Role|custodian|?|×|Contacts|');
 
     var input = findAll('input, textarea').mapBy('value').join('|');
 
@@ -22,13 +22,13 @@ module('Integration | Component | object/md taxonomy/collection/voucher', functi
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-taxonomy/collection/voucher profilePath="foobar" model=(hash repository=(hash))}}
+      <Object::MdTaxonomy::Collection::Voucher @profilePath="foobar" @model={{hash repository=(hash)}}>
         template block text
-      {{/object/md-taxonomy/collection/voucher}}
+      </Object::MdTaxonomy::Collection::Voucher>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      "|Specimen|Repository|Role|Select|or|enter|a|role|Contacts|",
+      "|Specimen|Specimen|Repository|Role|Select|or|enter|a|role|Contacts|",
       'block');
   });
 });

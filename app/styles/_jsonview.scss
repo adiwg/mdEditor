@@ -25,7 +25,7 @@
     overflow-y: auto;
   }
 
-  @media (min-width: 420px) {
+  @media (width >= 420px) {
     width: 70vw;
   }
 }

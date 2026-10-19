@@ -25,13 +25,13 @@ module('Integration | Component | layout/md-nav-secondary/link', function (
       links: this.links
     }
 
-    await render(hbs `{{layout/md-nav-secondary/link link=links.firstObject nav=nav}}`);
+    await render(hbs`{{layout/md-nav-secondary/link link=this.links.firstObject nav=this.nav}}`);
 
     assert.equal(this.element.textContent.trim(), 'Foo');
 
     // Template block usage:
-    await render(hbs `
-      {{#layout/md-nav-secondary/link link=links.lastObject nav=nav}}
+    await render(hbs`
+      {{#layout/md-nav-secondary/link link=this.links.lastObject nav=this.nav}}
         template block text
       {{/layout/md-nav-secondary/link}}
     `);

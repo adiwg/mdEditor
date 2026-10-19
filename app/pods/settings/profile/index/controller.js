@@ -1,13 +1,19 @@
-/* eslint-disable ember/no-actions-hash */
-/* eslint-disable ember/no-classic-classes */
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
-import { set } from '@ember/object';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
+import CellContentDisplay from 'mdeditor/pods/components/control/md-record-table/cell-content-display/component';
 
-export default Controller.extend({
-  customProfile: service('custom-profile'),
+export default class ProfileIndexController extends Controller {
+  @service customProfile;
+  @service router;
+  @service store;
+
+  @tracked profile = null;
+  @tracked profileUrl = null;
+
   /* eslint-disable ember/avoid-leaking-state-in-ember-objects */
-  columns: [
+  columns = [
     {
       propertyName: 'title',
       title: 'Title',
@@ -21,38 +27,46 @@ export default Controller.extend({
       title: 'Description',
       truncate: true,
       isHidden: false,
+      component: CellContentDisplay,
     },
-  ],
+  ];
 
-  actions: {
-    addProfile() {
-      this.set('profile', this.store.createRecord('custom-profile'));
-    },
-    editProfile(index, record) {
-      this.set('profile', record);
-    },
-    saveProfile() {
-      let profile = this.profile;
-      return profile.save();
-    },
+  @action
+  addProfile() {
+    this.profile = this.store.createRecord('custom-profile');
+  }
 
-    cancelEdit() {
-      let record = this.profile;
+  @action
+  editProfile(col, index, record) {
+    this.profile = record;
+  }
 
-      this.set('profile', null);
-      record.rollbackAttributes();
-    },
-    manageDefinitions() {
-      this.transitionToRoute('settings.profile.manage');
-    },
+  @action
+  saveProfile() {
+    let profile = this.profile;
+    return profile.save();
+  }
 
-    async loadProfilesFromUrl() {
-      const loadFromUrl = this.profileUrl;
-      if (!loadFromUrl) return;
-      const loadProfilesPromise =
-        this.customProfile.loadCustomProfilesFromUrl(loadFromUrl);
-      await Promise.all([loadProfilesPromise]);
-      set(this, 'profileUrl', null);
-    },
-  },
-});
+  @action
+  cancelEdit() {
+    let record = this.profile;
+
+    this.profile = null;
+    record.rollbackAttributes();
+  }
+
+  @action
+  manageDefinitions() {
+    this.router.transitionTo('settings.profile.manage');
+  }
+
+  @action
+  async loadProfilesFromUrl() {
+    const loadFromUrl = this.profileUrl;
+    if (!loadFromUrl) return;
+    const loadProfilesPromise =
+      this.customProfile.loadCustomProfilesFromUrl(loadFromUrl);
+    await Promise.all([loadProfilesPromise]);
+    this.profileUrl = null;
+  }
+}

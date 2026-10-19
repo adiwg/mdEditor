@@ -1,12 +1,12 @@
-{{#layout/md-card
-  title='Standalone Report'
-  collapsible=true
-  collapsed=false
-  profilePath='record.dataquality.standalonequalityreport'
-  data-spy='Standalone Report'
-  spotlightEnabled=false
-  deleteAction=(action 'deleteStandaloneQualityReport')
-}}
+<Layout::MdCard
+  @title='Standalone Report'
+  @collapsible={{true}}
+  @collapsed={{false}}
+  @profilePath='record.dataquality.standalonequalityreport'
+  @data-spy='Standalone Report'
+  @spotlightEnabled={{false}}
+  @deleteAction={{this.deleteAction}}
+>
   <div class='row'>
     <div class='col-lg-12'>
       <form>
@@ -14,7 +14,7 @@
           {{input/md-textarea
             required=true
             label='Abstract'
-            value=model.abstract
+            value=this.model.abstract
             placeholder='Abstract for the associated standalone quality report.'
           }}
         </div>
@@ -22,33 +22,31 @@
     </div>
   </div>
 
-  {{#if model.reportReference}}
-    {{#layout/md-card
-      title='Report Reference'
-      required=true
-      collapsible=true
-      collapsed=false
-      spotlightEnabled=false
-      deleteAction=(action 'deleteReportReference')
-    }}
+  {{#if this.model.reportReference}}
+    <Layout::MdCard
+      @title='Report Reference'
+      @required={{true}}
+      @collapsible={{true}}
+      @collapsed={{false}}
+      @spotlightEnabled={{false}}
+      @deleteAction={{this.deleteReportReference}}
+    >
       {{object/md-citation
-        model=model.reportReference
+        model=this.model.reportReference
         profilePath='record.dataquality.reportReference'
         simpleIdentifier=true
       }}
-    {{/layout/md-card}}
+    </Layout::MdCard>
   {{else}}
     <div class='md-object-table box-shadow--4dp'>
-      <div
-        class='alert md-alert-table alert-info'
-        style='background: #f2dede; color: #a94442'
-      >
+      <div class='alert md-alert-table alert-danger'>
         <h4>No
           <span class='required'>Report Reference</span>
           found.
           <button
             class='btn btn-success btn-md'
-            {{action 'addReportReference'}}
+            type='button'
+            {{on 'click' this.addReportReference}}
           >
             <i class='fa fa-plus' />
             Add Report Reference
@@ -57,4 +55,4 @@
       </div>
     </div>
   {{/if}}
-{{/layout/md-card}}
+</Layout::MdCard>

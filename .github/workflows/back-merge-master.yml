@@ -1,0 +1,100 @@
+name: Back-merge master
+
+# Closes the loop on the develop -> staging -> master pipeline: whenever
+# master moves (a normal staging promotion, or a critical hotfix committed
+# directly to master), this makes sure that content also makes its way back
+# into develop and staging via a normal, reviewable pull request.
+#
+# The normal staging-promotion case is a no-op here (master is already an
+# ancestor of both, so there's nothing to bring back) -- this only opens a
+# PR when master genuinely has commits develop/staging don't.
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  back-merge:
+    if: github.repository == 'adiwg/mdEditor'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [develop, staging]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.target }}
+          fetch-depth: 0
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch master
+        run: git fetch origin master
+
+      - name: Check whether a back-merge is needed
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git merge-base --is-ancestor origin/master HEAD; then
+            echo "needed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          existing=$(gh pr list --base "${{ matrix.target }}" --state open \
+            --search "chore/back-merge-master-into-${{ matrix.target }} in:head" \
+            --json number --jq 'length')
+          if [ "$existing" -gt 0 ]; then
+            echo "An open back-merge PR into ${{ matrix.target }} already exists, skipping."
+            echo "needed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "needed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create back-merge branch
+        if: steps.check.outputs.needed == 'true'
+        id: branch
+        run: |
+          branch="chore/back-merge-master-into-${{ matrix.target }}-$(date +%Y%m%d%H%M%S)"
+          git checkout -b "$branch"
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+
+      - name: Merge master
+        if: steps.check.outputs.needed == 'true'
+        id: merge
+        run: |
+          if git merge origin/master --no-edit; then
+            echo "conflict=false" >> "$GITHUB_OUTPUT"
+          else
+            git add -A
+            git commit -m "Merge master into ${{ matrix.target }} (CONFLICTS - resolve manually)"
+            echo "conflict=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Push back-merge branch
+        if: steps.check.outputs.needed == 'true'
+        run: git push origin "${{ steps.branch.outputs.branch }}"
+
+      - name: Open pull request
+        if: steps.check.outputs.needed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          body="Automated back-merge of master's latest into \`${{ matrix.target }}\`, triggered by a push to \`master\` (a staging promotion or a direct hotfix)."
+          if [ "${{ steps.merge.outputs.conflict }}" = "true" ]; then
+            body="$(printf '%s\n\n:warning: **This merge has conflicts.** They were committed as-is, with conflict markers still in the affected files, so this PR could still be opened for someone to resolve by hand.' "$body")"
+          fi
+          gh pr create \
+            --base "${{ matrix.target }}" \
+            --head "${{ steps.branch.outputs.branch }}" \
+            --title "chore: back-merge master into ${{ matrix.target }}" \
+            --body "$body"

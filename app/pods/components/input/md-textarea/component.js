@@ -4,12 +4,14 @@
  */
 
 import Component from '@ember/component';
-import { computed, defineProperty } from '@ember/object';
+import classic from 'ember-classic-decorator';
+import { action, computed, defineProperty, set } from '@ember/object';
 import { alias, not, notEmpty, and, or } from '@ember/object/computed';
 import { isBlank } from '@ember/utils';
 import { assert, debug } from '@ember/debug';
 
-export default Component.extend({
+@classic
+export default class MdTextareaComponent extends Component {
   /**
    * Input, edit, display a multi-line, expandable, text area.
    *
@@ -17,8 +19,165 @@ export default Component.extend({
    * @constructor
    */
 
+  attributeBindings = ['data-spy'];
+  classNames = ['md-textarea'];
+  classNameBindings = ['label:form-group', 'required', 'embedded:md-embedded'];
+
+  /**
+   * Initial value, returned value.
+   *
+   * @property value
+   * @type String
+   * @return String
+   * @required
+   */
+
+  /**
+   * Form label for textarea
+   *
+   * @property label
+   * @type String
+   * @default null
+   */
+  label = null;
+
+  /**
+   * The string to display when no option is selected.
+   *
+   * @property placeholder
+   * @type String
+   * @default 'Select one option'
+   */
+  placeholder = 'Select one option';
+
+  /**
+   * Indicates whether the value is required
+   *
+   * @property required
+   * @type Boolean
+   * @default false
+   */
+  required = false;
+
+  /**
+   * Maximum number of characters allowed.
+   * If maxlength is not provided the number of characters will
+   * not be restricted.
+   *
+   * @property maxlength
+   * @type Number
+   * @default null
+   */
+  maxlength = null;
+
+  /**
+   * Enable auto-resizing of the textarea
+   *
+   * @property autoresize
+   * @type Boolean
+   * @default true
+   */
+  autoresize = true;
+
+  /**
+   * Toggle expand state
+   *
+   * @property isExpanded
+   * @type Boolean
+   * @default true
+   */
+  isExpanded = true;
+
+  /**
+   * Enable collapse of the textarea
+   *
+   * @property isCollapsible
+   * @type Boolean
+   * @default false
+   */
+  isCollapsible = false;
+  /**
+   * Set the maximum width of the resizeable element in pixels.
+   * If maxwidth is not provided width will not be restricted.
+   *
+   * @property maxwidth
+   * @type Number
+   * @default null
+   */
+  maxwidth = null;
+
+  /**
+   * Set the maximum height of the resizable element in pixels.
+   * If maxheight is not provided height will not be restricted.
+   *
+   * @property maxheight
+   * @type {Number}
+   * @default null
+   */
+  maxheight = null;
+
+  /**
+   * Set the minimum number of rows for the element.
+   * Recommended for textareas.
+   *
+   * @property rows
+   * @type Number
+   * @default 2
+   */
+  rows = 2;
+
+  /**
+   * Set the maximum number of rows for the element.
+   * Recommended for textareas.
+   *
+   * @property maxrows
+   * @type Number
+   * @default 10
+   */
+  maxrows = 10;
+
+  /**
+   * Class to set on the textarea
+   *
+   * @property inputClass
+   * @type {string}
+   * @default 'form-control'
+   */
+  inputClass = 'form-control';
+
+  /**
+   * Whether to show the infotip
+   *
+   * @property infotip
+   * @type Boolean
+   * @default false
+   */
+  infotip = false;
+
+  /**
+   * Determines whether infotip is rendered
+   *
+   * @property showInfotip
+   * @type {Boolean}
+   * @default "false"
+   * @readOnly
+   * @category computed
+   * @requires placeholder,infotip
+   */
+  @and('placeholder', 'infotip') showInfotip;
+
+  @action
+  updateValue(event) {
+    this.set('value', event.target.value);
+  }
+
+  @action
+  toggleExpanded() {
+    this.isExpanded = !this.isExpanded;
+  }
+
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     let model = this.model;
     let valuePath = this.valuePath;
@@ -30,11 +189,13 @@ export default Component.extend({
     }
 
     if (!isBlank(model)) {
-      if (this.get(`model.${valuePath}`) === undefined) {
+      if (this.model?.[valuePath] === undefined) {
         debug(`model.${valuePath} is undefined in ${this.toString()}.`);
 
         //Ember.run.once(()=>model.set(valuePath, ""));
       }
+
+      const explicitRequired = this.required;
 
       defineProperty(this, 'value', alias(`model.${valuePath}`));
 
@@ -50,15 +211,33 @@ export default Component.extend({
         computed(
           'validation.options.presence{presence,disabled}',
           'disabled',
-          function () {
-            return (
-              !this.disabled &&
-              this.get('validation.options.presence.presence') &&
-              !this.get('validation.options.presence.disabled')
-            );
+          '_requiredOverride',
+          {
+            get() {
+              let fromValidation =
+                !this.disabled &&
+                this.validation?.options?.presence?.presence &&
+                !this.validation?.options?.presence?.disabled;
+
+              if (this._requiredOverride !== undefined) {
+                return Boolean(this._requiredOverride) || fromValidation;
+              }
+
+              return fromValidation;
+            },
+
+            set(key, value) {
+              set(this, '_requiredOverride', value);
+
+              return value;
+            },
           }
-        ).readOnly()
+        )
       );
+
+      if (explicitRequired) {
+        set(this, '_requiredOverride', explicitRequired);
+      }
 
       defineProperty(
         this,
@@ -109,152 +288,5 @@ export default Component.extend({
         and('shouldDisplayValidations', 'hasWarnings', 'isValid').readOnly()
       );
     }
-  },
-
-  attributeBindings: ['data-spy'],
-  classNames: ['md-textarea'],
-  classNameBindings: ['label:form-group', 'required', 'embedded:md-embedded'],
-
-  /**
-   * Initial value, returned value.
-   *
-   * @property value
-   * @type String
-   * @return String
-   * @required
-   */
-
-  /**
-   * Form label for textarea
-   *
-   * @property label
-   * @type String
-   * @default null
-   */
-  label: null,
-
-  /**
-   * The string to display when no option is selected.
-   *
-   * @property placeholder
-   * @type String
-   * @default 'Select one option'
-   */
-  placeholder: 'Select one option',
-
-  /**
-   * Indicates whether the value is required
-   *
-   * @property required
-   * @type Boolean
-   * @default false
-   */
-  required: false,
-
-  /**
-   * Maximum number of characters allowed.
-   * If maxlength is not provided the number of characters will
-   * not be restricted.
-   *
-   * @property maxlength
-   * @type Number
-   * @default null
-   */
-  maxlength: null,
-
-  /**
-   * Enable auto-resizing of the textarea
-   *
-   * @property autoresize
-   * @type Boolean
-   * @default true
-   */
-  autoresize: true,
-
-  /**
-   * Toggle expand state
-   *
-   * @property isExpanded
-   * @type Boolean
-   * @default true
-   */
-  isExpanded: true,
-
-  /**
-   * Enable collapse of the textarea
-   *
-   * @property isCollapsible
-   * @type Boolean
-   * @default false
-   */
-  isCollapsible: false,
-  /**
-   * Set the maximum width of the resizeable element in pixels.
-   * If maxwidth is not provided width will not be restricted.
-   *
-   * @property maxwidth
-   * @type Number
-   * @default null
-   */
-  maxwidth: null,
-
-  /**
-   * Set the maximum height of the resizable element in pixels.
-   * If maxheight is not provided height will not be restricted.
-   *
-   * @property maxheight
-   * @type {Number}
-   * @default null
-   */
-  maxheight: null,
-
-  /**
-   * Set the minimum number of rows for the element.
-   * Recommended for textareas.
-   *
-   * @property rows
-   * @type Number
-   * @default 2
-   */
-  rows: 2,
-
-  /**
-   * Set the maximum number of rows for the element.
-   * Recommended for textareas.
-   *
-   * @property maxrows
-   * @type Number
-   * @default 10
-   */
-  maxrows: 10,
-
-  /**
-   * Class to set on the textarea
-   *
-   * @property inputClass
-   * @type {string}
-   * @default 'form-control'
-   */
-  inputClass: 'form-control',
-
-  /**
-   * Whether to show the infotip
-   *
-   * @property infotip
-   * @type Boolean
-   * @default false
-   */
-  infotip: false,
-
-  /**
-   * Determines whether infotip is rendered
-   *
-   * @property showInfotip
-   * @type {Boolean}
-   * @default "false"
-   * @readOnly
-   * @category computed
-   * @requires placeholder,infotip
-   */
-  showInfotip: and('placeholder', 'infotip'),
-});
+  }
+}

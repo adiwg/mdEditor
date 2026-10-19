@@ -1,33 +1,33 @@
 import Route from '@ember/routing/route';
-import { get, getWithDefault, set } from '@ember/object';
+import { action } from '@ember/object';
+import { set } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-export default Route.extend({
+export default class IndexRoute extends Route {
+  @service router;
+
   afterModel(m) {
-    this._super(...arguments);
+    super.afterModel(...arguments);
 
-    let model = get(m, 'json.metadata');
-    set(model, 'resourceLineage', getWithDefault(model, 'resourceLineage', []));
-  },
-
-  setupController: function() {
-    // Call _super for default behavior
-    this._super(...arguments);
-
-    this.controller.set('parentModel', this.modelFor(
-      'record.show.edit'));
-  },
-
-  actions: {
-    editLineage(id) {
-      this.transitionTo('record.show.edit.lineage.lineageobject', id);
-    }//,
-    // templateClass() {
-    //   return Ember.Object.extend({
-    //     init() {
-    //       this._super(...arguments);
-    //       //this.set('authority', {});
-    //     }
-    //   });
-    // }
+    let model = m.json.metadata;
+    set(model, 'resourceLineage', model.resourceLineage ?? []);
   }
-});
+  setupController(controller, model) {
+    super.setupController(controller, model);
+
+    controller.set('parentModel', this.modelFor('record.show.edit'));
+  }
+
+  @action
+  editLineage(id) {
+    this.router.transitionTo('record.show.edit.lineage.lineageobject', id);
+  } //,
+  // templateClass() {
+  //   return Ember.Object.extend({
+  //     init() {
+  //       this._super(...arguments);
+  //       //this.set('authority', {});
+  //     }
+  //   });
+  // }
+}

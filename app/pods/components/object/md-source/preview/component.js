@@ -1,11 +1,13 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import { alias } from '@ember/object/computed';
 // import {
 //   Validations
 // } from '../component';
 
-export default Component.extend(/*Validations,*/ {
-  tagName: '',
-  model: alias('item'),
-  name: alias('model.description')
-});
+@classic
+export default class PreviewComponent extends Component /*Validations*/ {
+  tagName = '';
+  @alias('item') model;
+  @alias('model.description') name;
+}

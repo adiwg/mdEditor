@@ -5,7 +5,7 @@
 import { alias } from '@ember/object/computed';
 
 import { isArray } from '@ember/array';
-import { computed } from '@ember/object';
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import {
   regex
@@ -30,51 +30,50 @@ const Validations = buildValidations({
   })
 });
 
-export default Component.extend(Validations, {
-  disabled: computed('model.thesaurus.identifier.0.identifier',
-    function() {
-      return this.get('model.thesaurus.identifier.0.identifier') !==
-        'custom';
-    }),
+@classic
+export default class MdKeywordCitationComponent extends Component.extend(Validations) {
+  get disabled() {
+    return this.model?.thesaurus?.identifier?.[0]?.identifier !== 'custom';
+  }
+
+  get onlineResource() {
+    return this.model?.thesaurus?.onlineResource?.[0]?.uri;
+  }
+
+  set onlineResource(value) {
+    let onlineResourceArray = this.model?.thesaurus?.onlineResource;
+    if (!Array.isArray(onlineResourceArray)) {
+      onlineResourceArray = [{}];
+    }
+    onlineResourceArray[0].uri = value;
+    this.model.thesaurus.onlineResource = onlineResourceArray;
+  }
+
+  get date() {
+    return this.model?.thesaurus?.date?.[0]?.date;
+  }
+
+  set date(value) {
+    let ol = this.model?.thesaurus?.date;
+    if (!isArray(ol)) {
+      this.model.thesaurus.date = [{}];
+    }
+    this.model.thesaurus.date[0].date = value;
+  }
+
+  get dateType() {
+    return this.model?.thesaurus?.date?.[0]?.dateType;
+  }
+
+  set dateType(value) {
+    let ol = this.model?.thesaurus?.date;
+    if (!isArray(ol)) {
+      this.model.thesaurus.date = [{}];
+    }
+    this.model.thesaurus.date[0].dateType = value;
+  }
+}
+
+MdKeywordCitationComponent.reopen({
   title: alias('model.thesaurus.title'),
-  onlineResource: computed('model.thesaurus.onlineResource.0.uri', {
-    get() {
-      return this.get('model.thesaurus.onlineResource.0.uri');
-    },
-    set(key, value) {
-      let onlineResourceArray = this.get('model.thesaurus.onlineResource');
-      if (!Array.isArray(onlineResourceArray)) {
-        onlineResourceArray = [{}];
-      }
-      onlineResourceArray[0].uri = value;
-      this.set('model.thesaurus.onlineResource', onlineResourceArray);
-      return value;
-    }
-  }),
-  date: computed('model.thesaurus.date.0.date', {
-    get() {
-      return this.get('model.thesaurus.date.0.date');
-    },
-    set(key, value) {
-      let ol = this.get('model.thesaurus.date');
-      if (!isArray(ol)) {
-        this.set('model.thesaurus.date', [{}]);
-      }
-      this.set('model.thesaurus.date.0.date', value);
-      return value;
-    }
-  }),
-  dateType: computed('model.thesaurus.date.0.dateType', {
-    get() {
-      return this.get('model.thesaurus.date.0.dateType');
-    },
-    set(key, value) {
-      let ol = this.get('model.thesaurus.date');
-      if (!isArray(ol)) {
-        this.set('model.thesaurus.date', [{}]);
-      }
-      this.set('model.thesaurus.date.0.dateType', value);
-      return value;
-    }
-  })
 });

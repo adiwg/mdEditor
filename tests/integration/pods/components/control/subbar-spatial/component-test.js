@@ -16,7 +16,7 @@ module('Integration | Component | control/subbar spatial', function (hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs `{{control/subbar-spatial class="testme"}}`);
+    await render(hbs`{{control/subbar-spatial class="testme"}}`);
 
     assert.equal(find('.testme').textContent
       .replace(/[ \n]+/g, '|')
@@ -25,7 +25,7 @@ module('Integration | Component | control/subbar spatial', function (hooks) {
     );
 
     // Template block usage:
-    await render(hbs `
+    await render(hbs`
       {{#control/subbar-spatial class="testme"}}
         template block text
       {{/control/subbar-spatial}}
@@ -55,12 +55,12 @@ module('Integration | Component | control/subbar spatial', function (hooks) {
       test5: function () { assert.ok(true, 'called toList'); }
     });
 
-    await render(hbs `{{control/subbar-spatial
-      zoomAll=test1
-      uploadData=test2
-      exportGeoJSON=test3
-      deleteAllFeatures=test4
-      toList=test5
+    await render(hbs`{{control/subbar-spatial
+      zoomAll=this.test1
+      uploadData=this.test2
+      exportGeoJSON=this.test3
+      deleteAllFeatures=this.test4
+      toList=this.test5
     }}`);
 
     findAll('button').forEach(async btn => await click(btn));

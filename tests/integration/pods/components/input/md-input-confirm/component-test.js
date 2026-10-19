@@ -26,9 +26,9 @@ module('Integration | Component | input/md input confirm', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#input/md-input-confirm}}
+      <Input::MdInputConfirm>
         template block text
-      {{/input/md-input-confirm}}
+      </Input::MdInputConfirm>
     `);
 
     assert.equal(find('.md-input').textContent.replace(/[ \n]+/g, '|').trim(),

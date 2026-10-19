@@ -10,7 +10,11 @@ module.exports = function (environment) {
     podModulePrefix: "mdeditor/pods",
     environment: environment,
     rootURL: '/',
-    locationType: 'auto',
+    // 'auto' is deprecated (Ember 4.x, removed in 5.0) - every other
+    // environment below already overrides to 'history', so this just makes
+    // the local dev-server default consistent with test/staging/production
+    // for no behavior change (per the deprecation's own guidance).
+    locationType: 'history',
     thesauriManifestUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@master/resources/manifest.json',
     profilesManifestUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdProfiles@master/resources/manifest.json',
     EmberENV: {
@@ -52,6 +56,21 @@ module.exports = function (environment) {
       extendedTimeout: 1500,
       preventDuplicates: true,
       //sticky: true
+      // ember-cli-flash's automatic `application.inject(factory, 'flashMessages', ...)`
+      // has been a no-op since Ember 4.0 (owner.inject no longer injects into resolved
+      // instances) - it was only producing 4 deprecation warnings per page load and
+      // masking routes/controllers that never declared `@service flashMessages`
+      // explicitly. Disable it; inject the service explicitly everywhere it's used.
+      injectionFactories: [],
+    },
+    resizeServiceDefaults: {
+      debounceTimeout: 200,
+      heightSensitive: true,
+      widthSensitive: true,
+      // Same dead application.inject() situation as flashMessageDefaults above.
+      // Every current consumer (md-nav-secondary, leaflet-table) already injects
+      // `@service('resize') resizeService` explicitly.
+      injectionFactories: [],
     },
     "ember-cli-bootstrap-datetimepicker": {
       icons: {

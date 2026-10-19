@@ -1,20 +1,21 @@
-import $ from 'jquery';
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import EmberObject, { get, set } from '@ember/object';
 import { isArray, A } from '@ember/array';
 import { isEmpty } from '@ember/utils';
 
-export default Route.extend({
+export default class SpatialRoute extends Route {
+  @service flashMessages;
+  @service router;
   model(params) {
     this.set('extentId', params.extent_id);
 
     return this.setupModel();
 
-  },
-
-  setupController: function (controller) {
-    // Call _super for default behavior
-    this._super(...arguments);
+  }
+  setupController(controller) {
+    super.setupController(...arguments);
 
     this.controllerFor('record.show.edit')
       .setProperties({
@@ -28,8 +29,7 @@ export default Route.extend({
         featureGroup: null,
         extentId: this.extentId
       });
-  },
-
+  }
   setupModel() {
     let model = this.modelFor('record.show.edit.extent');
     let extents = model.get('json.metadata.resourceInfo.extent');
@@ -40,7 +40,7 @@ export default Route.extend({
     if(isEmpty(extent)) {
       this.flashMessages
         .warning('No extent found! Re-directing to list...');
-      this.replaceWith('record.show.edit.extent');
+      this.router.replaceWith('record.show.edit.extent');
 
       return;
     }
@@ -58,23 +58,37 @@ export default Route.extend({
     this.set('layers', layers);
 
     return model;
-  },
+  }
+  @action
+  getContext() {
+    return this;
+  }
 
-  actions: {
-    getContext() {
-      return this;
-    },
-    handleResize() {
-      $('.map-file-picker .leaflet-container')
-        .height(($(window)
-          .height() - $('#md-navbars')
-          .outerHeight() - 15) / 2);
-    },
-    uploadData() {
-      $('.map-file-picker .file-picker__input')
-        .click();
-    },
-    deleteAllFeatures() {
+  @action
+  toList() {
+    this.router.transitionTo('record.show.edit.extent.index');
+  }
+
+  @action
+  handleResize() {
+      const mapContainer = document.querySelector('.map-file-picker .leaflet-container');
+      const navbars = document.getElementById('md-navbars');
+      if (mapContainer && navbars) {
+        const height = (window.innerHeight - navbars.offsetHeight - 15) / 2;
+        mapContainer.style.height = `${height}px`;
+      }
+    }
+
+  @action
+  uploadData() {
+      const fileInput = document.querySelector('.map-file-picker .file-picker__input');
+      if (fileInput) {
+        fileInput.click();
+      }
+    }
+
+  @action
+  deleteAllFeatures() {
       let features = this.layers;
       let group = this.controller
         .get('featureGroup');
@@ -90,12 +104,16 @@ export default Route.extend({
         }
         features.clear();
       }
-    },
-    setFeatureGroup(obj) {
+    }
+
+  @action
+  setFeatureGroup(obj) {
       this.controller
         .set('featureGroup', obj);
-    },
-    zoomAll() {
+  }
+
+  @action
+  zoomAll() {
       let layer = this.controller
         .get('featureGroup');
       let bnds = layer.getBounds();
@@ -109,8 +127,10 @@ export default Route.extend({
       }
 
       map.fitWorld();
-    },
-    exportGeoJSON() {
+  }
+
+  @action
+  exportGeoJSON() {
       let fg = this.controller
         .get('featureGroup');
 
@@ -152,5 +172,4 @@ export default Route.extend({
           .warning('Found no features to export.');
       }
     }
-  }
-});
+}
