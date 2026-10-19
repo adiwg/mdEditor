@@ -71,10 +71,12 @@ module.exports = {
         '.stylelintrc.js',
         'ember-cli-build.js',
         'testem.js',
+        'playwright.config.js',
         'blueprints/*/index.js',
         'config/**/*.js',
         'lib/*/index.js',
         'server/**/*.js',
+        'e2e/**/*.js',
       ],
       parserOptions: {
         sourceType: 'script',

@@ -31,7 +31,7 @@ export default class DictionaryRoute extends Route {
 
   model() {
     //return this.store.peekAll('contact');
-    let dicts = this.modelFor('application').findBy('modelName', 'dictionary');
+    let dicts = this.modelFor('application').findBy('meta.type', 'dictionary').list;
     let rec = this.modelFor('record.show.edit');
 
     set(rec, 'json.mdDictionary', rec.json.mdDictionary ?? []);

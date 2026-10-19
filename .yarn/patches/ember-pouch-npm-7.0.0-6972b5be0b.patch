@@ -1,8 +1,120 @@
+diff --git a/addon/adapters/pouch.js b/addon/adapters/pouch.js
+index 91fc4f97b3b5b5fabac38c66b205cc557b968497..a90c36b69eee4fae668dbef1bded1a416238cb1c 100644
+--- a/addon/adapters/pouch.js
++++ b/addon/adapters/pouch.js
+@@ -25,6 +25,22 @@ import {
+ //  }
+ //});
+ 
++// hasDirtyAttributes is backed by ember-data 5.x's warp-drive @memoized
++// decorator machinery, which can throw ("memoSignal is not a function")
++// under classic Ember .extend()/mixin-merged Model classes. onChange()
++// below reads it to decide whether it's safe to refresh a record after a
++// remote change (e.g. from replication) - an uncaught throw there skips
++// the refresh entirely, leaving the record's `rev` stale and causing the
++// next save to fail with a 409 conflict. Fail toward "not dirty" (i.e.
++// still safe to refresh) rather than let the exception block the refresh.
++function safeHasDirtyAttributes(record) {
++  try {
++    return record.get('hasDirtyAttributes');
++  } catch (e) {
++    return false;
++  }
++}
++
+ export default DS.RESTAdapter.extend({
+   fixDeleteBug: true,
+   coalesceFindRequests: false,
+@@ -113,7 +129,7 @@ export default DS.RESTAdapter.extend({
+       }
+       return;
+     }
+-    if (!recordInStore.get('isLoaded') || recordInStore.get('rev') === change.changes[0].rev || recordInStore.get('hasDirtyAttributes')) {
++    if (!recordInStore.get('isLoaded') || recordInStore.get('rev') === change.changes[0].rev || safeHasDirtyAttributes(recordInStore)) {
+       // The record either hasn't loaded yet or has unpersisted local changes.
+       // In either case, we don't want to refresh it in the store
+       // (and for some substates, attempting to do so will result in an error).
+@@ -223,7 +239,14 @@ export default DS.RESTAdapter.extend({
+         }
+         let options = Object.create(rel.options);
+         if (rel.kind === 'hasMany' && !shouldSaveRelationship(self, rel)) {
+-          let inverse = type.inverseFor(rel.key, store);
++          // `type.inverseFor` is classic-Model-only API; ember-data 5.x's
++          // legacy-compat layer hands adapter hooks a ShimModelClass that
++          // doesn't implement it. Treat a missing inverse the same as "no
++          // inverse found" (skips the belongsTo-index optimization below,
++          // which doesn't apply to hasMany<->hasMany relationships anyway).
++          let inverse = typeof type.inverseFor === 'function'
++            ? type.inverseFor(rel.key, store)
++            : null;
+           if (inverse) {
+             if (inverse.kind === 'belongsTo') {
+               indexPromises.push(self.get('db').createIndex({index: { fields: ['data.' + inverse.name, '_id'] }}));
+@@ -368,7 +391,10 @@ export default DS.RESTAdapter.extend({
+ 
+   findHasMany: async function(store, record, link, rel) {
+     await this._init(store, record.type);
+-    let inverse = record.type.inverseFor(rel.key, store);
++    // Same ShimModelClass gap as _init's inverseFor call above.
++    let inverse = typeof record.type.inverseFor === 'function'
++      ? record.type.inverseFor(rel.key, store)
++      : null;
+     if (inverse && inverse.kind === 'belongsTo') {
+       return this.get('db').rel.findHasMany(camelize(rel.type), inverse.name, record.id);
+     } else {
+diff --git a/addon/serializers/pouch.js b/addon/serializers/pouch.js
+index 2242f82c956cb63f60818cdb12c023a2b3c9c6e9..48d11f452fbe1ce83af3608751aa0f62d54e7f58 100644
+--- a/addon/serializers/pouch.js
++++ b/addon/serializers/pouch.js
+@@ -1,4 +1,3 @@
+-import { keys as EmberKeys, assign as EmberAssign } from '@ember/polyfills';
+ import { get } from '@ember/object';
+ import DS from 'ember-data';
+ 
+@@ -6,8 +5,8 @@ import {
+   shouldSaveRelationship
+ } from '../utils';
+ 
+-const keys = Object.keys || EmberKeys;
+-const assign = Object.assign || EmberAssign;
++const keys = Object.keys;
++const assign = Object.assign;
+ 
+ var Serializer = DS.RESTSerializer.extend({
+ 
+diff --git a/addon/transforms/attachments.js b/addon/transforms/attachments.js
+index 39d1253063977f76399617acb4cea6d359cade53..b121f4b422e97685d787fa9725c6bf9a943742b6 100644
+--- a/addon/transforms/attachments.js
++++ b/addon/transforms/attachments.js
+@@ -1,10 +1,9 @@
+ import { isArray } from '@ember/array';
+-import { keys as EmberKeys } from '@ember/polyfills';
+ import EmberObject, { get } from '@ember/object';
+ import { isNone } from '@ember/utils';
+ import DS from 'ember-data';
+ 
+-const keys = Object.keys || EmberKeys;
++const keys = Object.keys;
+ 
+ export default DS.Transform.extend({
+   deserialize: function(serialized) {
 diff --git a/index.js b/index.js
-index f763e582dba8cc47693636e0e49a7228fde6432a..85445a3d1988d4cd6db091ccd296a3e14bb7b2d8 100644
+index f763e582dba8cc47693636e0e49a7228fde6432a..007e07a73f8036d600a4ff40177002cb019f8151 100644
 --- a/index.js
 +++ b/index.js
-@@ -29,7 +29,7 @@ module.exports = {
+@@ -21,15 +21,14 @@ module.exports = {
+   init: function() {
+     this._super.init && this._super.init.apply(this, arguments);
+ 
+-    var bowerDeps = this.project.bowerDependencies();
+-
+-    if (bowerDeps['pouchdb']) {this.ui.writeWarnLine('Please remove `pouchdb` from `bower.json`. As of ember-pouch 4.2.0, only the NPM package is needed.');}
+-    if (bowerDeps['relational-pouch']) {this.ui.writeWarnLine('Please remove `relational-pouch` from `bower.json`. As of ember-pouch 4.2.0, only the NPM package is needed.');}
+-    if (bowerDeps['pouchdb-find']) {this.ui.writeWarnLine('Please remove `pouchdb-find` from `bower.json`. As of ember-pouch 4.2.0, only the NPM package is needed.');}
++    // Bower support (project.bowerDependencies/bowerDirectory) was removed
++    // from modern ember-cli - this whole block was only ever a migration nag
++    // for old bower.json entries, no functional purpose. Removed rather than
++    // guarded, since there's nothing left to check.
    },
  
    treeForVendor: function() {

@@ -1,5 +1,18 @@
 "use strict";
 
+// ember-cli-app-version was removed earlier in the Ember 5.x migration
+// spike (its initializer wouldn't resolve under the newer build) and
+// nothing replaced it, leaving config.APP.version undefined everywhere
+// it's read (services/settings.js's lastVersion comparison,
+// control/md-repo-link's displayed version). Undefined never persists as
+// a comparable value once round-tripped through a save, so
+// settings.js's `lastVersion !== version` check was true on every single
+// boot forever - the Update Alert splash could never actually be
+// dismissed for good. Reading package.json's version directly is the
+// simplest stable replacement; this file runs in Node at build time, so
+// require() works fine here.
+var appVersion = require("../package.json").version;
+
 module.exports = function (environment) {
   var deployTarget = process.env.DEPLOY_TARGET;
   var ENV = {
@@ -36,6 +49,7 @@ module.exports = function (environment) {
       // when it is created
       repository: "https://github.com/adiwg/mdEditor",
       defaultProfileId: "org.adiwg.profile.full",
+      version: appVersion,
     },
     "ember-load": {
       loadingIndicatorClass: "md-load-indicator",

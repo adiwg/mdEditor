@@ -21,7 +21,7 @@ export default class DictionariesRoute extends Route {
 
   model() {
     //return this.store.peekAll('contact');
-    return this.modelFor('application').findBy('modelName','dictionary');
+    return this.modelFor('application').findBy('meta.type', 'dictionary').list;
   }
 
   setupController(controller, model) {

@@ -11,11 +11,27 @@ if (typeof Buffer === 'undefined') {
   window.Buffer = { isBuffer: () => false };
 }
 
+// @jsdevtools/ono (a dependency of json-schema-ref-parser, used by
+// services/schemas.js's fetchSchemas task) imports Node's `util` module,
+// whose browser polyfill references the bare global `process` at module
+// top level (`if (process.env.NODE_DEBUG)`), unguarded by a typeof check -
+// throws ReferenceError: process is not defined the instant it's
+// evaluated. Same root cause as the Buffer stub above, just the other
+// Node global this dependency chain expects to exist.
+if (typeof process === 'undefined') {
+  window.process = { env: {}, nextTick: (fn, ...args) => setTimeout(() => fn(...args), 0) };
+}
+
 import Route from '@ember/routing/route';
 import Component from '@ember/component';
 import Application from '@ember/application';
 import { registerDeprecationHandler } from '@ember/debug';
 import Resolver from './resolver';
+
+// ember-data 5.x's reactivity (used by Model/RecordArray/etc.) requires this
+// explicit install - the old implicit wiring via the now-deprecated
+// `@ember-data/tracking` package is gone.
+import '@warp-drive/ember/install';
 
 // ember-tooltips@3.6.0 uses the deprecated @ember/string helpers internally.
 // There is no app-side fix available; silence this specific deprecation only.
@@ -25,11 +41,39 @@ import Resolver from './resolver';
 // to opt out of the addon's now-dead automatic `application.inject()` calls -
 // we already inject `@service flashMessages` explicitly everywhere it's used,
 // which is exactly what the addon is asking for.
+//
+// warp-drive:deprecate-legacy-request-methods: ember-pouch's adapter calls
+// the deprecated store.modelFor(type) in two hot paths - onChange() (fires
+// on every local db write and every replication event) and _init() (fires
+// on every findAll/createRecord/updateRecord) - see
+// node_modules/ember-pouch/addon/adapters/pouch.js. Not fixable app-side:
+// the suggested replacement, store.schema.fields({type}), returns a fields
+// map, not a Model class, and ember-pouch's code needs the actual class
+// (eachRelationship, existence-checking) - a real fix means rewriting
+// ember-pouch's internals against warp-drive's modern schema API, not a
+// like-for-like swap. Silencing only this one; not removed until
+// @warp-drive/core 6.0, so no functional risk today.
+//
+// ember-data:deprecate-non-strict-types: app/utils/pouch-migration.js
+// registers a relational-pouch schema (`db.setSchema()`) using
+// 'pouchRecord'/'pouchContact'/'pouchDictionary' as the type marker for the
+// pre-collapse pouch-record/pouch-contact/pouch-dictionary docs a real
+// upgrading install may still have - camelCase because that's genuinely
+// what's stored in those documents (relational-pouch's per-doc type field,
+// produced by the old, now-deleted adapter's `camelize(modelName)`). Not a
+// mistake to "fix": `db.rel.find()` has to be called with the exact string
+// already on disk to find those docs at all, and this was never a real
+// ember-data model name - `setSchema()` just happens to run every type
+// through ember-data's naming-convention check regardless. Message-matched
+// (not id-only) so a genuine non-normalized type elsewhere still surfaces.
 registerDeprecationHandler((message, options, next) => {
   if (
     options &&
     (options.id === 'ember-string.add-package' ||
-      options.id === 'ember-cli-flash.deprecate-injection-factories')
+      options.id === 'ember-cli-flash.deprecate-injection-factories' ||
+      options.id === 'warp-drive:deprecate-legacy-request-methods' ||
+      (options.id === 'ember-data:deprecate-non-strict-types' &&
+        /'pouchRecord'|'pouchContact'|'pouchDictionary'/.test(message)))
   ) {
     return;
   }

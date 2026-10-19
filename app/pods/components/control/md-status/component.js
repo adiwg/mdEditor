@@ -43,7 +43,7 @@ export default class MdStatusComponent extends Component {
     }
     model.updateTimestamp();
     model.save().then(() => {
-      let json = JSON.parse(model.serialize().data.attributes.json);
+      let json = model.cleanJson;
 
       model.setCurrentHash(json);
       model.notifyPropertyChange('currentHash');
