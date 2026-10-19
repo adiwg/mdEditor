@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - develop
+      - staging
   pull_request:
     branches:
       - develop
+      - staging
       - master
       - ember-migration
 

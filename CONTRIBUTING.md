@@ -76,7 +76,7 @@ This model distinguishes four types of branches:
 
 **master** – main branch: only fully stable, working releases, deployed to production (GitHub Pages). Protected; only *staging* may be merged in, except for critical hotfixes. **Exception**: releases in the 0.0.x series are subject to breaking changes and **should not** be considered stable.
 
-**staging** – pre-production branch, deployed live to a separate staging environment (currently Cloudflare) so changes can be validated against a real deployment before release, without requiring a local dev environment. Normally mirrors *master*. Feature/migration branches that need live validation may be merged into *staging* directly, ahead of or independent from *develop*.
+**staging** – pre-production branch, automatically synced from *develop* and deployed live to a separate staging environment (currently Cloudflare) so changes can be validated against a real deployment before release, without requiring a local dev environment. Feature/migration branches that need live validation may also be merged into *staging* directly.
 
 **develop** – this is the place where all regular development happens
 
@@ -99,7 +99,7 @@ New branches ***must*** be created from *develop*. Branches may be created eithe
 Branch on which the main development happens. New feature/fix branches must be created from *develop*. Feature branch pull requests must be made against *develop*. It is recommended to rebase the feature branch to clean/fix/squash unnecessary commits prior to any pull request. Merge conflicts must be resolved by the branch owner (or person issuing pull request).
 
 #### Staging
-Pre-production branch, deployed live to a separate environment so changes can be validated against a real deployment before release. Feature or migration branches that need this kind of validation (not just local/dev testing) may be merged into *staging* directly via pull request. Any bugs found must be fixed via pull request against *staging* (or against the original branch, then re-merged). Changes merged into *staging* from outside *develop* should be synced back to *develop* separately once validated, so the two don't silently drift apart.
+Pre-production branch, automatically synced whenever *develop* is updated and deployed live to a separate environment (Cloudflare) so changes can be validated against a real deployment before release. Feature or migration branches that need live validation may also be merged into *staging* directly via pull request; any changes merged directly into *staging* should be synced back to *develop* once validated so the two don't drift apart.
 
 #### Master
 The main branch that contains only fully stable, already-deployed-to-production iterations of the project. Accepts merges from *staging* only, except for critical hotfixes (see "Creating new branches" above), which branch from and merge directly into *master* and must also be merged back into *staging* and *develop*. Every merge to master must be properly tagged.

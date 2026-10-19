@@ -1,0 +1,68 @@
+name: Sync staging with develop
+
+on:
+  push:
+    branches:
+      - develop
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: sync-staging
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    if: github.repository == 'adiwg/mdEditor'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: staging
+          fetch-depth: 0
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch develop
+        run: git fetch origin develop
+
+      - name: Sync develop into staging
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git merge-base --is-ancestor origin/develop HEAD; then
+            echo "staging already contains develop's latest commit."
+            exit 0
+          fi
+
+          # Prefer fast-forward; fall back to a regular merge if staging has diverged
+          if git merge --ff-only origin/develop; then
+            git push origin HEAD:staging
+          elif git merge origin/develop --no-edit; then
+            git push origin HEAD:staging
+          else
+            # Conflict: commit markers and open a PR so it can be resolved manually
+            existing=$(gh pr list --base staging --state open \
+              --search "chore/sync-develop-into-staging in:head" \
+              --json number --jq 'length')
+            if [ "$existing" -gt 0 ]; then
+              echo "An open sync PR into staging already exists, skipping."
+              exit 0
+            fi
+
+            branch="chore/sync-develop-into-staging-$(date +%Y%m%d%H%M%S)"
+            git checkout -b "$branch"
+            git add -A
+            git commit -m "Merge develop into staging (CONFLICTS - resolve manually)"
+            git push origin "$branch"
+            gh pr create \
+              --base staging \
+              --head "$branch" \
+              --title "chore: sync develop into staging" \
+              --body "Automated sync of \`develop\` into \`staging\` encountered merge conflicts. Conflict markers were committed as-is so they can be resolved manually."
+          fi
