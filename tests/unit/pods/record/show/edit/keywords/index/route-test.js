@@ -48,4 +48,35 @@ module('Unit | Route | record/show/edit/keywords/index', function(hooks) {
     assert.deepEqual(info.keyword[1].thesaurus.date, [{}]);
     assert.deepEqual(info.keyword[1].thesaurus.onlineResource, [{}]);
   });
+
+  test('model() initializes metadata and resourceInfo when missing on json', function (assert) {
+    const route = this.owner.lookup(
+      'route:record/show/edit/keywords/index'
+    );
+    const json = {
+      schema: { name: 'mdJson', version: '2.10.2' },
+      metadata: {
+        metadataInfo: {
+          metadataIdentifier: { namespace: 'urn:uuid' },
+        },
+      },
+    };
+    const parentModel = {
+      get(path) {
+        return path === 'json' ? json : undefined;
+      },
+    };
+
+    route.modelFor = () => parentModel;
+
+    const result = route.model();
+
+    assert.strictEqual(result, parentModel);
+    assert.ok(json.metadata.resourceInfo, 'resourceInfo was initialized');
+    assert.deepEqual(
+      json.metadata.resourceInfo.keyword,
+      [],
+      'keyword array was initialized to []'
+    );
+  });
 });

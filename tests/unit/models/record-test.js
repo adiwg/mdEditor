@@ -115,4 +115,42 @@ module('Unit | Model | record', function(hooks) {
       'defaults resourceType to [{}] when the source had none'
     );
   });
+
+  test('new record preserves nested json mutations on serialize', function (assert) {
+    const store = this.owner.lookup('service:store');
+    const me = run(() => store.createRecord('record'));
+
+    run(() => {
+      me.set('json.metadata.resourceInfo.citation.title', 'My New Record');
+      me.set('json.metadata.resourceInfo.resourceType', [{ type: 'dataset' }]);
+      me.set('json.metadata.resourceInfo.keyword', [
+        {
+          keyword: [{ keyword: 'Custom Keyword' }],
+          keywordType: 'theme',
+          thesaurus: {
+            identifier: [{ identifier: 'custom-thesaurus-id' }],
+          },
+        },
+      ]);
+    });
+
+    const serialized = me.serialize();
+    const exportedJson = JSON.parse(serialized.data.attributes.json);
+
+    assert.equal(
+      exportedJson.metadata.resourceInfo.citation.title,
+      'My New Record',
+      'serialized json retains citation title'
+    );
+    assert.deepEqual(
+      exportedJson.metadata.resourceInfo.resourceType,
+      [{ type: 'dataset' }],
+      'serialized json retains resourceType'
+    );
+    assert.equal(
+      exportedJson.metadata.resourceInfo.keyword[0].keyword[0].keyword,
+      'Custom Keyword',
+      'serialized json retains keyword'
+    );
+  });
 });
