@@ -105,7 +105,9 @@ export default class ApplicationRoute extends Route {
         }),
       ];
 
-      return RSVP.all(profiles).then(() => result);
+      return RSVP.all(profiles)
+        .then(() => this.keyword.loadCustomProfileThesauri())
+        .then(() => result);
 
       // return result;
     });

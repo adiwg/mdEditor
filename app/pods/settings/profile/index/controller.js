@@ -61,6 +61,11 @@ export default class ProfileIndexController extends Controller {
   }
 
   @action
+  updateProfileUrl(event) {
+    this.profileUrl = event.target.value;
+  }
+
+  @action
   async loadProfilesFromUrl() {
     const loadFromUrl = this.profileUrl;
     if (!loadFromUrl) return;

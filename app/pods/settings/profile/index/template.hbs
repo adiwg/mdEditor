@@ -50,12 +50,13 @@
     <div class='card-block'>
       <div class='form-group'>
         <label for='profileUrl'>Load Profile[s] from URL</label>
-        <Input
+        <input
           id='profileUrl'
-          @type='text'
-          @value={{this.profileUrl}}
+          type='text'
+          value={{this.profileUrl}}
           class='form-control'
           placeholder='Enter URL'
+          {{on 'input' this.updateProfileUrl}}
         />
       </div>
       <button
