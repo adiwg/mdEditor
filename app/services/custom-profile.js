@@ -285,12 +285,14 @@ export default Service.extend({
       );
       return !existingThesaurus;
     });
-    uniqueThesauri.forEach(async (thesaurus) => {
-      const response = await axios.get(thesaurus.url);
-      const thesaurusData = response.data;
-      thesaurus.identifier = thesaurusData.citation.identifier[0].identifier;
-      this.keyword.manifest.push(thesaurus);
-      await this.keyword.addThesaurus(thesaurusData);
-    });
+    await Promise.all(
+      uniqueThesauri.map(async (thesaurus) => {
+        const response = await axios.get(thesaurus.url);
+        const thesaurusData = response.data;
+        thesaurus.identifier = thesaurusData.citation.identifier[0].identifier;
+        this.keyword.manifest.push(thesaurus);
+        await this.keyword.addThesaurus(thesaurusData);
+      })
+    );
   },
 });

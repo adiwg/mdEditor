@@ -6,6 +6,15 @@ export default class IndexRoute extends Route {
   model() {
     let model = this.modelFor('record.show.edit');
     let json = model.get('json');
+
+    if (!json.metadata) {
+      set(json, 'metadata', {});
+    }
+
+    if (!json.metadata.resourceInfo) {
+      set(json.metadata, 'resourceInfo', {});
+    }
+
     let info = json.metadata.resourceInfo;
 
     set(

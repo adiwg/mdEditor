@@ -19,6 +19,14 @@ const Base = Model.extend({
   init() {
     this._super(...arguments);
 
+    if (this.isNew) {
+      this.eachAttribute((name, meta) => {
+        if (typeof meta.options?.defaultValue === 'function') {
+          this.set(name, this.get(name));
+        }
+      });
+    }
+
     this.hasDirtyAttributes;
   },
 

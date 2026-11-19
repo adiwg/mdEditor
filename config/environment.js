@@ -1,13 +1,46 @@
-"use strict";
+'use strict';
+
+// eslint-disable-next-line node/no-extraneous-require
+const getRepoVersion = require('git-repo-version');
+
+function formatAppVersion(environment) {
+  const rawVersion = getRepoVersion(); // e.g. "1.4.0-dev.1+50f59978" or "1.4.0+50f59978"
+  const plusIdx = rawVersion.indexOf('+');
+  const versionPart =
+    plusIdx === -1 ? rawVersion : rawVersion.substring(0, plusIdx);
+  const shaPart = plusIdx === -1 ? '' : rawVersion.substring(plusIdx);
+
+  // Base semver (e.g. "1.4.0" from "1.4.0-dev.1")
+  const baseVersion = versionPart.replace(/-.*$/, '');
+  // Keep any numeric suffix like ".1" if present on "-dev.1"
+  const prereleaseNumMatch = versionPart.match(
+    /-(?:dev|develop|staging)(\.\d+)$/
+  );
+  const prereleaseNum = prereleaseNumMatch ? prereleaseNumMatch[1] : '';
+
+  if (environment === 'staging') {
+    return `${baseVersion}-staging${prereleaseNum}${shaPart}`;
+  }
+
+  if (environment === 'development' || environment === 'test') {
+    return `${baseVersion}-develop${prereleaseNum}${shaPart}`;
+  }
+
+  // production / master
+  return `${baseVersion}${shaPart}`;
+}
 
 module.exports = function (environment) {
   var deployTarget = process.env.DEPLOY_TARGET;
   var ENV = {
-    contentSecurityPolicy: {
-      "style-src": "'self' 'unsafe-inline'",
+    'ember-cli-app-version': {
+      version: formatAppVersion(environment),
     },
-    modulePrefix: "mdeditor",
-    podModulePrefix: "mdeditor/pods",
+    contentSecurityPolicy: {
+      'style-src': "'self' 'unsafe-inline'",
+    },
+    modulePrefix: 'mdeditor',
+    podModulePrefix: 'mdeditor/pods',
     environment: environment,
     rootURL: '/',
     // 'auto' is deprecated (Ember 4.x, removed in 5.0) - every other
@@ -15,8 +48,10 @@ module.exports = function (environment) {
     // the local dev-server default consistent with test/staging/production
     // for no behavior change (per the deprecation's own guidance).
     locationType: 'history',
-    thesauriManifestUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@master/resources/manifest.json',
-    profilesManifestUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdProfiles@master/resources/manifest.json',
+    thesauriManifestUrl:
+      'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@master/resources/manifest.json',
+    profilesManifestUrl:
+      'https://cdn.jsdelivr.net/gh/adiwg/mdProfiles@master/resources/manifest.json',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -27,25 +62,25 @@ module.exports = function (environment) {
         Date: false,
       },
     },
-    "ember-local-storage": {
+    'ember-local-storage': {
       fileExport: true,
     },
 
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-      repository: "https://github.com/adiwg/mdEditor",
-      defaultProfileId: "org.adiwg.profile.full",
+      repository: 'https://github.com/adiwg/mdEditor',
+      defaultProfileId: 'org.adiwg.profile.full',
     },
-    "ember-load": {
-      loadingIndicatorClass: "md-load-indicator",
+    'ember-load': {
+      loadingIndicatorClass: 'md-load-indicator',
     },
 
-    "ember-toggle": {
+    'ember-toggle': {
       includedThemes: [],
       //excludedThemes: ['flip'],
       // defaultShowLabels: true, // defaults to false
-      defaultTheme: "light", // defaults to 'default'
+      defaultTheme: 'light', // defaults to 'default'
       //defaultSize: 'small', // defaults to 'medium'
       // defaultOffLabel: 'False', // defaults to 'Off'
       // defaultOnLabel: 'True' // defaults to 'On'
@@ -72,65 +107,52 @@ module.exports = function (environment) {
       // `@service('resize') resizeService` explicitly.
       injectionFactories: [],
     },
-    "ember-cli-bootstrap-datetimepicker": {
-      icons: {
-        time: "fa fa-clock-o",
-        date: "fa fa-calendar",
-        up: "fa fa-chevron-up",
-        down: "fa fa-chevron-down",
-        previous: "fa fa-angle-double-left",
-        next: "fa fa-angle-double-right",
-        close: "fa fa-times",
-        clear: "fa fa-trash",
-        today: "fa fa-home",
-      },
-    },
   };
 
-  console.log("environment", environment);
+  console.log('environment', environment);
 
-  if (environment === "development") {
+  if (environment === 'development') {
     ENV.keycloakConfig = {
-      realm: "ScienceBase-B",
-      clientId: "catalog",
-      url: "https://www.sciencebase.gov/auth",
+      realm: 'ScienceBase-B',
+      clientId: 'catalog',
+      url: 'https://www.sciencebase.gov/auth',
     };
   }
 
-  if (environment === "test") {
+  if (environment === 'test') {
     // Testem prefers this...
-    ENV.rootURL = "/";
-    ENV.locationType = "history";
+    ENV.rootURL = '/';
+    ENV.locationType = 'history';
 
-    ENV["ember-local-storage"] = {
-      namespace: "test",
+    ENV['ember-local-storage'] = {
+      namespace: 'test',
     };
 
     // keep test console output quieter
     ENV.APP.LOG_ACTIVE_GENERATION = false;
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
-    ENV.APP.rootElement = "#ember-testing";
+    ENV.APP.rootElement = '#ember-testing';
     ENV.APP.autoboot = false;
   }
 
-  if (environment === "staging") {
-    ENV.rootURL = "/";
-    ENV.locationType = "history";
+  if (environment === 'staging') {
+    ENV.rootURL = '/';
+    ENV.locationType = 'history';
   }
 
-  if (environment === "production") {
-    ENV.locationType = "history";
+  if (environment === 'production') {
+    ENV.locationType = 'history';
     ENV.keycloakConfig = {
-      realm: "ScienceBase",
-      clientId: "catalog",
-      url: "https://www.sciencebase.gov/auth",
+      realm: 'ScienceBase',
+      clientId: 'catalog',
+      url: 'https://www.sciencebase.gov/auth',
     };
   }
 
-  if (deployTarget === "dev") {
-    ENV.rootURL = "/";
-    ENV.locationType = "history";
+  if (deployTarget === 'dev') {
+    ENV.rootURL = '/';
+    ENV.locationType = 'history';
   }
   return ENV;
 };

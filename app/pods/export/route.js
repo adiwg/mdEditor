@@ -175,8 +175,9 @@ export default class ExportRoute extends Route.extend(ScrollTo) {
           item.attributes.publishOptions = publishOptions;
         }
 
-        // Remove all PouchDB relationships
+        // Remove all PouchDB relationships and any legacy top-level dictionaryId
         delete item.relationships;
+        delete item.dictionaryId;
 
         return item;
       });

@@ -5,11 +5,22 @@ on:
     branches:
       - master
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
-  build:
+  prepare-release:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.release.outputs.version }}
+      version_tag: ${{ steps.release.outputs.version_tag }}
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: master
+          fetch-depth: 0
 
       - name: Use Node.js
         uses: actions/setup-node@v5
@@ -17,7 +28,187 @@ jobs:
           node-version: '20'
           package-manager-cache: false
 
-      - name: enable corepack
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Update version and CHANGELOG.md on master
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git fetch --tags --force
+
+          # 1. Determine release version from package.json (strip -dev.* / -staging.* / -develop.*)
+          raw_version=$(node -p "require('./package.json').version")
+          base_version=$(echo "$raw_version" | sed -E 's/-.*$//')
+
+          # Find the previous release tag
+          prev_tag=$(git tag -l 'v*' --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1 || true)
+          echo "Previous tag: ${prev_tag:-none}, package.json version: $raw_version (base: $base_version)"
+
+          # If v$base_version tag already exists, increment patch version so every push to master gets a fresh semver
+          if git rev-parse "v$base_version" >/dev/null 2>&1; then
+            IFS='.' read -r major minor patch <<< "$base_version"
+            patch=$((patch + 1))
+            release_version="${major}.${minor}.${patch}"
+          else
+            release_version="$base_version"
+          fi
+          version_tag="v$release_version"
+          echo "Resolved release version: $release_version ($version_tag)"
+
+          # 2. Update package.json to the clean release version
+          node -e '
+            const fs = require("fs");
+            const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+            pkg.version = process.argv[1];
+            fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2) + "\n");
+          ' "$release_version"
+
+          # 3. Generate CHANGELOG.md entry if not already present for this version
+          node -e '
+            const fs = require("fs");
+            const { execSync } = require("child_process");
+
+            const versionTag = process.argv[1];
+            const prevTag = process.argv[2];
+            const repoUrl = "https://github.com/adiwg/mdEditor";
+            const dateStr = new Date().toISOString().slice(0, 10);
+
+            const changelogPath = "CHANGELOG.md";
+            const changelog = fs.existsSync(changelogPath)
+              ? fs.readFileSync(changelogPath, "utf8")
+              : "# Changelog for [mdEditor](https://github.com/adiwg/mdEditor)\n\n";
+
+            if (changelog.includes(`## ${versionTag} `) || changelog.includes(`## ${versionTag}\n`)) {
+              console.log(`CHANGELOG.md already contains an entry for ${versionTag}.`);
+              // Extract existing section for GitHub release notes
+              const escaped = versionTag.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+              const match = changelog.match(new RegExp(`## ${escaped}[^\\n]*\\n([\\s\\S]*?)(?=\\n## v|$)`));
+              fs.writeFileSync("RELEASE_NOTES.md", match ? match[1].trim() : `Automated release for version ${versionTag}.`);
+              process.exit(0);
+            }
+
+            const range = prevTag ? `${prevTag}..HEAD` : "HEAD";
+            const logOutput = execSync(`git log ${range} --no-merges --pretty=format:"%s"`, { encoding: "utf8" });
+            const mergeOutput = execSync(`git log ${range} --merges --pretty=format:"%s"`, { encoding: "utf8" });
+
+            const features = [];
+            const updates = [];
+            const fixes = [];
+            const prNumbers = new Set();
+
+            const extractPrs = (line) => {
+              const matches = line.matchAll(/#(\d+)/g);
+              for (const m of matches) prNumbers.add(m[1]);
+            };
+
+            for (const line of mergeOutput.split("\n").filter(Boolean)) {
+              const prMatch = line.match(/Merge pull request #(\d+)/);
+              if (prMatch) prNumbers.add(prMatch[1]);
+            }
+
+            const seen = new Set();
+            for (const rawLine of logOutput.split("\n").filter(Boolean)) {
+              const line = rawLine.trim();
+              if (!line || line.includes("[skip ci]") || /^chore(\(.*\))?:\s*(release|bump|sync|back-merge)/i.test(line)) {
+                continue;
+              }
+              extractPrs(line);
+
+              const cleanLine = line.replace(
+                /#(\d+)/g,
+                (_, num) => `[#${num}](${repoUrl}/issues/${num})`
+              );
+              if (seen.has(cleanLine)) continue;
+              seen.add(cleanLine);
+
+              if (/^(feat|feature)(\(.*\))?:/i.test(line)) {
+                features.push(`  - ${cleanLine.replace(/^(feat|feature)(\(.*\))?:\s*/i, "")}`);
+              } else if (/^(fix|bug|hotfix)(\(.*\))?:/i.test(line)) {
+                fixes.push(`  - ${cleanLine.replace(/^(fix|bug|hotfix)(\(.*\))?:\s*/i, "")}`);
+              } else {
+                updates.push(`  - ${cleanLine.replace(/^[a-z]+(\(.*\))?:\s*/i, "")}`);
+              }
+            }
+
+            let entry = `## ${versionTag} (${dateStr})\n\n`;
+            if (features.length) {
+              entry += `### New features\n\n${features.join("\n")}\n\n`;
+            }
+            if (updates.length) {
+              entry += `### Updates\n\n${updates.join("\n")}\n\n`;
+            }
+            if (fixes.length) {
+              entry += `### Bug fixes\n\n${fixes.join("\n")}\n\n`;
+            }
+            if (!features.length && !updates.length && !fixes.length) {
+              entry += `### Updates\n\n  - Maintenance release ${versionTag}\n\n`;
+            }
+            if (prNumbers.size) {
+              const prLinks = Array.from(prNumbers)
+                .sort((a, b) => Number(a) - Number(b))
+                .map((num) => `  - ${repoUrl}/pull/${num}`)
+                .join("\n");
+              entry += `### Associated Pull requests\n\n${prLinks}\n\n`;
+            }
+            if (prevTag) {
+              entry += `**GitHub Changelog**: ${repoUrl}/compare/${prevTag}...${versionTag}\n`;
+            }
+
+            fs.writeFileSync("RELEASE_NOTES.md", entry.trim());
+
+            const lines = changelog.split("\n");
+            const firstHeaderIdx = lines.findIndex((l) => l.startsWith("## "));
+            let updatedChangelog;
+            if (firstHeaderIdx !== -1) {
+              updatedChangelog = [
+                ...lines.slice(0, firstHeaderIdx),
+                entry,
+                "",
+                ...lines.slice(firstHeaderIdx),
+              ].join("\n");
+            } else {
+              updatedChangelog = `${changelog.trimEnd()}\n\n${entry}\n`;
+            }
+
+            fs.writeFileSync(changelogPath, updatedChangelog);
+            console.log(`Updated CHANGELOG.md with ${versionTag}.`);
+          ' "$version_tag" "$prev_tag"
+
+          # 4. Commit and push CHANGELOG.md & package.json to master if changed
+          if ! git diff --quiet package.json CHANGELOG.md; then
+            git add package.json CHANGELOG.md
+            git commit -m "chore(release): ${version_tag} [skip ci]"
+            git push origin HEAD:master
+          fi
+
+          echo "version=$release_version" >> "$GITHUB_OUTPUT"
+          echo "version_tag=$version_tag" >> "$GITHUB_OUTPUT"
+
+      - name: Upload release notes
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-notes
+          path: RELEASE_NOTES.md
+
+  build:
+    needs: prepare-release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: master
+
+      - name: Use Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '20'
+          package-manager-cache: false
+
+      - name: Enable Corepack
         run: corepack enable
 
       - name: Install Dependencies
@@ -33,16 +224,24 @@ jobs:
           path: dist
 
   deploy:
-    needs: build
+    needs: [prepare-release, build]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: master
+          fetch-depth: 0
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
           name: build-output
           path: dist
+
+      - name: Download release notes
+        uses: actions/download-artifact@v4
+        with:
+          name: release-notes
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -51,25 +250,77 @@ jobs:
           publish_dir: ./dist
 
       - name: Create Tag
-        id: create_tag
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Read version from package.json
-          version=$(node -p "require('./package.json').version")
-          version_tag="v$version"
-          echo "Version from package.json: $version_tag"
-          echo "version=$version_tag" >> $GITHUB_OUTPUT
-          git tag $version_tag
-          git push origin $version_tag
+          version_tag="${{ needs.prepare-release.outputs.version_tag }}"
+          echo "Tagging release: $version_tag"
+          git tag -f "$version_tag"
+          git push origin "$version_tag" --force
 
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ steps.create_tag.outputs.version }}
-          name: Release ${{ steps.create_tag.outputs.version }}
-          body: Automated release for version ${{ steps.create_tag.outputs.version }}.
+          tag: ${{ needs.prepare-release.outputs.version_tag }}
+          name: Release ${{ needs.prepare-release.outputs.version_tag }}
+          bodyFile: RELEASE_NOTES.md
           draft: false
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Sync CHANGELOG and version to develop and staging
+        if: github.repository == 'adiwg/mdEditor'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git fetch origin master develop staging
+
+          # 1. Sync master (with updated CHANGELOG.md & package.json) into develop
+          git checkout -B develop origin/develop
+          if git merge origin/master --no-edit -m "chore: sync release ${{ needs.prepare-release.outputs.version_tag }} from master into develop"; then
+            git push origin HEAD:develop
+            echo "Successfully synced master into develop."
+          else
+            git merge --abort
+            echo "::warning::Direct merge of master into develop had conflicts; bringing over CHANGELOG.md and package.json version directly."
+            git checkout origin/master -- CHANGELOG.md
+            node -e '
+              const fs = require("fs");
+              const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+              pkg.version = process.argv[1];
+              fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2) + "\n");
+            ' "${{ needs.prepare-release.outputs.version }}"
+            if ! git diff --quiet CHANGELOG.md package.json; then
+              git add CHANGELOG.md package.json
+              git commit -m "chore: sync CHANGELOG.md and version ${{ needs.prepare-release.outputs.version }} from master"
+              git push origin HEAD:develop
+            fi
+          fi
+
+          # 2. Rebuild staging from updated develop + any open PRs labeled deploy:staging
+          git fetch origin develop
+          git checkout -B staging origin/develop
+
+          prs=$(gh pr list \
+            --state open \
+            --label "deploy:staging" \
+            --json number,headRefName,headRepositoryOwner \
+            --jq '.[] | select(.headRepositoryOwner.login == "adiwg") | "\(.number):\(.headRefName)"')
+
+          if [ -n "$prs" ]; then
+            for entry in $prs; do
+              pr_num="${entry%%:*}"
+              pr_branch="${entry#*:}"
+              git fetch origin "$pr_branch"
+              if ! git merge --no-ff --no-edit "origin/$pr_branch" -m "Merge PR #$pr_num ($pr_branch) into staging for user testing"; then
+                git merge --abort
+              fi
+            done
+          fi
+
+          git push --force-with-lease origin HEAD:staging
+          echo "Successfully synced staging with updated develop."

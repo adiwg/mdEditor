@@ -329,10 +329,11 @@ This creates patches in `.yarn/patches/` and auto-updates `package.json` resolut
 
 ---
 
-## What's Next: 4.0 → 4.12 LTS
+## Completion Status: 4.0 → 4.12 LTS
 
-- [ ] Audit remaining deprecations introduced between 4.0 and 4.12
-- [ ] Evaluate Embroider readiness (current build uses classic pipeline)
-- [ ] Assess `ember-data` 4.x model/store API changes
-- [ ] Evaluate moving off `@classic` toward native Glimmer components incrementally
-- [ ] Run `ember-cli-update` at each minor step (4.0 → 4.4 → 4.8 → 4.12)
+- [x] Upgrade `ember-source`, `ember-cli`, and `ember-data` to `~4.12.0` LTS
+- [x] Audit and resolve deprecations introduced between 4.0 and 4.12 (`locationType: 'auto'`, `injectionFactories: []`, `@ember/string` deprecation handler)
+- [x] Verify `ember-data` 4.12 model/store compatibility (`IdentifierArray` handling, explicit `@service store` injections)
+- [x] Merge `ember-migration` into `develop` (PR #849)
+
+> Follow-up items for the 5.x upgrade cycle (Embroider evaluation, incremental `@classic` → Glimmer component conversion, and `ember-data` 5.x `RequestManager`) are tracked in [ember-4.12-to-5.x.md](ember-4.12-to-5.x.md).

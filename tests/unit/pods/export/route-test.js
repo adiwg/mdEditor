@@ -136,4 +136,43 @@ module('Unit | Route | export', function (hooks) {
       window.saveAs = originalSaveAs;
     }
   });
+
+  test('processExportData strips relationships and stray top-level dictionaryId', function (assert) {
+    const route = this.owner.lookup('route:export');
+    const validator = this.owner.lookup('service:jsonvalidator').validator;
+    const rawExport = JSON.stringify({
+      data: [
+        {
+          id: 'dict-1',
+          type: 'dictionaries',
+          dictionaryId: 'legacy-stray-id',
+          relationships: {},
+          attributes: {
+            json: JSON.stringify({
+              dataDictionary: {
+                dictionaryId: 'legacy-stray-id',
+                citation: { title: 'Test Dict' },
+              },
+            }),
+          },
+        },
+      ],
+    });
+
+    const exported = route.processExportData({ _result: rawExport });
+    const processed = JSON.parse(exported._result);
+
+    assert.notOk(
+      'dictionaryId' in processed.data[0],
+      'strips top-level dictionaryId from exported item'
+    );
+    assert.notOk(
+      'relationships' in processed.data[0],
+      'strips relationships from exported item'
+    );
+    assert.true(
+      validator.validate('jsonapi', processed),
+      'processed export data passes jsonapi validation'
+    );
+  });
 });

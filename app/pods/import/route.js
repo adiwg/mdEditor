@@ -112,7 +112,6 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
                 let uuid = uuidv4();
                 let shortId = uuid.split('-')[0];
                 json.dataDictionary.dictionaryId = uuid;
-                set(this, 'dictionaryId', uuid);
                 set(this, 'id', shortId);
                 this.attributes.json = JSON.stringify(json);
               }
@@ -253,8 +252,17 @@ export default class ImportRoute extends Route.extend(ScrollTo) {
   }
   mapEditorJSON({ file, json }) {
     const validator = this.jsonvalidator.validator;
+
+    if (isArray(json?.data)) {
+      json.data.forEach((record) => {
+        if (record && typeof record === 'object' && 'dictionaryId' in record) {
+          delete record.dictionaryId;
+        }
+      });
+    }
+
     if (!validator.validate('jsonapi', json)) {
-      throw new Error(`${file.name} is not a valid mdEditor file.`);
+      throw new Error(`${file?.name || 'File'} is not a valid mdEditor file.`);
     }
 
     // Ensure dictionaries have the correct structure

@@ -93,29 +93,49 @@ export default Service.extend({
         isDefault: true,
         url: null,
       });
-      // load unique thesauri from custom profiles
-      const profiles = this.profiles.profiles;
-      const uniqueThesauri = [];
-      profiles.forEach((profile) => {
-        profile.thesauri?.forEach((thesaurus) => {
-          const existingThesaurus = this.manifest.find((t) => t.url === thesaurus.url);
-          if (existingThesaurus) return;
-          const existingUniqueThesaurus = uniqueThesauri.find((t) => t.url === thesaurus.url);
-          if (existingUniqueThesaurus) return;
-          uniqueThesauri.push(thesaurus);
-        }
-      )});
-      uniqueThesauri.forEach(async (thesaurus) => {
-        const existingThesaurus = this.manifest.find((t) => t.url === thesaurus.url);
-        if (existingThesaurus) return;
-        const response = await axios.get(thesaurus.url);
-        const thesaurusData = response.data;
-        thesaurus.identifier = thesaurusData.citation.identifier[0].identifier;
-        this.manifest.push(thesaurus);
-        await this.addThesaurus(thesaurusData);
-      });
+      await this.loadCustomProfileThesauri();
     } catch (error) {
       console.error(error);
     }
-  }
+  },
+
+  async loadCustomProfileThesauri() {
+    try {
+      const profiles = this.profiles.profiles || [];
+      const uniqueThesauri = [];
+      profiles.forEach((profile) => {
+        const profileThesauri = profile.thesauri?.length
+          ? profile.thesauri
+          : profile.definition?.thesauri || [];
+        profileThesauri.forEach((thesaurus) => {
+          if (!thesaurus?.url) return;
+          const existingThesaurus = this.manifest.find(
+            (t) => t.url === thesaurus.url
+          );
+          if (existingThesaurus) return;
+          const existingUniqueThesaurus = uniqueThesauri.find(
+            (t) => t.url === thesaurus.url
+          );
+          if (existingUniqueThesaurus) return;
+          uniqueThesauri.push(thesaurus);
+        });
+      });
+      await Promise.all(
+        uniqueThesauri.map(async (thesaurus) => {
+          const existingThesaurus = this.manifest.find(
+            (t) => t.url === thesaurus.url
+          );
+          if (existingThesaurus) return;
+          const response = await axios.get(thesaurus.url);
+          const thesaurusData = response.data;
+          thesaurus.identifier =
+            thesaurusData.citation.identifier[0].identifier;
+          this.manifest.push(thesaurus);
+          await this.addThesaurus(thesaurusData);
+        })
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  },
 });

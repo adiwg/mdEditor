@@ -50,6 +50,7 @@ List of available project commands.  `yarn run <command-name>`
 | Command | Description |
 | ------- | ----------- |
 | build:development | Builds the application in development mode. |
+| build:staging | Builds the application for the staging environment. |
 | build | Builds the application for production. |
 | lint | Runs all lint commands. |
 | lint:hbs | Lints `hbs` template files. |
@@ -108,12 +109,13 @@ route using `await a11yAudit();`.
 
 ### Deploying
 
-By default, this will deploy to GitHub pages:
+Deployments are automated via GitHub Actions and Cloudflare:
 
- `ember deploy staging`
-
- Note that the `gh-pages` branch must exist in the git repository. See [ember-cli-deploy-git](https://github.com/ef4/ember-cli-deploy-git#usage) for details.
- Visit https://<GitHub Username>.github.io/mdEditor
+* **Staging (Cloudflare)**:
+  * The `staging` branch is automatically kept in sync with `develop` via the [Sync staging with develop](.github/workflows/sync-staging.yml) workflow and deployed by Cloudflare.
+  * To deploy an unmerged Pull Request to the staging environment for user testing, add the **`deploy:staging`** label to the PR on GitHub. Remove the label at any time to remove the PR from `staging`. See [CONTRIBUTING.md](./CONTRIBUTING.md#deploying-a-pull-request-to-staging-deploystaging) for full step-by-step instructions.
+* **Production (GitHub Pages)**:
+  * Merging to `master` automatically triggers the [Deploy to GitHub Pages](.github/workflows/gh-pages-deploy.yml) workflow, which builds the production app, publishes it to the `gh-pages` branch, tags the release from `package.json`, and creates a GitHub Release.
 
 ## Further Reading / Useful Links
 

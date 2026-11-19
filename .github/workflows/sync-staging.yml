@@ -1,13 +1,31 @@
 name: Sync staging with develop
 
+# Rebuilds the `staging` branch from `develop` plus any open pull requests
+# labeled `deploy:staging`.
+#
+# Triggers:
+# 1. Push to `develop` (fallback sync when PRs are merged to develop)
+# 2. PR labeled/unlabeled with `deploy:staging`
+# 3. New commits pushed (`synchronize`) or PR closed/reopened while labeled `deploy:staging`
+# 4. Manual trigger (`workflow_dispatch`)
+
 on:
   push:
     branches:
       - develop
+  pull_request_target:
+    types:
+      - labeled
+      - unlabeled
+      - synchronize
+      - closed
+      - reopened
+  workflow_dispatch:
 
 permissions:
   contents: write
   pull-requests: write
+  issues: write
 
 concurrency:
   group: sync-staging
@@ -15,12 +33,19 @@ concurrency:
 
 jobs:
   sync:
-    if: github.repository == 'adiwg/mdEditor'
+    if: >-
+      github.repository == 'adiwg/mdEditor' &&
+      (
+        github.event_name == 'push' ||
+        github.event_name == 'workflow_dispatch' ||
+        github.event.label.name == 'deploy:staging' ||
+        contains(github.event.pull_request.labels.*.name, 'deploy:staging')
+      )
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
         with:
-          ref: staging
+          ref: develop
           fetch-depth: 0
 
       - name: Configure git identity
@@ -28,41 +53,57 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Fetch develop
-        run: git fetch origin develop
-
-      - name: Sync develop into staging
+      - name: Rebuild staging from develop + labeled PRs
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if git merge-base --is-ancestor origin/develop HEAD; then
-            echo "staging already contains develop's latest commit."
+          git fetch origin develop staging
+          git checkout -B staging origin/develop
+
+          # Find all open PRs from the main repo with the 'deploy:staging' label
+          prs=$(gh pr list \
+            --state open \
+            --label "deploy:staging" \
+            --json number,headRefName,headRepositoryOwner \
+            --jq '.[] | select(.headRepositoryOwner.login == "adiwg") | "\(.number):\(.headRefName)"')
+
+          merged_prs=""
+          if [ -z "$prs" ]; then
+            echo "No open PRs labeled 'deploy:staging'. Resetting staging to match develop."
+          else
+            for entry in $prs; do
+              pr_num="${entry%%:*}"
+              pr_branch="${entry#*:}"
+              echo "Merging PR #$pr_num ($pr_branch) into staging..."
+              git fetch origin "$pr_branch"
+              if git merge --no-ff --no-edit "origin/$pr_branch" -m "Merge PR #$pr_num ($pr_branch) into staging for user testing"; then
+                echo "Successfully merged PR #$pr_num."
+                merged_prs="$merged_prs #$pr_num"
+              else
+                echo "::warning::Conflict merging PR #$pr_num ($pr_branch) into staging. Skipping this PR."
+                git merge --abort
+                if [ "${{ github.event.pull_request.number }}" = "$pr_num" ]; then
+                  gh pr comment "$pr_num" --body "⚠️ **Staging Deploy Skipped:** Could not automatically merge this PR into \`staging\` due to merge conflicts with \`develop\` (or another active staging PR). Please rebase or merge \`develop\` into your branch."
+                fi
+              fi
+            done
+          fi
+
+          # Only push if the resulting tree or commit differs from current origin/staging
+          if [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/staging)" ]; then
+            echo "staging is already up to date."
             exit 0
           fi
 
-          # Prefer fast-forward; fall back to a regular merge if staging has diverged
-          if git merge --ff-only origin/develop; then
-            git push origin HEAD:staging
-          elif git merge origin/develop --no-edit; then
-            git push origin HEAD:staging
-          else
-            # Conflict: commit markers and open a PR so it can be resolved manually
-            existing=$(gh pr list --base staging --state open \
-              --search "chore/sync-develop-into-staging in:head" \
-              --json number --jq 'length')
-            if [ "$existing" -gt 0 ]; then
-              echo "An open sync PR into staging already exists, skipping."
-              exit 0
-            fi
+          git push --force-with-lease origin HEAD:staging
+          echo "Updated staging branch (develop${merged_prs:+ + PRs:$merged_prs})."
 
-            branch="chore/sync-develop-into-staging-$(date +%Y%m%d%H%M%S)"
-            git checkout -b "$branch"
-            git add -A
-            git commit -m "Merge develop into staging (CONFLICTS - resolve manually)"
-            git push origin "$branch"
-            gh pr create \
-              --base staging \
-              --head "$branch" \
-              --title "chore: sync develop into staging" \
-              --body "Automated sync of \`develop\` into \`staging\` encountered merge conflicts. Conflict markers were committed as-is so they can be resolved manually."
+          # Comment when a PR was just labeled with deploy:staging and succeeded
+          if [ "${{ github.event_name }}" = "pull_request_target" ] && \
+             [ "${{ github.event.action }}" = "labeled" ] && \
+             [ "${{ github.event.label.name }}" = "deploy:staging" ]; then
+            pr_num="${{ github.event.pull_request.number }}"
+            if echo "$merged_prs" | grep -q "#$pr_num"; then
+              gh pr comment "$pr_num" --body "🚀 **Deployed to Staging:** This PR has been merged into \`staging\` and is being built by Cloudflare for user testing. Remove the \`deploy:staging\` label at any time to remove it from \`staging\`."
+            fi
           fi

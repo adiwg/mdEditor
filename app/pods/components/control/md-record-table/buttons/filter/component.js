@@ -1,5 +1,5 @@
 import { inject as service } from '@ember/service';
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import classic from 'ember-classic-decorator';
 import Component, { setComponentTemplate } from '@ember/component';
 import { once } from '@ember/runloop';
@@ -7,18 +7,19 @@ import layout from './template';
 
 /**
  * Rendered as the Actions column's filter-row cell (componentForFilterCell).
- * Shows a "Delete Selected" button whenever one or more rows are selected.
+ * Shows a "Delete Selected" button whenever more than one row is selected.
  */
 @classic
 class FilterComponent extends Component {
   @service flashMessages;
 
-  // `selectedItems` is mutated in place by ember-models-table, so this needs
-  // an explicit '.[]' dependent key - a plain getter won't re-evaluate. Hash
-  // args on this classic component land on `this` directly, not `this.args`.
-  @computed('selectedItems.[]')
+  // `selectedItems` in ember-models-table v5 is a TrackedArray mutated via
+  // native .push()/.splice(). Do NOT wrap this getter in @computed('selectedItems.[]'):
+  // Ember's ComputedProperty wraps its getter in untrack() and only watches the
+  // classic '[]' tag, which TrackedArray never dirties. A native getter lets
+  // Glimmer autotrack TrackedArray.length directly.
   get showButton() {
-    return this.selectedItems?.length >= 1;
+    return this.selectedItems?.length > 1;
   }
 
   @action
@@ -32,14 +33,17 @@ class FilterComponent extends Component {
       return;
     }
 
-    records.forEach((rec) => {
+    [...records].forEach((rec) => {
       const modelName = rec.constructor.modelName;
       const title = rec.get('title');
 
-      rec.destroyRecord().then((rec) => {
-        rec.unloadRecord();
+      rec.destroyRecord().then((destroyed) => {
+        destroyed.unloadRecord();
         once(() => {
-          records.removeObject(rec);
+          const idx = records.indexOf(destroyed);
+          if (idx !== -1) {
+            records.splice(idx, 1);
+          }
           this.flashMessages.danger(`Deleted ${modelName} "${title}".`);
         });
       });
