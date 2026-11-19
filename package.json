@@ -41,8 +41,7 @@
     "test:ember": "COVERAGE=true ember exam --test-port 0 --random",
     "test:finalize": "ember coverage-merge && yarn clean:coverage",
     "deploy": "gh-pages -d dist",
-    "postinstall": "patch-package",
-    "prepare": "husky"
+    "postinstall": "patch-package && husky"
   },
   "dependencies": {
     "@ember/string": "^3.1.1",
