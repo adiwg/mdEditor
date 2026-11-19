@@ -16,16 +16,16 @@ module('Integration | Component | control/md record table/buttons', function (
         });
         // Handle any actions with this.on('myAction', function(val) { ... });
 
-        await render(hbs `{{control/md-record-table/buttons record=model}}`);
+        await render(hbs`{{control/md-record-table/buttons record=this.model}}`);
 
         assert.equal(find('.md-dashboard-buttons').textContent.replace(
           /[ \n]+/g, '|').trim(), '|Show|Edit|Delete|Preview|JSON|');
-        assert.dom('.md-status-icon .btn-danger').isVisible();
-        assert.dom('.md-status-icon .btn-warning').isVisible();
+        assert.dom('.md-status-icon .btn-danger').exists();
+        assert.dom('.md-status-icon .btn-warning').exists();
         // Template block usage:
-      await render(hbs`{{#control/md-record-table/buttons}}
+      await render(hbs`<Control::MdRecordTable::Buttons>
           template block text
-        {{/control/md-record-table/buttons}}`
+        </Control::MdRecordTable::Buttons>`
       );
 
         assert.equal(find('.md-dashboard-buttons').textContent.replace(

@@ -25,18 +25,18 @@ module('Integration | Component | object/md simple array table', function (
     //   this.model.pushObject(val);
     // });
 
-    await render(hbs `{{object/md-simple-array-table}}`);
+    await render(hbs`{{object/md-simple-array-table}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       '|No|Item|found.|Add|Item|');
 
     // Template block usage:
-    await render(hbs `
+    await render(hbs`
       {{#object/md-simple-array-table
         title="FooBar"
         required=false
         plain=true
-        value=model as |foo|
+        value=this.model as |foo|
       }}
         <td>
             {{foo.item.value}}

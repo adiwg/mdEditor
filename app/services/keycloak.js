@@ -13,8 +13,10 @@ export default class KeycloakService extends Service {
 
   constructor() {
     super(...arguments);
-    this.keycloak = new Keycloak(ENV.keycloakConfig);
-    this.initializeKeycloak();
+    if (ENV.keycloakConfig) {
+      this.keycloak = new Keycloak(ENV.keycloakConfig);
+      this.initializeKeycloak();
+    }
   }
 
   async initializeKeycloak() {

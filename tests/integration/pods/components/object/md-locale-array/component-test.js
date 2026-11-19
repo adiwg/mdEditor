@@ -18,16 +18,16 @@ module('Integration | Component | object/md locale array', function(hooks) {
       country: "BDI"
     }]);
 
-    await render(hbs`{{object/md-locale-array value=locales}}`);
+    await render(hbs`{{object/md-locale-array value=this.locales}}`);
 
     assert.equal(find('.panel').textContent.replace(/[\s\n]+/g, '|').trim(),
       '|2|Add|#|Language|Character|Set|Country|0|eng|?|×|UTF-8|?|×|USA|?|×|Delete|1|spa|?|×|UTF-32|?|×|BDI|?|×|Delete|');
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-locale-array}}
+      <Object::MdLocaleArray>
         template block text
-      {{/object/md-locale-array}}
+      </Object::MdLocaleArray>
     `);
 
     assert.equal(find('.panel').textContent.replace(/[\s\n]+/g, '|').trim(),

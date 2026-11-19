@@ -9,7 +9,6 @@ import Ajv from 'ajv';
 import ajvErrors from 'ajv-errors';
 import * as draft4 from 'ajv/lib/refs/json-schema-draft-04';
 import { inject as service } from '@ember/service';
-import ajv from 'ajv';
 
 const ajvOptions = {
   verbose: true,
@@ -80,6 +79,14 @@ const theComp = Model.extend(Validations, {
   init() {
     this._super(...arguments);
 
+    if (this.isNew) {
+      this.eachAttribute((name, meta) => {
+        if (typeof meta.options?.defaultValue === 'function') {
+          this.set(name, this.get(name));
+        }
+      });
+    }
+
     this.schemaValidator = new Ajv(ajvOptions);
     ajvErrors(this.schemaValidator);
     this.schemaValidator.addMetaSchema(draft4);
@@ -144,7 +151,7 @@ const theComp = Model.extend(Validations, {
   }),
 
   validator: computed('isGlobal', 'customSchemas', function () {
-    if (!this.isGlobal && !this.get('customSchemas.length')) {
+    if (!this.isGlobal && !this.customSchemas?.length) {
       return;
     }
 

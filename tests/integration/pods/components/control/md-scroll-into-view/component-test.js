@@ -16,9 +16,9 @@ module('Integration | Component | control/md-scroll-into-view', function(hooks) 
 
     // Template block usage:
     await render(hbs`
-      {{#control/md-scroll-into-view}}
+      <Control::MdScrollIntoView>
         template block text
-      {{/control/md-scroll-into-view}}
+      </Control::MdScrollIntoView>
     `);
 
     assert.equal(this.element.textContent.trim(), 'template block text');

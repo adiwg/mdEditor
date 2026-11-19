@@ -18,20 +18,20 @@ module('Integration | Component | object/md-schema', function(hooks) {
       hasUpdate: true
     }));
 
-    await render(hbs`{{object/md-schema record=data}}`);
+    await render(hbs`{{object/md-schema record=this.data}}`);
 
     assert.equal(this.element.textContent.replace(/[ \s\n]+/g, '|').trim(),
-    '|Info|Schemas|Title|URL|Version|1.0|Update|Available|(1.1)|Description|Type|Select|the|record|type|for|schema.|Apply|Globally?|No|Yes|');
+    '|Info|Schemas|Title|URL|Version|1.0|Update|Available|(1.1)|Description|Description|Type|Select|the|record|type|for|schema.|Apply|Globally?|No|Yes|');
 
     assert.equal(find('.md-schema input').value, 'foo', 'render form');
     // Template block usage:
     await render(hbs`
-      {{#object/md-schema record=data}}
+      <Object::MdSchema @record={{this.data}}>
         template block text
-      {{/object/md-schema}}
+      </Object::MdSchema>
     `);
 
     assert.equal(this.element.textContent.replace(/[ \s\n]+/g, '|').trim(),
-    '|Info|Schemas|Title|URL|Version|1.0|Update|Available|(1.1)|Description|Type|Select|the|record|type|for|schema.|Apply|Globally?|No|Yes|');
+    '|Info|Schemas|Title|URL|Version|1.0|Update|Available|(1.1)|Description|Description|Type|Select|the|record|type|for|schema.|Apply|Globally?|No|Yes|');
   });
 });

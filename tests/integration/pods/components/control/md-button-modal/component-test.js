@@ -20,12 +20,12 @@ module('Integration | Component | control/md button modal', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
-    await render(hbs `{{control/md-button-modal}}`);
+    await render(hbs`{{control/md-button-modal}}`);
 
     assert.equal(find('.md-button-modal').innerText.trim(), '');
 
     // Template block usage:" + EOL +
-    await render(hbs `
+    await render(hbs`
       {{#control/md-button-modal}}
         template block text
       {{/control/md-button-modal}}
@@ -45,11 +45,11 @@ module('Integration | Component | control/md button modal', function(hooks) {
       assert.ok(type, `${type} called`);
     });
 
-    await render(hbs `
+    await render(hbs`
       <div id='test-div'></div>
       {{#control/md-button-modal
-          message="Hello" onConfirm=(action externalAction "confirm")
-          onCancel=(action externalAction "cancel")}} Test
+          message="Hello" onConfirm=(action this.externalAction "confirm")
+          onCancel=(action this.externalAction "cancel")}} Test
       {{/control/md-button-modal}}
     `);
 
@@ -60,12 +60,12 @@ module('Integration | Component | control/md button modal', function(hooks) {
 
     await clearRender();
 
-    await render(hbs `
+    await render(hbs`
       <div id='test-div'></div>
       {{#control/md-button-modal
         renderInPlace=true
-        message="Hello" onConfirm=(action externalAction "confirm")
-        onCancel=(action externalAction "cancel")}} Test
+        message="Hello" onConfirm=(action this.externalAction "confirm")
+        onCancel=(action this.externalAction "cancel")}} Test
       {{/control/md-button-modal}}
     `);
     // click the button

@@ -1,0 +1,21 @@
+{{#if (has-block)}}
+  <div class='md-record-table' ...attributes>
+    {{yield}}
+  </div>
+{{else}}
+  <MdModelsTable
+    class='md-record-table'
+    ...attributes
+    @data={{@data}}
+    @columns={{this.columns}}
+    @selectedItems={{this.initialSelectedItems}}
+    @expandedItems={{@expandedItems}}
+    @multipleSelect={{true}}
+    @filteringIgnoreCase={{true}}
+    @selectRowOnClick={{@selectRowOnClick}}
+    @pageSize={{@pageSize}}
+    @columnSets={{@columnSets}}
+    @expandedRowComponent={{@expandedRowComponent}}
+    @onDisplayDataChanged={{this.handleDisplayDataChanged}}
+  />
+{{/if}}

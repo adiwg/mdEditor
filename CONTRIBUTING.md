@@ -13,6 +13,7 @@
     - [Develop, Staging, and Master](#develop-staging-and-master)
       - [Develop](#develop)
       - [Staging](#staging)
+        - [Deploying a Pull Request to Staging (`deploy:staging`)](#deploying-a-pull-request-to-staging-deploystaging)
       - [Master](#master)
     - [Unit Tests](#unit-tests)
     - [Deleting branches](#deleting-branches)
@@ -74,11 +75,11 @@ The mdEditor project uses a workflow based on the *branching model*.
 
 This model distinguishes four types of branches:
 
-**master** – main branch: only fully stable, working releases, deployed to production (GitHub Pages). Protected; only *staging* may be merged in, except for critical hotfixes. **Exception**: releases in the 0.0.x series are subject to breaking changes and **should not** be considered stable.
+**master** – main branch: only fully stable, working releases, deployed to production (GitHub Pages). Protected; only *staging* or *develop* may be merged in, except for critical hotfixes. **Exception**: releases in the 0.0.x series are subject to breaking changes and **should not** be considered stable.
 
-**staging** – pre-production branch, deployed live to a separate staging environment (currently Cloudflare) so changes can be validated against a real deployment before release, without requiring a local dev environment. Normally mirrors *master*. Feature/migration branches that need live validation may be merged into *staging* directly, ahead of or independent from *develop*.
+**staging** – pre-production testing branch, automatically rebuilt from *develop* plus any open pull requests labeled `deploy:staging`, and deployed live to the Cloudflare staging environment so changes can be validated against a real deployment before merging or releasing, without requiring a local dev environment.
 
-**develop** – this is the place where all regular development happens
+**develop** – this is the place where all regular development happens. All feature and bugfix pull requests target *develop*.
 
 **feature/fix/hotfix-branches** – a single branch which can be created by any developer, which is responsible for new features, fixes or reported bugs. Every feature branch name should start with the proper prefix *and* be named after the corresponding issue with the appropriate label. Branch names should follow the following format: `{prefix}-{issue number}-{descriptive-name}`. The `{descriptive-name}` doesn't need to match the issue name exactly(keep it short), but I should convey the purpose of the branch.
 
@@ -99,10 +100,29 @@ New branches ***must*** be created from *develop*. Branches may be created eithe
 Branch on which the main development happens. New feature/fix branches must be created from *develop*. Feature branch pull requests must be made against *develop*. It is recommended to rebase the feature branch to clean/fix/squash unnecessary commits prior to any pull request. Merge conflicts must be resolved by the branch owner (or person issuing pull request).
 
 #### Staging
-Pre-production branch, deployed live to a separate environment so changes can be validated against a real deployment before release. Feature or migration branches that need this kind of validation (not just local/dev testing) may be merged into *staging* directly via pull request. Any bugs found must be fixed via pull request against *staging* (or against the original branch, then re-merged). Changes merged into *staging* from outside *develop* should be synced back to *develop* separately once validated, so the two don't silently drift apart.
+Pre-production testing branch deployed live to Cloudflare so users and reviewers can validate changes without running a local development environment.
+
+Do **not** open pull requests directly against *staging* or push commits directly to *staging*. Instead, *staging* is managed automatically by the [`Sync staging with develop`](.github/workflows/sync-staging.yml) GitHub Action, which rebuilds *staging* from *develop* plus any open pull requests labeled `deploy:staging`.
+
+##### Deploying a Pull Request to Staging (`deploy:staging`)
+If a pull request needs user testing on the live staging environment before being merged into *develop*:
+
+1. **Open your Pull Request against `develop`** as usual (the branch must live in the `adiwg/mdEditor` repository).
+2. **Add the `deploy:staging` label** to the PR in the right-hand sidebar on GitHub.
+3. **Wait for the automated deployment**:
+   - The `Sync staging with develop` workflow will automatically reset *staging* to the latest *develop* branch and merge in your PR (along with any other currently open PRs that have the `deploy:staging` label).
+   - Once pushed to *staging*, the bot will post a 🚀 confirmation comment on your PR, and Cloudflare will automatically build and publish the updated *staging* environment.
+4. **Pushing updates while testing**:
+   - Any new commits you push to your PR branch while the `deploy:staging` label is attached will automatically trigger a rebuild of *staging*.
+5. **Handling merge conflicts**:
+   - If your PR has a merge conflict with *develop* (or with another active `deploy:staging` PR), the workflow will skip your PR, leave a ⚠️ comment on the PR, and keep *staging* healthy. Rebase or merge `develop` into your branch and push again to re-trigger the staging deployment.
+6. **Removing a PR from Staging**:
+   - If you need to pull your changes off the staging environment at any point, simply **remove the `deploy:staging` label** from the PR (or close the PR). The workflow will immediately rebuild *staging* without your branch.
+7. **Merging after approval**:
+   - Once user testing is complete and the PR is approved, merge the PR into `develop` (and remove the `deploy:staging` label). Whenever `develop` receives new commits, *staging* automatically syncs as a fallback so it always stays up to date with `develop`.
 
 #### Master
-The main branch that contains only fully stable, already-deployed-to-production iterations of the project. Accepts merges from *staging* only, except for critical hotfixes (see "Creating new branches" above), which branch from and merge directly into *master* and must also be merged back into *staging* and *develop*. Every merge to master must be properly tagged.
+The main branch that contains only fully stable, already-deployed-to-production iterations of the project. Accepts merges from *develop* (or *staging*) for releases, except for critical hotfixes (see "Creating new branches" above), which branch from and merge directly into *master* and are automatically back-merged into *staging* and *develop* via the [`Back-merge master`](.github/workflows/back-merge-master.yml) workflow. Every merge to master is automatically tagged and deployed to GitHub Pages.
 
 ### Unit Tests
 Branches must include tests for new functionality and pass(or update) existing tests before Pull Requests will be accepted.

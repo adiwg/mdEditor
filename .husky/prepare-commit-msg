@@ -1,0 +1,36 @@
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+SHA1=$3
+# Gets the current branch name but if we're in a detached head state, return "HEAD"
+BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+# Regex to match branch format:
+# <github-user>/<type>/<issue-number>/<brief-hyphenated-title>
+ISSUE_REGEX="^[^/]+/[^/]+/([0-9]+)/[^/]+$"
+
+# Try to derive owner/repo from origin remote for GitHub issue URL building.
+REMOTE_URL=$(git config --get remote.origin.url)
+REPO_REGEX="github\.com[:/]([^/]+)/([^/.]+)(\.git)?$"
+REPO_OWNER=""
+REPO_NAME=""
+
+if [[ "$REMOTE_URL" =~ $REPO_REGEX ]]
+then
+  REPO_OWNER="${BASH_REMATCH[1]}"
+  REPO_NAME="${BASH_REMATCH[2]}"
+fi
+
+# Don't run commitizen for merge or squash commits, as well as when rebasing
+if [ "${COMMIT_SOURCE}" = merge ] || [ "${COMMIT_SOURCE}" = squash ] || [ "${COMMIT_SOURCE}" = "message" -a "${BRANCH_NAME}" = "HEAD" ];then
+    exit 0
+fi
+
+# If the branch name matches, set the GitHub issue link automatically.
+if [[ $BRANCH_NAME =~ $ISSUE_REGEX ]] && [ -n "$REPO_OWNER" ] && [ -n "$REPO_NAME" ]
+then
+  issue="${BASH_REMATCH[1]}"
+  url="https://github.com/${REPO_OWNER}/${REPO_NAME}/issues/${issue}"
+  exec < /dev/tty && npx git-cz --issues="$url" --hook || true
+else
+  # Fallback: run commitizen without issue URL metadata.
+  exec < /dev/tty && npx git-cz --hook || true
+fi

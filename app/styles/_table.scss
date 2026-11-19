@@ -91,6 +91,7 @@
   .table {
     margin-bottom: 0;
   }
+
   .table-hover > tbody > tr {
     transition: background-color 0.25s ease;
   }
@@ -120,13 +121,13 @@
     .form-group {
       margin-bottom: 0;
 
-      .changeFilterForColumn {
+      .change-filter-for-column {
         width: auto;
       }
     }
   }
 
-  .globalSearch .form-group {
+  .global-search .form-group {
     padding-right: 0;
   }
 
@@ -169,7 +170,13 @@
     background-color: lighten($brand-info, 40);
     cursor: pointer;
   }
+
+  .md-checkbox-cell,
+  .md-checkbox-all {
+    cursor: pointer;
+  }
 }
+
 //Wider Responsive tables
 
 .md-table-responsive {
@@ -181,10 +188,12 @@
     -ms-overflow-style: -ms-autohiding-scrollbar;
     overflow-y: hidden;
     width: 100%;
+
     // Tighten up spacing
     > .table {
       min-width: 800px;
       margin-bottom: 0;
+
       // Ensure the content doesn't wrap
        > tbody,
        > thead,
@@ -197,6 +206,7 @@
         }
       }
     }
+
     // Special overrides for the bordered tables
     > .table-bordered {
       border: 0;

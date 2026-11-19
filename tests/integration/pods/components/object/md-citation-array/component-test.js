@@ -16,7 +16,7 @@ module('Integration | Component | object/md citation array', function(hooks) {
 
     assert.equal(find('.md-object-table').textContent.replace(/[ \n]+/g, '|').trim(), '|No|Citation|found.|Add|Citation|');
 
-    await render(hbs`{{object/md-citation-array model=citation}}`);
+    await render(hbs`{{object/md-citation-array model=this.citation}}`);
 
     assert.equal(find('.md-object-table').textContent.replace(/[ \n]+/g, '|').trim(),
       '|Citation|3|Add|OK|#|Title|0|title0|More...|Delete|1|title1|More...|Delete|2|title2|More...|Delete|',
@@ -24,9 +24,9 @@ module('Integration | Component | object/md citation array', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-citation-array}}
+      <Object::MdCitationArray>
         template block text
-      {{/object/md-citation-array}}
+      </Object::MdCitationArray>
     `);
 
     assert.equal(find('.md-object-table').textContent.replace(/[ \n]+/g, '|').trim(), '|No|Citation|found.|Add|Citation|');

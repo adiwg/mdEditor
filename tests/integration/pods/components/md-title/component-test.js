@@ -16,9 +16,9 @@ module('Integration | Component | md title', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#md-title}}
+      <MdTitle>
         template block text
-      {{/md-title}}
+      </MdTitle>
     `);
 
     assert.equal(this.element.textContent.trim(), 'template block text');

@@ -1,7 +1,11 @@
 import { NotFoundError } from '@ember-data/adapter/error';
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-export default Route.extend({
+export default class IdRoute extends Route {
+  @service store;
+  @service flashMessages;
   async model(params) {
     let record = this.store.peekRecord('record', params.record_id);
 
@@ -14,16 +18,10 @@ export default Route.extend({
       record.set('recordId', record.get('uuid'));
       return record;
     });
-  },
+  }
+  breadCrumb = null;
 
-  breadCrumb: null,
-
-  /**
-   * The profile service
-   *
-   * @return {Ember.Service} profile
-   */
-  //profile: service(),
+  @service router;
 
   deactivate() {
     // We grab the model loaded in this route
@@ -35,30 +33,12 @@ export default Route.extend({
       // We call DS#unloadRecord() which removes it from the store
       this.store.unloadRecord(model);
     }
-  },
-
+  }
   //some test actions
   setupController(controller, model) {
-    // Call _super for default behavior
-    this._super(controller, model);
-  },
-
-  // serialize: function (model) {
-  //   // If we got here without an ID (and therefore without a model)
-  //   // Ensure that we leave the route param in the URL blank (not 'undefined')
-  //   if (!model) {
-  //     let rec=this.store.createRecord('record');
-  //     return {
-  //       record_id: rec.id
-  //     };
-  //   }
-  //
-  //   // Otherwise, let Ember handle it as usual
-  //   return this._super.apply(this, arguments);
-  // },
-
-  actions: {
-    willTransition: function (transition) {
+    super.setupController(controller, model);
+  }
+    willTransition(transition) {
       if (transition.targetName === 'record.new.index') {
         transition.abort();
         return true;
@@ -85,20 +65,23 @@ export default Route.extend({
         //this.replaceWith(transition.targetName);
         return true;
       }
-    },
+    }
+
+    @action
     saveRecord() {
       this.currentRouteModel()
         .save()
         .then((model) => {
-          this.replaceWith('record.show.edit', model);
+          this.router.replaceWith('record.show.edit', model);
         });
-    },
+    }
 
+    @action
     cancelRecord() {
-      this.replaceWith('records');
+      this.router.replaceWith('records');
 
       return false;
-    },
+    }
 
     error(error) {
       if (error instanceof NotFoundError) {
@@ -106,12 +89,12 @@ export default Route.extend({
           'No record found! Re-directing to new record...'
         );
         // redirect to new
-        this.replaceWith('record.new');
+        this.router.replaceWith('record.new');
       } else {
         // otherwise let the error bubble
         return true;
       }
-    },
+    }
     // /**
     //  * Update the record profile
     //  *
@@ -122,5 +105,4 @@ export default Route.extend({
     //   this.profile
     //     .set('active', profile);
     // }
-  },
-});
+}

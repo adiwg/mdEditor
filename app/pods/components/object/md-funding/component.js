@@ -1,8 +1,9 @@
 import Component from '@ember/component';
-import { computed, set, getWithDefault, get } from '@ember/object';
+import classic from 'ember-classic-decorator';
+import { computed, set } from '@ember/object';
 import { alias, notEmpty } from '@ember/object/computed';
 import { isPresent } from '@ember/utils';
-import { once } from '@ember/runloop';
+import { scheduleOnce } from '@ember/runloop';
 import {
   validator,
   buildValidations
@@ -42,17 +43,8 @@ const Validations = buildValidations({
   message: 'Either an Allocation or valid Time Period is required.'
 });
 
-export default Component.extend(Validations, {
-  didReceiveAttrs() {
-    this._super(...arguments);
-
-    let model = this.model;
-
-    once(this, function () {
-      set(model, 'allocation', getWithDefault(model, 'allocation', []));
-      set(model, 'timePeriod', getWithDefault(model, 'timePeriod', {}));
-    });
-  },
+@classic
+export default class MdFundingComponent extends Component.extend(Validations) {
   /**
    * The string representing the path in the profile object for the resource.
    *
@@ -70,7 +62,22 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  tagName: 'form',
+  tagName = 'form';
+
+  didReceiveAttrs() {
+    super.didReceiveAttrs(...arguments);
+    scheduleOnce('afterRender', this, '_initModelDefaults');
+  }
+
+  _initModelDefaults() {
+    let model = this.model;
+    if (!model) { return; }
+    if (model.allocation == null) { set(model, 'allocation', []); }
+    if (model.timePeriod == null) { set(model, 'timePeriod', {}); }
+  }
+}
+
+MdFundingComponent.reopen({
   allocation: alias('model.allocation'),
-  timePeriod: alias('model.timePeriod')
+  timePeriod: alias('model.timePeriod'),
 });

@@ -17,7 +17,7 @@ module('Integration | Component | control/md import csv', function(hooks) {
 
     assert.equal(find('.md-import-picker').textContent.trim(), 'Click or Drop a CSV here.');
 
-    await render(hbs`{{control/md-import-csv isProcessing=true progress=progress}}`);
+    await render(hbs`{{control/md-import-csv isProcessing=true progress=this.progress}}`);
 
     assert.equal(find('.ember-view').textContent.replace(/[ \n]+/g, '|').trim(),
       '|Processing...|Stop|0%|Complete|', 'renders progressbar');

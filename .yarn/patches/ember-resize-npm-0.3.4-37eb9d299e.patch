@@ -1,0 +1,56 @@
+diff --git a/addon/services/resize.js b/addon/services/resize.js
+index 6758c5c452a7725f9b24537ac422cb1c9e08fc93..c12fa1c84944514449aed3d27e9746f9886f546f 100644
+--- a/addon/services/resize.js
++++ b/addon/services/resize.js
+@@ -1,14 +1,15 @@
+-import { computed, getWithDefault, set } from '@ember/object';
++import { get, set } from '@ember/object';
++import { oneWay, readOnly } from '@ember/object/computed';
+ import Evented from '@ember/object/evented';
+ import { cancel, debounce } from '@ember/runloop';
+ import Service from '@ember/service';
+ import { classify } from '@ember/string';
+ class ResizeService extends Service.extend(Evented, {
+-    debounceTimeout: computed.oneWay('defaultDebounceTimeout'),
+-    heightSensitive: computed.oneWay('defaultHeightSensitive'),
+-    screenHeight: computed.readOnly('_oldHeight'),
+-    screenWidth: computed.readOnly('_oldWidth'),
+-    widthSensitive: computed.oneWay('defaultWidthSensitive'),
++    debounceTimeout: oneWay('defaultDebounceTimeout'),
++    heightSensitive: oneWay('defaultHeightSensitive'),
++    screenHeight: readOnly('_oldHeight'),
++    screenWidth: readOnly('_oldWidth'),
++    widthSensitive: oneWay('defaultWidthSensitive'),
+ }) {
+     constructor() {
+         super(...arguments);
+@@ -35,7 +36,7 @@ class ResizeService extends Service.extend(Evented, {
+         return this;
+     }
+     _setDefaults() {
+-        const defaults = getWithDefault(this, 'resizeServiceDefaults', {});
++        const defaults = get(this, 'resizeServiceDefaults') || {};
+         Object.keys(defaults).map((key) => {
+             const classifiedKey = classify(key);
+             const defaultKey = `default${classifiedKey}`;
+diff --git a/app/initializers/resize.js b/app/initializers/resize.js
+index 2293b09691c69bc70f965ef30a683aaf9118496e..6cdb226ef9e7ba6dc0887ead952be3f17be4d9bc 100644
+--- a/app/initializers/resize.js
++++ b/app/initializers/resize.js
+@@ -1,13 +1,12 @@
+-import { getWithDefault } from '@ember/object';
+ import ResizeService from 'ember-resize/services/resize';
+ import config from '../config/environment';
+ export function initialize(application) {
+-    const resizeServiceDefaults = getWithDefault(config, 'resizeServiceDefaults', {
++    const resizeServiceDefaults = config.resizeServiceDefaults || {
+         debounceTimeout: 200,
+         heightSensitive: true,
+         widthSensitive: true,
+-    });
+-    const injectionFactories = getWithDefault(resizeServiceDefaults, 'injectionFactories', ['view', 'component']) || [];
++    };
++    const injectionFactories = resizeServiceDefaults.injectionFactories || ['view', 'component'];
+     application.unregister('config:resize-service');
+     application.register('config:resize-service', resizeServiceDefaults, { instantiate: false });
+     application.register('service:resize', ResizeService);

@@ -48,7 +48,7 @@
     opacity: 1;
   }
 }
-@media (min-width: 420px) {
+@media (width >= 420px) {
   .md-modal-container.ember-modal-dialog {
     width: 375px;
   }

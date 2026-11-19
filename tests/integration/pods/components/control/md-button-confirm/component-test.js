@@ -11,13 +11,13 @@ module('Integration | Component | control/md button confirm', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
-    await render(hbs `{{control/md-button-confirm}}`);
+    await render(hbs`{{control/md-button-confirm}}`);
 
     assert.equal(find('button').innerText
       .trim(), '');
 
     // Template block usage:" + EOL +
-    await render(hbs `
+    await render(hbs`
       {{#control/md-button-confirm}}
         template block text
       {{/control/md-button-confirm}}
@@ -33,7 +33,7 @@ module('Integration | Component | control/md button confirm', function(hooks) {
     // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
     // Template block usage:" + EOL +
-    await render(hbs `
+    await render(hbs`
       <a href="#">Test</a>
       {{#control/md-button-confirm}}
         Test
@@ -62,8 +62,8 @@ module('Integration | Component | control/md button confirm', function(hooks) {
     });
 
     // Template block usage:" + EOL +
-    await render(hbs `
-      {{#control/md-button-confirm onConfirm=(action externalAction "onConfirm")}}
+    await render(hbs`
+      {{#control/md-button-confirm onConfirm=(action this.externalAction "onConfirm")}}
         Test
       {{/control/md-button-confirm}}
     `);

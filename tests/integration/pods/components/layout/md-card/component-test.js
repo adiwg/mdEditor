@@ -21,17 +21,17 @@ module('Integration | Component | layout/md card', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#layout/md-card}}
+      <Layout::MdCard>
         template block text
-      {{/layout/md-card}}
+      </Layout::MdCard>
     `);
 
     assert.equal(find('.md-card').textContent.trim(), 'template block text', 'block');
 
     await render(hbs`
-      {{#layout/md-card title="foo" collapsed=true collapsible=true}}
+      <Layout::MdCard @title="foo" @collapsed={{true}} @collapsible={{true}}>
         template block text
-      {{/layout/md-card}}
+      </Layout::MdCard>
     `);
 
     assert.equal(find('.md-card').innerText.trim(), 'foo', 'collapsed');

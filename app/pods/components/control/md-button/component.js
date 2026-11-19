@@ -1,7 +1,9 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import classic from 'ember-classic-decorator';
+import { tracked } from '@glimmer/tracking';
 
-export default Component.extend({
+@classic
+export default class MdButtonComponent extends Component {
   /**
    * mdEditor Component that renders a `<button>`
    *
@@ -11,12 +13,12 @@ export default Component.extend({
    * @constructor
    */
 
-  tagName: 'button',
-  classNames: ['md-button btn'],
-  classNameBindings: ['responsive:md-btn-responsive'],
-  attributeBindings: ['type', 'disabled'],
-  type: 'button',
-  disabled: null,
+  tagName = 'button';
+  classNames = ['md-button', 'btn'];
+  classNameBindings = ['responsive:md-btn-responsive'];
+  attributeBindings = ['type', 'disabled'];
+  type = 'button';
+  disabled = null;
 
   /**
    * Button text
@@ -25,7 +27,7 @@ export default Component.extend({
    * @type {String}
    * @default ""
    */
-  text: '',
+  text = '';
 
   /**
    * Button icon
@@ -34,7 +36,7 @@ export default Component.extend({
    * @type {String}
    * @default ""
    */
-  icon: '',
+  icon = '';
 
   /**
    * Tooltip text shown when isShowingConfirm is true
@@ -51,7 +53,7 @@ export default Component.extend({
    * @type {String}
    * @default "left"
    */
-  tipSide: 'left',
+  tipSide = 'left';
 
   /**
    * Class to add to tooltip
@@ -60,19 +62,31 @@ export default Component.extend({
    * @type {String}
    * @default ""
    */
-  tipClass: '',
+  tipClass = '';
+
+  onClick = null;
 
   /**
-  * Render with wrapped text. Defaults to true if text.length is > 12 or
-  * contains spaces.
-  *
-  * @property responsive
-  * @type {Boolean}
-  * @default "false"
-  * @category computed
-  * @requires text
-  */
-  responsive: computed('text', function() {
-    return this.text.length > 12 || this.text.indexOf(' ') > 0;
-  }),
-});
+   * Render with wrapped text. Defaults to true if text.length is > 12 or
+   * contains spaces.
+   *
+   * @property responsive
+   * @type {Boolean}
+   * @default "false"
+   * @category computed
+   * @requires text
+   */
+  @tracked _responsive;
+  get responsive() {
+    return this._responsive ?? (this.text.length > 12 || this.text.indexOf(' ') > 0);
+  }
+  set responsive(value) {
+    this._responsive = value;
+  }
+
+  click(event) {
+    if (typeof this.onClick === 'function') {
+      this.onClick(event);
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{{#if (has-block)}}
+  {{yield}}
+{{else}}
+  <ModelsTable
+    ...attributes
+    @data={{@data}}
+    @columns={{@columns}}
+    @themeInstance={{this.themeInstance}}
+    @selectedItems={{@selectedItems}}
+    @expandedItems={{@expandedItems}}
+    @multipleSelect={{@multipleSelect}}
+    @filteringIgnoreCase={{@filteringIgnoreCase}}
+    @selectRowOnClick={{@selectRowOnClick}}
+    @pageSize={{@pageSize}}
+    @columnSets={{@columnSets}}
+    @groupedHeaders={{@groupedHeaders}}
+    @expandedRowComponent={{@expandedRowComponent}}
+    @onDisplayDataChanged={{@onDisplayDataChanged}}
+  />
+{{/if}}

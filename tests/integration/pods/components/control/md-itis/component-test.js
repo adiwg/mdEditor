@@ -53,7 +53,7 @@ module('Integration | Component | control/md itis', function(hooks) {
     })]);
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs`{{control/md-itis taxonomy=taxonomy}}`);
+    await render(hbs`{{control/md-itis taxonomy=this.taxonomy}}`);
 
     assert.equal(find('.md-itis').textContent.replace(/[ \n]+/g, '|').trim(),
       '|Search|Value|Kingdom|(optional)|Select|a|kingdom.|Search|'
@@ -63,7 +63,7 @@ module('Integration | Component | control/md itis', function(hooks) {
     // await click('button[type=submit]');
     // await settled();
 
-    await render(hbs`{{control/md-itis taxonomy=taxonomy searchResult=taxa found=true}}`);
+    await render(hbs`{{control/md-itis taxonomy=this.taxonomy searchResult=this.taxa}}`);
 
     assert.ok(find('.md-itis-taxalist'), 'renders search result');
 

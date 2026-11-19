@@ -67,6 +67,14 @@ export default Model.extend(Validations, {
   init() {
     this._super(...arguments);
 
+    if (this.isNew) {
+      this.eachAttribute((name, meta) => {
+        if (typeof meta.options?.defaultValue === 'function') {
+          this.set(name, this.get(name));
+        }
+      });
+    }
+
     this.updateSettings;
   },
 
@@ -82,7 +90,7 @@ export default Model.extend(Validations, {
   profileTitle: or('alias', 'title'),
   identifier: alias('id').readOnly(),
   components: alias('profile.components').readOnly(),
-  schemas: hasMany('schemas'),
+  schemas: hasMany('schema', { async: false, inverse: null }),
   definition: computed('profileId', function () {
     return this.definitions.profiles.findBy('identifier', this.profileId);
   }),

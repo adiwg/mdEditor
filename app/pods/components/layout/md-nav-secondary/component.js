@@ -1,28 +1,33 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
-import EmberObject, { computed, get, defineProperty } from '@ember/object';
+import EmberObject, { get, set, defineProperty, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import ResizeAware from 'ember-resize/mixins/resize-aware';
+import { A } from '@ember/array';
 
-export default Component.extend(ResizeAware, {
-  customProfile: service('custom-profile'),
-  resizeService: service('resize'),
+@classic
+export default class MdNavSecondaryComponent extends Component.extend(
+  ResizeAware
+) {
+  @service('custom-profile') customProfile;
+  @service('resize') resizeService;
 
-  resizeWidthSensitive: true,
-  resizeHeightSensitive: true,
+  resizeWidthSensitive = true;
+  resizeHeightSensitive = true;
 
-  navPadding: 5,
-  navWidth: 0,
+  navPadding = 5;
+  navWidth = 0;
 
   /**
-  * Array of nav links. If not supplied, the links will be pulled from the
-  * active profile.
-  *
-  * @property navLinks
-  * @type {Array}
-  * @default "undefined"
-  * @optional
-  */
+   * Array of nav links. If not supplied, the links will be pulled from the
+   * active profile.
+   *
+   * @property navLinks
+   * @type {Array}
+   * @default "undefined"
+   * @optional
+   */
 
   /**
    * translated "more" text
@@ -30,44 +35,73 @@ export default Component.extend(ResizeAware, {
    * @property more
    * @type {String}
    */
-  more: 'More',
+  more = 'More';
 
-  links: computed('customProfile.active', 'model', 'navWidth', function () {
-    const active = this.customProfile.getActiveProfile();
-    const modelName = this.get('model.constructor.modelName');
+  @computed(
+    'customProfile.active',
+    'customProfile.mapById',
+    'customProfile.defaultProfile',
+    'navLinks',
+    'navLinks.[]',
+    'model'
+  )
+  get links() {
+    const profileService = this.customProfile;
+    const activeProfileId = profileService.active;
+    const mapById = profileService.mapById || {};
+    const mapByAltId = profileService.mapByAltId || {};
+    const defaultProfile = profileService.defaultProfile;
+    const active =
+      mapById[activeProfileId] ||
+      mapById[mapByAltId[activeProfileId]] ||
+      defaultProfile;
+    const modelName = this.model?.constructor?.modelName;
     const nav = this;
 
-    let links = this.navLinks || get(active, 'definition.nav.' +
-        modelName) || this
-      .customProfile.defaultProfile.definition.nav[modelName];
+    let links = this.navLinks;
 
-    return links.map((lnk, index) => {
+    if (!links && active && modelName) {
+      links = get(active, `definition.nav.${modelName}`);
+    }
+
+    if (!links && defaultProfile && modelName) {
+      links = get(defaultProfile, `definition.nav.${modelName}`);
+    }
+
+    if (!Array.isArray(links)) {
+      return A([]);
+    }
+
+    return A(links.map((lnk, index) => {
       let link = EmberObject.create(lnk);
 
       link.setProperties({ nav: nav, index: index });
       defineProperty(link, 'navWidth', alias('nav.navWidth'));
-      defineProperty(link, 'isOverflow', computed('navWidth',
-        'width',
-        function () {
-          return this.navWidth < this.linkWidth + this.nav
-            .offset;
-        }));
+      defineProperty(
+        link,
+        'isOverflow',
+        computed('navWidth', 'width', function () {
+          return this.navWidth < this.linkWidth + this.nav.offset;
+        })
+      );
 
-      return link
-    });
-  }),
+      return link;
+    }));
+  }
 
-  sortedLinks: computed('links', function () {
-    let sorted = this.links.sortBy('index');
-    return sorted;
-  }),
+  get sortedLinks() {
+    return [...this.links].sort((a, b) => a.index - b.index);
+  }
 
-  hasOverflow: computed('navWidth', 'linkWidth', function () {
+  @computed('navWidth', 'links.@each.width')
+  get hasOverflow() {
     return this.navWidth < this.linkWidth;
-  }),
-  linkWidth: computed('links.@each.width', function () {
+  }
+
+  @computed('links.@each.width', 'navPadding')
+  get linkWidth() {
     return this.links.reduce((a, b) => a + b.width, this.navPadding);
-  }),
+  }
 
   /**
    * Width to be added to linkWidth to make sure the last link will fit.
@@ -76,16 +110,16 @@ export default Component.extend(ResizeAware, {
    * @property offset
    * @type {Number}
    */
-  offset: computed('links.@each.width', function () {
+  get offset() {
     return Math.min(Math.max(...this.links.mapBy('width'), 1), 150);
-  }),
+  }
 
-  didInsertElement: function () {
-    this._super.apply(this, arguments);
-    this._handleDebouncedResizeEvent()
-  },
+  didInsertElement() {
+    super.didInsertElement(...arguments);
+    this._handleDebouncedResizeEvent();
+  }
 
   debouncedDidResize(width) {
-    this.set('navWidth', width || this.navWidth);
+    set(this, 'navWidth', width || this.navWidth);
   }
-});
+}

@@ -3,33 +3,36 @@
  * @submodule components-input
  */
 
-import { computed } from '@ember/object';
+import { action, computed, set } from '@ember/object';
 import Input from '../md-input/component';
+import classic from 'ember-classic-decorator';
 
-export default Input.extend({
-  /**
-   * Input, edit, display a single item
-   *
-   * @class md-input-confirm
-   * @extends md-input
-   * @constructor
-   */
+/**
+ * Input, edit, display a single item
+ *
+ * @class md-input-confirm
+ * @extends md-input
+ * @constructor
+ */
+@classic
+export default class MdInputConfirmComponent extends Input {
+  classNameBindings = ['required'];
 
-  classNameBindings: ['required'],
+  disabled = true;
 
-  disabled: true,
-
-  isDisabled: computed('disabled', function(){
+  @computed('disabled')
+  get isDisabled() {
     return this.disabled;
-  }),
-
-  actions: {
-    allowEdit() {
-      this.set('disabled', false);
-      this.element.querySelector('input').focus();
-    },
-    inputBlur(){
-      this.set('disabled', true);
-    }
   }
-});
+
+  @action
+  allowEdit() {
+    set(this, 'disabled', false);
+    this.element.querySelector('input').focus();
+  }
+
+  @action
+  inputBlur() {
+    set(this, 'disabled', true);
+  }
+}

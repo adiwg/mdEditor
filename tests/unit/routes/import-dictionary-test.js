@@ -138,5 +138,27 @@ module('Unit | Route | import - mdJSON Dictionary Handling', function (hooks) {
       recordJson.mdDictionary.includes('dict-id-1'),
       'Should include dict-id-1'
     );
+
+    // Ensure generated dictionary items do not have top-level dictionaryId and pass jsonapi validation
+    let dictItems = result.filterBy('type', 'dictionaries');
+    assert.equal(dictItems.length, 2, 'Should create 2 dictionary items');
+    dictItems.forEach((item) => {
+      assert.notOk(
+        'dictionaryId' in item,
+        'Dictionary resource should not have top-level dictionaryId'
+      );
+      let parsedDict = JSON.parse(item.attributes.json);
+      assert.ok(
+        parsedDict.dataDictionary.dictionaryId,
+        'Inner dataDictionary should have dictionaryId'
+      );
+    });
+
+    let validator = this.owner.lookup('service:jsonvalidator').validator;
+    let serializedPayload = JSON.parse(JSON.stringify({ data: result }));
+    assert.true(
+      validator.validate('jsonapi', serializedPayload),
+      'Formatted mdJSON resources validate against jsonapi schema'
+    );
   });
 });

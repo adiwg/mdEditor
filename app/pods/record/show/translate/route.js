@@ -1,19 +1,25 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-export default Route.extend({
+export default class TranslateRoute extends Route {
+  @service router;
+
+  model() {
+    return this.modelFor('record.show');
+  }
+
   setupController(controller, model) {
-    this._super(controller, model);
+    super.setupController(controller, model);
 
     controller.setProperties({
       writer: controller.writer || null,
       forceValid: controller.forceValid || false,
       showAllTags: controller.showAllTags || false,
     });
-  },
-
-  actions: {
-    goToSettings() {
-      this.transitionTo('settings.main');
-    },
-  },
-});
+  }
+  @action
+  goToSettings() {
+    this.router.transitionTo('settings.main');
+  }
+}

@@ -1,6 +1,5 @@
 import Store from '@ember-data/store';
 import { Promise } from 'rsvp';
-import { assign } from '@ember/polyfills';
 import { run } from '@ember/runloop';
 import { singularize } from 'ember-inflector';
 

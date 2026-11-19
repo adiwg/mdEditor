@@ -1,7 +1,7 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import { equal, alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
-import { computed, set, getWithDefault, get } from '@ember/object';
 import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
@@ -19,43 +19,10 @@ const Validations = buildValidations({
   ],
 });
 
-export default Component.extend(Validations, {
-  didReceiveAttrs() {
-    this._super(...arguments);
-
-    let model = this.model;
-
-    console.log('constraint model', model);
-
-    once(this, function () {
-      set(model, 'useLimitation', getWithDefault(model, 'useLimitation', []));
-      set(model, 'graphic', getWithDefault(model, 'graphic', []));
-      set(
-        model,
-        'responsibleParty',
-        getWithDefault(model, 'responsibleParty', [])
-      );
-      set(
-        model,
-        'legal',
-        getWithDefault(model, 'legal', {
-          accessConstraint: [],
-          useConstraint: [],
-          otherConstraint: [],
-        })
-      );
-      set(model, 'security', getWithDefault(model, 'security', {}));
-      set(
-        model,
-        'releasability',
-        getWithDefault(model, 'releasability', {
-          addressee: [],
-          statement: '',
-          disseminationConstraint: [],
-        })
-      );
-    });
-  },
+@classic
+export default class MdConstraintComponent extends Component.extend(
+  Validations
+) {
   /**
    * The string representing the path in the profile object for the resource.
    *
@@ -73,15 +40,15 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  tagName: 'form',
+  tagName = 'form';
 
-  type: alias('model.type'),
-  useRequired: equal('type', 'use'),
-  securityRequired: equal('type', 'security'),
-  legalRequired: equal('type', 'legal'),
-  classification: alias('model.security.classification'),
+  @alias('model.type') type;
+  @equal('type', 'use') useRequired;
+  @equal('type', 'security') securityRequired;
+  @equal('type', 'legal') legalRequired;
+  @alias('model.security.classification') classification;
 
-  typeOptions: computed(function () {
+  get typeOptions() {
     return [
       {
         name: 'use',
@@ -96,5 +63,28 @@ export default Component.extend(Validations, {
         value: 'security',
       },
     ];
-  }),
-});
+  }
+
+  didReceiveAttrs() {
+    super.didReceiveAttrs(...arguments);
+
+    let model = this.model;
+
+    once(this, function () {
+      model.useLimitation = model.useLimitation ?? [];
+      model.graphic = model.graphic ?? [];
+      model.responsibleParty = model.responsibleParty ?? [];
+      model.legal = model.legal ?? {
+        accessConstraint: [],
+        useConstraint: [],
+        otherConstraint: [],
+      };
+      model.security = model.security ?? {};
+      model.releasability = model.releasability ?? {
+        addressee: [],
+        statement: '',
+        disseminationConstraint: [],
+      };
+    });
+  }
+}

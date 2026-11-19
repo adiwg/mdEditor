@@ -25,7 +25,7 @@ module('Integration | Component | control/md record table/buttons/custom', funct
 
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs`{{control/md-record-table/buttons/custom column=column record=rec}}`);
+    await render(hbs`{{control/md-record-table/buttons/custom column=this.column record=this.rec}}`);
 
     assert.equal(find('button.btn-warning').textContent.trim(), 'foobar');
 

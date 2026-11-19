@@ -22,7 +22,7 @@ module('Integration | Component | object/md repository array', function(hooks) {
       "repository": "data.gov"
     }];
 
-    await render(hbs`{{object/md-repository-array value=repo profilePath="foo"}}`);
+    await render(hbs`{{object/md-repository-array value=this.repo profilePath="foo"}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Metadata|Repositories|2|Add|#|Repository|Collection|Title|0|data.gov|?|×|Delete|1|data.gov|?|×|Delete|');
@@ -31,9 +31,9 @@ module('Integration | Component | object/md repository array', function(hooks) {
     assert.dom('.select-value').hasText('data.gov');
     // Template block usage:
     await render(hbs`
-      {{#object/md-repository-array profilePath="foo"}}
+      <Object::MdRepositoryArray @profilePath="foo">
         template block text
-      {{/object/md-repository-array}}
+      </Object::MdRepositoryArray>
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),

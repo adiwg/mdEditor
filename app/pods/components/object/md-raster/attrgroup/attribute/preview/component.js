@@ -1,8 +1,10 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import { alias } from '@ember/object/computed';
 
-export default Component.extend({
-  tagName: '',
-  item: alias('model'),
-  attrDesc: alias('model.attrbuteDescription')
-});
+@classic
+export default class PreviewComponent extends Component {
+  tagName = '';
+  @alias('model') item;
+  @alias('model.attrbuteDescription') attrDesc;
+}

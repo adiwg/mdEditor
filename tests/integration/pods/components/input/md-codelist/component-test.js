@@ -40,7 +40,7 @@ module('Integration | Component | input/md-codelist', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
-    await render(hbs `{{input/md-codelist
+    await render(hbs`{{input/md-codelist
       value='foo' mdCodeName="foobar"}}`);
 
     assert.equal(find('.md-select').textContent
@@ -56,9 +56,9 @@ module('Integration | Component | input/md-codelist', function(hooks) {
         'submitted value is passed to external action');
     };
 
-    await render(hbs `{{input/md-codelist
-      value=value mdCodeName="foobar"
-      change=(action "update" value)}}`);
+    await render(hbs`{{input/md-codelist
+      value=this.value mdCodeName="foobar"
+      change=(action "update" this.value)}}`);
 
       await selectChoose('.md-select','bar');
 
@@ -79,11 +79,11 @@ module('Integration | Component | input/md-codelist', function(hooks) {
         'submitted value is passed to external action');
     };
 
-    await render(hbs `{{input/md-codelist
+    await render(hbs`{{input/md-codelist
       create=true
-      value=value
+      value=this.value
       mdCodeName="foobar"
-      change=(action "update" value)}}`);
+      change=(action "update" this.value)}}`);
 
       await clickTrigger();
       await typeInSearch('biz');

@@ -1,0 +1,86 @@
+diff --git a/addon/adapters/base.js b/addon/adapters/base.js
+index 6abace4e0eb0d9f245333cb03f6c5b461914bee3..4a4c4e3d53e02f3dc5b66b11014a38dd2bc1e8b9 100644
+--- a/addon/adapters/base.js
++++ b/addon/adapters/base.js
+@@ -3,16 +3,12 @@ import RSVP from 'rsvp';
+ import { run } from '@ember/runloop';
+ import { isEmpty, typeOf } from '@ember/utils';
+ import { computed, get } from '@ember/object';
+-import DS from 'ember-data';
++import JSONAPIAdapter from '@ember-data/adapter/json-api';
+ import ImportExportMixin from '../mixins/adapters/import-export';
+ import { _buildKey } from '../helpers/storage';
+ 
+ const getKeys = Object.keys || keys;
+ 
+-const {
+-  JSONAPIAdapter
+-} = DS;
+-
+ // Ember data ships with ember-inflector
+ import { singularize, pluralize } from 'ember-inflector';
+ 
+diff --git a/addon/helpers/import-export.js b/addon/helpers/import-export.js
+index b471f506929d9f2fa0a1c43759b0c80aebea796e..9c36914f91726b79444847729fe063d669dafe1f 100644
+--- a/addon/helpers/import-export.js
++++ b/addon/helpers/import-export.js
+@@ -1,11 +1,10 @@
+ import { all, Promise } from 'rsvp';
+-import { assign, merge } from '@ember/polyfills';
+ import { get } from '@ember/object';
+ import { run } from '@ember/runloop';
+ import { singularize } from 'ember-inflector';
+ import { A } from '@ember/array';
+ 
+-const assignIt = assign || merge;
++const assignIt = Object.assign;
+ 
+ export function importData(store, content, options) {
+   // merge defaults
+diff --git a/addon/helpers/storage.js b/addon/helpers/storage.js
+index 5c8e93dd5de8b1a4fe9b19628d4a3258f3cefb37..3ab936a2dca859e83c6fc8a0eae4d1ec97189177 100644
+--- a/addon/helpers/storage.js
++++ b/addon/helpers/storage.js
+@@ -2,7 +2,7 @@ import { assert } from '@ember/debug';
+ import EmberObject, { computed } from '@ember/object';
+ import { getOwner } from '@ember/application';
+ import { dasherize } from '@ember/string';
+-import { deprecate } from '@ember/application/deprecations';
++import { deprecate } from '@ember/debug';
+ 
+ 
+ const storage = {};
+diff --git a/addon/mixins/storage.js b/addon/mixins/storage.js
+index 4534386772fa8199643f61ea7cc520082974d659..14d7e1f6de4aedb5871b8923d8f419306fd19e8a 100644
+--- a/addon/mixins/storage.js
++++ b/addon/mixins/storage.js
+@@ -1,11 +1,10 @@
+-import { assign, merge } from '@ember/polyfills';
+ import Mixin from '@ember/object/mixin';
+ import { set, get } from '@ember/object';
+ import { isArray, A } from '@ember/array';
+ import { getStorage } from '../helpers/storage';
+ import { copy } from 'ember-copy'
+ 
+-const assignIt = assign || merge;
++const assignIt = Object.assign;
+ 
+ export default Mixin.create({
+   _storageKey: null,
+diff --git a/addon/serializers/serializer.js b/addon/serializers/serializer.js
+index d9290fa51a89c82b1b732bcdab37d3c5173252a6..15a201b0dc925966b91c6e05efcbcd2df98a1887 100644
+--- a/addon/serializers/serializer.js
++++ b/addon/serializers/serializer.js
+@@ -1,10 +1,6 @@
+-import DS from 'ember-data';
++import JSONAPISerializer from '@ember-data/serializer/json-api';
+ 
+-const {
+-  JSONAPISerializer
+-} = DS;
+-
+-const emberDataVersionOlderThan3Point1 = DS.VERSION.match(/^[0-2]\.|3\.0/);
++const emberDataVersionOlderThan3Point1 = false;
+ 
+ export default JSONAPISerializer.extend({
+   // Serialization behavior

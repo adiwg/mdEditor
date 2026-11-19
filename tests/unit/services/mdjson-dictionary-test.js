@@ -6,27 +6,23 @@ module('Unit | Service | mdjson - Dictionary Export/Import', function (hooks) {
 
   test('formatRecord with includeDictionaries=false should not include dataDictionary array', function (assert) {
     let service = this.owner.lookup('service:mdjson');
-    let store = this.owner.lookup('service:store');
 
     // Create a mock record with mdDictionary array
     let mockRecord = {
-      get: function (path) {
-        if (path === 'json') {
-          return {
-            metadata: {
-              metadataInfo: {
-                metadataIdentifier: {
-                  identifier: 'test-123',
-                  namespace: 'urn:uuid',
-                },
-              },
+      json: {
+        metadata: {
+          metadataInfo: {
+            metadataIdentifier: {
+              identifier: 'test-123',
+              namespace: 'urn:uuid',
             },
-            mdDictionary: ['dict-id-1', 'dict-id-2'],
-          };
-        }
-        if (path === 'json.mdDictionary') {
-          return ['dict-id-1', 'dict-id-2'];
-        }
+          },
+        },
+        mdDictionary: ['dict-id-1', 'dict-id-2'],
+      },
+      get: function (path) {
+        if (path === 'json') { return this.json; }
+        if (path === 'json.mdDictionary') { return this.json.mdDictionary; }
         return null;
       },
     };
@@ -48,11 +44,7 @@ module('Unit | Service | mdjson - Dictionary Export/Import', function (hooks) {
     // Mock store to return empty arrays
     service.store = {
       peekAll: function () {
-        return {
-          mapBy: function () {
-            return [];
-          },
-        };
+        return [];
       },
     };
 
@@ -74,7 +66,7 @@ module('Unit | Service | mdjson - Dictionary Export/Import', function (hooks) {
 
     // The result should have a dataDictionary array (empty in this case since we mocked empty store)
     assert.ok(
-      resultWithDicts.hasOwnProperty('dataDictionary'),
+      Object.prototype.hasOwnProperty.call(resultWithDicts, 'dataDictionary'),
       'mdEditor-JSON export should include dataDictionary array'
     );
   });
@@ -84,22 +76,19 @@ module('Unit | Service | mdjson - Dictionary Export/Import', function (hooks) {
 
     // Create a mock record
     let mockRecord = {
-      get: function (path) {
-        if (path === 'json') {
-          return {
-            metadata: {
-              metadataInfo: {
-                metadataIdentifier: {
-                  identifier: 'test-123',
-                  namespace: 'urn:uuid',
-                },
-              },
+      json: {
+        metadata: {
+          metadataInfo: {
+            metadataIdentifier: {
+              identifier: 'test-123',
+              namespace: 'urn:uuid',
             },
-          };
-        }
-        if (path === 'json.mdDictionary') {
-          return [];
-        }
+          },
+        },
+      },
+      get: function (path) {
+        if (path === 'json') { return this.json; }
+        if (path === 'json.mdDictionary') { return []; }
         return null;
       },
     };
@@ -121,11 +110,7 @@ module('Unit | Service | mdjson - Dictionary Export/Import', function (hooks) {
     // Mock store to return empty arrays
     service.store = {
       peekAll: function () {
-        return {
-          mapBy: function () {
-            return [];
-          },
-        };
+        return [];
       },
     };
 
@@ -134,7 +119,7 @@ module('Unit | Service | mdjson - Dictionary Export/Import', function (hooks) {
 
     // The result should have a dataDictionary array (even if empty)
     assert.ok(
-      result.hasOwnProperty('dataDictionary'),
+      Object.prototype.hasOwnProperty.call(result, 'dataDictionary'),
       'Default formatRecord should include dataDictionary array'
     );
   });

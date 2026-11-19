@@ -2,33 +2,47 @@ import Service, { inject as service } from '@ember/service';
 import {
   observer
 } from '@ember/object';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
-export default Service.extend({
-  init() {
-    this._super(...arguments);
+export default class SliderService extends Service {
+  @service router;
 
-    this.get('router.currentRouteName');
-  },
+  @tracked showSlider = false;
+  @tracked fromName = 'md-slider-content';
+  @tracked customOnClose = null;
+  @tracked context = null;
 
-  router: service(),
+  constructor() {
+    super(...arguments);
+    this.router.currentRouteName;
+  }
 
-  showSlider: false,
-  fromName: 'md-slider-content',
-
-  routeObserver: observer('router.currentRouteName', function () {
+  routeObserver = observer('router.currentRouteName', function () {
     this.toggleSlider(false);
-    this.set('fromName', 'md-slider-content');
-  }),
+    this.fromName = 'md-slider-content';
+    this.customOnClose = null;
+    this.context = null;
+  });
 
-  onClose() {},
+  @action
+  onClose() {
+    if (this.customOnClose) {
+      this.customOnClose();
+    }
+    this.toggleSlider(false);
+    this.fromName = 'md-slider-content';
+    this.customOnClose = null;
+    this.context = null;
+  }
 
+  @action
   toggleSlider(state) {
-    if(state === undefined) {
-      this.toggleProperty('showSlider');
-
+    if (state === undefined) {
+      this.showSlider = !this.showSlider;
       return;
     }
 
-    this.set('showSlider', !!state);
+    this.showSlider = !!state;
   }
-});
+}

@@ -11,7 +11,7 @@ module('Integration | Component | object/md attribute/preview', function(hooks) 
     // Set any properties with this.set('myProperty', 'value');
     this.set('model', createAttribute(1)[0]);
 
-    await render(hbs`<div class="testme">{{object/md-attribute/preview model=model profilePath="foobar"}}</div>`);
+    await render(hbs`<div class="testme">{{object/md-attribute/preview model=this.model profilePath="foobar"}}</div>`);
 
     assert.equal(find('.testme').textContent.replace(/[ \n]+/g, '|').trim(), '|dataType0|×|');
     assert.equal(findAll('.testme input').length, 3, 'render inputs');
