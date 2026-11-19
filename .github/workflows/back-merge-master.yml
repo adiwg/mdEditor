@@ -20,7 +20,7 @@ permissions:
 
 jobs:
   back-merge:
-    if: github.repository == 'adiwg/mdEditor'
+    if: github.repository == 'adiwg/mdEditor' && !contains(github.event.head_commit.message, '[skip ci]')
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false

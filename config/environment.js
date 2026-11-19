@@ -1,8 +1,37 @@
 "use strict";
 
+const getRepoVersion = require("git-repo-version");
+
+function formatAppVersion(environment) {
+  const rawVersion = getRepoVersion(); // e.g. "1.4.0-dev.1+50f59978" or "1.4.0+50f59978"
+  const plusIdx = rawVersion.indexOf("+");
+  const versionPart = plusIdx === -1 ? rawVersion : rawVersion.substring(0, plusIdx);
+  const shaPart = plusIdx === -1 ? "" : rawVersion.substring(plusIdx);
+
+  // Base semver (e.g. "1.4.0" from "1.4.0-dev.1")
+  const baseVersion = versionPart.replace(/-.*$/, "");
+  // Keep any numeric suffix like ".1" if present on "-dev.1"
+  const prereleaseNumMatch = versionPart.match(/-(?:dev|develop|staging)(\.\d+)$/);
+  const prereleaseNum = prereleaseNumMatch ? prereleaseNumMatch[1] : "";
+
+  if (environment === "staging") {
+    return `${baseVersion}-staging${prereleaseNum}${shaPart}`;
+  }
+
+  if (environment === "development" || environment === "test") {
+    return `${baseVersion}-develop${prereleaseNum}${shaPart}`;
+  }
+
+  // production / master
+  return `${baseVersion}${shaPart}`;
+}
+
 module.exports = function (environment) {
   var deployTarget = process.env.DEPLOY_TARGET;
   var ENV = {
+    "ember-cli-app-version": {
+      version: formatAppVersion(environment),
+    },
     contentSecurityPolicy: {
       "style-src": "'self' 'unsafe-inline'",
     },
