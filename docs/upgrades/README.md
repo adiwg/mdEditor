@@ -13,7 +13,7 @@ One file per upgrade leg. Each file records the target versions, every breaking 
 
 | File | From | To | Status |
 |---|---|---|---|
-| [ember-3.28-to-4.0.md](ember-3.28-to-4.0.md) | 3.28 LTS | 4.12 LTS | In progress |
+| [ember-3.28-to-4.0.md](ember-3.28-to-4.0.md) | 3.28 LTS | 4.12 LTS | Completed |
 | [ember-4.12-to-5.x.md](ember-4.12-to-5.x.md) | 4.12 LTS | 5.x | Planned |
 
 ## Tools

@@ -11,7 +11,7 @@
 
 ## Pre-Migration Checklist
 
-- [ ] All tests green on Ember 4.12
+- [x] All tests green on Ember 4.12
 - [ ] Embroider compatibility assessed (classic pipeline vs Embroider)
 - [ ] `@classic` audit — identify components ready to convert to native Glimmer
 - [ ] ember-data 4.x → 5.x API changes reviewed (RequestManager, etc.)
