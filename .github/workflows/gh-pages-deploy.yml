@@ -4,18 +4,16 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
 
 permissions:
   contents: write
   pull-requests: write
 
 jobs:
-  prepare-release:
+  build-and-deploy:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.release.outputs.version }}
-      version_tag: ${{ steps.release.outputs.version_tag }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -28,12 +26,15 @@ jobs:
           node-version: '20'
           package-manager-cache: false
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Configure git identity
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Update version and CHANGELOG.md on master
+      - name: Prepare version and CHANGELOG.md
         id: release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -48,7 +49,14 @@ jobs:
           prev_tag=$(git tag -l 'v*' --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1 || true)
           echo "Previous tag: ${prev_tag:-none}, package.json version: $raw_version (base: $base_version)"
 
-          # If v$base_version tag already exists, increment patch version so every push to master gets a fresh semver
+          # If this commit merely merged a chore/release-sync PR where v$base_version was already tagged
+          if [[ "${{ github.event.head_commit.message }}" == *"chore(release):"* ]] && git rev-parse "v$base_version" >/dev/null 2>&1; then
+            echo "This push is a release-sync commit for an already-tagged release (v$base_version). Skipping re-release."
+            echo "skip_release=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # If v$base_version tag already exists from an earlier release, increment patch version
           if git rev-parse "v$base_version" >/dev/null 2>&1; then
             IFS='.' read -r major minor patch <<< "$base_version"
             patch=$((patch + 1))
@@ -84,7 +92,6 @@ jobs:
 
             if (changelog.includes(`## ${versionTag} `) || changelog.includes(`## ${versionTag}\n`)) {
               console.log(`CHANGELOG.md already contains an entry for ${versionTag}.`);
-              // Extract existing section for GitHub release notes
               const escaped = versionTag.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
               const match = changelog.match(new RegExp(`## ${escaped}[^\\n]*\\n([\\s\\S]*?)(?=\\n## v|$)`));
               fs.writeFileSync("RELEASE_NOTES.md", match ? match[1].trim() : `Automated release for version ${versionTag}.`);
@@ -113,7 +120,7 @@ jobs:
             const seen = new Set();
             for (const rawLine of logOutput.split("\n").filter(Boolean)) {
               const line = rawLine.trim();
-              if (!line || line.includes("[skip ci]") || /^chore(\(.*\))?:\s*(release|bump|sync|back-merge)/i.test(line)) {
+              if (!line || line.includes("[skip ci]") || /^chore(\(.*\))?:\s*(release|bump|sync|back-merge|merge)/i.test(line)) {
                 continue;
               }
               extractPrs(line);
@@ -178,132 +185,104 @@ jobs:
             console.log(`Updated CHANGELOG.md with ${versionTag}.`);
           ' "$version_tag" "$prev_tag"
 
-          # 4. Commit and push CHANGELOG.md & package.json to master if changed
-          if ! git diff --quiet package.json CHANGELOG.md; then
-            git add package.json CHANGELOG.md
-            git commit -m "chore(release): ${version_tag} [skip ci]"
-            git push origin HEAD:master
-          fi
-
+          echo "skip_release=false" >> "$GITHUB_OUTPUT"
           echo "version=$release_version" >> "$GITHUB_OUTPUT"
           echo "version_tag=$version_tag" >> "$GITHUB_OUTPUT"
 
-      - name: Upload release notes
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-notes
-          path: RELEASE_NOTES.md
-
-  build:
-    needs: prepare-release
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          ref: master
-
-      - name: Use Node.js
-        uses: actions/setup-node@v5
-        with:
-          node-version: '20'
-          package-manager-cache: false
-
-      - name: Enable Corepack
-        run: corepack enable
-
       - name: Install Dependencies
+        if: steps.release.outputs.skip_release != 'true'
         run: yarn install
 
-      - name: Build
+      - name: Build Production App
+        if: steps.release.outputs.skip_release != 'true'
         run: yarn build
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-output
-          path: dist
-
-  deploy:
-    needs: [prepare-release, build]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          ref: master
-          fetch-depth: 0
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-output
-          path: dist
-
-      - name: Download release notes
-        uses: actions/download-artifact@v4
-        with:
-          name: release-notes
-
       - name: Deploy to GitHub Pages
+        if: steps.release.outputs.skip_release != 'true'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
 
       - name: Create Tag
+        if: steps.release.outputs.skip_release != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          version_tag="${{ needs.prepare-release.outputs.version_tag }}"
+          version_tag="${{ steps.release.outputs.version_tag }}"
           echo "Tagging release: $version_tag"
           git tag -f "$version_tag"
           git push origin "$version_tag" --force
 
       - name: Create GitHub Release
+        if: steps.release.outputs.skip_release != 'true'
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ needs.prepare-release.outputs.version_tag }}
-          name: Release ${{ needs.prepare-release.outputs.version_tag }}
+          tag: ${{ steps.release.outputs.version_tag }}
+          name: Release ${{ steps.release.outputs.version_tag }}
           bodyFile: RELEASE_NOTES.md
           draft: false
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Sync CHANGELOG and version to develop and staging
-        if: github.repository == 'adiwg/mdEditor'
+      - name: Sync CHANGELOG.md and version to master, develop, and staging
+        if: steps.release.outputs.skip_release != 'true' && github.repository == 'adiwg/mdEditor'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          version="${{ steps.release.outputs.version }}"
+          version_tag="${{ steps.release.outputs.version_tag }}"
 
-          git fetch origin master develop staging
+          # Save generated CHANGELOG.md and package.json before branch checkouts
+          cp CHANGELOG.md /tmp/CHANGELOG.md.release
+          cp package.json /tmp/package.json.release
 
-          # 1. Sync master (with updated CHANGELOG.md & package.json) into develop
-          git checkout -B develop origin/develop
-          if git merge origin/master --no-edit -m "chore: sync release ${{ needs.prepare-release.outputs.version_tag }} from master into develop"; then
-            git push origin HEAD:develop
-            echo "Successfully synced master into develop."
-          else
-            git merge --abort
-            echo "::warning::Direct merge of master into develop had conflicts; bringing over CHANGELOG.md and package.json version directly."
-            git checkout origin/master -- CHANGELOG.md
-            node -e '
-              const fs = require("fs");
-              const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
-              pkg.version = process.argv[1];
-              fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2) + "\n");
-            ' "${{ needs.prepare-release.outputs.version }}"
-            if ! git diff --quiet CHANGELOG.md package.json; then
-              git add CHANGELOG.md package.json
-              git commit -m "chore: sync CHANGELOG.md and version ${{ needs.prepare-release.outputs.version }} from master"
-              git push origin HEAD:develop
+          # Helper to push directly or fall back to opening a PR if branch protection blocks direct push
+          sync_branch() {
+            local target="$1"
+            git fetch origin "$target"
+            git checkout -B "$target" "origin/$target"
+            cp /tmp/CHANGELOG.md.release CHANGELOG.md
+            cp /tmp/package.json.release package.json
+
+            if git diff --quiet CHANGELOG.md package.json; then
+              echo "$target already has updated CHANGELOG.md and package.json."
+              return 0
             fi
-          fi
 
-          # 2. Rebuild staging from updated develop + any open PRs labeled deploy:staging
-          git fetch origin develop
+            git add CHANGELOG.md package.json
+            git commit -m "chore(release): sync ${version_tag} changelog and version [skip ci]"
+
+            if git push origin "HEAD:$target" 2>/dev/null; then
+              echo "Pushed updated CHANGELOG.md and package.json directly to $target."
+            else
+              echo "Direct push to $target blocked by branch protection; opening/updating release sync PR..."
+              pr_branch="chore/release-sync-${version_tag}-into-${target}"
+              git push --force origin "HEAD:$pr_branch"
+              existing=$(gh pr list --base "$target" --head "$pr_branch" --state open --json number --jq 'length')
+              if [ "$existing" -eq 0 ]; then
+                gh pr create \
+                  --base "$target" \
+                  --head "$pr_branch" \
+                  --title "chore(release): sync ${version_tag} changelog and version into ${target}" \
+                  --body "Automated sync of \`CHANGELOG.md\` and \`package.json\` version (\`${version}\`) generated by the \`${version_tag}\` release on \`master\`."
+              fi
+            fi
+          }
+
+          sync_branch "master"
+          sync_branch "develop"
+
+          # Staging is unprotected: rebuild directly from develop + any updated release files + labeled PRs
+          git fetch origin develop staging
           git checkout -B staging origin/develop
+          cp /tmp/CHANGELOG.md.release CHANGELOG.md
+          cp /tmp/package.json.release package.json
+          if ! git diff --quiet CHANGELOG.md package.json; then
+            git add CHANGELOG.md package.json
+            git commit -m "chore(release): sync ${version_tag} changelog and version [skip ci]"
+          fi
 
           prs=$(gh pr list \
             --state open \
@@ -323,4 +302,4 @@ jobs:
           fi
 
           git push --force-with-lease origin HEAD:staging
-          echo "Successfully synced staging with updated develop."
+          echo "Successfully synced staging with ${version_tag} changelog and version."
